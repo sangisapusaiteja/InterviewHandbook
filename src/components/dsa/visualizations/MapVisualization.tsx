@@ -157,7 +157,7 @@ function buildPracticeResult(
         freq.set(ch, (freq.get(ch) || 0) + 1);
         steps.push({ label: `[${i}] '${ch}'`, value: `count → ${freq.get(ch)}` });
       }
-      const sorted = [...freq.entries()].sort((a, b) => b[1] - a[1]);
+      const sorted = Array.from(freq.entries()).sort((a, b) => b[1] - a[1]);
       steps.push({ label: "Result (sorted)", value: sorted.map(([c, n]) => `'${c}':${n}`).join("  "), highlight: true });
       return {
         code: `function charFrequency(str) {\n  const freq = new Map();\n  for (const ch of str) {\n    freq.set(ch, (freq.get(ch) || 0) + 1);\n  }\n  return [...freq.entries()].sort((a, b) => b[1] - a[1]);\n}\nconsole.log(charFrequency(${JSON.stringify(input)}));`,
@@ -211,7 +211,7 @@ function buildPracticeResult(
       const freq = new Map<string, number>();
       for (const ch of input) freq.set(ch, (freq.get(ch) || 0) + 1);
 
-      const freqDisplay = [...freq.entries()].map(([c, n]) => `'${c}':${n}`).join("  ");
+      const freqDisplay = Array.from(freq.entries()).map(([c, n]) => `'${c}':${n}`).join("  ");
       const steps: PracticeStep[] = [
         { label: "Input", value: JSON.stringify(input) },
         { label: "Frequency map", value: freqDisplay },

@@ -90,7 +90,7 @@ function buildMethodResult(
     case "create": {
       const val = extra.trim() || "6";
       const base = new Set([1, 2, 3, 4, 5]);
-      base.add(Number(val) || val);
+      base.add(Number(val) || 6);
       const sizeAfterAdd = base.size;
       base.delete(3);
       const sizeAfterDel = base.size;
@@ -121,9 +121,9 @@ function buildMethodResult(
     case "operations": {
       const a = new Set([1, 2, 3, 4]);
       const b = new Set([3, 4, 5, 6]);
-      const union        = [...new Set([...a, ...b])];
-      const intersection = [...a].filter((x) => b.has(x));
-      const difference   = [...a].filter((x) => !b.has(x));
+      const union        = Array.from(new Set([...Array.from(a), ...Array.from(b)]));
+      const intersection = Array.from(a).filter((x) => b.has(x));
+      const difference   = Array.from(a).filter((x) => !b.has(x));
 
       return {
         code: `const a = new Set([1, 2, 3, 4]);\nconst b = new Set([3, 4, 5, 6]);\n\n// Union (A ∪ B)\nconst union = new Set([...a, ...b]);\nconsole.log([...union]);\n\n// Intersection (A ∩ B)\nconst inter = new Set([...a].filter(x => b.has(x)));\nconsole.log([...inter]);\n\n// Difference (A − B)\nconst diff = new Set([...a].filter(x => !b.has(x)));\nconsole.log([...diff]);\n\n// Symmetric Difference (A △ B)\nconst symDiff = new Set(\n  [...a].filter(x => !b.has(x)).concat([...b].filter(x => !a.has(x)))\n);\nconsole.log([...symDiff]);`,
@@ -159,7 +159,7 @@ function buildPracticeResult(
         }
       }
 
-      const result = JSON.stringify([...seen]);
+      const result = JSON.stringify(Array.from(seen));
       steps.push({ label: "Result", value: result, highlight: true });
 
       return {
@@ -207,7 +207,7 @@ function buildPracticeResult(
       const result: string[] = [];
 
       const steps: PracticeStep[] = [
-        { label: "Set A", value: `{${[...setA].join(", ")}}` },
+        { label: "Set A", value: `{${Array.from(setA).join(", ")}}` },
         { label: "Checking B", value: JSON.stringify(arrB) },
       ];
 
