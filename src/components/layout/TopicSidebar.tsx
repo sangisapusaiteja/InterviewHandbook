@@ -13,6 +13,22 @@ import {
   Box,
   Hash,
   CircleDot,
+  TrendingUp,
+  Search,
+  Divide,
+  ArrowUpDown,
+  Target,
+  ListPlus,
+  GitMerge,
+  Zap,
+  Scale,
+  Ghost,
+  Link2,
+  Milestone,
+  RefreshCw,
+  Layers,
+  Network,
+  Braces,
   CheckCircle2,
   Circle,
   ChevronLeft,
@@ -37,6 +53,22 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Box,
   Hash,
   CircleDot,
+  TrendingUp,
+  Search,
+  Divide,
+  ArrowUpDown,
+  Target,
+  ListPlus,
+  GitMerge,
+  Zap,
+  Scale,
+  Ghost,
+  Link2,
+  Milestone,
+  RefreshCw,
+  Layers,
+  Network,
+  Braces,
 };
 
 interface TopicSidebarProps {
@@ -144,57 +176,56 @@ export function TopicSidebar({ topics, completedTopics }: TopicSidebarProps) {
               const isCompleted = completedTopics.includes(topic.id);
 
               return (
-                <Link
-                  key={topic.id}
-                  href={`/dsa/${topic.slug}`}
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all hover:bg-accent group relative",
-                    isActive &&
-                      "bg-primary/10 text-primary font-medium",
-                    collapsed && "justify-center px-2"
-                  )}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeTab"
-                      className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary rounded-r"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-
-                  <div className="relative">
-                    <Icon
-                      className={cn(
-                        "h-4 w-4 shrink-0",
-                        isActive ? "text-primary" : "text-muted-foreground",
-                        isCompleted && !isActive && "text-emerald-500"
-                      )}
-                    />
-                    {isCompleted && (
-                      <CheckCircle2 className="h-2.5 w-2.5 text-emerald-500 absolute -top-1 -right-1" />
+                <div key={topic.id}>
+                  <Link
+                    href={`/dsa/${topic.slug}`}
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all hover:bg-accent group relative",
+                      isActive && "bg-primary/10 text-primary font-medium",
+                      collapsed && "justify-center px-2"
                     )}
-                  </div>
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeTab"
+                        className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary rounded-r"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
 
-                  {!collapsed && (
-                    <>
-                      <span className="truncate flex-1">
-                        {topic.title}
-                      </span>
-                      <Badge
-                        variant={
-                          topic.difficulty === "Beginner"
-                            ? "success"
-                            : topic.difficulty === "Intermediate"
-                            ? "warning"
-                            : "destructive"
-                        }
-                        className="text-[10px] px-1.5 py-0 h-4 shrink-0"
-                      >
-                        {topic.difficulty}
-                      </Badge>
-                    </>
-                  )}
-                </Link>
+                    <div className="relative">
+                      <Icon
+                        className={cn(
+                          "h-4 w-4 shrink-0",
+                          isActive ? "text-primary" : "text-muted-foreground",
+                          isCompleted && !isActive && "text-emerald-500"
+                        )}
+                      />
+                      {isCompleted && (
+                        <CheckCircle2 className="h-2.5 w-2.5 text-emerald-500 absolute -top-1 -right-1" />
+                      )}
+                    </div>
+
+                    {!collapsed && (
+                      <>
+                        <span className="truncate flex-1">{topic.title}</span>
+                        <Badge
+                          variant={
+                            topic.difficulty === "Beginner"
+                              ? "success"
+                              : topic.difficulty === "Intermediate"
+                              ? "warning"
+                              : "destructive"
+                          }
+                          className="text-[10px] px-1.5 py-0 h-4 shrink-0"
+                        >
+                          {topic.difficulty}
+                        </Badge>
+                      </>
+                    )}
+                  </Link>
+
+                </div>
               );
             })}
           </nav>

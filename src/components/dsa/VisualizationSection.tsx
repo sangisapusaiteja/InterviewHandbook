@@ -10,6 +10,21 @@ import { SetVisualization } from "./visualizations/SetVisualization";
 import { VariablesVisualization } from "./visualizations/VariablesVisualization";
 import { OperatorsVisualization } from "./visualizations/OperatorsVisualization";
 import { FunctionsVisualization } from "./visualizations/FunctionsVisualization";
+import { ComplexityVisualization } from "./visualizations/ComplexityVisualization";
+import { LinearSearchVisualization } from "./visualizations/LinearSearchVisualization";
+import { BinarySearchVisualization } from "./visualizations/BinarySearchVisualization";
+import { BubbleSortVisualization } from "./visualizations/BubbleSortVisualization";
+import { SelectionSortVisualization } from "./visualizations/SelectionSortVisualization";
+import { InsertionSortVisualization } from "./visualizations/InsertionSortVisualization";
+import { MergeSortVisualization } from "./visualizations/MergeSortVisualization";
+import { QuickSortVisualization } from "./visualizations/QuickSortVisualization";
+import { ObjectsVsMapVisualization } from "./visualizations/ObjectsVsMapVisualization";
+import { WeakMapVisualization } from "./visualizations/WeakMapVisualization";
+import { LinkedListVisualization } from "./visualizations/LinkedListVisualization";
+import { MiddleOfLinkedListVisualization } from "./visualizations/MiddleOfLinkedListVisualization";
+import { LinkedListCycleVisualization } from "./visualizations/LinkedListCycleVisualization";
+import { StackArrayVisualization } from "./visualizations/StackArrayVisualization";
+import { StackLinkedListVisualization } from "./visualizations/StackLinkedListVisualization";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface VisualizationSectionProps {
@@ -26,6 +41,21 @@ const visualizationMap: Record<string, React.ComponentType> = {
   objects: ObjectsVisualization,
   map: MapVisualization,
   set: SetVisualization,
+  "time-complexity": ComplexityVisualization,
+  "linear-search": LinearSearchVisualization,
+  "binary-search": BinarySearchVisualization,
+  "bubble-sort": BubbleSortVisualization,
+  "selection-sort": SelectionSortVisualization,
+  "insertion-sort": InsertionSortVisualization,
+  "merge-sort": MergeSortVisualization,
+  "quick-sort": QuickSortVisualization,
+  "objects-vs-map": ObjectsVsMapVisualization,
+  "weakmap": WeakMapVisualization,
+  "linked-list": LinkedListVisualization,
+  "middle-linked-list": MiddleOfLinkedListVisualization,
+  "linked-list-cycle": LinkedListCycleVisualization,
+  "stack-array": StackArrayVisualization,
+  "stack-linked-list": StackLinkedListVisualization,
 };
 
 export function VisualizationSection({ topicSlug }: VisualizationSectionProps) {
