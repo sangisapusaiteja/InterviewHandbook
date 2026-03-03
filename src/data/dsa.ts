@@ -1,4 +1,4 @@
-import type { DSATopic, CategoryInfo } from "@/types/dsa";
+import type { DSATopic, CategoryInfo, DSAModule } from "@/types/dsa";
 
 export const dsaTopics: DSATopic[] = [
   // ─────────────────────────────────────────────
@@ -3198,6 +3198,1767 @@ console.log("size :", s.size());     // 2
     ],
   },
 
+  // ─────────────────────────────────────────────
+  // LEVEL 10 – Binary Trees
+  // ─────────────────────────────────────────────
+  {
+    id: "binary-tree-basics",
+    title: "Binary Tree Basics",
+    slug: "binary-tree-basics",
+    icon: "GitFork",
+    difficulty: "Intermediate",
+    description:
+      "Understand the foundational structure of binary trees — nodes, children, root, leaves, height, and depth — and master the universal recursive pattern that powers every tree interview problem.",
+    concept: {
+      explanation:
+        "A binary tree is a hierarchical, non-linear data structure where each node stores a value and holds references to at most two child nodes: left and right. The topmost node with no parent is called the root; every other node is reachable by exactly one path from the root. A node with no children is a leaf. All other nodes are internal nodes. The height of a tree is the maximum number of edges from the root to any leaf — an empty tree has height -1 by convention; a single-node tree has height 0. The depth of a node is its distance (in edges) from the root: the root has depth 0, its children have depth 1, and so on. Height and depth are related but opposite: height measures downward from a node (how far its subtree extends), depth measures upward to the root. Every recursive tree function follows a universal three-step pattern: (1) handle the null base case, (2) process the current node, (3) recurse on left and right children. Mastering this pattern lets you solve the vast majority of binary tree interview problems.",
+      realLifeAnalogy:
+        "Picture a company org-chart where every manager oversees at most two direct reports. The CEO at the top is the root — the single entry point. Employees with no reports are leaf nodes. The company height counts how many management levels exist from CEO to the most junior employee. An employee's depth is how many levels of management sit between them and the CEO. If you want to reach any employee you always start at the CEO and follow the chain of command — you cannot skip directly to a lower level, just as tree traversal always starts at the root.",
+      keyPoints: [
+        "Each node: { val, left, right } — left and right are null for leaf nodes",
+        "Root: the only node with no parent; depth = 0; every tree has exactly one root",
+        "Leaf: node where both left and right are null; height of a leaf = 0",
+        "Height of a node: longest edge-path from that node to any leaf — height(null) = -1",
+        "Depth of a node: number of edges from root to that node — root depth = 0",
+        "Universal recursion pattern: if (!node) return base; process node; recurse left + right",
+        "Balanced tree height = O(log n); skewed (degenerate) tree height = O(n) — same as a linked list",
+        "In a full binary tree, leaf count = internal node count + 1",
+      ],
+      timeComplexity:
+        "countNodes O(n) | height O(n) | depthOf O(n) | countLeaves O(n) | level-order insert O(n)",
+      spaceComplexity:
+        "O(n) to store the tree | O(h) call-stack per recursive call — O(log n) balanced, O(n) skewed",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Binary Tree Basics =====
+
+// ── Node definition ─────────────────────────────────────
+class TreeNode {
+  constructor(val, left = null, right = null) {
+    this.val   = val;    // value stored at this node
+    this.left  = left;   // left child  (TreeNode | null)
+    this.right = right;  // right child (TreeNode | null)
+  }
+}
+
+// ── Build a tree manually ────────────────────────────────
+//
+//          1          ← root     (depth 0)
+//        /   \
+//       2     3       ← internal (depth 1)
+//      / \   / \
+//     4   5 6   7     ← depth 2
+//    /
+//   8                 ← leaf     (depth 3)
+//
+// Height = 3  (path 1→2→4→8)   |   Leaves: 5, 6, 7, 8
+
+const root = new TreeNode(1);
+root.left              = new TreeNode(2);
+root.right             = new TreeNode(3);
+root.left.left         = new TreeNode(4);
+root.left.right        = new TreeNode(5);
+root.right.left        = new TreeNode(6);
+root.right.right       = new TreeNode(7);
+root.left.left.left    = new TreeNode(8);
+
+// ── Count all nodes — O(n) ──────────────────────────────
+// Universal pattern: handle null → process → recurse left + right
+function countNodes(node) {
+  if (!node) return 0;                              // null → 0 nodes
+  return 1 + countNodes(node.left) + countNodes(node.right);
+}
+console.log("Nodes:", countNodes(root));            // 8
+
+// ── Height — O(n) ───────────────────────────────────────
+// height(null) = -1  so that height(single leaf) = 0
+function height(node) {
+  if (!node) return -1;
+  return 1 + Math.max(height(node.left), height(node.right));
+}
+console.log("Height:", height(root));              // 3
+
+// ── Depth of a value — O(n) ─────────────────────────────
+function depthOf(node, target, d = 0) {
+  if (!node) return -1;                             // not found in this path
+  if (node.val === target) return d;
+  const left = depthOf(node.left,  target, d + 1);
+  if (left !== -1) return left;                     // found in left subtree
+  return depthOf(node.right, target, d + 1);
+}
+console.log("Depth of root (1):", depthOf(root, 1));  // 0
+console.log("Depth of node 5: ", depthOf(root, 5));   // 2
+console.log("Depth of node 8: ", depthOf(root, 8));   // 3
+
+// ── Leaf detection — O(1) ───────────────────────────────
+const isLeaf = (node) => node !== null && !node.left && !node.right;
+
+// ── Count leaf nodes — O(n) ─────────────────────────────
+function countLeaves(node) {
+  if (!node) return 0;
+  if (isLeaf(node)) return 1;
+  return countLeaves(node.left) + countLeaves(node.right);
+}
+console.log("Leaves:", countLeaves(root));          // 4  (nodes 5, 6, 7, 8)
+
+// ── Level-order insertion (complete binary tree) ─────────
+// Fills first available slot left-to-right per level using a queue
+function insert(root, val) {
+  const node = new TreeNode(val);
+  if (!root) return node;
+  const queue = [root];
+  while (queue.length) {
+    const cur = queue.shift();
+    if (!cur.left)  { cur.left  = node; return root; }
+    else queue.push(cur.left);
+    if (!cur.right) { cur.right = node; return root; }
+    else queue.push(cur.right);
+  }
+  return root;
+}
+
+// Insert 1–7 → perfect binary tree of height 2
+let complete = null;
+for (let i = 1; i <= 7; i++) complete = insert(complete, i);
+console.log("Complete tree height:", height(complete)); // 2
+
+// ── Tree summary ─────────────────────────────────────────
+const n = countNodes(root), h = height(root), l = countLeaves(root);
+console.log("\n--- Tree Summary ---");
+console.log("Total nodes  :", n);                  // 8
+console.log("Height       :", h);                  // 3
+console.log("Leaves       :", l);                  // 4
+console.log("Internal     :", n - l);               // 4
+console.log("Balanced?    :", h <= Math.floor(Math.log2(n))); // false (skewed left)
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "What is the difference between height and depth in a binary tree?",
+        difficulty: "Easy",
+        hint: "Height is a property of a subtree — it measures the longest path going downward from a given node to a leaf. Depth is a property of an individual node — it measures how far that node is from the root going upward. height(leaf) = 0, depth(root) = 0. They are opposite directions: height looks down, depth looks up. For the root specifically, depth = 0 and height = overall tree height.",
+      },
+      {
+        question:
+          "Write a recursive function to find the height of a binary tree. What is the base case and why is it -1?",
+        difficulty: "Easy",
+        hint: "Base case: height(null) = -1. This convention ensures that a single leaf node (both children null) returns 1 + max(-1, -1) = 0, which correctly means zero edges below it. The recursive case: height(node) = 1 + max(height(node.left), height(node.right)). The +1 counts the edge from the current node to its taller child. Using 0 for the null case would inflate every node's height by 1.",
+      },
+      {
+        question:
+          "What is the relationship between number of nodes and height in a balanced vs. skewed binary tree?",
+        difficulty: "Medium",
+        hint: "A perfectly balanced binary tree with n nodes has height floor(log₂n) — each level doubles the node count, so you only need log₂n levels for n nodes. A completely skewed tree (all nodes in one direction, like a linked list) has height n-1. This is why BST search is O(log n) when balanced but degrades to O(n) when skewed. A balanced tree with height h can hold up to 2^(h+1) - 1 nodes; at minimum it holds h+1 nodes (completely skewed).",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // LEVEL 10 – Tree Traversals
+  // ─────────────────────────────────────────────
+  {
+    id: "tree-traversals",
+    title: "Tree Traversals",
+    slug: "tree-traversals",
+    icon: "Route",
+    difficulty: "Intermediate",
+    description:
+      "Master all four fundamental binary tree traversal strategies — Inorder, Preorder, Postorder (DFS), and Level Order (BFS) — and understand when and why to choose each one.",
+    concept: {
+      explanation:
+        "Tree traversal is the systematic process of visiting every node in a binary tree exactly once. There are two major strategies: Depth-First Search (DFS) and Breadth-First Search (BFS). DFS dives as deep as possible before backtracking, and comes in three orderings depending on when you process the current node relative to its children. Inorder (Left → Node → Right) visits the left subtree, processes the current node, then visits the right subtree — this ordering produces a sorted sequence for Binary Search Trees. Preorder (Node → Left → Right) processes the current node first, then recurses — ideal for copying or serializing a tree because the root is always output first. Postorder (Left → Right → Node) processes children before the parent — used for deleting a tree (children freed before the parent) or evaluating expression trees (operands evaluated before the operator). Level Order (BFS) uses a queue to visit nodes level by level from root to leaves — essential for problems that ask about levels, minimum depth, zigzag traversal, or connecting nodes at the same depth. Every DFS traversal has both a recursive form (clean, uses the call stack as the implicit stack) and an iterative form (uses an explicit stack/queue, avoids stack-overflow on very deep trees).",
+      realLifeAnalogy:
+        "Imagine exploring a city built as a branching road network. Preorder is like a tour guide who announces 'We are at landmark X' before sending you down any side streets — you always know where you are before going deeper. Inorder is like reading every sign strictly left-to-right as you walk, so you always finish the entire left district before coming back to the city centre and then heading right. Postorder is like a building inspector who must inspect every floor's rooms before certifying the floor — children are verified before the parent. Level Order is like evacuating a building floor by floor: everyone on floor 1 leaves first, then floor 2, then floor 3, regardless of which wing or branch they are in.",
+      keyPoints: [
+        "Inorder (L→N→R): produces sorted output for a BST; use for BST problems requiring ascending order",
+        "Preorder (N→L→R): root always comes first; use to serialise/copy a tree or find root-to-leaf paths",
+        "Postorder (L→R→N): children processed before parent; use for tree deletion, expression evaluation, bottom-up aggregation",
+        "Level Order (BFS): uses a queue; processes nodes breadth-first; use for level-related problems (min depth, right side view, zigzag)",
+        "All four run in O(n) time — every node is visited exactly once",
+        "DFS space: O(h) call stack — O(log n) balanced, O(n) skewed; BFS space: O(w) where w is max level width ≈ O(n/2) for the last level",
+        "Iterative inorder uses an explicit stack and a 'current' pointer; iterative level order uses a queue with a level-size snapshot",
+        "To separate levels in BFS output, snapshot queue.length at the start of each iteration as the level boundary",
+      ],
+      timeComplexity: "O(n) — all four traversals visit each of the n nodes exactly once",
+      spaceComplexity:
+        "O(h) for DFS (call-stack depth equals tree height) | O(w) for BFS (queue holds at most one full level — up to n/2 nodes)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Binary Tree Traversals =====
+
+// ── Node definition ─────────────────────────────────────
+class TreeNode {
+  constructor(val, left = null, right = null) {
+    this.val   = val;
+    this.left  = left;
+    this.right = right;
+  }
+}
+
+// ── Build sample tree ────────────────────────────────────
+//
+//          1
+//        /   \
+//       2     3
+//      / \     \
+//     4   5     6
+//
+// Inorder:    [4, 2, 5, 1, 3, 6]
+// Preorder:   [1, 2, 4, 5, 3, 6]
+// Postorder:  [4, 5, 2, 6, 3, 1]
+// LevelOrder: [[1], [2,3], [4,5,6]]
+
+const root = new TreeNode(1,
+  new TreeNode(2, new TreeNode(4), new TreeNode(5)),
+  new TreeNode(3, null,            new TreeNode(6)));
+
+// ── 1. Inorder  (Left → Node → Right) ──────────────────
+// Key property: gives sorted output for a BST.
+function inorder(node, result = []) {
+  if (!node) return result;
+  inorder(node.left, result);   // recurse left
+  result.push(node.val);        // visit node
+  inorder(node.right, result);  // recurse right
+  return result;
+}
+console.log("Inorder   :", inorder(root));   // [4, 2, 5, 1, 3, 6]
+
+// ── 2. Preorder (Node → Left → Right) ──────────────────
+// Root appears first → good for serialisation / path tracking.
+function preorder(node, result = []) {
+  if (!node) return result;
+  result.push(node.val);          // visit node first
+  preorder(node.left, result);
+  preorder(node.right, result);
+  return result;
+}
+console.log("Preorder  :", preorder(root));  // [1, 2, 4, 5, 3, 6]
+
+// ── 3. Postorder (Left → Right → Node) ─────────────────
+// Children fully processed before parent → deletion, eval trees.
+function postorder(node, result = []) {
+  if (!node) return result;
+  postorder(node.left, result);
+  postorder(node.right, result);
+  result.push(node.val);          // visit node last
+  return result;
+}
+console.log("Postorder :", postorder(root)); // [4, 5, 2, 6, 3, 1]
+
+// ── 4. Level Order — BFS (queue-based) ─────────────────
+// Returns an array of levels; each level is an array of values.
+function levelOrder(root) {
+  if (!root) return [];
+  const result = [];
+  const queue  = [root];
+  while (queue.length) {
+    const levelSize = queue.length; // snapshot: nodes on this level
+    const level = [];
+    for (let i = 0; i < levelSize; i++) {
+      const node = queue.shift();
+      level.push(node.val);
+      if (node.left)  queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    result.push(level);
+  }
+  return result;
+}
+console.log("LevelOrder:", JSON.stringify(levelOrder(root)));
+// [[1],[2,3],[4,5,6]]
+
+// ── 5. Iterative Inorder (explicit stack) ───────────────
+// Avoids recursion limit on deeply skewed trees.
+function inorderIterative(root) {
+  const result  = [];
+  const stack   = [];
+  let   current = root;
+  while (current || stack.length) {
+    while (current) {             // go as far left as possible
+      stack.push(current);
+      current = current.left;
+    }
+    current = stack.pop();        // backtrack to last unvisited node
+    result.push(current.val);     // visit
+    current = current.right;      // pivot to right subtree
+  }
+  return result;
+}
+console.log("Inorder(I):", inorderIterative(root)); // [4, 2, 5, 1, 3, 6]
+
+// ── Summary ──────────────────────────────────────────────
+console.log("\n--- When to use each ---");
+console.log("Inorder    → sorted BST output, kth smallest");
+console.log("Preorder   → copy/serialise tree, path sum");
+console.log("Postorder  → delete tree, bottom-up aggregation");
+console.log("LevelOrder → min depth, right side view, zigzag");
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "What is the difference between Inorder, Preorder, and Postorder traversals? Give the output for a simple tree.",
+        difficulty: "Easy",
+        hint: "Inorder is L→N→R (sorted for BST). Preorder is N→L→R (root first). Postorder is L→R→N (root last). For a tree with root 1, left child 2, right child 3: Inorder = [2,1,3], Preorder = [1,2,3], Postorder = [2,3,1]. The key is the position of N (the current node) in the pattern — before (Pre), between (In), or after (Post) the children.",
+      },
+      {
+        question:
+          "How does Level Order traversal work? What data structure does it use and why?",
+        difficulty: "Easy",
+        hint: "Level Order uses a queue (FIFO). You enqueue the root, then repeatedly dequeue a node, record its value, and enqueue its left and right children. The FIFO property ensures that all nodes at depth d are processed before any node at depth d+1. To separate levels, snapshot queue.length at the start of each iteration — that count tells you how many nodes belong to the current level.",
+      },
+      {
+        question:
+          "Write an iterative inorder traversal without recursion. Explain the role of the stack and the 'current' pointer.",
+        difficulty: "Medium",
+        hint: "Maintain a stack and a 'current' pointer starting at root. First, drive current all the way left, pushing each node onto the stack. When current is null, pop from the stack (the leftmost unvisited node), record its value, then set current = node.right to explore the right subtree. The stack simulates the call stack of the recursive version — it saves nodes we have seen but not yet processed while we went left.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // LEVEL 10 – Binary Search Tree
+  // ─────────────────────────────────────────────
+  {
+    id: "binary-search-tree",
+    title: "Binary Search Tree",
+    slug: "binary-search-tree",
+    icon: "Search",
+    difficulty: "Intermediate",
+    description:
+      "Learn how Binary Search Trees maintain the ordering invariant at every node, enabling O(log n) insert and search on balanced trees — and master the validation algorithm using propagated min/max bounds.",
+    concept: {
+      explanation:
+        "A Binary Search Tree (BST) is a binary tree that enforces a strict ordering invariant at every single node: all values in a node's left subtree must be strictly less than the node's value, and all values in its right subtree must be strictly greater. This invariant holds recursively — it is not just about a node and its immediate children, but about every node in every subtree. This property enables a powerful divide-and-conquer search: at each node, compare the target to the current value — if equal, you have found it; if the target is smaller, it can only exist in the left subtree, so you ignore the right; if larger, you ignore the left. Each comparison eliminates roughly half the remaining search space (assuming a balanced tree), giving O(log n) search. Insertion works identically to search: follow the same left/right decisions until you find an empty (null) slot, then place the new node there. Validation is the classic BST interview problem — a common wrong answer checks only that each node's immediate children satisfy the invariant, missing cases like a node in the right subtree of an ancestor that is actually less than that ancestor. The correct approach passes a [min, max] range down to every node: a node is valid only if its value strictly falls inside its allowed range, and it recursively tightens the range for each child.",
+      realLifeAnalogy:
+        "A BST is like a well-organized library filing system where every shelf has a sign saying 'all books to my left have titles earlier in the alphabet; all books to my right come later.' When you search for a book, you never have to check the wrong side — you just follow the signs. Inserting a new book is equally guided: keep walking in the right direction until you find an empty slot. The validation problem is like an auditor who must verify that not only is each shelf's immediate left-right split correct, but also that no book has been accidentally placed in the wrong section of a higher-level category.",
+      keyPoints: [
+        "BST invariant: left subtree values < node.val < right subtree values — applies recursively to ALL descendants, not just immediate children",
+        "Search: compare target to current node → go left if smaller, go right if larger → O(log n) balanced, O(n) degenerate",
+        "Insert: follow the search path until a null slot is found → always creates a new leaf → O(log n) average",
+        "Inorder traversal of a valid BST always produces a strictly sorted ascending sequence",
+        "Validation: pass [min, max] bounds down the recursion — wrong approach is checking only immediate children",
+        "Duplicates: classic BST rejects them (strictly < and >); some variants store count or route duplicates right",
+        "Self-balancing BSTs (AVL, Red-Black) maintain O(log n) height automatically — vanilla BST can degrade to O(n)",
+        "Deleting a node with two children: replace with inorder successor (smallest in right subtree) or inorder predecessor",
+      ],
+      timeComplexity:
+        "Search O(log n) avg / O(n) worst | Insert O(log n) avg / O(n) worst | Validate O(n) — must visit all nodes",
+      spaceComplexity:
+        "O(h) for recursion stack — O(log n) balanced, O(n) skewed",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Binary Search Tree: Insert, Search, Validate =====
+
+// ── Node definition ─────────────────────────────────────
+class BSTNode {
+  constructor(val) {
+    this.val   = val;
+    this.left  = null;
+    this.right = null;
+  }
+}
+
+// ── Insert ───────────────────────────────────────────────
+// Follow BST order to find the correct null slot, then insert.
+// Returns the (possibly new) root.
+function insert(root, val) {
+  if (!root) return new BSTNode(val);        // empty slot → place here
+  if (val < root.val)
+    root.left  = insert(root.left,  val);    // smaller → go left
+  else if (val > root.val)
+    root.right = insert(root.right, val);    // larger  → go right
+  // if val === root.val: ignore duplicate
+  return root;
+}
+
+// Build BST by inserting [5, 3, 7, 2, 4, 6, 8]:
+//
+//         5
+//        / \
+//       3   7
+//      / \ / \
+//     2  4 6  8
+//
+let bst = null;
+[5, 3, 7, 2, 4, 6, 8].forEach(v => bst = insert(bst, v));
+
+// ── Search ───────────────────────────────────────────────
+// At each node: if val matches → found.
+// If target < val → search left only.
+// If target > val → search right only.
+function search(root, target) {
+  if (!root) return false;                   // exhausted → not found
+  if (root.val === target) return true;      // match!
+  if (target < root.val)
+    return search(root.left,  target);       // can only be in left subtree
+  return   search(root.right, target);       // can only be in right subtree
+}
+
+console.log("Search 4:", search(bst, 4));    // true
+console.log("Search 9:", search(bst, 9));    // false
+console.log("Search 1:", search(bst, 1));    // false
+
+// ── Validate BST ─────────────────────────────────────────
+// WRONG approach: only checking left < root && right > root
+// misses cases where a deep descendant violates an ancestor's bound.
+//
+// CORRECT approach: pass allowed (min, max) range to every node.
+// Each node's value must be strictly inside its range.
+// Going left  → upper bound becomes the current node's value.
+// Going right → lower bound becomes the current node's value.
+function isValidBST(node, min = -Infinity, max = Infinity) {
+  if (!node) return true;                          // null is always valid
+  if (node.val <= min || node.val >= max)
+    return false;                                  // out of allowed range!
+  return isValidBST(node.left,  min, node.val)    // left:  must be < val
+      && isValidBST(node.right, node.val, max);   // right: must be > val
+}
+
+console.log("\nValid BST:", isValidBST(bst));   // true
+
+// Build a subtly INVALID BST:
+//     5
+//    / \
+//   3   7
+//    \
+//     6   ← 6 > 5, so it CANNOT be anywhere in the left subtree of 5
+//
+const bad = new BSTNode(5);
+bad.left         = new BSTNode(3);
+bad.right        = new BSTNode(7);
+bad.left.right   = new BSTNode(6); // violates: 6 must be < 5 to live left of 5
+console.log("Invalid BST:", isValidBST(bad)); // false
+
+// ── BST Inorder = sorted output ──────────────────────────
+function inorder(node, res = []) {
+  if (!node) return res;
+  inorder(node.left, res);
+  res.push(node.val);
+  inorder(node.right, res);
+  return res;
+}
+console.log("\nBST Inorder (must be sorted):", inorder(bst));
+// [2, 3, 4, 5, 6, 7, 8]  ✓
+
+// ── Min / Max in BST ─────────────────────────────────────
+// Min: keep going left | Max: keep going right
+function bstMin(root) {
+  while (root.left) root = root.left;
+  return root.val;
+}
+function bstMax(root) {
+  while (root.right) root = root.right;
+  return root.val;
+}
+console.log("\nMin:", bstMin(bst)); // 2
+console.log("Max:", bstMax(bst)); // 8
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "What is the BST invariant, and why is it recursive (not just about immediate children)?",
+        difficulty: "Easy",
+        hint: "The BST invariant states that for every node N, ALL values in N's left subtree are strictly less than N.val, and ALL values in its right subtree are strictly greater. 'All' means every descendant, not just direct children. Example violation: a right child has a left subtree node that is smaller than the grandparent — it satisfies the immediate child's BST rule but violates the grandparent's rule. This is why validation must pass min/max bounds down the entire tree.",
+      },
+      {
+        question:
+          "Why does checking only immediate children fail to validate a BST? Show an example.",
+        difficulty: "Medium",
+        hint: "Consider root=5, left=3, and left.right=6. Checking immediately: 3 < 5 (OK), 6 > 3 (OK at that local level). But 6 > 5 means it cannot be anywhere in the left subtree of 5 — it violates the root's invariant. The immediate-child check misses this because it only compares 6 to its direct parent (3), not to its grandparent (5). The correct fix: pass (min=-Inf, max=5) to the left subtree, so 6 fails the max=5 check.",
+      },
+      {
+        question:
+          "What is the time complexity of BST search, and when does it degrade to O(n)?",
+        difficulty: "Medium",
+        hint: "Average case: O(log n) because a balanced BST halves the search space at each node (like binary search on a sorted array). Worst case: O(n) when the tree is completely skewed — e.g., inserting [1,2,3,4,5] in sorted order builds a right-only chain, effectively a linked list. The BST invariant is maintained but there is no balance. Self-balancing trees (AVL, Red-Black) prevent this degradation by rotating nodes after insertions.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // LEVEL 10 – Diameter of Binary Tree
+  // ─────────────────────────────────────────────
+  {
+    id: "diameter-binary-tree",
+    title: "Diameter of Binary Tree",
+    slug: "diameter-binary-tree",
+    icon: "Ruler",
+    difficulty: "Intermediate",
+    description:
+      "Find the length of the longest path between any two nodes in a binary tree — the diameter — using a single post-order DFS that computes height and updates the global maximum simultaneously.",
+    concept: {
+      explanation:
+        "The diameter of a binary tree is defined as the number of edges in the longest path between any two nodes. The path does not have to pass through the root — it can connect any two leaf nodes through any common ancestor. This makes the problem non-trivial: a naive approach that only considers paths through the root will miss longer paths that lie entirely within a subtree. The key insight is that the longest path through any particular node N is the sum of the height of N's left subtree and the height of N's right subtree, plus 2 (the two edges connecting N to the tops of each subtree). Formally: diameterAt(N) = height(N.left) + 1 + height(N.right) + 1. The global diameter is the maximum of this value across every node. The elegant implementation combines height calculation with diameter tracking in a single post-order DFS: recurse to the children first (post-order), get their heights, compute the candidate diameter at the current node, update a global maximum, and return the current node's height to the parent. This achieves O(n) time by computing both values in one pass, avoiding the naive O(n²) approach of calling a separate height function at each node.",
+      realLifeAnalogy:
+        "Imagine a tree-shaped subway network where stations are nodes and tracks are edges. The diameter is the longest direct trip you can take without any transfers (no backtracking — a simple path). Most trips go through the central hub (root), but some long routes might loop through a branch station that serves as the pivot for two long arms. To find the longest trip efficiently, a surveyor visits each station once (DFS), measures how far the left and right arms extend from that station, records the total arm span at each station, and reports the maximum arm span found anywhere in the network.",
+      keyPoints: [
+        "Diameter = longest edge-path between any two nodes; path may or may not pass through the root",
+        "At each node N: candidate diameter = height(N.left) + height(N.right) + 2 (using height(null) = -1)",
+        "Global answer is the max of all candidate diameters across every node in the tree",
+        "Efficient solution: combine height computation and diameter update in one post-order DFS → O(n)",
+        "Naive solution: call height() separately at every node to compute diameter → O(n²) — avoid this",
+        "Single-node tree: height = 0, diameter = 0 (no edges); empty tree: diameter = 0",
+        "The diameter can also be expressed as the max number of NODES on the longest path: edges + 1",
+        "This post-order DFS + global variable pattern is reused in many tree problems: max path sum, longest path, etc.",
+      ],
+      timeComplexity:
+        "O(n) — each node is visited exactly once in the combined DFS",
+      spaceComplexity:
+        "O(h) for recursion call stack — O(log n) balanced, O(n) skewed",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Diameter of Binary Tree =====
+
+// ── Node definition ─────────────────────────────────────
+class TreeNode {
+  constructor(val, left = null, right = null) {
+    this.val   = val;
+    this.left  = left;
+    this.right = right;
+  }
+}
+
+// ── Build sample tree ────────────────────────────────────
+//
+//          1
+//        /   \
+//       2     3
+//      / \
+//     4   5
+//    /
+//   6
+//
+// Longest path: 6 → 4 → 2 → 1 → 3  (4 edges)
+// Diameter = 4
+
+const root = new TreeNode(1);
+root.left           = new TreeNode(2);
+root.right          = new TreeNode(3);
+root.left.left      = new TreeNode(4);
+root.left.right     = new TreeNode(5);
+root.left.left.left = new TreeNode(6);
+
+// ── Efficient O(n) solution ──────────────────────────────
+// Single post-order DFS: compute height AND update diameter together.
+// height(null) = -1  →  height(leaf) = 1 + max(-1,-1) = 0
+// At each node: candidate = leftH + rightH + 2 edges
+function diameterOfBinaryTree(root) {
+  let maxDiameter = 0;
+
+  function height(node) {
+    if (!node) return -1;                    // base: null height = -1
+    const leftH  = height(node.left);        // recurse left first (post-order)
+    const rightH = height(node.right);       // recurse right
+
+    // Longest path pivoting through this node:
+    // (leftH + 1) edges going down-left + (rightH + 1) edges going down-right
+    const candidate = leftH + rightH + 2;
+    maxDiameter = Math.max(maxDiameter, candidate);
+
+    return 1 + Math.max(leftH, rightH);      // this node's own height
+  }
+
+  height(root);
+  return maxDiameter;
+}
+
+console.log("Diameter:", diameterOfBinaryTree(root)); // 4
+
+// ── Edge cases ───────────────────────────────────────────
+// Single node
+console.log("Single node:", diameterOfBinaryTree(new TreeNode(42))); // 0
+
+// Linear tree (skewed) — like a linked list: 1 → 2 → 3 → 4 (3 edges)
+let linear = new TreeNode(1);
+linear.right = new TreeNode(2);
+linear.right.right = new TreeNode(3);
+linear.right.right.right = new TreeNode(4);
+console.log("Linear tree:", diameterOfBinaryTree(linear)); // 3
+
+// Balanced tree — diameter passes through root
+//      1
+//     / \
+//    2   3
+//   /     \
+//  4       5
+// Path: 4 → 2 → 1 → 3 → 5  (4 edges)
+const balanced = new TreeNode(1);
+balanced.left         = new TreeNode(2);
+balanced.right        = new TreeNode(3);
+balanced.left.left    = new TreeNode(4);
+balanced.right.right  = new TreeNode(5);
+console.log("Balanced tree:", diameterOfBinaryTree(balanced)); // 4
+
+// ── Why naive O(n²) is slow ──────────────────────────────
+// Bad idea: for every node call a separate height() → O(n) per node → O(n²) total.
+// The efficient solution computes height ONCE per node during the diameter DFS.
+console.log("\n--- Key insight ---");
+console.log("Candidate at node N = height(left) + height(right) + 2");
+console.log("Track global max across ALL nodes — not just the root.");
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "Why might the diameter of a binary tree NOT pass through the root? Give an example.",
+        difficulty: "Easy",
+        hint: "Consider a tree where the root has a single-node right subtree, but the left subtree contains two long arms. The longest path is entirely within the left subtree and never touches the root. More concretely: root=1, root.right=2 (short), root.left is a subtree with depth 3 on both sides — the diameter of that left subtree (6 edges) exceeds any path that goes through root=1 (at most 3+1+0 = 4 edges). This is why we must track maxDiameter at EVERY node, not just at the root.",
+      },
+      {
+        question:
+          "Why do we use height(null) = -1 rather than 0? What happens if you use 0?",
+        difficulty: "Medium",
+        hint: "Using height(null) = -1 ensures a leaf node returns height 0: 1 + max(-1, -1) = 0, meaning zero edges below the leaf. If you used height(null) = 0, a leaf would return height 1, inflating every node's height by 1. The diameter calculation leftH + rightH + 2 relies on heights being edge-counts. With -1 convention at null: a leaf's candidate = -1 + -1 + 2 = 0 (correct — a single node has no connecting edges). With 0: a leaf's candidate = 0 + 0 + 2 = 2, which incorrectly counts the two null children as real edges.",
+      },
+      {
+        question:
+          "What is the time complexity of the naive diameter algorithm vs the optimised one? How does the optimised version achieve O(n)?",
+        difficulty: "Medium",
+        hint: "Naive: for each of the n nodes, call a separate height() function that itself runs in O(n) → total O(n²). Optimised: merge the height computation INTO the diameter DFS. Instead of calling height() as a separate function, compute leftH and rightH as part of the same recursion that updates maxDiameter. Each node is visited exactly once, each visit does O(1) work → total O(n). The trick is that height() is a natural post-order DFS, and the diameter update (comparing leftH + rightH + 2 to maxDiameter) is just O(1) work piggybacked onto each node visit.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // LEVEL 10 – Lowest Common Ancestor
+  // ─────────────────────────────────────────────
+  {
+    id: "lowest-common-ancestor",
+    title: "Lowest Common Ancestor",
+    slug: "lowest-common-ancestor",
+    icon: "GitMerge",
+    difficulty: "Intermediate",
+    description:
+      "Given a binary tree and two nodes p and q, find their Lowest Common Ancestor — the deepest node that is an ancestor of both — using a single elegant recursive DFS that works for both general trees and BSTs.",
+    concept: {
+      explanation:
+        "The Lowest Common Ancestor (LCA) of two nodes p and q in a binary tree is the deepest node in the tree that has both p and q as descendants, where a node is considered a descendant of itself. This self-inclusion is important: if p is an ancestor of q, then p itself is the LCA. The elegant recursive solution leverages a beautiful observation: if you recurse into the tree and a function call returns a non-null value, it means it found at least one of the targets in its subtree. When we are at a given node, we recurse into the left and right subtrees. If both the left and right recursive calls return non-null, it means p is in one subtree and q is in the other — the current node is their meeting point and is the LCA. If only one side returns non-null, either both targets are in that subtree (one was the ancestor of the other), or only one was found and the other is still higher up — either way we propagate the non-null result upward. Base cases: if the current node is null, return null; if the current node IS p or q, return it immediately (no need to search deeper, since either it is the LCA itself or it will be propagated up to its parent which has both p and q on different sides). For BSTs specifically, a more efficient O(log n) solution exists: if both p and q are less than the current node, the LCA is in the left subtree; if both are greater, it is in the right subtree; otherwise the current node is the LCA.",
+      realLifeAnalogy:
+        "Imagine a large corporation's org-chart tree. Two employees — Alice and Bob — want to find their closest common manager (the LCA). The HR system runs a query starting from the CEO: at each manager, it asks 'do Alice or Bob report into my left division or my right division?' If Alice reports into the left division and Bob reports into the right, this manager is their closest common boss. If both report into the same division, the query recurses deeper into that division. If one of them IS a manager in the chain, they might even be their own and the other's closest common ancestor — because a manager is considered their own ancestor.",
+      keyPoints: [
+        "LCA = deepest node that is an ancestor of both p and q; a node is its own ancestor",
+        "Base cases: return null if node is null; return node immediately if node.val equals p or q",
+        "If left and right recursive calls both return non-null → current node is the LCA (p and q split here)",
+        "If only one side is non-null → propagate it upward (both nodes are in that subtree, or only one found so far)",
+        "Works correctly when p is an ancestor of q: p is returned immediately before finding q deeper",
+        "BST LCA: both < root → go left; both > root → go right; otherwise root is LCA → O(h) = O(log n) balanced",
+        "Time: O(n) for general binary tree | O(h) for BST — O(log n) balanced, O(n) skewed",
+        "Classic use cases: distance between two nodes, path between nodes, ancestor queries in file systems",
+      ],
+      timeComplexity:
+        "O(n) for general binary tree | O(h) for BST — O(log n) balanced, O(n) skewed",
+      spaceComplexity:
+        "O(h) recursion stack — O(log n) balanced tree, O(n) skewed tree",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Lowest Common Ancestor (LCA) =====
+
+// ── Node definition ─────────────────────────────────────
+class TreeNode {
+  constructor(val, left = null, right = null) {
+    this.val   = val;
+    this.left  = left;
+    this.right = right;
+  }
+}
+
+// ── Build sample tree ────────────────────────────────────
+//
+//           3
+//         /   \
+//        5     1
+//       / \   / \
+//      6   2 0   8
+//         / \
+//        7   4
+//
+// LCA(5,1) = 3   (different sides of root)
+// LCA(5,4) = 5   (5 is ancestor of 4)
+// LCA(6,4) = 5   (6 and 4 are both under 5)
+// LCA(7,8) = 3   (7 is deep left; 8 is deep right)
+
+const root = new TreeNode(3);
+root.left               = new TreeNode(5);
+root.right              = new TreeNode(1);
+root.left.left          = new TreeNode(6);
+root.left.right         = new TreeNode(2);
+root.right.left         = new TreeNode(0);
+root.right.right        = new TreeNode(8);
+root.left.right.left    = new TreeNode(7);
+root.left.right.right   = new TreeNode(4);
+
+// ── LCA for general binary tree ──────────────────────────
+// Returns the LCA node (or null if neither p nor q is found).
+//
+// Logic at each node:
+//  1. null  → return null  (didn't find either target here)
+//  2. node.val === p OR q  → return node  (found a target!)
+//  3. Recurse left and right
+//  4. Both non-null → current node is the LCA (split point)
+//  5. One non-null  → propagate it upward
+function lowestCommonAncestor(root, p, q) {
+  if (!root) return null;                       // base: not found
+  if (root.val === p || root.val === q)
+    return root;                                // base: found a target
+
+  const left  = lowestCommonAncestor(root.left,  p, q);
+  const right = lowestCommonAncestor(root.right, p, q);
+
+  if (left && right) return root;               // p and q are on different sides
+  return left || right;                         // found at most one side
+}
+
+const lca1 = lowestCommonAncestor(root, 5, 1);
+console.log("LCA(5,1):", lca1.val);   // 3
+
+const lca2 = lowestCommonAncestor(root, 5, 4);
+console.log("LCA(5,4):", lca2.val);   // 5  ← 5 is its own ancestor w.r.t. 4
+
+const lca3 = lowestCommonAncestor(root, 6, 4);
+console.log("LCA(6,4):", lca3.val);   // 5
+
+const lca4 = lowestCommonAncestor(root, 7, 8);
+console.log("LCA(7,8):", lca4.val);   // 3
+
+// ── LCA for BST (optimised O(log n)) ────────────────────
+// Uses BST ordering to skip entire subtrees.
+//
+//      6
+//     / \
+//    2   8
+//   / \ / \
+//  0  4 7  9
+//    / \
+//   3   5
+const bst = new TreeNode(6);
+bst.left             = new TreeNode(2);
+bst.right            = new TreeNode(8);
+bst.left.left        = new TreeNode(0);
+bst.left.right       = new TreeNode(4);
+bst.right.left       = new TreeNode(7);
+bst.right.right      = new TreeNode(9);
+bst.left.right.left  = new TreeNode(3);
+bst.left.right.right = new TreeNode(5);
+
+function lcaBST(root, p, q) {
+  if (!root) return null;
+  if (p < root.val && q < root.val)
+    return lcaBST(root.left,  p, q);   // both smaller → go left
+  if (p > root.val && q > root.val)
+    return lcaBST(root.right, p, q);   // both larger  → go right
+  return root;                          // split point  → this IS the LCA
+}
+
+console.log("\nBST LCA(2,8):", lcaBST(bst, 2, 8).val); // 6
+console.log("BST LCA(2,4):", lcaBST(bst, 2, 4).val);   // 2
+console.log("BST LCA(3,5):", lcaBST(bst, 3, 5).val);   // 4
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "Explain the recursive LCA algorithm. Why do we return the node immediately when it equals p or q?",
+        difficulty: "Medium",
+        hint: "We return the node immediately when it equals p or q because: (1) The problem states a node can be its own ancestor, so if the current node is p or q, it might be the LCA (e.g., if the other target is in its subtree). (2) We don't need to search deeper — either the other target is in this node's subtree (making this node the LCA), or it is above in the tree (in which case the parent will see this node returned from one side and the other target from the other side, correctly identifying the parent as the LCA). Searching deeper would still work but is unnecessary — the parent's logic handles both cases correctly.",
+      },
+      {
+        question:
+          "What happens in the LCA algorithm when one node is an ancestor of the other (e.g., LCA(5, 4) where 4 is in 5's subtree)?",
+        difficulty: "Medium",
+        hint: "When we arrive at node 5 (which equals p=5), we immediately return it without recursing further. Node 4 (q) is in 5's subtree, but we never find it. The caller (parent of 5) sees 5 returned from one side and null from the other side, so it propagates 5 upward. This keeps propagating until it reaches the root, which returns it as the final answer. The answer is correct — 5 IS the LCA of 5 and 4 because 5 is its own ancestor and is an ancestor of 4. The self-ancestor rule is why this elegant shortcut works correctly.",
+      },
+      {
+        question:
+          "How does the BST LCA algorithm differ from the general binary tree LCA, and why is it more efficient?",
+        difficulty: "Medium",
+        hint: "General binary tree LCA: O(n) time because we may need to search the entire tree — we cannot skip any subtree since we have no ordering information. BST LCA: O(h) time — O(log n) for balanced BST. We exploit the BST property: if both p and q are less than root, they must both be in the left subtree so we discard the entire right subtree immediately; if both are greater, we discard the left subtree. The split point (one value on each side, or root equals one of them) is the LCA. Each step eliminates roughly half the remaining nodes, giving logarithmic time — the same reason BST search is O(log n).",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // LEVEL 10 – Maximum Path Sum
+  // ─────────────────────────────────────────────
+  {
+    id: "maximum-path-sum",
+    title: "Maximum Path Sum",
+    slug: "maximum-path-sum",
+    icon: "TrendingUp",
+    difficulty: "Advanced",
+    description:
+      "Find the maximum sum of values along any path in a binary tree — where nodes can have negative values and the path can connect any two nodes — using a post-order DFS that separates the gain returned upward from the candidate path pivoting through the node.",
+    concept: {
+      explanation:
+        "The Maximum Path Sum problem asks you to find the path in a binary tree whose node values sum to the highest possible total. A path is a sequence of nodes connected by edges where no node appears more than once. The path does not need to pass through the root, and it can start and end at any node — even two leaf nodes deep in the tree. The presence of negative-valued nodes makes this significantly harder than a simple tree maximum: sometimes you want to ignore an entire subtree rather than include its negative-sum path. The core algorithmic insight is to separate two concepts at each node: (1) the 'gain' this node contributes to a path going upward to its parent — this can only use the node's value plus the better of its two children (since a path cannot fork), and if the best contribution is negative we return 0 (meaning the parent ignores this node's subtree entirely); and (2) the 'candidate path sum' through this node — this can use both children simultaneously (left branch + node + right branch) since the path passes through this node as the pivot and does not need to continue upward. We compute both values during a single post-order DFS, updating a global maximum with every candidate path sum. This achieves O(n) time. The separation of 'gain upward' (one arm) vs 'path through node' (both arms) is the key insight that many candidates miss.",
+      realLifeAnalogy:
+        "Imagine hiking trails on a mountain shaped like a tree. Each trail segment has a 'enjoyment score' — positive means a scenic segment, negative means a miserable swamp you would rather skip. You want to find the single most enjoyable hiking route — any continuous path, starting and ending anywhere. At each trail junction (node), you have a choice: use this junction as a scenic overlook (pivot) where hikers come up one arm and leave down the other, maximising the total enjoyment at this spot. Or pick the better of the two arms to pass upward to the higher junction. If both arms are miserable (negative), skip them entirely and just stand at the junction alone. You scout every junction this way (DFS), recording the best overlook at each, and the answer is the best overlook across the entire mountain.",
+      keyPoints: [
+        "Path: any sequence of connected nodes with no repeated nodes; can start/end anywhere; no forking allowed",
+        "Key separation: 'gain returned to parent' (one arm only) vs 'candidate sum through node' (both arms as pivot)",
+        "Gain = node.val + max(leftGain, rightGain), but take max(0, gain) to skip negative subtrees",
+        "Candidate at node = node.val + leftGain + rightGain — can use both arms since this node is the path's pivot",
+        "Global answer = max candidate across all nodes; updated during post-order DFS via a closure variable",
+        "Taking max(gain, 0) handles negative subtrees — exclude them by treating their contribution as 0",
+        "Single-node tree with negative value: candidate = node.val, which is still correctly returned as maxSum",
+        "Common mistake: returning the candidate (both arms) to the parent — that would create a forked (Y-shaped) illegal path",
+      ],
+      timeComplexity: "O(n) — each node visited exactly once in the DFS",
+      spaceComplexity:
+        "O(h) recursion stack — O(log n) balanced, O(n) skewed tree",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Maximum Path Sum in Binary Tree =====
+
+// ── Node definition ─────────────────────────────────────
+class TreeNode {
+  constructor(val, left = null, right = null) {
+    this.val   = val;
+    this.left  = left;
+    this.right = right;
+  }
+}
+
+// ── Build sample tree 1 ──────────────────────────────────
+//
+//        -10
+//        /  \
+//       9    20
+//           /  \
+//          15   7
+//
+// Best path: 15 → 20 → 7  =  42
+// (-10 and 9 not included — they would lower the sum)
+const root1 = new TreeNode(-10);
+root1.left         = new TreeNode(9);
+root1.right        = new TreeNode(20);
+root1.right.left   = new TreeNode(15);
+root1.right.right  = new TreeNode(7);
+
+// ── Core algorithm ───────────────────────────────────────
+//
+// maxGain(node) returns the maximum gain this node can add
+// to a path that continues UPWARD to the parent.
+// Gain uses only ONE arm (left OR right) — paths cannot fork.
+//
+// WHILE computing gain, we ALSO check the path using BOTH arms
+// through this node (leftGain + node.val + rightGain).
+// That candidate is compared to the global maxSum.
+//
+function maxPathSum(root) {
+  let maxSum = -Infinity;   // handles all-negative trees correctly
+
+  function maxGain(node) {
+    if (!node) return 0;    // null contributes nothing
+
+    // Gain from each child — if negative, take 0 (skip that subtree)
+    const leftGain  = Math.max(0, maxGain(node.left));
+    const rightGain = Math.max(0, maxGain(node.right));
+
+    // Candidate path that PIVOTS through this node (uses BOTH arms).
+    // This node is the highest point on this path — it won't go further up.
+    const pathThroughNode = node.val + leftGain + rightGain;
+    maxSum = Math.max(maxSum, pathThroughNode); // update global best
+
+    // Return the gain to the parent: node.val + the BETTER single arm.
+    // Parent can only extend the path in ONE direction.
+    return node.val + Math.max(leftGain, rightGain);
+  }
+
+  maxGain(root);
+  return maxSum;
+}
+
+console.log("Tree 1 max path sum:", maxPathSum(root1)); // 42
+
+// ── Sample tree 2 ────────────────────────────────────────
+//
+//    1
+//   / \
+//  2   3
+//
+// Best path: 2 → 1 → 3  = 6
+const root2 = new TreeNode(1, new TreeNode(2), new TreeNode(3));
+console.log("Tree 2 max path sum:", maxPathSum(root2)); // 6
+
+// ── All-negative tree ────────────────────────────────────
+// Best path: just the single node itself  = -3
+console.log("All-negative:", maxPathSum(new TreeNode(-3))); // -3
+
+// ── Mixed positive/negative tree ─────────────────────────
+//
+//       2
+//      / \
+//    -1   3
+//    /
+//  -2
+//
+// At -2: candidate = -2                 → maxSum = -2
+// At -1: leftGain = max(0,-2) = 0
+//        candidate = -1+0+0 = -1        → maxSum = -1
+//        gain returned = -1 + max(0,0) = -1
+// At  3: candidate = 3                  → maxSum = 3
+//        gain = 3
+// At  2: leftGain  = max(0,-1) = 0   (left arm is negative, skip)
+//        rightGain = max(0, 3) = 3
+//        candidate = 2 + 0 + 3 = 5     → maxSum = 5
+// Answer = 5  (path: 2 → 3, left subtree skipped)
+const root3 = new TreeNode(2);
+root3.left      = new TreeNode(-1);
+root3.right     = new TreeNode(3);
+root3.left.left = new TreeNode(-2);
+console.log("Mixed tree:", maxPathSum(root3)); // 5  (path: 2 → 3)
+
+// ── Key rules summary ────────────────────────────────────
+console.log("\n--- Key rules ---");
+console.log("1. leftGain  = max(0, maxGain(node.left))  → drop negative arms");
+console.log("2. rightGain = max(0, maxGain(node.right)) → drop negative arms");
+console.log("3. candidate = node.val + leftGain + rightGain → pivot (both arms)");
+console.log("4. gain up   = node.val + max(leftGain, rightGain) → one arm to parent");
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "Why is the 'gain returned to the parent' different from the 'candidate path sum at the current node'? What would go wrong if you mixed them up?",
+        difficulty: "Hard",
+        hint: "The gain returned upward can only use ONE arm (left OR right) because the path must be a simple non-branching sequence — if the parent extends the path further upward, it can only enter this node from one direction. The candidate at the current node uses BOTH arms (left + node + right) because this node is the path's PIVOT — the path goes left-down and right-down, and since it stops here (does not continue to the parent), branching is allowed. Mixing them up: if you return leftGain + node.val + rightGain to the parent, the parent would build a path with a fork (Y-shape), which is not a valid simple path. This is the most common bug in solutions to this problem.",
+      },
+      {
+        question:
+          "Why do we take max(0, childGain) instead of just childGain? What kind of tree does this handle correctly?",
+        difficulty: "Medium",
+        hint: "Taking max(0, childGain) means we only include a child subtree if it contributes positively to the sum. If a subtree's best gain is negative, we prefer to not include it (effectively removing that branch from the path). This correctly handles trees where some or all node values are negative. Example: if node.left has a maximum gain of -5, including it would decrease our path sum, so we treat leftGain as 0 (ignore the left subtree). Without max(0,...), you would always include both children even when they decrease the total, producing a wrong (lower) answer. All-negative trees still work: each node's own value is always included in its candidate, we just skip both negative children.",
+      },
+      {
+        question:
+          "The problem says the path can start and end at any node. How does the algorithm guarantee it finds paths that don't pass through the root?",
+        difficulty: "Hard",
+        hint: "The algorithm updates maxSum at EVERY node during the DFS, not just at the root. Each node acts as a potential pivot: the candidate path = leftGain + node.val + rightGain is computed and compared to maxSum independently for every node in the tree. So if the optimal path is deep in the left subtree, the algorithm finds it when the DFS reaches that subtree's root node — it computes the candidate there and updates maxSum. By the time the DFS returns to the tree's root, maxSum already holds the globally optimal value. The fact that we use maxSum (not the return value of maxGain(root)) as the final answer is what enables this: the return value only passes gain upward, while the actual answer accumulates globally.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Graph Representation
+  // ─────────────────────────────────────────────
+  {
+    id: "graph-representation",
+    title: "Graph Representation",
+    slug: "graph-representation",
+    icon: "Network",
+    difficulty: "Intermediate",
+    description:
+      "Understand how graphs are stored in memory using Adjacency Lists and Adjacency Matrices, and know when to choose each representation.",
+    concept: {
+      explanation:
+        "A graph G = (V, E) consists of a set of vertices (nodes) and edges (connections between nodes). Graphs can be directed or undirected, weighted or unweighted, cyclic or acyclic. There are two primary ways to represent a graph in code. An Adjacency List stores, for each vertex, a list of its neighbors — in JavaScript, a Map or an array of arrays. An Adjacency Matrix is a 2D grid of size V×V where matrix[i][j] = 1 (or the edge weight) if there is an edge from i to j, and 0 otherwise. The choice depends on the graph's density: sparse graphs favor adjacency lists for memory and traversal speed, while dense graphs may use matrices when O(1) edge-existence checks are important.",
+      realLifeAnalogy:
+        "Think of a city's road network. The Adjacency List is like a directory where each city lists only its direct roads — compact and fast for 'where can I go from here?'. The Adjacency Matrix is a big grid with every city pair — O(1) to check 'is there a direct road between X and Y?', but wastes space when most city pairs have no direct road.",
+      keyPoints: [
+        "Adjacency List: Space O(V + E) — ideal for sparse graphs",
+        "Adjacency Matrix: Space O(V²) — wastes memory for sparse graphs but O(1) edge lookup",
+        "Adjacency List: Edge exists check → O(degree(u)). Adjacency Matrix: O(1)",
+        "Adjacency List: Iterate all edges → O(V + E). Matrix: O(V²)",
+        "In interviews, default to adjacency list unless O(1) edge queries are required",
+        "For weighted graphs: adjacency list stores {node, weight} pairs; matrix stores weights instead of 1/0",
+        "Directed graph: adj[u] only contains u's outgoing neighbors",
+        "Undirected graph: add both adj[u].push(v) and adj[v].push(u)",
+      ],
+      timeComplexity:
+        "Adj List: Add vertex O(1), Add edge O(1), Neighbors O(deg(v)) | Adj Matrix: Add edge O(1), Edge exists O(1), Neighbors O(V)",
+      spaceComplexity: "Adj List: O(V + E) | Adj Matrix: O(V²)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Graph Representation in JavaScript =====
+
+// ── Adjacency List ─────────────────────────────
+class GraphList {
+  constructor() { this.adj = new Map(); }
+
+  addVertex(v) {
+    if (!this.adj.has(v)) this.adj.set(v, []);
+  }
+
+  addEdge(u, v) {           // undirected
+    this.addVertex(u); this.addVertex(v);
+    this.adj.get(u).push(v);
+    this.adj.get(v).push(u);
+  }
+
+  addDirectedEdge(u, v) {   // directed
+    this.addVertex(u); this.addVertex(v);
+    this.adj.get(u).push(v);
+  }
+
+  neighbors(v) { return this.adj.get(v) ?? []; }
+  hasEdge(u, v) { return this.adj.get(u)?.includes(v) ?? false; }
+
+  print() {
+    for (const [v, nbrs] of this.adj)
+      console.log("  " + v + " → [" + nbrs.join(", ") + "]");
+  }
+}
+
+const gl = new GraphList();
+[[0,1],[0,2],[1,3],[2,3],[2,4],[3,4]].forEach(([u,v]) => gl.addEdge(u,v));
+
+console.log("Adjacency List:");
+gl.print();
+// 0 → [1, 2]   1 → [0, 3]   2 → [0, 3, 4]   3 → [1, 2, 4]   4 → [2, 3]
+
+console.log("hasEdge(0,1):", gl.hasEdge(0, 1)); // true
+console.log("hasEdge(0,3):", gl.hasEdge(0, 3)); // false
+
+
+// ── Adjacency Matrix ───────────────────────────
+class GraphMatrix {
+  constructor(size) {
+    this.size = size;
+    this.mat  = Array.from({ length: size }, () => new Array(size).fill(0));
+  }
+
+  addEdge(u, v) { this.mat[u][v] = 1; this.mat[v][u] = 1; }
+  hasEdge(u, v) { return this.mat[u][v] === 1; }
+  neighbors(v)  { return this.mat[v].map((w,i) => w ? i : -1).filter(i => i !== -1); }
+
+  print() {
+    const hdr = "     " + [...Array(this.size).keys()].join("  ");
+    console.log(hdr);
+    this.mat.forEach((row, i) => console.log("  " + i + "  [" + row.join(", ") + "]"));
+  }
+}
+
+const gm = new GraphMatrix(5);
+[[0,1],[0,2],[1,3],[2,3],[2,4],[3,4]].forEach(([u,v]) => gm.addEdge(u,v));
+
+console.log("\nAdjacency Matrix (5×5):");
+gm.print();
+// row 0: [0,1,1,0,0]  row 1: [1,0,0,1,0]  row 2: [1,0,0,1,1]
+
+console.log("hasEdge(0,1):", gm.hasEdge(0, 1)); // true
+console.log("hasEdge(0,3):", gm.hasEdge(0, 3)); // false
+console.log("neighbors(2):", gm.neighbors(2));  // [0, 3, 4]
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "When would you choose an Adjacency Matrix over an Adjacency List?",
+        difficulty: "Easy",
+        hint: "Use a matrix when you need O(1) edge-existence queries and the graph is dense (many edges, close to V² total). For sparse graphs (roads, dependency trees, typical interview problems), lists are preferred because they save O(V²) space and iterate neighbors in O(degree) not O(V).",
+      },
+      {
+        question:
+          "How would you represent a weighted directed graph as an adjacency list in JavaScript?",
+        difficulty: "Medium",
+        hint: "Instead of storing plain neighbor IDs, store objects: adj.get(u).push({ to: v, weight: w }). For the matrix version, store the weight value instead of 1, and use 0 or Infinity to indicate 'no edge'. For Dijkstra, the adjacency list with {to, weight} pairs is the standard.",
+      },
+      {
+        question:
+          "Given an adjacency list representation, how do you find the number of edges in an undirected graph?",
+        difficulty: "Medium",
+        hint: "Sum the lengths of all neighbor lists and divide by 2 (each undirected edge is counted once for each endpoint): edges = sum(adj[v].length for all v) / 2. For a directed graph, don't divide — each directed edge appears exactly once in the list of its source node.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Graph DFS
+  // ─────────────────────────────────────────────
+  {
+    id: "graph-dfs",
+    title: "Graph DFS",
+    slug: "graph-dfs",
+    icon: "GitFork",
+    difficulty: "Intermediate",
+    description:
+      "Traverse a graph depth-first — exploring as far as possible along each branch before backtracking — using both recursive and iterative (stack-based) approaches.",
+    concept: {
+      explanation:
+        "Depth-First Search (DFS) on a graph explores as deep as possible along each path before backtracking. Unlike tree DFS, graph DFS must track a visited set to avoid processing the same node twice (graphs can have cycles). The recursive implementation marks the current node visited, then recursively visits each unvisited neighbor. The iterative version uses an explicit stack — push the start node, then loop: pop a node, if not visited mark it and push all its unvisited neighbors. DFS is used to detect cycles, find connected components, perform topological sort, and solve maze/path problems. Time complexity is O(V + E) because every vertex and edge is processed exactly once.",
+      realLifeAnalogy:
+        "DFS is like exploring a cave system with a torch. You always pick the first unexplored tunnel and go as deep as you can, dropping a breadcrumb at every junction. When you hit a dead end, you retrace your steps to the last junction with unexplored tunnels. The breadcrumbs prevent you from going in circles. This 'go deep first, backtrack later' strategy is exactly how the call stack manages recursive DFS.",
+      keyPoints: [
+        "Always maintain a visited set to avoid infinite loops in cyclic graphs",
+        "Time: O(V + E) — each vertex and edge is processed once",
+        "Space: O(V) for the visited set + O(V) recursion stack depth",
+        "Recursive DFS risks stack overflow on very large graphs — prefer iterative for production code",
+        "DFS order depends on which neighbor is visited first (adjacency list order)",
+        "Back edges in the DFS tree indicate cycles",
+        "Connected components: run DFS from each unvisited node, count starts",
+        "Iterative DFS uses a stack (LIFO); swapping it for a queue gives BFS (FIFO)",
+      ],
+      timeComplexity: "O(V + E)",
+      spaceComplexity: "O(V) — visited set + recursion stack or explicit stack",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Graph DFS in JavaScript =====
+// Directed graph: 0→1, 0→2, 1→3, 1→4, 2→4, 3→4
+
+const adj = { 0:[1,2], 1:[3,4], 2:[4], 3:[4], 4:[] };
+
+// ── Recursive DFS ──────────────────────────────
+function dfsRecursive(graph, start) {
+  const visited = new Set();
+  const order   = [];
+
+  function dfs(node) {
+    visited.add(node);
+    order.push(node);
+    for (const neighbor of graph[node]) {
+      if (!visited.has(neighbor)) dfs(neighbor);
+    }
+  }
+
+  dfs(start);
+  return order;
+}
+
+console.log("Recursive DFS from 0:", dfsRecursive(adj, 0));
+// [0, 1, 3, 4, 2]
+
+
+// ── Iterative DFS (explicit stack) ────────────
+function dfsIterative(graph, start) {
+  const visited = new Set();
+  const order   = [];
+  const stack   = [start];
+
+  while (stack.length > 0) {
+    const node = stack.pop();
+    if (visited.has(node)) continue;
+    visited.add(node);
+    order.push(node);
+    // Push neighbors in reverse so left-most is processed first
+    for (const neighbor of [...graph[node]].reverse()) {
+      if (!visited.has(neighbor)) stack.push(neighbor);
+    }
+  }
+  return order;
+}
+
+console.log("Iterative DFS from 0:", dfsIterative(adj, 0));
+// [0, 1, 3, 4, 2]
+
+
+// ── DFS on undirected graph ────────────────────
+const undirected = {
+  A:["B","C"], B:["A","D","E"], C:["A","F"],
+  D:["B"],     E:["B","F"],    F:["C","E"],
+};
+console.log("\nDFS from A:", dfsRecursive(undirected, "A"));
+// A, B, D, E, F, C
+
+
+// ── Count connected components ────────────────
+function countComponents(graph) {
+  const visited = new Set();
+  let count = 0;
+
+  function dfs(node) {
+    visited.add(node);
+    for (const nbr of graph[node])
+      if (!visited.has(nbr)) dfs(nbr);
+  }
+
+  for (const node of Object.keys(graph)) {
+    if (!visited.has(node)) { dfs(node); count++; }
+  }
+  return count;
+}
+
+const disc = { 0:[1], 1:[0], 2:[3], 3:[2], 4:[] };
+console.log("\nConnected components:", countComponents(disc)); // 3
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "What is the difference between DFS on a tree vs DFS on a graph?",
+        difficulty: "Easy",
+        hint: "In a tree there are no cycles, so you never revisit a node — no visited set needed. In a graph, cycles exist, so without a visited set DFS would loop infinitely. Also, trees have a natural root while graph DFS can start from any node and may need multiple DFS calls to cover a disconnected graph.",
+      },
+      {
+        question:
+          "Why might recursive DFS fail on a large graph, and how do you fix it?",
+        difficulty: "Medium",
+        hint: "Recursive DFS uses the call stack — one frame per node in the deepest path. JavaScript engines have a call stack limit (~10,000–15,000 frames). A chain graph of 100,000 nodes will throw 'Maximum call stack size exceeded'. Fix: use iterative DFS with an explicit stack in heap memory — no engine-imposed depth limit.",
+      },
+      {
+        question: "How do you find all connected components in an undirected graph?",
+        difficulty: "Medium",
+        hint: "Maintain a global visited set. Iterate all vertices. When you find an unvisited vertex, run DFS from it — this explores its entire component. Count each DFS start as one component. O(V + E) total. To group nodes, pass a component ID and label each visited node.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Graph BFS
+  // ─────────────────────────────────────────────
+  {
+    id: "graph-bfs",
+    title: "Graph BFS",
+    slug: "graph-bfs",
+    icon: "Layers",
+    difficulty: "Intermediate",
+    description:
+      "Traverse a graph breadth-first — visiting all neighbors at the current distance before going deeper — and use it to find shortest paths in unweighted graphs.",
+    concept: {
+      explanation:
+        "Breadth-First Search (BFS) explores a graph level by level: all nodes at distance 1 first, then distance 2, and so on. It uses a queue (FIFO) instead of a stack. BFS requires a visited set to avoid revisiting nodes. It is the algorithm of choice for shortest paths in unweighted graphs — nodes are always discovered in order of increasing distance from the source. The level of discovery can be recorded by tracking which queue pass a node was first reached. BFS also finds connected components and can test bipartiteness. Time complexity is O(V + E) — identical to DFS — but space can be higher since the queue may hold an entire level at once.",
+      realLifeAnalogy:
+        "BFS is like a ripple when you drop a stone in a pond. The wave expands outward in rings, reaching all points at distance 1 first, then distance 2. In a social network, BFS from a person first finds all direct friends, then friends-of-friends. This is how 'degrees of separation' is computed and why BFS is the natural choice for shortest-path problems.",
+      keyPoints: [
+        "BFS guarantees the shortest path (fewest edges) in an unweighted graph",
+        "Uses a queue (FIFO) — dequeue from front, enqueue neighbors at back",
+        "Mark nodes visited WHEN ENQUEUING, not when dequeuing, to avoid duplicates",
+        "Time: O(V + E). Space: O(V)",
+        "BFS level = shortest distance from source — track a dist[] array alongside the queue",
+        "BFS tree: edges used to discover new nodes form a shortest-path tree",
+        "For weighted shortest paths, use Dijkstra (BFS only works for unit-weight edges)",
+        "Use a head-pointer trick for O(1) dequeue instead of shift()",
+      ],
+      timeComplexity: "O(V + E)",
+      spaceComplexity: "O(V) — queue + visited set",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Graph BFS in JavaScript =====
+// Directed graph: 0→1, 0→2, 1→3, 1→4, 2→4, 3→4
+
+const adj = { 0:[1,2], 1:[3,4], 2:[4], 3:[4], 4:[] };
+
+// ── Basic BFS ──────────────────────────────────
+function bfs(graph, start) {
+  const visited = new Set([start]);
+  const queue   = [start];
+  const order   = [];
+  let head = 0;
+
+  while (head < queue.length) {
+    const node = queue[head++];
+    order.push(node);
+    for (const neighbor of graph[node]) {
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);   // mark WHEN enqueuing
+        queue.push(neighbor);
+      }
+    }
+  }
+  return order;
+}
+
+console.log("BFS from 0:", bfs(adj, 0));
+// [0, 1, 2, 3, 4]
+
+
+// ── BFS with shortest distances ────────────────
+function bfsDistance(graph, start) {
+  const dist  = { [start]: 0 };
+  const queue = [start];
+  let head = 0;
+
+  while (head < queue.length) {
+    const node = queue[head++];
+    for (const neighbor of graph[node]) {
+      if (dist[neighbor] === undefined) {
+        dist[neighbor] = dist[node] + 1;
+        queue.push(neighbor);
+      }
+    }
+  }
+  return dist;
+}
+
+console.log("\nShortest distances from 0:", bfsDistance(adj, 0));
+// { 0:0, 1:1, 2:1, 3:2, 4:2 }
+
+
+// ── BFS shortest path reconstruction ──────────
+function bfsShortestPath(graph, start, end) {
+  if (start === end) return [start];
+  const prev    = {};
+  const visited = new Set([start]);
+  const queue   = [start];
+  let head = 0;
+
+  while (head < queue.length) {
+    const node = queue[head++];
+    for (const nbr of graph[node]) {
+      if (!visited.has(nbr)) {
+        visited.add(nbr);
+        prev[nbr] = node;
+        if (nbr === end) {
+          const path = [];
+          for (let v = end; v !== undefined; v = prev[v]) path.unshift(v);
+          return path;
+        }
+        queue.push(nbr);
+      }
+    }
+  }
+  return null;
+}
+
+const undirected = {
+  0:[1,2], 1:[0,3,4], 2:[0,4], 3:[1,4], 4:[1,2,3],
+};
+console.log("\nShortest path 0→4:", bfsShortestPath(undirected, 0, 4));
+// [0, 1, 4]
+console.log("Shortest path 0→3:", bfsShortestPath(undirected, 0, 3));
+// [0, 1, 3]
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "Why is BFS preferred over DFS for finding the shortest path in an unweighted graph?",
+        difficulty: "Easy",
+        hint: "BFS explores nodes in order of increasing distance — all nodes at distance 1 before distance 2. The first time BFS reaches the target, it has taken the fewest possible edges. DFS explores deep paths first and might reach the target via a long path before trying shorter ones, so it cannot guarantee the shortest path without exhaustive search.",
+      },
+      {
+        question:
+          "Why must you mark nodes visited when ENQUEUING rather than when DEQUEUING?",
+        difficulty: "Medium",
+        hint: "If you mark visited on dequeue, the same node can be added to the queue multiple times by different neighbors before it's dequeued. In dense graphs this causes O(E) extra queue entries and duplicated work. Marking on enqueue: once a node is in the queue, all future encounters are ignored immediately, keeping queue size O(V).",
+      },
+      {
+        question:
+          "How would you use BFS to find the number of levels (diameter) in a tree?",
+        difficulty: "Medium",
+        hint: "Run BFS from any node; the max distance in the result is the eccentricity of the start node. To find the true diameter: BFS from any node, find the farthest node u; BFS from u, find the farthest node v; dist(u,v) is the diameter. This two-BFS trick works in O(V + E).",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Cycle Detection
+  // ─────────────────────────────────────────────
+  {
+    id: "cycle-detection",
+    title: "Cycle Detection",
+    slug: "cycle-detection",
+    icon: "RefreshCw",
+    difficulty: "Advanced",
+    description:
+      "Detect cycles in both undirected graphs (parent-tracking DFS) and directed graphs (three-color DFS), and understand why the approaches differ.",
+    concept: {
+      explanation:
+        "A cycle in a graph is a path that starts and ends at the same vertex. Cycle detection applies to deadlock detection, dependency resolution, and validating that a graph is a DAG. The strategy differs between undirected and directed graphs. For undirected graphs: run DFS and track the parent of each node. If you reach a neighbor that is already visited AND is not the node's direct parent, a back edge exists — a cycle. For directed graphs: use a three-color scheme — white (unvisited), gray (in the current DFS call stack), black (fully processed). If DFS encounters a gray neighbor, that neighbor is an ancestor in the current path, forming a back edge and a cycle.",
+      realLifeAnalogy:
+        "Cycle detection in undirected graphs: if hiking trails, you reach a marked junction you didn't just come from, you've found a loop. For directed graphs, think of task dependencies: if Task A requires B, B requires C, and C requires A — a circular dependency prevents any task from starting. The three-color DFS maps exactly: gray means 'I'm in the middle of this task,' and encountering a gray node means 'this task is waiting for itself.'",
+      keyPoints: [
+        "Undirected: DFS with parent tracking — visited neighbor ≠ parent → cycle",
+        "Directed: 3-color DFS — gray neighbor encountered → back edge → cycle",
+        "Why parent tracking fails for directed graphs: u→v doesn't imply v→u",
+        "Undirected cycle detection also works with Union-Find (DSU) — O(α(V)) per edge",
+        "No cycle in a directed graph ↔ topological sort succeeds",
+        "Back edge in DFS tree = cycle; tree/forward/cross edges do not",
+        "Handle disconnected graphs by running DFS from every unvisited node",
+        "Cycle in directed graph → cannot topologically sort → report circular dependency error",
+      ],
+      timeComplexity: "O(V + E)",
+      spaceComplexity: "O(V) — color array + recursion stack",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Cycle Detection in JavaScript =====
+
+// ── Undirected: DFS with parent tracking ──────
+// Graph: 0-1, 1-2, 2-3, 3-0  (square → has cycle)
+const undirected = { 0:[1,3], 1:[0,2], 2:[1,3], 3:[2,0] };
+
+function hasCycleUndirected(graph) {
+  const visited = new Set();
+
+  function dfs(node, parent) {
+    visited.add(node);
+    for (const nbr of graph[node]) {
+      if (!visited.has(nbr)) {
+        if (dfs(nbr, node)) return true;
+      } else if (nbr !== parent) {
+        return true;  // visited AND not parent → back edge → cycle
+      }
+    }
+    return false;
+  }
+
+  for (const node of Object.keys(graph))
+    if (!visited.has(node) && dfs(node, null)) return true;
+
+  return false;
+}
+
+console.log("Undirected cycle (square):", hasCycleUndirected(undirected)); // true
+const tree = { 0:[1,2], 1:[0], 2:[0,3], 3:[2] };
+console.log("Undirected cycle (tree):  ", hasCycleUndirected(tree));  // false
+
+
+// ── Directed: 3-color DFS ──────────────────────
+// Colors: 0=white, 1=gray (in stack), 2=black (done)
+// Graph: 0→1, 1→2, 2→3, 3→1  (cycle 1→2→3→1)
+const directed = { 0:[1], 1:[2], 2:[3], 3:[1] };
+
+function hasCycleDirected(graph) {
+  const color = Object.fromEntries(Object.keys(graph).map(k => [k, 0]));
+
+  function dfs(node) {
+    color[node] = 1; // gray
+    for (const nbr of graph[node]) {
+      if (color[nbr] === 1) return true; // gray → back edge → cycle
+      if (color[nbr] === 0 && dfs(nbr)) return true;
+    }
+    color[node] = 2; // black
+    return false;
+  }
+
+  for (const node of Object.keys(graph))
+    if (color[node] === 0 && dfs(node)) return true;
+
+  return false;
+}
+
+console.log("\nDirected cycle (1→2→3→1):", hasCycleDirected(directed)); // true
+const dag = { 0:[1,2], 1:[3], 2:[3], 3:[] };
+console.log("Directed cycle (DAG):     ", hasCycleDirected(dag));  // false
+
+
+// ── Union-Find (undirected, bonus) ────────────
+class DSU {
+  constructor(n) { this.p = Array.from({length:n},(_,i)=>i); }
+  find(x) { return this.p[x]===x ? x : (this.p[x]=this.find(this.p[x])); }
+  union(a,b) {
+    const [ra,rb]=[this.find(a),this.find(b)];
+    if(ra===rb) return false; // already connected → cycle
+    this.p[ra]=rb; return true;
+  }
+}
+
+function hasCycleDSU(n, edges) {
+  const dsu = new DSU(n);
+  for (const [u,v] of edges) if (!dsu.union(u,v)) return true;
+  return false;
+}
+
+console.log("\nDSU cycle:", hasCycleDSU(4,[[0,1],[1,2],[2,3],[3,0]])); // true
+console.log("DSU no cycle:", hasCycleDSU(4,[[0,1],[0,2],[2,3]]));     // false
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "Why does parent tracking for undirected graphs not work for directed graphs?",
+        difficulty: "Medium",
+        hint: "In an undirected graph edge (u,v) exists in both directions — DFS going u→v will 'see' u as v's neighbor, appearing as a cycle without parent tracking. In a directed graph, u→v doesn't imply v→u, so the parent trick doesn't apply. More importantly, a directed cycle requires following edge directions. The three-color approach detects exactly this: a gray node in the current DFS stack means we've found a directed path back to it.",
+      },
+      {
+        question:
+          "What does a cycle in a directed graph mean practically, and what algorithms break?",
+        difficulty: "Medium",
+        hint: "A directed cycle makes topological sort impossible — no valid linear ordering exists. Algorithms assuming a DAG (Kahn's topo sort, dependency resolution, DAG shortest-path DP) will fail or loop. In practice: package managers detect circular dependencies, build systems report 'circular imports', and OS deadlock detectors flag circular wait chains.",
+      },
+      {
+        question:
+          "How would you detect a cycle in a linked list? Is this a graph problem?",
+        difficulty: "Easy",
+        hint: "A linked list is a directed graph where each node has at most one outgoing edge (its next pointer). Floyd's Cycle Detection (tortoise and hare) uses two pointers moving at different speeds: if they ever meet, there's a cycle. This is O(1) space vs O(n) for a visited set. It's the same graph problem but specialized — the singly-linked structure allows the pointer trick.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Topological Sort
+  // ─────────────────────────────────────────────
+  {
+    id: "topological-sort",
+    title: "Topological Sort",
+    slug: "topological-sort",
+    icon: "ArrowUpDown",
+    difficulty: "Advanced",
+    description:
+      "Order the vertices of a DAG so every directed edge points from an earlier vertex to a later one — the foundation of dependency resolution, build systems, and scheduling.",
+    concept: {
+      explanation:
+        "Topological Sort produces a linear ordering of vertices of a Directed Acyclic Graph (DAG) such that for every edge u→v, u appears before v. It is only possible on DAGs — a cycle makes it impossible. Two classical algorithms exist. Kahn's Algorithm (BFS-based): compute in-degrees for all vertices, enqueue all zero-in-degree nodes, repeatedly dequeue a node, append to result, decrement neighbors' in-degrees and enqueue any that reach zero. If the result has fewer than V nodes, a cycle exists. DFS-based: run DFS; when a node is completely finished (all descendants processed), push it onto a stack; reverse the stack to get topological order.",
+      realLifeAnalogy:
+        "Imagine getting dressed: put on socks before shoes, underwear before pants, shirt before jacket. These are dependencies — some tasks must come before others. Topological sort finds a valid order. If there's a circular constraint (A before B, B before C, C before A), no schedule exists — that's the cycle.",
+      keyPoints: [
+        "Only works on DAGs — any cycle makes topological sort impossible",
+        "Kahn's (BFS): compute in-degrees, remove zero-in-degree nodes repeatedly — O(V + E)",
+        "DFS-based: push node to stack AFTER all descendants are visited; reverse — O(V + E)",
+        "Kahn's result with < V nodes → cycle detected",
+        "Multiple valid orderings can exist — Kahn's gives a BFS-like order",
+        "LeetCode 207 (Can Finish) and 210 (Course Order) are canonical problems",
+        "Applications: build systems, package managers, task scheduling",
+        "Every tree's pre-order DFS traversal is a topological ordering",
+      ],
+      timeComplexity: "O(V + E)",
+      spaceComplexity: "O(V) — in-degree array + queue",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Topological Sort in JavaScript =====
+// DAG: 0→1, 0→2, 1→3, 2→3, 3→4
+// Valid orders: [0,1,2,3,4] or [0,2,1,3,4]
+
+const N = 5;
+const edges = [[0,1],[0,2],[1,3],[2,3],[3,4]];
+
+// ── Kahn's Algorithm (BFS-based) ──────────────
+function topoSortKahn(n, edges) {
+  const adj      = Array.from({length:n}, ()=>[]);
+  const inDegree = new Array(n).fill(0);
+
+  for (const [u,v] of edges) { adj[u].push(v); inDegree[v]++; }
+
+  const queue = [];
+  for (let i=0; i<n; i++) if (inDegree[i]===0) queue.push(i);
+
+  const result = [];
+  let head = 0;
+
+  while (head < queue.length) {
+    const node = queue[head++];
+    result.push(node);
+    for (const nbr of adj[node]) {
+      inDegree[nbr]--;
+      if (inDegree[nbr]===0) queue.push(nbr);
+    }
+  }
+
+  return result.length===n ? result : null; // null = cycle
+}
+
+console.log("Kahn's:", topoSortKahn(N, edges));
+// [0, 1, 2, 3, 4]
+
+
+// ── DFS-based Topological Sort ─────────────────
+function topoSortDFS(n, edges) {
+  const adj     = Array.from({length:n}, ()=>[]);
+  const visited = new Set();
+  const inStack = new Set();
+  const stack   = [];
+  let cycle     = false;
+
+  for (const [u,v] of edges) adj[u].push(v);
+
+  function dfs(node) {
+    if (cycle) return;
+    inStack.add(node); visited.add(node);
+    for (const nbr of adj[node]) {
+      if (inStack.has(nbr)) { cycle=true; return; }
+      if (!visited.has(nbr)) dfs(nbr);
+    }
+    inStack.delete(node);
+    stack.push(node); // push AFTER all descendants
+  }
+
+  for (let i=0; i<n; i++) if (!visited.has(i)) dfs(i);
+  return cycle ? null : stack.reverse();
+}
+
+console.log("DFS:   ", topoSortDFS(N, edges));
+// [0, 2, 1, 3, 4]  (order may vary)
+
+
+// ── LeetCode 207 & 210 ────────────────────────
+function canFinish(numCourses, prerequisites) {
+  return topoSortKahn(numCourses, prerequisites) !== null;
+}
+function findOrder(numCourses, prerequisites) {
+  return topoSortKahn(numCourses, prerequisites) ?? [];
+}
+
+console.log("\ncanFinish [cycle]:",  canFinish(3, [[1,0],[2,1],[0,2]])); // false
+console.log("canFinish [DAG]:  ",  canFinish(4, [[1,0],[2,0],[3,1]])); // true
+console.log("findOrder:        ", findOrder(4, [[1,0],[2,0],[3,1],[3,2]]));
+// [0, 1, 2, 3]
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "How does Kahn's algorithm detect a cycle while computing topological sort?",
+        difficulty: "Medium",
+        hint: "If the graph has a cycle, those nodes never reach in-degree 0 — each is blocked by another in the cycle. Kahn's only processes zero-in-degree nodes. When done, if result.length < V, the unprocessed nodes form cycles. This is why we check result.length === n and return null on failure — exactly what LeetCode 207 asks.",
+      },
+      {
+        question:
+          "In the DFS-based approach, why do we push a node to the result stack AFTER visiting all its neighbors?",
+        difficulty: "Medium",
+        hint: "In topological order, a node must appear BEFORE everything it points to. DFS explores all of a node's dependencies recursively before returning. When DFS finishes with a node, all its outgoing paths are explored — so pushing it now gives 'this comes before everything it points to.' Reversing the stack produces correct topological order.",
+      },
+      {
+        question:
+          "Can a graph have multiple valid topological orderings?",
+        difficulty: "Easy",
+        hint: "Yes — any time two nodes have in-degree 0 simultaneously in Kahn's, either can be processed first. For example A→C and B→C (no A↔B edge): both [A,B,C] and [B,A,C] are valid. To enumerate all orderings, use backtracking: try each zero-in-degree node, recurse, then undo. Exponential worst case but complete.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Dijkstra's Algorithm
+  // ─────────────────────────────────────────────
+  {
+    id: "dijkstra",
+    title: "Dijkstra's Algorithm",
+    slug: "dijkstra",
+    icon: "Target",
+    difficulty: "Advanced",
+    description:
+      "Find the shortest path from a source to all other vertices in a weighted graph with non-negative edge weights using a greedy priority-queue approach.",
+    concept: {
+      explanation:
+        "Dijkstra's algorithm finds the shortest path from a source vertex to all others in a graph with non-negative edge weights. It is greedy: at each step it processes the unvisited vertex with the smallest known distance. The dist[] array is initialized to infinity for all vertices except the source (dist[src] = 0). A min-priority queue drives the process: extract the vertex with minimum distance, then 'relax' all its outgoing edges — if going through this vertex gives a shorter path to a neighbor, update the neighbor's distance and re-add it to the queue. In JavaScript, a true min-heap gives O((V + E) log V) performance.",
+      realLifeAnalogy:
+        "Dijkstra's is like expanding a 'settled zone' of cities with known shortest distances. You start at the source with distance 0. At every step, pick the nearest unsettled city, mark it settled, and update distances to all cities reachable from it. Think of Google Maps: it expands outward from your current location, always choosing the nearest unvisited checkpoint until it reaches your destination.",
+      keyPoints: [
+        "Requires non-negative edge weights — negative edges break the greedy assumption",
+        "Greedy: once a vertex is finalized (popped from PQ), its distance never decreases",
+        "dist[] starts as [0, ∞, ∞, ...∞] for source = 0",
+        "Relaxation: if dist[u] + w(u,v) < dist[v], update dist[v] and push to PQ",
+        "Lazy deletion: if popped distance > dist[v], it's stale — skip it",
+        "Time O((V + E) log V) with binary heap; O(V²) with simple array",
+        "For negative weights use Bellman-Ford O(VE); for DAGs use DP in topo order O(V+E)",
+        "Dijkstra is BFS on weighted graphs — BFS is Dijkstra where all weights = 1",
+      ],
+      timeComplexity: "O((V + E) log V) with binary heap | O(V²) with array PQ",
+      spaceComplexity: "O(V + E)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Dijkstra's Algorithm in JavaScript =====
+// Graph: 0→1(4), 0→2(1), 2→1(2), 2→3(5), 1→3(1), 3→4(3)
+// Shortest from 0: 0→2(1)→1(3)→3(4)→4(7)
+
+// ── MinHeap ────────────────────────────────────
+class MinHeap {
+  constructor() { this.h=[]; }
+  push(x) { this.h.push(x); this._up(this.h.length-1); }
+  pop()  {
+    const top=this.h[0], last=this.h.pop();
+    if(this.h.length){ this.h[0]=last; this._dn(0); }
+    return top;
+  }
+  get size(){ return this.h.length; }
+  _up(i){
+    while(i>0){
+      const p=(i-1)>>1;
+      if(this.h[p][0]<=this.h[i][0]) break;
+      [this.h[p],this.h[i]]=[this.h[i],this.h[p]]; i=p;
+    }
+  }
+  _dn(i){
+    const n=this.h.length;
+    while(true){
+      let m=i,l=2*i+1,r=2*i+2;
+      if(l<n&&this.h[l][0]<this.h[m][0])m=l;
+      if(r<n&&this.h[r][0]<this.h[m][0])m=r;
+      if(m===i) break;
+      [this.h[m],this.h[i]]=[this.h[i],this.h[m]]; i=m;
+    }
+  }
+}
+
+// ── Dijkstra ───────────────────────────────────
+function dijkstra(n, edges, src) {
+  const adj = Array.from({length:n}, ()=>[]);
+  for (const [u,v,w] of edges) adj[u].push([v,w]);
+
+  const dist = new Array(n).fill(Infinity);
+  dist[src] = 0;
+
+  const pq = new MinHeap();
+  pq.push([0, src]); // [dist, node]
+
+  while (pq.size > 0) {
+    const [d, u] = pq.pop();
+    if (d > dist[u]) continue; // stale — skip
+
+    for (const [v, w] of adj[u]) {
+      if (dist[u] + w < dist[v]) {
+        dist[v] = dist[u] + w;
+        pq.push([dist[v], v]);
+      }
+    }
+  }
+  return dist;
+}
+
+const edges = [[0,1,4],[0,2,1],[2,1,2],[2,3,5],[1,3,1],[3,4,3]];
+const dist  = dijkstra(5, edges, 0);
+console.log("Shortest distances from 0:", dist);
+// [0, 3, 1, 4, 7]
+// 0→1: 3  (via 0→2→1: 1+2, better than direct 4)
+// 0→3: 4  (via 0→2→1→3: 1+2+1)
+// 0→4: 7  (via 0→2→1→3→4: 1+2+1+3)
+
+
+// ── Dijkstra with path reconstruction ─────────
+function dijkstraPath(n, edges, src, dst) {
+  const adj  = Array.from({length:n}, ()=>[]);
+  for (const [u,v,w] of edges) adj[u].push([v,w]);
+
+  const dist = new Array(n).fill(Infinity);
+  const prev = new Array(n).fill(-1);
+  dist[src]  = 0;
+
+  const pq = new MinHeap();
+  pq.push([0, src]);
+
+  while (pq.size > 0) {
+    const [d, u] = pq.pop();
+    if (d > dist[u]) continue;
+    for (const [v, w] of adj[u]) {
+      if (dist[u]+w < dist[v]) {
+        dist[v]=dist[u]+w; prev[v]=u; pq.push([dist[v],v]);
+      }
+    }
+  }
+
+  if (dist[dst]===Infinity) return null;
+  const path=[];
+  for(let v=dst; v!==-1; v=prev[v]) path.unshift(v);
+  return { path, cost: dist[dst] };
+}
+
+console.log("\nPath 0→4:", dijkstraPath(5, edges, 0, 4));
+// { path: [0, 2, 1, 3, 4], cost: 7 }
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Why does Dijkstra fail with negative edge weights?",
+        difficulty: "Medium",
+        hint: "Dijkstra's greedy assumption: once a node is finalized (popped from PQ), its distance won't improve. Negative edges break this — a path through a negative edge discovered later could give a shorter distance to an already-finalized node. For negative weights, use Bellman-Ford O(VE). For negative cycles (where shortest path is -∞), even Bellman-Ford can't give a finite answer.",
+      },
+      {
+        question:
+          "What is the 'lazy deletion' technique in Dijkstra, and why is it needed?",
+        difficulty: "Medium",
+        hint: "When we find a shorter path to node v already in the PQ, we push a new (shorter_dist, v) entry instead of updating in-place (complex). The old stale entry remains. When it's later popped, we check: if popped distance > dist[v], skip it — it's stale. This keeps the algorithm correct while allowing O(E) total PQ entries, still O((V+E) log V) overall.",
+      },
+      {
+        question:
+          "Network Delay Time (LeetCode 743): find the time for all nodes to receive a signal from node k.",
+        difficulty: "Hard",
+        hint: "Run Dijkstra from source k. The answer is the maximum value in dist[] (the last node to receive the signal). If any dist[i] is still Infinity, return -1 (some node is unreachable). This is the canonical Dijkstra LeetCode problem — the maximum shortest-path distance is when the signal reaches the farthest node.",
+      },
+    ],
+  },
+
 ];
 
 export const categories: CategoryInfo[] = [
@@ -3237,7 +4998,7 @@ export const categories: CategoryInfo[] = [
     icon: "Code",
     description:
       "Learn data structures and algorithms with JavaScript -- arrays, linked lists, stacks, queues, sorting, searching, and more.",
-    topicCount: 27,
+    topicCount: 32,
     color: "from-emerald-400 to-teal-500",
     available: true,
   },
@@ -3268,5 +5029,132 @@ export const categories: CategoryInfo[] = [
     topicCount: 0,
     color: "from-violet-400 to-indigo-500",
     available: false,
+  },
+];
+
+export const dsaModules: DSAModule[] = [
+  {
+    id: "js-foundations",
+    level: 1,
+    title: "JavaScript Foundations",
+    difficulty: "Beginner",
+    description: "Core language primitives required before writing any algorithm.",
+    topicIds: ["variables-and-data-types", "operators", "loops", "functions"],
+  },
+  {
+    id: "complexity",
+    level: 2,
+    title: "Complexity Analysis",
+    difficulty: "Beginner",
+    description: "The vocabulary needed to evaluate every algorithm you write.",
+    topicIds: ["time-complexity"],
+  },
+  {
+    id: "arrays-strings",
+    level: 3,
+    title: "Arrays & Strings",
+    difficulty: "Beginner",
+    description: "The two most interview-frequent data structures.",
+    topicIds: ["arrays", "strings"],
+  },
+  {
+    id: "hashing",
+    level: 4,
+    title: "Hashing",
+    difficulty: "Intermediate",
+    description: "O(1) lookup structures and classic hash-map patterns.",
+    topicIds: ["objects", "map", "set", "objects-vs-map", "weakmap"],
+  },
+  {
+    id: "searching",
+    level: 5,
+    title: "Searching Algorithms",
+    difficulty: "Intermediate",
+    description: "Linear scan as baseline; binary search on sorted data.",
+    topicIds: ["linear-search", "binary-search"],
+  },
+  {
+    id: "sorting",
+    level: 6,
+    title: "Sorting Algorithms",
+    difficulty: "Intermediate",
+    description: "From naive O(n²) sorts to divide-and-conquer O(n log n).",
+    topicIds: [
+      "bubble-sort",
+      "selection-sort",
+      "insertion-sort",
+      "merge-sort",
+      "quick-sort",
+    ],
+  },
+  {
+    id: "linked-lists",
+    level: 7,
+    title: "Linked Lists",
+    difficulty: "Intermediate",
+    description: "Pointer-based linear structure — build, traverse, detect, mutate.",
+    topicIds: ["linked-list", "middle-linked-list", "linked-list-cycle"],
+  },
+  {
+    id: "stacks",
+    level: 8,
+    title: "Stacks",
+    difficulty: "Intermediate",
+    description: "LIFO structure implemented two ways, plus a canonical application.",
+    topicIds: ["stack-array", "stack-linked-list"],
+  },
+  {
+    id: "queues",
+    level: 9,
+    title: "Queues",
+    difficulty: "Intermediate",
+    description: "FIFO structure in four flavours — array, linked list, circular, two-stack.",
+    topicIds: ["queue-array", "queue-linked-list", "circular-queue", "queue-using-stack"],
+  },
+  {
+    id: "trees",
+    level: 10,
+    title: "Binary Trees",
+    difficulty: "Advanced",
+    description: "Hierarchical recursive structure — traversals, BST, and hard problems.",
+    topicIds: [
+      "binary-tree-basics",
+      "tree-traversals",
+      "binary-search-tree",
+      "diameter-binary-tree",
+      "lowest-common-ancestor",
+      "maximum-path-sum",
+    ],
+  },
+  {
+    id: "graphs",
+    level: 11,
+    title: "Graphs",
+    difficulty: "Advanced",
+    description: "Networks as vertices + edges — traversal, cycles, shortest paths.",
+    topicIds: [
+      "graph-representation",
+      "graph-dfs",
+      "graph-bfs",
+      "cycle-detection",
+      "topological-sort",
+      "dijkstra",
+    ],
+  },
+  {
+    id: "dynamic-programming",
+    level: 12,
+    title: "Dynamic Programming",
+    difficulty: "Advanced",
+    description: "Memoisation and tabulation to turn exponential recursion into polynomial time.",
+    topicIds: [],
+  },
+  {
+    id: "interview-patterns",
+    level: 13,
+    title: "Interview Patterns",
+    difficulty: "Advanced",
+    description: "Cross-cutting algorithmic templates and mock interview capstone.",
+    topicIds: [],
   },
 ];

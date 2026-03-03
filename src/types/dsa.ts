@@ -43,3 +43,12 @@ export interface ProgressState {
   completedTopics: string[];
   lastVisited?: string;
 }
+
+export interface DSAModule {
+  id: string;
+  level: number;
+  title: string;
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  description: string;
+  topicIds: string[];
+}

@@ -29,6 +29,18 @@ import { QueueArrayVisualization } from "./visualizations/QueueArrayVisualizatio
 import { QueueLinkedListVisualization } from "./visualizations/QueueLinkedListVisualization";
 import { CircularQueueVisualization } from "./visualizations/CircularQueueVisualization";
 import { QueueUsingStackVisualization } from "./visualizations/QueueUsingStackVisualization";
+import { BinaryTreeBasicsVisualization } from "./visualizations/BinaryTreeBasicsVisualization";
+import { TreeTraversalsVisualization } from "./visualizations/TreeTraversalsVisualization";
+import { BinarySearchTreeVisualization } from "./visualizations/BinarySearchTreeVisualization";
+import { DiameterBinaryTreeVisualization } from "./visualizations/DiameterBinaryTreeVisualization";
+import { LowestCommonAncestorVisualization } from "./visualizations/LowestCommonAncestorVisualization";
+import { MaximumPathSumVisualization } from "./visualizations/MaximumPathSumVisualization";
+import { GraphRepresentationVisualization } from "./visualizations/GraphRepresentationVisualization";
+import { GraphDFSVisualization } from "./visualizations/GraphDFSVisualization";
+import { GraphBFSVisualization } from "./visualizations/GraphBFSVisualization";
+import { CycleDetectionVisualization } from "./visualizations/CycleDetectionVisualization";
+import { TopologicalSortVisualization } from "./visualizations/TopologicalSortVisualization";
+import { DijkstraVisualization } from "./visualizations/DijkstraVisualization";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface VisualizationSectionProps {
@@ -64,6 +76,18 @@ const visualizationMap: Record<string, React.ComponentType> = {
   "queue-linked-list": QueueLinkedListVisualization,
   "circular-queue": CircularQueueVisualization,
   "queue-using-stack": QueueUsingStackVisualization,
+  "binary-tree-basics":        BinaryTreeBasicsVisualization,
+  "tree-traversals":           TreeTraversalsVisualization,
+  "binary-search-tree":        BinarySearchTreeVisualization,
+  "diameter-binary-tree":      DiameterBinaryTreeVisualization,
+  "lowest-common-ancestor":    LowestCommonAncestorVisualization,
+  "maximum-path-sum":          MaximumPathSumVisualization,
+  "graph-representation":      GraphRepresentationVisualization,
+  "graph-dfs":                 GraphDFSVisualization,
+  "graph-bfs":                 GraphBFSVisualization,
+  "cycle-detection":           CycleDetectionVisualization,
+  "topological-sort":          TopologicalSortVisualization,
+  "dijkstra":                  DijkstraVisualization,
 };
 
 export function VisualizationSection({ topicSlug }: VisualizationSectionProps) {
