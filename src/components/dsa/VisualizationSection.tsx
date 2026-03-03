@@ -25,10 +25,14 @@ import { MiddleOfLinkedListVisualization } from "./visualizations/MiddleOfLinked
 import { LinkedListCycleVisualization } from "./visualizations/LinkedListCycleVisualization";
 import { StackArrayVisualization } from "./visualizations/StackArrayVisualization";
 import { StackLinkedListVisualization } from "./visualizations/StackLinkedListVisualization";
+import { QueueArrayVisualization } from "./visualizations/QueueArrayVisualization";
+import { QueueLinkedListVisualization } from "./visualizations/QueueLinkedListVisualization";
+import { CircularQueueVisualization } from "./visualizations/CircularQueueVisualization";
+import { QueueUsingStackVisualization } from "./visualizations/QueueUsingStackVisualization";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface VisualizationSectionProps {
-  topicSlug: string;
+  readonly topicSlug: string;
 }
 
 const visualizationMap: Record<string, React.ComponentType> = {
@@ -56,6 +60,10 @@ const visualizationMap: Record<string, React.ComponentType> = {
   "linked-list-cycle": LinkedListCycleVisualization,
   "stack-array": StackArrayVisualization,
   "stack-linked-list": StackLinkedListVisualization,
+  "queue-array": QueueArrayVisualization,
+  "queue-linked-list": QueueLinkedListVisualization,
+  "circular-queue": CircularQueueVisualization,
+  "queue-using-stack": QueueUsingStackVisualization,
 };
 
 export function VisualizationSection({ topicSlug }: VisualizationSectionProps) {

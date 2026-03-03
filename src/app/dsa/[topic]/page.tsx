@@ -157,45 +157,41 @@ export default function TopicPage() {
 
           {/* Prev / Next Navigation */}
           <Separator className="my-8" />
-          <div className="flex items-stretch gap-4 pb-8">
+          <div className="flex flex-col sm:flex-row gap-3 pb-8">
             {prevTopic ? (
               <Link href={`/dsa/${prevTopic.slug}`} className="flex-1">
                 <Card className="h-full hover:bg-accent/50 transition-colors group cursor-pointer">
-                  <CardContent className="flex items-center gap-3 p-4">
-                    <ChevronLeft className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
-                    <div className="min-w-0">
-                      <p className="text-[11px] text-muted-foreground uppercase tracking-wide">
-                        Previous
-                      </p>
-                      <p className="font-medium text-sm truncate">
-                        {prevTopic.title}
-                      </p>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground mb-1.5 group-hover:text-primary transition-colors">
+                      <ChevronLeft className="h-3.5 w-3.5 shrink-0" />
+                      <span>Previous</span>
                     </div>
+                    <p className="font-semibold text-sm leading-snug">
+                      {prevTopic.title}
+                    </p>
                   </CardContent>
                 </Card>
               </Link>
             ) : (
-              <div className="flex-1" />
+              <div className="flex-1 hidden sm:block" />
             )}
 
             {nextTopic ? (
               <Link href={`/dsa/${nextTopic.slug}`} className="flex-1">
                 <Card className="h-full hover:bg-accent/50 transition-colors group cursor-pointer">
-                  <CardContent className="flex items-center justify-end gap-3 p-4 text-right">
-                    <div className="min-w-0">
-                      <p className="text-[11px] text-muted-foreground uppercase tracking-wide">
-                        Next
-                      </p>
-                      <p className="font-medium text-sm truncate">
-                        {nextTopic.title}
-                      </p>
+                  <CardContent className="p-4 text-right">
+                    <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground mb-1.5 group-hover:text-primary transition-colors">
+                      <span>Next</span>
+                      <ChevronRight className="h-3.5 w-3.5 shrink-0" />
                     </div>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
+                    <p className="font-semibold text-sm leading-snug">
+                      {nextTopic.title}
+                    </p>
                   </CardContent>
                 </Card>
               </Link>
             ) : (
-              <div className="flex-1" />
+              <div className="flex-1 hidden sm:block" />
             )}
           </div>
         </div>

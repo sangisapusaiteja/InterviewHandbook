@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
+import { MobileSidebarProvider } from "@/contexts/MobileSidebarContext";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = localFont({
@@ -39,10 +41,14 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TooltipProvider>
-            <div className="min-h-screen flex flex-col">
-              <Navbar />
-              <main className="flex-1">{children}</main>
-            </div>
+            <MobileSidebarProvider>
+              <div className="min-h-screen flex flex-col">
+                <Navbar />
+                {/* pb-16 prevents content being hidden behind the fixed mobile bottom nav */}
+                <main className="flex-1 pb-16 lg:pb-0">{children}</main>
+                <MobileBottomNav />
+              </div>
+            </MobileSidebarProvider>
           </TooltipProvider>
         </ThemeProvider>
       </body>

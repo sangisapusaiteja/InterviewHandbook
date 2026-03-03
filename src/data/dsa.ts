@@ -2586,6 +2586,511 @@ console.log("isEmpty:", s.isEmpty());        // false
   },
 
   // ─────────────────────────────────────────────
+  // Queue using Array
+  // ─────────────────────────────────────────────
+  {
+    id: "queue-array",
+    title: "Queue using Array",
+    slug: "queue-array",
+    icon: "Layers",
+    difficulty: "Intermediate",
+    description:
+      "Implement a FIFO Queue backed by a JavaScript array. Learn why shift() is O(n), and how a head-pointer turns dequeue into O(1) amortized.",
+    concept: {
+      explanation:
+        "A queue is a First-In-First-Out (FIFO) data structure — the element added first is the first to leave. The simplest implementation uses a JavaScript array: enqueue() appends to the rear with push() in O(1), while dequeue() removes from the front. The naive way to dequeue is shift(), but shift() is O(n) because JavaScript must re-index every remaining element. A smarter approach tracks a `head` index that advances on each dequeue, keeping dequeue O(1). The backing array is compacted periodically (e.g., when half its length is wasted), keeping memory usage bounded.",
+      realLifeAnalogy:
+        "Think of a ticket queue at a movie theater. People join at the back (push). With naive shift(), every person physically shuffles forward one step when the front person leaves — slow for a crowd. The head-pointer trick is like drawing a chalk mark for 'current front': only the mark moves, not the people. Much faster.",
+      keyPoints: [
+        "FIFO: First-In-First-Out — the element enqueued first is dequeued first",
+        "enqueue: push() to rear — O(1) always",
+        "dequeue naive: shift() from front — O(n), avoid in interviews",
+        "dequeue optimized: advance a head index — O(1) amortized",
+        "Compact the backing array when head > items.length / 2 to reclaim memory",
+        "peek(): return items[head] — O(1)",
+        "isEmpty(): head >= items.length",
+        "For fixed-size queues with no wasted memory, prefer the Circular Queue",
+      ],
+      timeComplexity:
+        "enqueue O(1) · dequeue O(n) naive / O(1) head-pointer · peek O(1)",
+      spaceComplexity: "O(n)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Queue using Array =====
+
+// ── Naive (illustrative only — shift is O(n)) ─
+class NaiveQueue {
+  constructor() { this.items = []; }
+  enqueue(val) { this.items.push(val); }
+  dequeue()    { return this.items.length ? this.items.shift() : null; }
+  peek()       { return this.items[0] ?? null; }
+  isEmpty()    { return this.items.length === 0; }
+  size()       { return this.items.length; }
+}
+
+// ── Optimized: head pointer — dequeue O(1) ────
+class Queue {
+  constructor() {
+    this.items = [];
+    this.head  = 0;   // index of the current front element
+  }
+
+  enqueue(val) { this.items.push(val); }
+
+  dequeue() {
+    if (this.isEmpty()) return null;
+    const val = this.items[this.head];
+    this.head++;
+    // Reclaim memory when the wasted front is > half the array
+    if (this.head > this.items.length / 2) {
+      this.items = this.items.slice(this.head);
+      this.head  = 0;
+    }
+    return val;
+  }
+
+  peek()    { return this.isEmpty() ? null : this.items[this.head]; }
+  isEmpty() { return this.head >= this.items.length; }
+  size()    { return this.items.length - this.head; }
+  toArray() { return this.items.slice(this.head); }
+}
+
+// ── Demo ──────────────────────────────────────
+const q = new Queue();
+q.enqueue(10);
+q.enqueue(20);
+q.enqueue(30);
+
+console.log("Queue   :", q.toArray());   // [10, 20, 30]
+console.log("peek    :", q.peek());      // 10
+console.log("dequeue :", q.dequeue());   // 10
+console.log("dequeue :", q.dequeue());   // 20
+console.log("Queue   :", q.toArray());   // [30]
+console.log("size    :", q.size());      // 1
+
+// ── LeetCode 933: Number of Recent Calls ──────
+class RecentCounter {
+  constructor() { this.q = new Queue(); }
+  ping(t) {
+    this.q.enqueue(t);
+    while (this.q.peek() < t - 3000) this.q.dequeue();
+    return this.q.size();
+  }
+}
+
+const rc = new RecentCounter();
+console.log("\nRecentCounter pings:");
+console.log(rc.ping(1));     // 1
+console.log(rc.ping(100));   // 2
+console.log(rc.ping(3001));  // 3
+console.log(rc.ping(3002));  // 3  (ping(1) slides out of the 3000ms window)
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "Why is using shift() for dequeue bad, and how do you fix it?",
+        difficulty: "Easy",
+        hint: "shift() is O(n) because JavaScript must decrement the index of every remaining element after removing index 0. Fix it with a head pointer: track the front index, increment it on dequeue, and periodically compact the backing array. This gives O(1) amortized dequeue.",
+      },
+      {
+        question:
+          "Implement a Recent Calls counter that returns the number of requests in the last 3000 ms. (LeetCode 933)",
+        difficulty: "Easy",
+        hint: "Use a queue. On each ping(t), enqueue t, then dequeue any t' where t' < t − 3000. The queue size is the answer. O(1) amortized per call because each ping is enqueued and dequeued exactly once.",
+      },
+      {
+        question:
+          "How does an array-based queue waste memory, and when should you prefer a Circular Queue?",
+        difficulty: "Medium",
+        hint: "Even with a head pointer, dequeued slots at the front accumulate over time. In a long-running system with continuous enqueue/dequeue cycles the backing array grows unbounded. A circular queue reuses those freed slots via modulo arithmetic, keeping memory fixed at the declared capacity.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Queue using Linked List
+  // ─────────────────────────────────────────────
+  {
+    id: "queue-linked-list",
+    title: "Queue using Linked List",
+    slug: "queue-linked-list",
+    icon: "Network",
+    difficulty: "Intermediate",
+    description:
+      "Build a Queue with a singly linked list using head and tail pointers. Both enqueue and dequeue are true O(1) — no amortized cost, no wasted slots.",
+    concept: {
+      explanation:
+        "A linked-list queue maintains two pointers: head (front) and tail (rear). enqueue() appends a new node at the tail in O(1). dequeue() removes the head node in O(1). Both are true O(1) with no amortized cost and no memory waste from old slots — a dequeued node is immediately eligible for garbage collection. The only trade-off over an array queue is the extra .next pointer per node (one word of overhead per element).",
+      realLifeAnalogy:
+        "Picture a buffet serving line where kitchen staff attach new trays to the back (enqueue at tail) and the first guest takes from the front (dequeue from head). Both ends work independently and instantly — no one has to shuffle, no slots sit empty.",
+      keyPoints: [
+        "head = front of queue — dequeue removes head, head = head.next",
+        "tail = rear of queue  — enqueue appends to tail, tail = newNode",
+        "When dequeuing the last element, set both head and tail to null",
+        "Both enqueue and dequeue are true O(1) — no amortized spikes",
+        "No wasted slots — dequeued nodes are immediately garbage-collected",
+        "Extra memory cost: one .next pointer per node vs a packed array",
+        "Ideal for BFS, task scheduling, and any queue of unknown size",
+        "Foundation for more advanced structures: deque, priority queue",
+      ],
+      timeComplexity: "enqueue O(1) · dequeue O(1) · peek O(1)",
+      spaceComplexity: "O(n)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Queue using Linked List =====
+
+class Node {
+  constructor(val) {
+    this.val  = val;
+    this.next = null;
+  }
+}
+
+class Queue {
+  constructor() {
+    this.head  = null;  // front — dequeue here
+    this.tail  = null;  // rear  — enqueue here
+    this._size = 0;
+  }
+
+  enqueue(val) {
+    const node = new Node(val);
+    if (!this.tail) {
+      this.head = this.tail = node;   // first element
+    } else {
+      this.tail.next = node;
+      this.tail      = node;
+    }
+    this._size++;
+  }
+
+  dequeue() {
+    if (!this.head) return null;
+    const val = this.head.val;
+    this.head = this.head.next;
+    if (!this.head) this.tail = null; // queue is now empty — clear tail too!
+    this._size--;
+    return val;
+  }
+
+  peek()    { return this.head ? this.head.val : null; }
+  isEmpty() { return this.head === null; }
+  size()    { return this._size; }
+
+  toArray() {
+    const out = [];
+    let cur = this.head;
+    while (cur) { out.push(cur.val); cur = cur.next; }
+    return out;
+  }
+}
+
+// ── Demo ──────────────────────────────────────
+const q = new Queue();
+q.enqueue(1);
+q.enqueue(2);
+q.enqueue(3);
+
+console.log("Queue   :", q.toArray());   // [1, 2, 3]
+console.log("peek    :", q.peek());      // 1
+console.log("dequeue :", q.dequeue());   // 1
+console.log("dequeue :", q.dequeue());   // 2
+console.log("Queue   :", q.toArray());   // [3]
+console.log("size    :", q.size());      // 1
+
+// ── BFS using Queue ───────────────────────────
+function bfs(graph, start) {
+  const visited = new Set([start]);
+  const q       = new Queue();
+  const order   = [];
+  q.enqueue(start);
+
+  while (!q.isEmpty()) {
+    const node = q.dequeue();
+    order.push(node);
+    for (const neighbor of (graph[node] || [])) {
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        q.enqueue(neighbor);
+      }
+    }
+  }
+  return order;
+}
+
+const graph = { A: ["B", "C"], B: ["D"], C: ["D", "E"], D: [], E: [] };
+console.log("\nBFS from A:", bfs(graph, "A")); // ["A", "B", "C", "D", "E"]
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "What is the advantage of a linked-list queue over an array-based queue?",
+        difficulty: "Easy",
+        hint: "Linked-list gives true O(1) enqueue and dequeue — no amortized spikes and no wasted memory slots. Array queues either pay O(n) for shift() or accumulate wasted head slots. The downside is slightly more memory per element due to the .next pointer.",
+      },
+      {
+        question:
+          "What bug occurs if you forget to set tail = null when dequeuing the last element?",
+        difficulty: "Easy",
+        hint: "tail still points to the now-deleted node. The next enqueue will set tail.next on a stale reference and then update tail to the new node — but head is still null. The queue reports size 1 but peek()/dequeue() return null because head was never updated. Always set both head and tail to null when the last element is removed.",
+      },
+      {
+        question:
+          "Implement BFS (Breadth-First Search) on a graph using a queue.",
+        difficulty: "Medium",
+        hint: "Enqueue the source node, mark it visited. Loop: dequeue a node, record it, then enqueue all unvisited neighbors and mark them visited. The FIFO order ensures nodes are explored level by level. Time O(V + E), Space O(V) for the visited set and queue.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Circular Queue
+  // ─────────────────────────────────────────────
+  {
+    id: "circular-queue",
+    title: "Circular Queue",
+    slug: "circular-queue",
+    icon: "RefreshCw",
+    difficulty: "Intermediate",
+    description:
+      "A fixed-size ring buffer where rear and front pointers wrap around with modulo arithmetic — no wasted slots, O(1) enqueue and dequeue. The foundation of OS I/O buffers and streaming pipelines.",
+    concept: {
+      explanation:
+        "A circular queue (ring buffer) is a fixed-capacity array where the rear and front indices wrap around using modulo arithmetic. When rear reaches the last index, it wraps to 0, reusing slots freed by earlier dequeues. enqueue: store value at rear, then rear = (rear + 1) % capacity. dequeue: read value at front, then front = (front + 1) % capacity. The queue is full when (rear + 1) % capacity === front, and empty when front === -1 (or tracked via a separate size counter).",
+      realLifeAnalogy:
+        "Imagine a conveyor belt with a fixed number of slots and no end — it loops back on itself. Items are placed at the rear marker and removed from the front marker. When the rear marker completes a revolution, it reuses the emptied slots at the front. The belt never wastes a slot.",
+      keyPoints: [
+        "Fixed capacity — size is set at construction and never changes",
+        "enqueue: data[rear] = val; rear = (rear + 1) % capacity",
+        "dequeue: front = (front + 1) % capacity",
+        "Full: (rear + 1) % capacity === front   (or size === capacity)",
+        "Empty: front === -1   (or size === 0)",
+        "No wasted slots — every freed slot is immediately reusable",
+        "Real-world uses: OS keyboard/I-O buffers, audio/video streaming, producer-consumer rings",
+        "LeetCode 622: Design Circular Queue",
+      ],
+      timeComplexity: "enqueue O(1) · dequeue O(1) · Front O(1) · Rear O(1)",
+      spaceComplexity: "O(capacity) — fixed array allocated at construction",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Circular Queue / Ring Buffer (LeetCode 622) =====
+
+class CircularQueue {
+  constructor(k) {
+    this.data     = new Array(k);
+    this.capacity = k;
+    this.front    = -1;  // -1 signals empty
+    this.rear     = -1;
+    this._size    = 0;
+  }
+
+  enqueue(val) {
+    if (this.isFull()) return false;
+    if (this.isEmpty()) this.front = 0;   // first element
+    this.rear            = (this.rear + 1) % this.capacity;
+    this.data[this.rear] = val;
+    this._size++;
+    return true;
+  }
+
+  dequeue() {
+    if (this.isEmpty()) return false;
+    if (this.front === this.rear) {        // removing the last element
+      this.front = this.rear = -1;
+    } else {
+      this.front = (this.front + 1) % this.capacity;
+    }
+    this._size--;
+    return true;
+  }
+
+  Front()   { return this.isEmpty() ? -1 : this.data[this.front]; }
+  Rear()    { return this.isEmpty() ? -1 : this.data[this.rear]; }
+  isEmpty() { return this._size === 0; }
+  isFull()  { return this._size === this.capacity; }
+  size()    { return this._size; }
+}
+
+// ── Demo ──────────────────────────────────────
+const cq = new CircularQueue(4);
+
+console.log("enqueue 1 :", cq.enqueue(1));  // true
+console.log("enqueue 2 :", cq.enqueue(2));  // true
+console.log("enqueue 3 :", cq.enqueue(3));  // true
+console.log("enqueue 4 :", cq.enqueue(4));  // true
+console.log("enqueue 5 :", cq.enqueue(5));  // false — full
+console.log("Front     :", cq.Front());     // 1
+console.log("Rear      :", cq.Rear());      // 4
+
+console.log("\ndequeue   :", cq.dequeue()); // true  (removes 1, slot 0 freed)
+console.log("enqueue 5 :", cq.enqueue(5)); // true  (slot 0 reused via wrap-around!)
+console.log("Front     :", cq.Front());    // 2
+console.log("Rear      :", cq.Rear());     // 5
+console.log("size      :", cq.size());     // 4
+
+// ── Visualize the wrap-around ─────────────────
+//  capacity = 4, indices 0..3
+//
+//  After enqueue(1,2,3,4):   data = [1, 2, 3, 4]  front=0  rear=3
+//  After dequeue():          data = [_, 2, 3, 4]  front=1  rear=3
+//  After enqueue(5):         data = [5, 2, 3, 4]  front=1  rear=0  ← wrapped!
+//
+//  Reading in order from front: 2, 3, 4, 5 ✓
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "Implement Design Circular Queue (LeetCode 622). What is the full/empty detection formula?",
+        difficulty: "Medium",
+        hint: "Track a size counter alongside front and rear. isFull: size === capacity. isEmpty: size === 0. On enqueue: rear = (rear + 1) % capacity, increment size. On dequeue: front = (front + 1) % capacity, decrement size. Reset front and rear to -1 when size reaches 0 (optional but cleaner).",
+      },
+      {
+        question:
+          "What are real-world uses of a circular queue / ring buffer?",
+        difficulty: "Easy",
+        hint: "Ring buffers are ubiquitous in systems programming: OS keyboard and I/O buffers, audio and video streaming pipelines (each frame occupies the next slot), network packet queues, and producer-consumer problems with a fixed buffer. The circular layout means no memory allocation after initialization — old slots are overwritten.",
+      },
+      {
+        question:
+          "How does a circular queue solve the 'false full' problem of a linear array queue?",
+        difficulty: "Easy",
+        hint: "A linear array queue with a head pointer becomes falsely full when rear reaches the end of the array even though earlier indices (before head) are empty. A circular queue wraps rear back to 0 via (rear + 1) % capacity, reusing those freed slots. Memory utilization stays at 100% up to capacity.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Queue using Stack
+  // ─────────────────────────────────────────────
+  {
+    id: "queue-using-stack",
+    title: "Queue using Stack",
+    slug: "queue-using-stack",
+    icon: "GitMerge",
+    difficulty: "Intermediate",
+    description:
+      "Simulate a FIFO queue with two LIFO stacks. Pouring one stack into another reverses order, converting LIFO to FIFO. Amortized O(1) per operation. Classic LeetCode 232.",
+    concept: {
+      explanation:
+        "You maintain two stacks: inbox (receives all enqueues) and outbox (serves all dequeues). enqueue always pushes onto inbox. dequeue pops from outbox; if outbox is empty, all elements from inbox are transferred to outbox by popping one by one — this reversal converts LIFO order into FIFO order. Each element moves at most twice (once into inbox, once into outbox), so the amortized cost per operation is O(1) even though a single dequeue can cost O(n) in the worst case.",
+      realLifeAnalogy:
+        "Imagine two stacks of plates: inbox (dirty plates stacked up) and outbox (plates ready to serve). Guests always add dirty plates to the inbox. When the outbox is empty and someone needs a plate, a worker flips all inbox plates into the outbox — reversing their order. The first plate dirtied (bottom of inbox) is now on top of outbox, served first. That is FIFO from two stacks.",
+      keyPoints: [
+        "inbox stack: receives all enqueues via push()",
+        "outbox stack: serves all dequeues and peeks via pop()",
+        "Transfer: when outbox is empty, pour entire inbox into outbox — this reverses order",
+        "Reversal converts LIFO (stack) order into FIFO (queue) order",
+        "Each element moves at most twice → O(1) amortized dequeue",
+        "Worst-case single dequeue: O(n) when outbox is empty and inbox has n items",
+        "peek() uses the same transfer-if-empty logic as dequeue()",
+        "LeetCode 232: Implement Queue using Stacks",
+      ],
+      timeComplexity:
+        "enqueue O(1) · dequeue O(1) amortized / O(n) worst case · peek O(1) amortized",
+      spaceComplexity: "O(n)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Queue using Two Stacks (LeetCode 232) =====
+
+class MyQueue {
+  constructor() {
+    this.inbox  = [];   // all enqueues go here
+    this.outbox = [];   // all dequeues come from here
+  }
+
+  enqueue(val) {
+    this.inbox.push(val);
+  }
+
+  // Transfer inbox → outbox only when outbox is empty
+  _transfer() {
+    if (this.outbox.length === 0) {
+      while (this.inbox.length) {
+        this.outbox.push(this.inbox.pop()); // pop reverses order → FIFO!
+      }
+    }
+  }
+
+  dequeue() {
+    this._transfer();
+    return this.outbox.length ? this.outbox.pop() : null;
+  }
+
+  peek() {
+    this._transfer();
+    return this.outbox.length
+      ? this.outbox[this.outbox.length - 1]
+      : null;
+  }
+
+  isEmpty() { return this.inbox.length === 0 && this.outbox.length === 0; }
+  size()    { return this.inbox.length + this.outbox.length; }
+}
+
+// ── Demo ──────────────────────────────────────
+const q = new MyQueue();
+q.enqueue(1);
+q.enqueue(2);
+q.enqueue(3);
+
+console.log("peek    :", q.peek());       // 1  (first in = first out)
+console.log("dequeue :", q.dequeue());    // 1
+console.log("dequeue :", q.dequeue());    // 2
+q.enqueue(4);
+q.enqueue(5);
+console.log("peek    :", q.peek());       // 3
+console.log("size    :", q.size());       // 3
+console.log("dequeue :", q.dequeue());    // 3
+console.log("dequeue :", q.dequeue());    // 4
+console.log("dequeue :", q.dequeue());    // 5
+console.log("isEmpty :", q.isEmpty());    // true
+
+// ── How the transfer works ────────────────────
+//
+//  After enqueue(1, 2, 3):
+//    inbox  = [1, 2, 3]  top → 3
+//    outbox = []
+//
+//  dequeue() → outbox empty, so transfer:
+//    pop 3 from inbox → push to outbox
+//    pop 2 from inbox → push to outbox
+//    pop 1 from inbox → push to outbox
+//    inbox  = []
+//    outbox = [3, 2, 1]  top → 1  ← reversed = FIFO ✓
+//
+//  pop from outbox → 1  (first in, first out) ✓
+//  next dequeue()  → outbox still [3, 2], pop → 2 ✓
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "Why does pouring the inbox stack into the outbox produce FIFO order?",
+        difficulty: "Easy",
+        hint: "A stack is LIFO, so the first element pushed onto inbox sits at the bottom; the last is at the top. Popping inbox into outbox reverses this: the last-pushed element goes to the bottom of outbox and the first-pushed element ends up at the top. Popping from outbox now gives the original first-in order — exactly FIFO.",
+      },
+      {
+        question:
+          "What is the amortized O(1) cost of dequeue? Explain with the accounting method.",
+        difficulty: "Medium",
+        hint: "Each element is pushed and popped exactly twice: once onto inbox (enqueue) and once onto outbox (transfer). Assign 2 credits to each enqueue — 1 for the inbox push, 1 stored as credit. When the transfer fires, each element uses its stored credit to pay for the pop-from-inbox and push-to-outbox. Total: 2 operations per element → O(1) amortized, even though a single dequeue can be O(n) worst-case.",
+      },
+      {
+        question: "How would you implement a Stack using two Queues?",
+        difficulty: "Hard",
+        hint: "Maintain one main queue. On push(val): enqueue val, then rotate the queue (dequeue every existing element and re-enqueue them) so the new val is at the front. pop()/top() simply dequeue from the front. push is O(n), pop is O(1). Alternatively keep two queues: on push, enqueue val to the empty queue, pour all of the full queue into it (so val is at the front), then swap queue names.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
   // Stack using Linked List
   // ─────────────────────────────────────────────
   {
@@ -2732,7 +3237,7 @@ export const categories: CategoryInfo[] = [
     icon: "Code",
     description:
       "Learn data structures and algorithms with JavaScript -- arrays, linked lists, stacks, queues, sorting, searching, and more.",
-    topicCount: 23,
+    topicCount: 27,
     color: "from-emerald-400 to-teal-500",
     available: true,
   },
