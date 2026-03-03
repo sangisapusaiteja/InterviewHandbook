@@ -20,7 +20,7 @@ export function ConsoleSection({ output }: ConsoleSectionProps) {
       </CardHeader>
       <CardContent className="p-0">
         <div className="border-t bg-zinc-950 rounded-b-lg">
-          <ScrollArea className="h-[500px]">
+          <ScrollArea className="h-[200px] lg:h-[500px]">
             <div className="p-4 font-mono text-sm">
               <AnimatePresence mode="wait">
                 {output.length === 0 ? (

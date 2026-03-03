@@ -81,9 +81,10 @@ export function CodeEditorSection({
   }, [code]);
 
   return (
-    <div className="space-y-4">
-      <Card>
-        <CardHeader className="pb-3">
+    <div className="flex flex-col lg:flex-row gap-4">
+      {/* Editor */}
+      <Card className="flex flex-col flex-1 min-w-0">
+        <CardHeader className="pb-3 shrink-0">
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg">Code Editor</CardTitle>
             <div className="flex items-center gap-2">
@@ -121,10 +122,10 @@ export function CodeEditorSection({
             </div>
           </div>
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent className="p-0 flex-1">
           <div className="border-t rounded-b-lg overflow-hidden">
             <Editor
-              height="400px"
+              height="500px"
               language={language}
               value={code}
               onChange={(value) => setCode(value || "")}
@@ -147,7 +148,10 @@ export function CodeEditorSection({
         </CardContent>
       </Card>
 
-      <ConsoleSection output={output} />
+      {/* Console — full width on mobile, right column on desktop */}
+      <div className="flex-1 min-w-0">
+        <ConsoleSection output={output} />
+      </div>
     </div>
   );
 }

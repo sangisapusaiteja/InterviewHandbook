@@ -153,7 +153,7 @@ export function TopicSidebar({
           mobileOpen ? "translate-x-0" : "-translate-x-full",
           "lg:sticky lg:top-14 lg:translate-x-0",
           "lg:rounded-none lg:shadow-none",
-          desktopCollapsed ? "lg:w-16" : "lg:w-72"
+          desktopCollapsed ? "lg:w-16" : "lg:w-96"
         )}
       >
         {/* ── Header ── */}
