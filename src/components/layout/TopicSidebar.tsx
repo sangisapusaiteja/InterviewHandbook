@@ -36,6 +36,78 @@ import {
   X,
   Lock,
   GitFork,
+  FileCode,
+  FileText,
+  Code,
+  Settings,
+  Heading,
+  Bold,
+  Link as LinkIcon,
+  Image,
+  List,
+  MessageSquare,
+  Ruler,
+  Route,
+  Volume2,
+  Video,
+  PenTool,
+  Shapes,
+  ImageIcon,
+  FileAudio,
+  Tags,
+  Smartphone,
+  Share2,
+  Star,
+  Bot,
+  Accessibility,
+  UserCheck,
+  Tag,
+  Keyboard,
+  HardDrive,
+  Clock,
+  MapPin,
+  GripVertical,
+  Cpu,
+  Paintbrush,
+  MousePointerClick,
+  Palette,
+  Maximize,
+  Square,
+  Frame,
+  AlertTriangle,
+  Monitor,
+  LayoutDashboard,
+  Move,
+  Crosshair,
+  Pin,
+  Expand,
+  AlignLeft,
+  Columns,
+  ArrowRightLeft,
+  AlignHorizontalSpaceAround,
+  AlignVerticalSpaceAround,
+  AlignCenter,
+  WrapText,
+  Scaling,
+  Grid3X3,
+  Rows3,
+  Space,
+  GitCompare,
+  LayoutTemplate,
+  MonitorSmartphone,
+  Waves,
+  Container,
+  Timer,
+  RotateCcw,
+  RotateCw,
+  Play,
+  Film,
+  Variable,
+  Minimize,
+  Eye,
+  Crop,
+  RectangleHorizontal,
+  Sparkles,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
@@ -46,10 +118,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { DSATopic } from "@/types/dsa";
+import { DSATopic, DSAModule } from "@/types/dsa";
 import { useState, useEffect } from "react";
 import { useMobileSidebar } from "@/contexts/MobileSidebarContext";
-import { dsaModules } from "@/data/dsa";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Boxes,
@@ -78,6 +149,113 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Network,
   Braces,
   GitFork,
+  FileCode,
+  FileText,
+  Code,
+  Settings,
+  Heading,
+  Bold,
+  Link: LinkIcon,
+  Image,
+  List,
+  MessageSquare,
+  Ruler,
+  Route,
+  Volume2,
+  Video,
+  PenTool,
+  Shapes,
+  ImageIcon,
+  FileAudio,
+  Tags,
+  Smartphone,
+  Share2,
+  Star,
+  Bot,
+  Accessibility,
+  UserCheck,
+  Tag,
+  Keyboard,
+  HardDrive,
+  Clock,
+  MapPin,
+  GripVertical,
+  Cpu,
+  Paintbrush,
+  MousePointerClick,
+  Palette,
+  Maximize,
+  Square,
+  Frame,
+  AlertTriangle,
+  Monitor,
+  LayoutDashboard,
+  Move,
+  Crosshair,
+  Pin,
+  Expand,
+  AlignLeft,
+  Columns,
+  ArrowRightLeft,
+  AlignHorizontalSpaceAround,
+  AlignVerticalSpaceAround,
+  AlignCenter,
+  WrapText,
+  Scaling,
+  Grid3X3,
+  Rows3,
+  Space,
+  GitCompare,
+  LayoutTemplate,
+  MonitorSmartphone,
+  Waves,
+  Container,
+  Timer,
+  RotateCcw,
+  RotateCw,
+  Play,
+  Film,
+  Variable,
+  Minimize,
+  Eye,
+  Crop,
+  RectangleHorizontal,
+  Sparkles,
+  ChevronRight: ChevronRight,
+};
+
+const moduleIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  // HTML modules
+  "html-basics": Code,
+  "forms-and-content": LayoutGrid,
+  "semantic-html": Layers,
+  "media-elements": Video,
+  "seo-and-metadata": Search,
+  "accessibility": Accessibility,
+  "html5-apis": Cpu,
+  // DSA modules
+  "js-foundations": Braces,
+  "complexity": TrendingUp,
+  "arrays-strings": Boxes,
+  "hashing": Hash,
+  "searching": Target,
+  "sorting": ArrowUpDown,
+  "linked-lists": Link2,
+  "stacks": Layers,
+  "queues": ListPlus,
+  "trees": GitFork,
+  "graphs": Network,
+  "dynamic-programming": Zap,
+  "interview-patterns": Scale,
+  // CSS modules
+  "css-fundamentals": Paintbrush,
+  "css-selectors-specificity": MousePointerClick,
+  "css-layout-basics": LayoutDashboard,
+  "css-flexbox": Columns,
+  "css-grid": Grid3X3,
+  "css-responsive-design": Smartphone,
+  "css-animations-transitions": Play,
+  "css-advanced": Sparkles,
 };
 
 const DIFFICULTY_COLOR: Record<string, string> = {
@@ -95,11 +273,19 @@ const DIFFICULTY_DOT: Record<string, string> = {
 interface TopicSidebarProps {
   topics: DSATopic[];
   completedTopics: string[];
+  basePath?: string;
+  modules?: DSAModule[];
+  sidebarTitle?: string;
+  sidebarDescription?: string;
 }
 
 export function TopicSidebar({
   topics,
   completedTopics,
+  basePath = "/dsa",
+  modules = [],
+  sidebarTitle = "DSA Topics",
+  sidebarDescription = "Master data structures & algorithms",
 }: Readonly<TopicSidebarProps>) {
   const pathname = usePathname();
   const { open: mobileOpen, setOpen: setMobileOpen } = useMobileSidebar();
@@ -109,14 +295,14 @@ export function TopicSidebar({
   const topicMap = new Map(topics.map((t) => [t.id, t]));
 
   // Find which module the active topic belongs to
-  const activeTopic = topics.find((t) => pathname === `/dsa/${t.slug}`);
-  const activeModuleId = dsaModules.find(
+  const activeTopic = topics.find((t) => pathname === `${basePath}/${t.slug}`);
+  const activeModuleId = modules.find(
     (m) => activeTopic && m.topicIds.includes(activeTopic.id)
   )?.id;
 
   // Collapsible state — auto-open the active module on first render
   const [expandedModules, setExpandedModules] = useState<Set<string>>(
-    () => new Set(activeModuleId ? [activeModuleId] : [dsaModules[0]?.id ?? ""])
+    () => new Set(activeModuleId ? [activeModuleId] : [modules[0]?.id ?? ""])
   );
 
   // Close mobile sidebar on navigation
@@ -174,10 +360,10 @@ export function TopicSidebar({
             <div className="flex items-start justify-between gap-2">
               <div>
                 <h2 className="font-bold text-base tracking-tight">
-                  DSA Topics
+                  {sidebarTitle}
                 </h2>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  Master data structures & algorithms
+                  {sidebarDescription}
                 </p>
               </div>
 
@@ -236,31 +422,41 @@ export function TopicSidebar({
           <ScrollArea type="always" className="h-full">
             <nav className={cn("py-2", iconOnly ? "px-2" : "px-3 pb-6")}>
 
-              {/* ── COLLAPSED: flat icon strip ── */}
+              {/* ── COLLAPSED: module icon strip ── */}
               {iconOnly ? (
-                <div className="space-y-0.5">
-                  {topics.map((topic) => {
-                    const Icon = iconMap[topic.icon] || Circle;
-                    const isActive = pathname === `/dsa/${topic.slug}`;
-                    const isCompleted = completedTopics.includes(topic.id);
-                    const difficultyColor =
-                      DIFFICULTY_COLOR[topic.difficulty] ??
-                      "text-muted-foreground";
+                <div className="space-y-1">
+                  {modules.map((module) => {
+                    const ModuleIcon = moduleIconMap[module.id] || Circle;
+                    const isActiveModule = module.id === activeModuleId;
+                    const isEmpty = module.topicIds.length === 0;
+                    const moduleTopics = module.topicIds
+                      .map((id) => topicMap.get(id))
+                      .filter(Boolean) as DSATopic[];
+                    const moduleCompleted = moduleTopics.filter((t) =>
+                      completedTopics.includes(t.id)
+                    ).length;
+                    const allDone = moduleCompleted === moduleTopics.length && moduleTopics.length > 0;
+                    const dotColor = DIFFICULTY_DOT[module.difficulty] ?? "bg-muted-foreground";
+
+                    // Navigate to first topic in module on click
+                    const firstTopic = moduleTopics[0];
+                    const href = firstTopic ? `${basePath}/${firstTopic.slug}` : "#";
 
                     return (
-                      <Tooltip key={topic.id} delayDuration={200}>
+                      <Tooltip key={module.id} delayDuration={200}>
                         <TooltipTrigger asChild>
                           <Link
-                            href={`/dsa/${topic.slug}`}
+                            href={href}
                             className={cn(
                               "flex items-center justify-center py-2 rounded-lg relative",
                               "transition-colors duration-150 w-full",
-                              isActive
-                                ? "bg-primary/10 text-primary"
+                              isEmpty && "opacity-40 pointer-events-none",
+                              isActiveModule
+                                ? "bg-primary/10"
                                 : "hover:bg-accent/70"
                             )}
                           >
-                            {isActive && (
+                            {isActiveModule && (
                               <motion.div
                                 layoutId="activeTab"
                                 className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-primary rounded-r-full"
@@ -272,26 +468,29 @@ export function TopicSidebar({
                               />
                             )}
                             <div className="relative">
-                              <Icon
+                              <ModuleIcon
                                 className={cn(
                                   "h-[18px] w-[18px]",
-                                  isActive
+                                  isActiveModule
                                     ? "text-primary"
-                                    : isCompleted
+                                    : allDone
                                     ? "text-emerald-500"
                                     : "text-muted-foreground"
                                 )}
                               />
-                              {isCompleted && (
+                              {allDone && (
                                 <span className="absolute -top-1 -right-1 h-1.5 w-1.5 rounded-full bg-emerald-500 ring-1 ring-background" />
+                              )}
+                              {!allDone && !isEmpty && (
+                                <span className={cn("absolute -bottom-0.5 -right-0.5 h-1.5 w-1.5 rounded-full ring-1 ring-background", dotColor)} />
                               )}
                             </div>
                           </Link>
                         </TooltipTrigger>
                         <TooltipContent side="right" sideOffset={8}>
-                          <p className="font-medium">{topic.title}</p>
-                          <p className={cn("text-xs mt-0.5", difficultyColor)}>
-                            {topic.difficulty}
+                          <p className="font-medium">{module.title}</p>
+                          <p className="text-xs text-muted-foreground mt-0.5">
+                            {moduleCompleted}/{moduleTopics.length} completed
                           </p>
                         </TooltipContent>
                       </Tooltip>
@@ -301,7 +500,7 @@ export function TopicSidebar({
               ) : (
                 /* ── EXPANDED: grouped by module ── */
                 <div className="space-y-1">
-                  {dsaModules.map((module) => {
+                  {modules.map((module) => {
                     const moduleTopics = module.topicIds
                       .map((id) => topicMap.get(id))
                       .filter(Boolean) as DSATopic[];
@@ -332,10 +531,21 @@ export function TopicSidebar({
                               : "hover:bg-accent/60 active:bg-accent"
                           )}
                         >
-                          {/* Level badge */}
-                          <span className="shrink-0 text-[9px] font-bold w-6 h-6 rounded-md bg-muted border flex items-center justify-center tabular-nums text-muted-foreground">
-                            L{module.level}
-                          </span>
+                          {/* Level icon */}
+                          {(() => {
+                            const ModuleIcon = moduleIconMap[module.id] || Circle;
+                            return (
+                              <span className={cn(
+                                "shrink-0 w-6 h-6 rounded-md border flex items-center justify-center",
+                                isActiveModule ? "bg-primary/15 border-primary/30" : "bg-muted"
+                              )}>
+                                <ModuleIcon className={cn(
+                                  "h-3.5 w-3.5",
+                                  isActiveModule ? "text-primary" : "text-muted-foreground"
+                                )} />
+                              </span>
+                            );
+                          })()}
 
                           {/* Difficulty dot + title */}
                           <div className="flex items-center gap-1.5 flex-1 min-w-0">
@@ -392,14 +602,14 @@ export function TopicSidebar({
                                 {moduleTopics.map((topic) => {
                                   const Icon = iconMap[topic.icon] || Circle;
                                   const isActive =
-                                    pathname === `/dsa/${topic.slug}`;
+                                    pathname === `${basePath}/${topic.slug}`;
                                   const isCompleted =
                                     completedTopics.includes(topic.id);
 
                                   return (
                                     <Link
                                       key={topic.id}
-                                      href={`/dsa/${topic.slug}`}
+                                      href={`${basePath}/${topic.slug}`}
                                       className={cn(
                                         "flex items-center gap-2.5 rounded-lg px-2.5 py-2 relative",
                                         "transition-colors duration-150",

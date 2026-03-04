@@ -4968,9 +4968,9 @@ export const categories: CategoryInfo[] = [
     icon: "FileCode",
     description:
       "Master semantic HTML, accessibility, forms, and modern HTML5 APIs.",
-    topicCount: 0,
+    topicCount: 49,
     color: "from-amber-400 to-orange-400",
-    available: false,
+    available: true,
   },
   {
     id: "css",
@@ -4978,9 +4978,9 @@ export const categories: CategoryInfo[] = [
     icon: "Palette",
     description:
       "Deep dive into CSS layouts, animations, responsive design, Flexbox, Grid.",
-    topicCount: 0,
+    topicCount: 68,
     color: "from-sky-400 to-blue-400",
-    available: false,
+    available: true,
   },
   {
     id: "javascript",

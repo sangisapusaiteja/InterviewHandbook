@@ -16,13 +16,14 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { TopicSidebar } from "@/components/layout/TopicSidebar";
 import { ConceptSection } from "@/components/dsa/ConceptSection";
-import { VisualizationSection } from "@/components/dsa/VisualizationSection";
-import { CodeEditorSection } from "@/components/dsa/CodeEditorSection";
-import { dsaTopics, dsaModules } from "@/data/dsa";
+import { HTMLPreviewSection } from "@/components/html/HTMLPreviewSection";
+import { HTMLVisualizationSection } from "@/components/html/HTMLVisualizationSection";
+import { htmlTopics, htmlModules } from "@/data/html";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
+import type { DSATopic } from "@/types/dsa";
 
-export default function TopicPage() {
+export default function HTMLTopicPage() {
   const params = useParams();
   const topicSlug = params.topic as string;
   const {
@@ -34,11 +35,11 @@ export default function TopicPage() {
     isTopicComplete,
   } = useProgress();
 
-  const topicIndex = dsaTopics.findIndex((t) => t.slug === topicSlug);
-  const topic = topicIndex >= 0 ? dsaTopics[topicIndex] : undefined;
-  const prevTopic = topicIndex > 0 ? dsaTopics[topicIndex - 1] : null;
+  const topicIndex = htmlTopics.findIndex((t) => t.slug === topicSlug);
+  const topic = topicIndex >= 0 ? htmlTopics[topicIndex] : undefined;
+  const prevTopic = topicIndex > 0 ? htmlTopics[topicIndex - 1] : null;
   const nextTopic =
-    topicIndex < dsaTopics.length - 1 ? dsaTopics[topicIndex + 1] : null;
+    topicIndex < htmlTopics.length - 1 ? htmlTopics[topicIndex + 1] : null;
 
   useEffect(() => {
     if (topic) {
@@ -61,15 +62,18 @@ export default function TopicPage() {
 
   const completed = isLoaded && isTopicComplete(topic.id);
 
+  // ConceptSection expects DSATopic — HTML topics are structurally compatible
+  const topicAsDSA = topic as unknown as DSATopic;
+
   return (
     <div className="flex">
       <TopicSidebar
-        topics={dsaTopics}
+        topics={htmlTopics as unknown as DSATopic[]}
         completedTopics={progress.completedTopics}
-        basePath="/dsa"
-        modules={dsaModules}
-        sidebarTitle="DSA Topics"
-        sidebarDescription="Master data structures & algorithms"
+        basePath="/html"
+        modules={htmlModules}
+        sidebarTitle="HTML Topics"
+        sidebarDescription="Master the foundation of the web"
       />
 
       <div className="flex-1 min-w-0">
@@ -95,7 +99,7 @@ export default function TopicPage() {
                     {topic.difficulty}
                   </Badge>
                   <span className="text-xs text-muted-foreground">
-                    {completedCount}/{dsaTopics.length} topics completed
+                    {completedCount}/{htmlTopics.length} topics completed
                   </span>
                 </div>
                 <h1 className="text-2xl md:text-3xl font-bold">
@@ -144,15 +148,15 @@ export default function TopicPage() {
             </TabsList>
 
             <TabsContent value="concept">
-              <ConceptSection topic={topic} />
+              <ConceptSection topic={topicAsDSA} />
             </TabsContent>
 
             <TabsContent value="visualization">
-              <VisualizationSection topicSlug={topic.slug} />
+              <HTMLVisualizationSection topicSlug={topicSlug} />
             </TabsContent>
 
             <TabsContent value="code">
-              <CodeEditorSection
+              <HTMLPreviewSection
                 defaultCode={topic.code.defaultCode}
                 language={topic.code.language}
               />
@@ -163,7 +167,7 @@ export default function TopicPage() {
           <Separator className="my-8" />
           <div className="flex flex-col sm:flex-row gap-3 pb-8">
             {prevTopic ? (
-              <Link href={`/dsa/${prevTopic.slug}`} className="flex-1">
+              <Link href={`/html/${prevTopic.slug}`} className="flex-1">
                 <Card className="h-full hover:bg-accent/50 transition-colors group cursor-pointer">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-1 text-xs text-muted-foreground mb-1.5 group-hover:text-primary transition-colors">
@@ -181,7 +185,7 @@ export default function TopicPage() {
             )}
 
             {nextTopic ? (
-              <Link href={`/dsa/${nextTopic.slug}`} className="flex-1">
+              <Link href={`/html/${nextTopic.slug}`} className="flex-1">
                 <Card className="h-full hover:bg-accent/50 transition-colors group cursor-pointer">
                   <CardContent className="p-4 text-right">
                     <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground mb-1.5 group-hover:text-primary transition-colors">

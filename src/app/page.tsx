@@ -9,6 +9,7 @@ import {
   Database,
   Layout,
   Server,
+  FileCode,
   FileCode2,
   Lock,
   ArrowRight,
@@ -30,6 +31,7 @@ import { categories } from "@/data/dsa";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Layout,
+  FileCode,
   FileCode2,
   Braces,
   Code2,
@@ -155,7 +157,7 @@ export default function DashboardPage() {
             return (
               <motion.div key={category.id} variants={item}>
                 {category.available ? (
-                  <Link href="/dsa">
+                  <Link href={`/${category.id}`}>
                     <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden">
                       <div
                         className={`h-2 bg-gradient-to-r ${category.color}`}
