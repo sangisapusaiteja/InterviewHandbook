@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -23,7 +22,6 @@ const battles = [
 ];
 
 export function SpecificityVisualization() {
-  const [showCalc, setShowCalc] = useState(false);
 
   return (
     <div className="space-y-6">

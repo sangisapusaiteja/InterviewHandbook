@@ -204,7 +204,7 @@ export function TransitionPropertiesVisualization() {
                 { duration: 0.5, label: "0.5s (500ms)", desc: "Noticeable but smooth" },
                 { duration: 1.0, label: "1.0s (1000ms)", desc: "Slow - dramatic effect" },
                 { duration: 2.0, label: "2.0s (2000ms)", desc: "Very slow - background animations" },
-              ].map((item, i) => (
+              ].map((item) => (
                 <div key={item.duration} className="flex items-center gap-3">
                   <span className="text-[10px] font-mono w-28 text-right text-muted-foreground">{item.label}</span>
                   <div className="flex-1 relative h-8 rounded bg-muted/30 overflow-hidden">
@@ -257,7 +257,7 @@ export function TransitionPropertiesVisualization() {
             <div className="rounded-xl border p-4 space-y-3">
               <p className="text-xs font-semibold">Staggered delay effect</p>
               <div className="flex flex-col gap-2">
-                {[0, 0.1, 0.2, 0.3, 0.4].map((delay, i) => (
+                {[0, 0.1, 0.2, 0.3, 0.4].map((delay) => (
                   <div key={delay} className="flex items-center gap-3">
                     <span className="text-[10px] font-mono w-20 text-right text-muted-foreground">
                       delay: {delay}s

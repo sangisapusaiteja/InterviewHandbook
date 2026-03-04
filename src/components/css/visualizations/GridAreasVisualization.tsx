@@ -111,7 +111,7 @@ export function GridAreasVisualization() {
                 <>
                   <Badge className="bg-emerald-500 text-[10px]">Holy Grail Layout</Badge>
                   <p className="text-xs text-muted-foreground">
-                    The classic "holy grail" layout: header, footer, sidebar left, aside right, main content center.
+                    The classic &quot;holy grail&quot; layout: header, footer, sidebar left, aside right, main content center.
                   </p>
                   <div className="border-2 border-dashed border-muted-foreground/20 rounded-lg overflow-hidden p-1.5 space-y-1.5">
                     <motion.div initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} className={`${areaColors.header.bg} border ${areaColors.header.border} rounded-md p-2 text-center origin-top`}>

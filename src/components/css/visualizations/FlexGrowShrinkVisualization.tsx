@@ -141,7 +141,7 @@ export function FlexGrowShrinkVisualization() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                flex-grow determines how much of the <strong>extra space</strong> an item should take up. Default is 0 (don't grow).
+                flex-grow determines how much of the <strong>extra space</strong> an item should take up. Default is 0 (don&apos;t grow).
               </p>
 
               {/* Scenario buttons */}
@@ -278,7 +278,7 @@ export function FlexGrowShrinkVisualization() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              flex-shrink determines how much an item should shrink when there isn't enough space. Default is 1 (can shrink).
+              flex-shrink determines how much an item should shrink when there isn&apos;t enough space. Default is 1 (can shrink).
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

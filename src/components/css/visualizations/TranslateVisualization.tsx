@@ -242,7 +242,7 @@ transform: translate(60px);
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            When using percentages with translate, they are relative to the element's own size, not the parent.
+            When using percentages with translate, they are relative to the element&apos;s own size, not the parent.
             This is extremely useful for centering.
           </p>
 
@@ -261,7 +261,7 @@ transform: translate(60px);
                 </motion.div>
               </div>
               <p className="text-[10px] text-muted-foreground text-center">
-                translate(50%) moves by half of the element's own width
+                translate(50%) moves by half of the element&apos;s own width
               </p>
             </div>
 

@@ -34,32 +34,32 @@ export function KeyframesVisualization() {
       case "bounce":
         return {
           animate: { y: [80, -20, 10, -5, 0], opacity: [0, 1, 1, 1, 1] },
-          transition: { duration: 1, ease: "easeOut", times: [0, 0.4, 0.65, 0.82, 1] },
+          transition: { duration: 1, ease: "easeOut" as const, times: [0, 0.4, 0.65, 0.82, 1] },
         };
       case "fade":
         return {
           animate: { opacity: [0, 1] },
-          transition: { duration: 1, ease: "easeInOut" },
+          transition: { duration: 1, ease: "easeInOut" as const },
         };
       case "slide":
         return {
           animate: { x: [-200, 0], opacity: [0, 1] },
-          transition: { duration: 0.6, ease: "easeOut" },
+          transition: { duration: 0.6, ease: "easeOut" as const },
         };
       case "pulse":
         return {
           animate: { scale: [1, 1.15, 1], boxShadow: ["0 0 0 0 rgba(59,130,246,0.4)", "0 0 0 15px rgba(59,130,246,0)", "0 0 0 0 rgba(59,130,246,0)"] },
-          transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+          transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" as const },
         };
       case "shake":
         return {
           animate: { x: [0, -10, 10, -10, 10, -5, 5, 0] },
-          transition: { duration: 0.5, ease: "easeInOut" },
+          transition: { duration: 0.5, ease: "easeInOut" as const },
         };
       case "spin":
         return {
           animate: { rotate: 360 },
-          transition: { duration: 1, ease: "linear", repeat: Infinity },
+          transition: { duration: 1, ease: "linear" as const, repeat: Infinity },
         };
     }
   };
@@ -224,7 +224,7 @@ export function KeyframesVisualization() {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Each percentage stop defines a snapshot of the element's state. The browser smoothly
+            Each percentage stop defines a snapshot of the element&apos;s state. The browser smoothly
             interpolates between stops.
           </p>
 

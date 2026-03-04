@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 type AlignValue = "stretch" | "flex-start" | "flex-end" | "center" | "baseline";
 
@@ -114,34 +113,6 @@ const codeExamples: Record<AlignValue, string> = {
 
    Use: mixed-size headings,
    form labels + inputs */`,
-};
-
-const itemHeights: Record<string, { h: string; label: string }[]> = {
-  stretch: [
-    { h: "h-full", label: "Item A" },
-    { h: "h-full", label: "Item B\n(more)" },
-    { h: "h-full", label: "C" },
-  ],
-  "flex-start": [
-    { h: "h-8", label: "A" },
-    { h: "h-12", label: "B\n(tall)" },
-    { h: "h-6", label: "C" },
-  ],
-  "flex-end": [
-    { h: "h-8", label: "A" },
-    { h: "h-12", label: "B\n(tall)" },
-    { h: "h-6", label: "C" },
-  ],
-  center: [
-    { h: "h-8", label: "A" },
-    { h: "h-12", label: "B\n(tall)" },
-    { h: "h-6", label: "C" },
-  ],
-  baseline: [
-    { h: "auto", label: "Small" },
-    { h: "auto", label: "BIG" },
-    { h: "auto", label: "Tiny" },
-  ],
 };
 
 export function AlignItemsVisualization() {

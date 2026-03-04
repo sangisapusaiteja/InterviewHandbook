@@ -142,7 +142,7 @@ export function ResponsiveBasicsVisualization() {
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="rounded-xl border p-3 space-y-2">
               <Badge className="bg-emerald-500 text-[10px]">With viewport meta</Badge>
-              <p className="text-[10px] text-muted-foreground">Page renders at the device's actual width (e.g., 375px on iPhone). Text is readable, media queries fire at the correct widths.</p>
+              <p className="text-[10px] text-muted-foreground">Page renders at the device&apos;s actual width (e.g., 375px on iPhone). Text is readable, media queries fire at the correct widths.</p>
             </motion.div>
           </div>
         </CardContent>

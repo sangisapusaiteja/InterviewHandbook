@@ -258,11 +258,6 @@ const moduleIconMap: Record<string, React.ComponentType<{ className?: string }>>
   "css-advanced": Sparkles,
 };
 
-const DIFFICULTY_COLOR: Record<string, string> = {
-  Beginner: "text-emerald-500",
-  Intermediate: "text-amber-500",
-  Advanced: "text-red-500",
-};
 
 const DIFFICULTY_DOT: Record<string, string> = {
   Beginner: "bg-emerald-500",
