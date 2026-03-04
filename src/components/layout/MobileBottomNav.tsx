@@ -9,9 +9,11 @@ import { cn } from "@/lib/utils";
 
 export function MobileBottomNav() {
   const pathname = usePathname();
-  const isDSAPage = pathname.startsWith("/dsa");
+  const isTopicPage = pathname.startsWith("/dsa") || pathname.startsWith("/html") || pathname.startsWith("/css");
   const isHome = pathname === "/";
   const { open, toggle } = useMobileSidebar();
+
+  if (isHome) return null;
 
   return (
     <nav
@@ -27,24 +29,15 @@ export function MobileBottomNav() {
             className={cn(
               "relative flex flex-col items-center justify-center gap-1 flex-1 h-full",
               "text-[11px] font-medium transition-colors duration-150",
-              isHome
-                ? "text-primary"
-                : "text-muted-foreground hover:text-foreground"
+              "text-muted-foreground hover:text-foreground"
             )}
           >
-            {isHome && (
-              <motion.div
-                layoutId="bottomNavPill"
-                className="absolute inset-x-3 top-2 bottom-2 rounded-xl bg-primary/10"
-                transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
-              />
-            )}
-            <Home className={cn("h-5 w-5 relative", isHome && "text-primary")} />
+            <Home className="h-5 w-5 relative" />
             <span className="relative">Home</span>
           </Link>
 
-          {/* Topics tab — DSA pages only */}
-          {isDSAPage && (
+          {/* Topics tab — topic pages only */}
+          {isTopicPage && (
             <>
               <div className="w-px h-6 bg-border/60 shrink-0" />
               <button

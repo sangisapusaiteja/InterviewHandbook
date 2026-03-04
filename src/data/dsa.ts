@@ -2966,6 +2966,114 @@ console.log("size      :", cq.size());     // 4
   },
 
   // ─────────────────────────────────────────────
+  // Stack using Linked List
+  // ─────────────────────────────────────────────
+  {
+    id: "stack-linked-list",
+    title: "Stack using Linked List",
+    slug: "stack-linked-list",
+    icon: "Network",
+    difficulty: "Intermediate",
+    description:
+      "Implement a Stack using a singly linked list. The head node is always the top — push prepends, pop removes the head. No resizing overhead.",
+    concept: {
+      explanation:
+        "Instead of an array, we back the stack with a singly linked list. The head node represents the top of the stack. push(val) creates a new node whose .next points to the current head, then sets head = newNode. pop() reads head.val, then sets head = head.next. Both are true O(1) with no amortized concern — there is no underlying array to resize. The trade-off is extra memory per node (the .next pointer) and no random access.",
+      realLifeAnalogy:
+        "Imagine a chain of wagons where each new wagon is attached to the front. To add one, hook it at the front and redirect the locomotive. To remove one, detach the front wagon. The locomotive always points to the current front — that is the head pointer playing the role of the stack top.",
+      keyPoints: [
+        "head = top of stack — always maintained",
+        "push: newNode.next = head; head = newNode   O(1) — no resizing",
+        "pop: val = head.val; head = head.next        O(1)",
+        "peek: return head?.val                       O(1)",
+        "Linked-list stack never needs to copy elements (unlike array reallocation at capacity)",
+        "Extra O(n) memory for .next pointers compared to a packed array",
+        "Useful when max stack size is unknown at compile time",
+        "Implementing a queue from two stacks (LC 232) is a classic interview question",
+      ],
+      timeComplexity: "push O(1) · pop O(1) · peek O(1)",
+      spaceComplexity: "O(n) — one Node object per element",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: String.raw`// ===== Stack using Linked List =====
+
+class Node {
+  constructor(val) {
+    this.val  = val;
+    this.next = null;
+  }
+}
+
+class Stack {
+  constructor() {
+    this.head  = null;   // head = top of stack
+    this._size = 0;
+  }
+
+  push(val) {            // prepend new head  O(1)
+    const node = new Node(val);
+    node.next  = this.head;
+    this.head  = node;
+    this._size++;
+  }
+
+  pop() {               // remove head  O(1)
+    if (!this.head) return null;
+    const val = this.head.val;
+    this.head  = this.head.next;
+    this._size--;
+    return val;
+  }
+
+  peek() {
+    return this.head ? this.head.val : null;
+  }
+
+  isEmpty() { return this.head === null; }
+  size()    { return this._size; }
+
+  // Print: HEAD → ... → null
+  toString() {
+    const parts = [];
+    let cur = this.head;
+    while (cur) { parts.push(cur.val); cur = cur.next; }
+    return parts.join(" → ") + " → null";
+  }
+}
+
+// ── Demo ──────────────────────────────────────────────
+const s = new Stack();
+s.push(10);
+s.push(20);
+s.push(30);
+
+console.log("list :", s.toString()); // 30 → 20 → 10 → null
+console.log("peek :", s.peek());     // 30
+console.log("pop  :", s.pop());      // 30
+console.log("size :", s.size());     // 2
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "What advantage does a linked-list stack have over an array-based stack?",
+        difficulty: "Easy",
+        hint: "True O(1) push/pop with no resizing overhead. An array-based stack occasionally doubles its backing array (amortized O(1) but with spikes). A linked-list stack also has no fixed capacity.",
+      },
+      {
+        question: "How do you implement a Queue using two Stacks? (LeetCode 232)",
+        difficulty: "Medium",
+        hint: "Use one 'inbox' stack for enqueue and one 'outbox' stack for dequeue. On dequeue, if outbox is empty, pour all elements from inbox to outbox (reverses order). Amortized O(1) per operation.",
+      },
+      {
+        question: "How would you sort a stack using only one additional stack?",
+        difficulty: "Medium",
+        hint: "Pop from source; while temp-stack top > current element, move temp-stack top back to source; push current onto temp stack. Repeat. Result is a sorted temp stack (ascending from top).",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
   // Queue using Stack
   // ─────────────────────────────────────────────
   {
@@ -3086,114 +3194,6 @@ console.log("isEmpty :", q.isEmpty());    // true
         question: "How would you implement a Stack using two Queues?",
         difficulty: "Hard",
         hint: "Maintain one main queue. On push(val): enqueue val, then rotate the queue (dequeue every existing element and re-enqueue them) so the new val is at the front. pop()/top() simply dequeue from the front. push is O(n), pop is O(1). Alternatively keep two queues: on push, enqueue val to the empty queue, pour all of the full queue into it (so val is at the front), then swap queue names.",
-      },
-    ],
-  },
-
-  // ─────────────────────────────────────────────
-  // Stack using Linked List
-  // ─────────────────────────────────────────────
-  {
-    id: "stack-linked-list",
-    title: "Stack using Linked List",
-    slug: "stack-linked-list",
-    icon: "Network",
-    difficulty: "Intermediate",
-    description:
-      "Implement a Stack using a singly linked list. The head node is always the top — push prepends, pop removes the head. No resizing overhead.",
-    concept: {
-      explanation:
-        "Instead of an array, we back the stack with a singly linked list. The head node represents the top of the stack. push(val) creates a new node whose .next points to the current head, then sets head = newNode. pop() reads head.val, then sets head = head.next. Both are true O(1) with no amortized concern — there is no underlying array to resize. The trade-off is extra memory per node (the .next pointer) and no random access.",
-      realLifeAnalogy:
-        "Imagine a chain of wagons where each new wagon is attached to the front. To add one, hook it at the front and redirect the locomotive. To remove one, detach the front wagon. The locomotive always points to the current front — that is the head pointer playing the role of the stack top.",
-      keyPoints: [
-        "head = top of stack — always maintained",
-        "push: newNode.next = head; head = newNode   O(1) — no resizing",
-        "pop: val = head.val; head = head.next        O(1)",
-        "peek: return head?.val                       O(1)",
-        "Linked-list stack never needs to copy elements (unlike array reallocation at capacity)",
-        "Extra O(n) memory for .next pointers compared to a packed array",
-        "Useful when max stack size is unknown at compile time",
-        "Implementing a queue from two stacks (LC 232) is a classic interview question",
-      ],
-      timeComplexity: "push O(1) · pop O(1) · peek O(1)",
-      spaceComplexity: "O(n) — one Node object per element",
-    },
-    code: {
-      language: "javascript",
-      defaultCode: String.raw`// ===== Stack using Linked List =====
-
-class Node {
-  constructor(val) {
-    this.val  = val;
-    this.next = null;
-  }
-}
-
-class Stack {
-  constructor() {
-    this.head  = null;   // head = top of stack
-    this._size = 0;
-  }
-
-  push(val) {            // prepend new head  O(1)
-    const node = new Node(val);
-    node.next  = this.head;
-    this.head  = node;
-    this._size++;
-  }
-
-  pop() {               // remove head  O(1)
-    if (!this.head) return null;
-    const val = this.head.val;
-    this.head  = this.head.next;
-    this._size--;
-    return val;
-  }
-
-  peek() {
-    return this.head ? this.head.val : null;
-  }
-
-  isEmpty() { return this.head === null; }
-  size()    { return this._size; }
-
-  // Print: HEAD → ... → null
-  toString() {
-    const parts = [];
-    let cur = this.head;
-    while (cur) { parts.push(cur.val); cur = cur.next; }
-    return parts.join(" → ") + " → null";
-  }
-}
-
-// ── Demo ──────────────────────────────────────────────
-const s = new Stack();
-s.push(10);
-s.push(20);
-s.push(30);
-
-console.log("list :", s.toString()); // 30 → 20 → 10 → null
-console.log("peek :", s.peek());     // 30
-console.log("pop  :", s.pop());      // 30
-console.log("size :", s.size());     // 2
-`,
-    },
-    interviewQuestions: [
-      {
-        question: "What advantage does a linked-list stack have over an array-based stack?",
-        difficulty: "Easy",
-        hint: "True O(1) push/pop with no resizing overhead. An array-based stack occasionally doubles its backing array (amortized O(1) but with spikes). A linked-list stack also has no fixed capacity.",
-      },
-      {
-        question: "How do you implement a Queue using two Stacks? (LeetCode 232)",
-        difficulty: "Medium",
-        hint: "Use one 'inbox' stack for enqueue and one 'outbox' stack for dequeue. On dequeue, if outbox is empty, pour all elements from inbox to outbox (reverses order). Amortized O(1) per operation.",
-      },
-      {
-        question: "How would you sort a stack using only one additional stack?",
-        difficulty: "Medium",
-        hint: "Pop from source; while temp-stack top > current element, move temp-stack top back to source; push current onto temp stack. Repeat. Result is a sorted temp stack (ascending from top).",
       },
     ],
   },
