@@ -12,7 +12,7 @@ export function Navbar() {
         {/* Logo — always visible, links home */}
         <Link href="/" className="flex items-center gap-2 mr-6">
           <BookOpen className="h-5 w-5 text-primary" />
-          <span className="font-bold text-lg">Interview Handbook</span>
+          <span className="font-bold text-lg">My Interview Handbook</span>
         </Link>
 
         {/* Desktop nav only — mobile uses bottom nav */}

@@ -70,7 +70,7 @@ export default function DashboardPage() {
               Free &amp; Open Source
             </Badge>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-              Interview{" "}
+              My Interview{" "}
               <span className="text-primary">Handbook</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
@@ -79,11 +79,17 @@ export default function DashboardPage() {
               place.
             </p>
             <div className="flex items-center justify-center">
-              <Button asChild size="lg">
-                <Link href="/dsa">
-                  Start Learning DSA
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Link>
+              <Button
+                size="lg"
+                onClick={(e: React.MouseEvent) => {
+                  e.preventDefault();
+                  document
+                    .getElementById("categories")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                Get Started
+                <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
             </div>
           </motion.div>
@@ -137,7 +143,8 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mb-8"
+          id="categories"
+          className="mb-8 scroll-mt-20"
         >
           <h2 className="text-2xl font-bold mb-2">Choose a Category</h2>
           <p className="text-muted-foreground">
@@ -231,7 +238,7 @@ export default function DashboardPage() {
       <footer className="border-t py-8 mt-12">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-muted-foreground">
-            Interview Handbook — Built for developers, by developers.
+            My Interview Handbook — Built for developers, by developers.
           </p>
         </div>
       </footer>
