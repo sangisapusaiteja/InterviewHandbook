@@ -4988,9 +4988,9 @@ export const categories: CategoryInfo[] = [
     icon: "Braces",
     description:
       "Understand closures, prototypes, async/await, event loop, ES6+ features.",
-    topicCount: 0,
+    topicCount: 80,
     color: "from-yellow-300 to-amber-400",
-    available: false,
+    available: true,
   },
   {
     id: "dsa",
