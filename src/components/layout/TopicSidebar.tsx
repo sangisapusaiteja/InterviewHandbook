@@ -289,6 +289,16 @@ const moduleIconMap: Record<string, React.ComponentType<{ className?: string }>>
   "modern-javascript": Sparkles,
   "advanced-javascript": BrainCircuit,
   "browser-apis": Globe,
+  // Python modules
+  "python-fundamentals": Code,
+  "python-control-flow": GitBranch,
+  "python-functions": FunctionSquare,
+  "python-data-structures": Boxes,
+  "python-strings-builtins": Type,
+  "python-oop": Box,
+  "python-error-file-handling": AlertTriangle,
+  "python-modules-libraries": Boxes,
+  "python-advanced-concepts": Zap,
   // CSS modules
   "css-fundamentals": Paintbrush,
   "css-selectors-specificity": MousePointerClick,

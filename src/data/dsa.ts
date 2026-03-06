@@ -5003,6 +5003,16 @@ export const categories: CategoryInfo[] = [
     available: true,
   },
   {
+    id: "python",
+    title: "Python",
+    icon: "Code",
+    description:
+      "Master Python fundamentals, data structures, OOP, and Pythonic patterns.",
+    topicCount: 78,
+    color: "from-blue-400 to-indigo-500",
+    available: true,
+  },
+  {
     id: "nextjs",
     title: "Next.js",
     icon: "Globe",
