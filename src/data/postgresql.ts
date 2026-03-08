@@ -4454,6 +4454,8 @@ WHERE rn = 1;
     slug: "subqueries",
     icon: "Layers",
     difficulty: "Intermediate",
+    description:
+      "Learn how to nest queries inside other queries to build powerful, multi-step SQL statements.",
     concept: {
       explanation:
         "A subquery (also called an inner query or nested query) is a SQL query embedded inside another query. Subqueries can appear in SELECT, FROM, WHERE, and HAVING clauses. They run first, and their result is used by the outer query. Subqueries can return a single value (scalar), a single column, a single row, or a full table depending on context.",
@@ -4556,6 +4558,8 @@ WHERE avg_salary > 70000;
     slug: "correlated-subqueries",
     icon: "RefreshCw",
     difficulty: "Advanced",
+    description:
+      "Understand subqueries that reference the outer query and execute once per row.",
     concept: {
       explanation:
         "A correlated subquery is a subquery that references columns from the outer query. Unlike a regular subquery which runs once, a correlated subquery runs once for every row processed by the outer query. This makes them powerful for row-by-row comparisons but potentially slower on large datasets. They are essential for queries like 'find employees who earn more than their department average'.",
@@ -4659,6 +4663,8 @@ WHERE e.salary > da.avg_sal;
     slug: "exists-operator",
     icon: "Search",
     difficulty: "Intermediate",
+    description:
+      "Use EXISTS and NOT EXISTS to efficiently test for the presence of related rows.",
     concept: {
       explanation:
         "EXISTS is a boolean operator that tests whether a subquery returns any rows. It returns TRUE if the subquery produces at least one row, FALSE otherwise. EXISTS is typically used with correlated subqueries to check for the existence of related records. NOT EXISTS checks that no matching rows exist. EXISTS short-circuits — it stops as soon as the first matching row is found, making it very efficient.",
@@ -4756,6 +4762,8 @@ WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id);
     slug: "common-table-expressions",
     icon: "GitBranch",
     difficulty: "Intermediate",
+    description:
+      "Break complex queries into readable, named steps using the WITH clause.",
     concept: {
       explanation:
         "A Common Table Expression (CTE) is a temporary named result set defined with the WITH clause. CTEs exist only for the duration of a single query and can be referenced multiple times within that query. They improve readability by breaking complex queries into logical, named steps. PostgreSQL 12+ inlines CTEs by default (optimizes them like subqueries), though you can force materialization with MATERIALIZED.",
@@ -4860,6 +4868,8 @@ SELECT
     slug: "recursive-cte",
     icon: "RotateCw",
     difficulty: "Advanced",
+    description:
+      "Traverse hierarchical data like org charts and trees using WITH RECURSIVE.",
     concept: {
       explanation:
         "A recursive CTE uses WITH RECURSIVE to define a query that references itself. It has two parts: the base case (anchor member) that provides the starting rows, and the recursive case that references the CTE name to build upon previous results. Execution alternates between the two until the recursive case returns no new rows. Recursive CTEs are essential for querying hierarchical data like org charts, category trees, and graph traversal.",
@@ -4961,6 +4971,8 @@ SELECT n FROM nums;
     slug: "union-and-union-all",
     icon: "Merge",
     difficulty: "Intermediate",
+    description:
+      "Combine result sets from multiple queries vertically with UNION and UNION ALL.",
     concept: {
       explanation:
         "UNION combines the result sets of two or more SELECT statements vertically (stacking rows). UNION removes duplicate rows from the combined result, while UNION ALL keeps all rows including duplicates. Both require that the SELECT statements have the same number of columns with compatible data types. UNION ALL is faster because it skips the deduplication step.",
@@ -5055,6 +5067,8 @@ SELECT name, left_date::TEXT FROM former_employees;
     slug: "intersect-operator",
     icon: "GitCompare",
     difficulty: "Intermediate",
+    description:
+      "Find rows common to two result sets using the INTERSECT set operator.",
     concept: {
       explanation:
         "INTERSECT returns only the rows that appear in both result sets. Like UNION, it requires compatible column counts and types. INTERSECT removes duplicates by default. INTERSECT ALL preserves duplicates based on the minimum count in either set. INTERSECT is useful for finding commonalities between two queries.",
@@ -5151,6 +5165,8 @@ SELECT name FROM students_science;
     slug: "except-operator",
     icon: "Filter",
     difficulty: "Intermediate",
+    description:
+      "Return rows from one query that do not appear in another using the EXCEPT operator.",
     concept: {
       explanation:
         "EXCEPT returns rows from the first query that do not appear in the second query. It is the set difference operation. EXCEPT removes duplicates by default, while EXCEPT ALL preserves them based on occurrence count. EXCEPT is ideal for finding what exists in one set but not another — like finding customers who haven't placed orders or identifying missing records.",

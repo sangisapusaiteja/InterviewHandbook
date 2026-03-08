@@ -164,7 +164,7 @@ export function ExistsOperatorVisualization() {
         await delay(300);
       }
 
-      setCheckedCustomers((prev) => new Set([...prev, customer.id]));
+      setCheckedCustomers((prev) => new Set([...Array.from(prev), customer.id]));
       setMatchedOrders(new Set());
       setShortCircuited(null);
       await delay(200);
