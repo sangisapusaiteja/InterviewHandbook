@@ -4960,7 +4960,7 @@ console.log("\nPath 0→4:", dijkstraPath(5, edges, 0, 4));
   },
 
   // ─────────────────────────────────────────────
-  // Dynamic Programming
+  // Practice Problems
   // ─────────────────────────────────────────────
   {
     id: "find-largest-element",
@@ -6180,7 +6180,7 @@ mergeVerbose([[1,3],[2,6],[8,10],[15,18]]);
   },
 
   // ─────────────────────────────────────────────
-  // Dynamic Programming batch 3
+  // Practice Problems — batch 3
   // ─────────────────────────────────────────────
   {
     id: "maximum-average-subarray",
@@ -7397,11 +7397,11 @@ export const dsaModules: DSAModule[] = [
     ],
   },
   {
-    id: "dynamic-programming",
+    id: "practice-problems",
     level: 12,
-    title: "Dynamic Programming",
-    difficulty: "Advanced",
-    description: "Memoisation and tabulation to turn exponential recursion into polynomial time.",
+    title: "Practice Problems",
+    difficulty: "Intermediate",
+    description: "Solve popular LeetCode problems covering arrays, strings, hash maps, two pointers, and more.",
     topicIds: ["find-largest-element", "remove-element", "best-time-to-buy-sell-stock", "squares-of-sorted-array", "remove-duplicates-sorted-array", "sort-colors", "running-sum", "find-pivot-index", "subarray-sum-equals-k", "contains-duplicate", "missing-number", "merge-intervals", "maximum-average-subarray", "move-zeroes", "longest-consecutive-sequence", "two-sum", "find-disappeared-numbers", "container-with-most-water", "flood-fill", "island-perimeter", "spiral-matrix", "can-place-flowers", "majority-element", "three-sum"],
   },
   {

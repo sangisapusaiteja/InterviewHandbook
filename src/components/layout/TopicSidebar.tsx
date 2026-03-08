@@ -333,7 +333,7 @@ const moduleIconMap: Record<string, React.ComponentType<{ className?: string }>>
   "queues": ListPlus,
   "trees": GitFork,
   "graphs": Network,
-  "dynamic-programming": Zap,
+  "practice-problems": Zap,
   "interview-patterns": Scale,
   // JavaScript modules
   "javascript-fundamentals": Braces,
