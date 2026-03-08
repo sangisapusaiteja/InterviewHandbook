@@ -434,24 +434,45 @@ export function TopicSidebar({
   const scrollRef = useRef<HTMLDivElement>(null);
   const savedScrollTop = useRef(0);
   const activeTopicRef = useRef<HTMLAnchorElement>(null);
+  const isFirstLoad = useRef(true);
+  const isRestoring = useRef(false);
 
-  // Save scroll position before re-render
-  useEffect(() => {
-    const viewport = scrollRef.current?.querySelector("[data-radix-scroll-area-viewport]") as HTMLElement | null;
+  const getViewport = () =>
+    scrollRef.current?.querySelector("[data-radix-scroll-area-viewport]") as HTMLElement | null;
+
+  // Capture sidebar scroll position on every topic click (before navigation resets it)
+  const handleTopicClick = () => {
+    const viewport = getViewport();
     if (viewport) {
       savedScrollTop.current = viewport.scrollTop;
+      isRestoring.current = true;
     }
-  });
+  };
 
-  // Restore scroll position after navigation, or scroll to active topic on first load
+  // Restore sidebar scroll position after navigation, or scroll to active topic on first load
   useEffect(() => {
-    const viewport = scrollRef.current?.querySelector("[data-radix-scroll-area-viewport]") as HTMLElement | null;
-    if (!viewport) return;
-    if (savedScrollTop.current > 0) {
-      viewport.scrollTop = savedScrollTop.current;
-    } else if (activeTopicRef.current) {
-      activeTopicRef.current.scrollIntoView({ block: "center" });
+    if (!isFirstLoad.current && isRestoring.current) {
+      // Use double rAF to wait for Next.js scroll-to-top and re-render to finish
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const viewport = getViewport();
+          if (viewport) {
+            viewport.scrollTop = savedScrollTop.current;
+          }
+          isRestoring.current = false;
+        });
+      });
+    } else if (isFirstLoad.current && activeTopicRef.current) {
+      requestAnimationFrame(() => {
+        const viewport = getViewport();
+        if (!viewport || !activeTopicRef.current) return;
+        const rect = activeTopicRef.current.getBoundingClientRect();
+        const vpRect = viewport.getBoundingClientRect();
+        const offset = rect.top - vpRect.top + viewport.scrollTop;
+        viewport.scrollTop = Math.max(0, offset - vpRect.height / 2);
+      });
     }
+    isFirstLoad.current = false;
   }, [pathname]);
 
   const toggleModule = (moduleId: string) => {
@@ -748,6 +769,7 @@ export function TopicSidebar({
                                       key={topic.id}
                                       ref={isActive ? activeTopicRef : undefined}
                                       href={`${basePath}/${topic.slug}`}
+                                      onClick={handleTopicClick}
                                       className={cn(
                                         "flex items-center gap-2.5 rounded-lg px-2.5 py-2 relative",
                                         "transition-colors duration-150",
