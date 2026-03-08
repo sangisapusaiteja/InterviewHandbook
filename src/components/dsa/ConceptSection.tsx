@@ -13,6 +13,30 @@ import {
 } from "@/components/ui/accordion";
 import { DSATopic } from "@/types/dsa";
 
+function Linkify({ text }: { text: string }) {
+  const urlRegex = /(https?:\/\/[^\s,)]+)/g;
+  const parts = text.split(urlRegex);
+  return (
+    <>
+      {parts.map((part, i) =>
+        urlRegex.test(part) ? (
+          <a
+            key={i}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline underline-offset-2 hover:text-primary/80"
+          >
+            {part}
+          </a>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
 const container = {
   hidden: { opacity: 0 },
   show: {
@@ -92,7 +116,7 @@ export function ConceptSection({ topic }: ConceptSectionProps) {
                     {index + 1}
                   </span>
                   <span className="text-sm text-muted-foreground leading-relaxed pt-0.5">
-                    {point}
+                    <Linkify text={point} />
                   </span>
                 </motion.li>
               ))}

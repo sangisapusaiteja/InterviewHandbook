@@ -8,6 +8,7 @@ import {
   Circle,
   ChevronLeft,
   ChevronRight,
+  ExternalLink,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -104,6 +105,17 @@ export default function TopicPage() {
                 <p className="text-muted-foreground mt-1">
                   {topic.description}
                 </p>
+                {topic.leetcodeLink && (
+                  <a
+                    href={topic.leetcodeLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 mt-2 text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    Solve on LeetCode
+                  </a>
+                )}
               </div>
 
               <Button

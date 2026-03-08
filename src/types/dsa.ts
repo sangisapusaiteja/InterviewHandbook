@@ -5,6 +5,7 @@ export interface DSATopic {
   icon: string;
   difficulty: "Beginner" | "Intermediate" | "Advanced";
   description: string;
+  leetcodeLink?: string;
   concept: TopicConcept;
   code: TopicCode;
   interviewQuestions: InterviewQuestion[];

@@ -4959,6 +4959,2250 @@ console.log("\nPath 0→4:", dijkstraPath(5, edges, 0, 4));
     ],
   },
 
+  // ─────────────────────────────────────────────
+  // Dynamic Programming
+  // ─────────────────────────────────────────────
+  {
+    id: "find-largest-element",
+    title: "Find Largest Element / Max",
+    slug: "find-largest-element",
+    icon: "TrendingUp",
+    difficulty: "Beginner",
+    description:
+      "Given an array of numbers, find and return the largest element. This foundational problem introduces iterative comparison — the building block for many dynamic programming patterns.",
+    leetcodeLink: "https://leetcode.com/problems/majority-element/",
+    concept: {
+      explanation:
+        "Finding the largest element in an array is one of the simplest algorithmic problems but teaches a critical pattern: maintaining state (the current maximum) while scanning through data. You start by assuming the first element is the largest, then compare it with every other element. Whenever you find something bigger, you update your answer. This 'track the best so far' pattern appears everywhere in dynamic programming — from maximum subarray sum to longest increasing subsequence. The key insight is that you only need one pass through the array, giving O(n) time complexity.",
+      realLifeAnalogy:
+        "Imagine you're a teacher collecting exam papers. You pick up the first paper and note the score — say 72. As you flip through the stack, whenever you see a score higher than 72, you mentally update your 'highest score so far'. By the time you reach the last paper, you know the top score without having to sort the entire pile. You only needed to remember one number the whole time — the current maximum.",
+      keyPoints: [
+        "Initialize max with the first element (or -Infinity for empty-safe version)",
+        "Single pass through the array — O(n) time, O(1) space",
+        "Compare each element with current max; update if larger",
+        "This 'track best so far' pattern is the foundation of many DP problems",
+        "Works with negative numbers too — max of [-5, -2, -8] is -2",
+        "Math.max(...arr) works but can stack overflow on very large arrays",
+        "Edge case: empty array should return undefined or throw",
+        "LeetCode reference: https://leetcode.com/problems/majority-element/",
+      ],
+      timeComplexity: "O(n) — must check every element at least once",
+      spaceComplexity: "O(1) — only one variable needed to track the maximum",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Find Largest Element / Max =====
+
+// ── Approach 1: Simple loop ─────────────────────
+function findLargest(arr) {
+  if (arr.length === 0) return undefined;
+
+  let max = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
+    }
+  }
+  return max;
+}
+
+// ── Test cases ──────────────────────────────────
+console.log("Array: [3, 7, 1, 9, 4, 6, 2]");
+console.log("Largest:", findLargest([3, 7, 1, 9, 4, 6, 2]));  // 9
+
+console.log("\\nArray: [-5, -2, -8, -1, -3]");
+console.log("Largest:", findLargest([-5, -2, -8, -1, -3]));    // -1
+
+console.log("\\nArray: [42]");
+console.log("Largest:", findLargest([42]));                      // 42
+
+// ── Approach 2: Using reduce ────────────────────
+function findLargestReduce(arr) {
+  return arr.reduce((max, val) => val > max ? val : max, arr[0]);
+}
+
+console.log("\\n--- Using reduce ---");
+console.log("Largest:", findLargestReduce([10, 25, 8, 30, 15])); // 30
+
+// ── Approach 3: Math.max (caution with large arrays) ──
+console.log("\\n--- Using Math.max ---");
+console.log("Largest:", Math.max(...[4, 8, 2, 6]));              // 8
+
+// ── Step-by-step trace ──────────────────────────
+console.log("\\n--- Step-by-step trace ---");
+function findLargestVerbose(arr) {
+  let max = arr[0];
+  console.log("Start: max =", max);
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > max) {
+      console.log(\`arr[\${i}] = \${arr[i]} > \${max} → update max to \${arr[i]}\`);
+      max = arr[i];
+    } else {
+      console.log(\`arr[\${i}] = \${arr[i]} ≤ \${max} → no change\`);
+    }
+  }
+  return max;
+}
+findLargestVerbose([3, 7, 1, 9, 4, 6, 2]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Find the largest element without using any built-in methods like Math.max.",
+        difficulty: "Easy",
+        hint: "Initialize a variable with the first element, loop through the rest, update whenever you find something bigger. One pass, O(n) time, O(1) space.",
+      },
+      {
+        question: "How would you find the second largest element in a single pass?",
+        difficulty: "Medium",
+        hint: "Track two variables: max and secondMax. When you find a new max, move the old max to secondMax. When you find something bigger than secondMax but not max, update secondMax. Be careful with duplicates — if max === secondMax, the second largest might be different.",
+      },
+      {
+        question: "Find the maximum element in a rotated sorted array in O(log n) time.",
+        difficulty: "Hard",
+        hint: "Use binary search. The maximum is the element after which the array 'drops'. Compare mid with the rightmost element: if arr[mid] > arr[right], the max is in the right half; otherwise, it's in the left half. The pivot point is where the maximum lives.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Remove Element
+  // ─────────────────────────────────────────────
+  {
+    id: "remove-element",
+    title: "Remove Element",
+    slug: "remove-element",
+    icon: "Trash2",
+    difficulty: "Beginner",
+    description:
+      "Given an array and a value, remove all instances of that value in-place and return the new length. LeetCode 27.",
+    leetcodeLink: "https://leetcode.com/problems/remove-element/",
+    concept: {
+      explanation:
+        "The Remove Element problem asks you to modify an array in-place so that all occurrences of a given value are removed, and return the new length. The trick is to use a two-pointer technique: a slow pointer (k) tracks where the next non-target value should go, while a fast pointer (i) scans every element. When arr[i] !== val, you copy it to arr[k] and increment k. At the end, k is the new length and arr[0..k-1] contains only the kept elements. The order of remaining elements is preserved. This is O(n) time and O(1) space — no extra array needed.",
+      realLifeAnalogy:
+        "Imagine you have a row of books on a shelf and you want to remove all the red books. Instead of pulling each red book out (which shifts everything), you use a smarter approach: you walk along the shelf with two fingers. Your left finger marks the 'write position' — where the next keeper goes. Your right finger scans each book. Every time your right finger finds a non-red book, you move it to the left finger's position and advance the left finger. At the end, all non-red books are packed to the left, and you know exactly how many remain.",
+      keyPoints: [
+        "Two-pointer technique: slow pointer (k) for write position, fast pointer (i) for scanning",
+        "Only copy elements that are NOT equal to the target value",
+        "O(n) time — single pass through the array",
+        "O(1) space — modifies array in-place, no extra storage",
+        "The returned value k is the count of remaining elements",
+        "Elements beyond index k don't matter (can be anything)",
+        "Order of remaining elements is preserved",
+        "LeetCode 27: https://leetcode.com/problems/remove-element/",
+      ],
+      timeComplexity: "O(n) — one pass through the array",
+      spaceComplexity: "O(1) — in-place modification",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Remove Element (LeetCode 27) =====
+
+// ── Two-pointer approach ────────────────────────
+function removeElement(nums, val) {
+  let k = 0; // slow pointer — write position
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== val) {
+      nums[k] = nums[i];
+      k++;
+    }
+  }
+  return k;
+}
+
+// ── Test case 1 ─────────────────────────────────
+let nums1 = [3, 2, 2, 3];
+let val1 = 3;
+console.log("Input:", JSON.stringify(nums1), "| Remove:", val1);
+let k1 = removeElement(nums1, val1);
+console.log("New length:", k1);
+console.log("Result:", JSON.stringify(nums1.slice(0, k1)));  // [2, 2]
+
+// ── Test case 2 ─────────────────────────────────
+let nums2 = [0, 1, 2, 2, 3, 0, 4, 2];
+let val2 = 2;
+console.log("\\nInput:", JSON.stringify(nums2), "| Remove:", val2);
+let k2 = removeElement(nums2, val2);
+console.log("New length:", k2);
+console.log("Result:", JSON.stringify(nums2.slice(0, k2)));  // [0, 1, 3, 0, 4]
+
+// ── Step-by-step trace ──────────────────────────
+console.log("\\n--- Step-by-step trace ---");
+function removeElementVerbose(nums, val) {
+  let k = 0;
+  console.log("Start: k = 0, val =", val);
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== val) {
+      console.log(\`  i=\${i}: nums[\${i}]=\${nums[i]} ≠ \${val} → copy to position \${k}\`);
+      nums[k] = nums[i];
+      k++;
+    } else {
+      console.log(\`  i=\${i}: nums[\${i}]=\${nums[i]} === \${val} → skip\`);
+    }
+  }
+  console.log("Final k =", k, "| Result:", JSON.stringify(nums.slice(0, k)));
+  return k;
+}
+removeElementVerbose([0, 1, 2, 2, 3, 0, 4, 2], 2);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Remove all occurrences of a value from an array in-place and return the new length.",
+        difficulty: "Easy",
+        hint: "Use two pointers: a slow write pointer k and a fast scan pointer i. When nums[i] !== val, copy it to nums[k] and increment k. Return k at the end.",
+      },
+      {
+        question: "What if you want to minimize the number of copy operations? (Hint: when there are few elements to remove)",
+        difficulty: "Medium",
+        hint: "Swap the element to remove with the last element and shrink the array size. This way you only do one operation per removal, but the order of elements is not preserved. Useful when removals are rare.",
+      },
+      {
+        question: "Remove Duplicates from Sorted Array (LeetCode 26) — how does it differ?",
+        difficulty: "Medium",
+        hint: "Same two-pointer pattern, but instead of comparing against a fixed val, compare nums[i] with nums[k-1]. If they differ, it's a new unique element — copy it to position k. Works because the array is sorted, so duplicates are adjacent.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Best Time to Buy and Sell Stock
+  // ─────────────────────────────────────────────
+  {
+    id: "best-time-to-buy-sell-stock",
+    title: "Best Time to Buy and Sell Stock",
+    slug: "best-time-to-buy-sell-stock",
+    icon: "TrendingUp",
+    difficulty: "Beginner",
+    description:
+      "Given an array of stock prices, find the maximum profit from one buy and one sell. LeetCode 121.",
+    leetcodeLink: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+    concept: {
+      explanation:
+        "You're given an array where prices[i] is the stock price on day i. You want to maximize profit by choosing one day to buy and a later day to sell. The key insight is: as you scan left to right, track the minimum price seen so far (minPrice). At each day, the best you could do if you sold today is prices[i] - minPrice. Track the maximum of all such differences. This is a classic 'track the best so far' DP pattern — your state is the minimum price, and your decision at each step is whether selling today beats your previous best profit. One pass, O(n) time, O(1) space.",
+      realLifeAnalogy:
+        "Imagine you have a time machine but can only use it once. You look at a stock's price history on a chart. You slide your finger from left to right. Your left eye remembers the lowest price you've seen so far (the best day to have bought). Your right eye looks at today's price and calculates: 'If I bought at that lowest point and sold today, how much would I make?' You keep a mental note of the best profit. By the time your finger reaches the end of the chart, you know the perfect buy-sell pair — no sorting, no nested loops, just one smooth scan.",
+      keyPoints: [
+        "Track minPrice (lowest seen so far) and maxProfit as you scan",
+        "At each price: profit = prices[i] - minPrice; update maxProfit",
+        "Update minPrice if current price is lower",
+        "O(n) time — single pass; O(1) space — two variables",
+        "If prices only decrease, maxProfit stays 0 (don't buy at all)",
+        "This is Kadane's algorithm adapted for stock prices",
+        "Cannot sell before buying — scan left to right enforces this",
+        "LeetCode 121: https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+      ],
+      timeComplexity: "O(n) — single pass through the prices array",
+      spaceComplexity: "O(1) — only two variables: minPrice and maxProfit",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Best Time to Buy and Sell Stock (LeetCode 121) =====
+
+function maxProfit(prices) {
+  let minPrice = Infinity;
+  let maxProfit = 0;
+
+  for (let i = 0; i < prices.length; i++) {
+    if (prices[i] < minPrice) {
+      minPrice = prices[i];       // new lowest buy price
+    } else {
+      const profit = prices[i] - minPrice;
+      if (profit > maxProfit) {
+        maxProfit = profit;       // new best profit
+      }
+    }
+  }
+  return maxProfit;
+}
+
+// ── Test case 1 ─────────────────────────────────
+let prices1 = [7, 1, 5, 3, 6, 4];
+console.log("Prices:", JSON.stringify(prices1));
+console.log("Max Profit:", maxProfit(prices1));  // 5 (buy@1, sell@6)
+
+// ── Test case 2 (declining prices) ──────────────
+let prices2 = [7, 6, 4, 3, 1];
+console.log("\\nPrices:", JSON.stringify(prices2));
+console.log("Max Profit:", maxProfit(prices2));  // 0 (no profit possible)
+
+// ── Test case 3 ─────────────────────────────────
+let prices3 = [2, 4, 1, 7, 5, 3, 6];
+console.log("\\nPrices:", JSON.stringify(prices3));
+console.log("Max Profit:", maxProfit(prices3));  // 6 (buy@1, sell@7)
+
+// ── Step-by-step trace ──────────────────────────
+console.log("\\n--- Step-by-step trace ---");
+function maxProfitVerbose(prices) {
+  let minPrice = Infinity;
+  let best = 0;
+  for (let i = 0; i < prices.length; i++) {
+    if (prices[i] < minPrice) {
+      minPrice = prices[i];
+      console.log(\`Day \${i}: price=\${prices[i]} → new min! minPrice=\${minPrice}\`);
+    } else {
+      const profit = prices[i] - minPrice;
+      if (profit > best) best = profit;
+      console.log(\`Day \${i}: price=\${prices[i]} - min=\${minPrice} = profit \${profit} | best=\${best}\`);
+    }
+  }
+  return best;
+}
+maxProfitVerbose([7, 1, 5, 3, 6, 4]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Find the maximum profit from buying and selling a stock once.",
+        difficulty: "Easy",
+        hint: "Track minPrice and maxProfit in one pass. At each price, compute profit = price - minPrice, update maxProfit if larger. Update minPrice if current price is lower. Return maxProfit.",
+      },
+      {
+        question: "What if you could buy and sell multiple times (LeetCode 122)?",
+        difficulty: "Medium",
+        hint: "Greedy: add up every upward move. If prices[i] > prices[i-1], add the difference to profit. You're capturing every 'valley to peak' gain. Still O(n) time, O(1) space.",
+      },
+      {
+        question: "What if there's a cooldown of 1 day after selling (LeetCode 309)?",
+        difficulty: "Hard",
+        hint: "Use three DP states: hold (own stock), sold (just sold today, must cool down tomorrow), rest (no stock, free to buy). Transitions: hold = max(hold, rest - price), sold = hold + price, rest = max(rest, sold). Track these three values as you scan through prices.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Squares of a Sorted Array
+  // ─────────────────────────────────────────────
+  {
+    id: "squares-of-sorted-array",
+    title: "Squares of a Sorted Array",
+    slug: "squares-of-sorted-array",
+    icon: "ArrowUpDown",
+    difficulty: "Beginner",
+    description:
+      "Given a sorted array of integers, return an array of the squares of each number, also sorted. LeetCode 977.",
+    leetcodeLink: "https://leetcode.com/problems/squares-of-a-sorted-array/",
+    concept: {
+      explanation:
+        "You're given an integer array sorted in non-decreasing order (may include negatives). You need to return the squares of each number, sorted. The naive approach is to square everything and sort — O(n log n). The optimal approach uses two pointers: one at the start (largest negative) and one at the end (largest positive). Since squares of large negatives can be bigger than squares of small positives, you compare absolute values from both ends, place the larger square at the end of the result array, and move the pointer inward. This fills the result from right to left in one pass — O(n) time, O(n) space for the output.",
+      realLifeAnalogy:
+        "Imagine two runners on a number line — one starting from the far left (negative side) and one from the far right (positive side). Both are shouting their distances from zero. A judge at the finish line writes down the larger distance first, working backwards to fill a scoreboard. Since both runners move inward, the judge always picks the bigger remaining distance without re-sorting anything.",
+      keyPoints: [
+        "Two-pointer technique: left at index 0, right at index n-1",
+        "Compare Math.abs(arr[left]) vs Math.abs(arr[right])",
+        "Place the larger square at the end of the result array, fill right to left",
+        "O(n) time — single pass; O(n) space for the result array",
+        "Handles negative numbers naturally — their squares can be large",
+        "Naive approach: square all, then sort → O(n log n) — suboptimal",
+        "LeetCode 977: https://leetcode.com/problems/squares-of-a-sorted-array/",
+      ],
+      timeComplexity: "O(n) — single pass with two pointers",
+      spaceComplexity: "O(n) — for the output array",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Squares of a Sorted Array (LeetCode 977) =====
+
+// ── Optimal: Two-pointer approach ───────────────
+function sortedSquares(nums) {
+  const n = nums.length;
+  const result = new Array(n);
+  let left = 0, right = n - 1;
+  let pos = n - 1; // fill from the end
+
+  while (left <= right) {
+    const leftSq = nums[left] * nums[left];
+    const rightSq = nums[right] * nums[right];
+    if (leftSq > rightSq) {
+      result[pos] = leftSq;
+      left++;
+    } else {
+      result[pos] = rightSq;
+      right--;
+    }
+    pos--;
+  }
+  return result;
+}
+
+// ── Test cases ──────────────────────────────────
+console.log("Input: [-4, -1, 0, 3, 10]");
+console.log("Output:", JSON.stringify(sortedSquares([-4, -1, 0, 3, 10])));
+// [0, 1, 9, 16, 100]
+
+console.log("\\nInput: [-7, -3, 2, 3, 11]");
+console.log("Output:", JSON.stringify(sortedSquares([-7, -3, 2, 3, 11])));
+// [4, 9, 9, 49, 121]
+
+console.log("\\nInput: [1, 2, 3, 4, 5]");
+console.log("Output:", JSON.stringify(sortedSquares([1, 2, 3, 4, 5])));
+// [1, 4, 9, 16, 25]
+
+// ── Step-by-step trace ──────────────────────────
+console.log("\\n--- Step-by-step trace ---");
+function sortedSquaresVerbose(nums) {
+  const n = nums.length;
+  const result = new Array(n);
+  let left = 0, right = n - 1, pos = n - 1;
+  while (left <= right) {
+    const lSq = nums[left] ** 2;
+    const rSq = nums[right] ** 2;
+    if (lSq > rSq) {
+      console.log(\`left=\${nums[left]}² = \${lSq} > right=\${nums[right]}² = \${rSq} → result[\${pos}] = \${lSq}\`);
+      result[pos] = lSq; left++;
+    } else {
+      console.log(\`right=\${nums[right]}² = \${rSq} >= left=\${nums[left]}² = \${lSq} → result[\${pos}] = \${rSq}\`);
+      result[pos] = rSq; right--;
+    }
+    pos--;
+  }
+  console.log("Result:", JSON.stringify(result));
+  return result;
+}
+sortedSquaresVerbose([-4, -1, 0, 3, 10]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Return sorted squares of a sorted array in O(n) time.",
+        difficulty: "Easy",
+        hint: "Two pointers at both ends. Compare absolute values, place the larger square at the back of the result array, and move the pointer inward. Fill result right-to-left.",
+      },
+      {
+        question: "Can you solve it without allocating a new array (in-place)?",
+        difficulty: "Medium",
+        hint: "Not really — squaring in-place destroys the sorted order of negatives. You'd need the output array. However, if all values are non-negative, you can square in-place since the order is preserved.",
+      },
+      {
+        question: "What if the input is sorted in non-increasing order instead?",
+        difficulty: "Medium",
+        hint: "Reverse the pointer logic — the smallest absolute values are at the ends, and the largest are in the middle. Use two pointers starting from both ends moving inward, but fill the result left-to-right with the smaller square.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Remove Duplicates from Sorted Array
+  // ─────────────────────────────────────────────
+  {
+    id: "remove-duplicates-sorted-array",
+    title: "Remove Duplicates from Sorted Array",
+    slug: "remove-duplicates-sorted-array",
+    icon: "ListFilter",
+    difficulty: "Beginner",
+    description:
+      "Given a sorted array, remove duplicates in-place and return the count of unique elements. LeetCode 26.",
+    leetcodeLink: "https://leetcode.com/problems/remove-duplicates-from-sorted-array/",
+    concept: {
+      explanation:
+        "Given a sorted integer array, remove duplicates in-place so each element appears only once, and return the new length. The two-pointer technique works perfectly here: a slow pointer (k) marks the position of the last unique element, while a fast pointer (i) scans forward. Since the array is sorted, duplicates are adjacent. When nums[i] !== nums[k], you've found a new unique element — copy it to position k+1 and advance k. At the end, k+1 is the count of unique elements. O(n) time, O(1) space.",
+      realLifeAnalogy:
+        "Imagine you're organizing a line of students sorted by height. Some students have the exact same height and are standing next to each other. Your job is to keep one student from each height group and send the rest home. You walk down the line with a clipboard (slow pointer). Each time you spot a student taller than the last one on your list, you wave them forward to stand next in the 'unique' line. Same-height students behind them get sent home.",
+      keyPoints: [
+        "Two-pointer: k (write position for last unique), i (scanner)",
+        "Since array is sorted, duplicates are always adjacent",
+        "When nums[i] !== nums[k], it's a new unique element → copy to k+1",
+        "O(n) time — single pass; O(1) space — in-place",
+        "Return k + 1 as the count of unique elements",
+        "Elements beyond the returned length don't matter",
+        "Very similar to Remove Element (LeetCode 27) but comparison differs",
+        "LeetCode 26: https://leetcode.com/problems/remove-duplicates-from-sorted-array/",
+      ],
+      timeComplexity: "O(n) — single pass through the array",
+      spaceComplexity: "O(1) — in-place modification",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Remove Duplicates from Sorted Array (LeetCode 26) =====
+
+function removeDuplicates(nums) {
+  if (nums.length === 0) return 0;
+
+  let k = 0; // position of last unique element
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] !== nums[k]) {
+      k++;
+      nums[k] = nums[i];
+    }
+  }
+  return k + 1; // count of unique elements
+}
+
+// ── Test case 1 ─────────────────────────────────
+let nums1 = [1, 1, 2];
+console.log("Input:", JSON.stringify(nums1));
+let k1 = removeDuplicates(nums1);
+console.log("Unique count:", k1);
+console.log("Result:", JSON.stringify(nums1.slice(0, k1)));  // [1, 2]
+
+// ── Test case 2 ─────────────────────────────────
+let nums2 = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4];
+console.log("\\nInput:", JSON.stringify(nums2));
+let k2 = removeDuplicates(nums2);
+console.log("Unique count:", k2);
+console.log("Result:", JSON.stringify(nums2.slice(0, k2)));  // [0, 1, 2, 3, 4]
+
+// ── Test case 3 (all same) ──────────────────────
+let nums3 = [5, 5, 5, 5];
+console.log("\\nInput:", JSON.stringify(nums3));
+let k3 = removeDuplicates(nums3);
+console.log("Unique count:", k3);
+console.log("Result:", JSON.stringify(nums3.slice(0, k3)));  // [5]
+
+// ── Step-by-step trace ──────────────────────────
+console.log("\\n--- Step-by-step trace ---");
+function removeDuplicatesVerbose(nums) {
+  let k = 0;
+  console.log("Start: k=0, nums[0]=" + nums[0] + " (first unique)");
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] !== nums[k]) {
+      k++;
+      nums[k] = nums[i];
+      console.log(\`  i=\${i}: nums[\${i}]=\${nums[i]} ≠ nums[\${k-1}] → new unique at position \${k}\`);
+    } else {
+      console.log(\`  i=\${i}: nums[\${i}]=\${nums[i]} === nums[\${k}] → skip (duplicate)\`);
+    }
+  }
+  console.log("Unique count:", k + 1, "| Result:", JSON.stringify(nums.slice(0, k + 1)));
+  return k + 1;
+}
+removeDuplicatesVerbose([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Remove duplicates from a sorted array in-place and return the unique count.",
+        difficulty: "Easy",
+        hint: "Two pointers: k tracks the last unique position, i scans forward. When nums[i] !== nums[k], increment k and copy nums[i] there. Return k + 1.",
+      },
+      {
+        question: "What if duplicates are allowed at most twice (LeetCode 80)?",
+        difficulty: "Medium",
+        hint: "Change the comparison: instead of nums[i] !== nums[k], check nums[i] !== nums[k-1]. This allows up to 2 of each value. The slow pointer k still tracks the write position, but you compare against the element two positions back.",
+      },
+      {
+        question: "How would you remove duplicates from an unsorted array in O(n) time?",
+        difficulty: "Medium",
+        hint: "Use a Set to track seen values. Iterate with two pointers — only copy to the write position if the element hasn't been seen. The Set gives O(1) lookup. Total: O(n) time, O(n) space for the Set.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Sort Colors (Dutch National Flag)
+  // ─────────────────────────────────────────────
+  {
+    id: "sort-colors",
+    title: "Sort Colors (Dutch National Flag)",
+    slug: "sort-colors",
+    icon: "Palette",
+    difficulty: "Intermediate",
+    description:
+      "Sort an array of 0s, 1s, and 2s in-place in a single pass. LeetCode 75.",
+    leetcodeLink: "https://leetcode.com/problems/sort-colors/",
+    concept: {
+      explanation:
+        "The Sort Colors problem (also known as the Dutch National Flag problem, invented by Dijkstra) asks you to sort an array containing only 0, 1, and 2. The optimal solution uses three pointers: low (boundary for 0s), mid (current scanner), and high (boundary for 2s). When mid sees a 0, swap it with low and advance both. When mid sees a 1, just advance mid. When mid sees a 2, swap it with high and shrink high (don't advance mid — the swapped element needs checking). This partitions the array into three regions: [0...0 | 1...1 | 2...2] in a single pass. O(n) time, O(1) space.",
+      realLifeAnalogy:
+        "Imagine you're sorting a deck of cards into three piles: red, white, and blue. You have three markers on a table — a left marker, a middle marker, and a right marker. You flip cards one by one at the middle position. Red card? Swap it to the left pile and move both the left and middle markers right. White card? It's already in the right place — just advance the middle marker. Blue card? Swap it to the right pile and move the right marker left (but keep middle where it is, since the swapped card hasn't been checked yet).",
+      keyPoints: [
+        "Three pointers: low (next 0 position), mid (scanner), high (next 2 position)",
+        "If nums[mid] === 0: swap(low, mid), low++, mid++",
+        "If nums[mid] === 1: mid++ (already in correct region)",
+        "If nums[mid] === 2: swap(mid, high), high-- (don't advance mid!)",
+        "Loop continues while mid <= high",
+        "Single pass — O(n) time, O(1) space",
+        "Don't advance mid after swapping with high — the swapped value is unchecked",
+        "LeetCode 75: https://leetcode.com/problems/sort-colors/",
+      ],
+      timeComplexity: "O(n) — single pass through the array",
+      spaceComplexity: "O(1) — in-place with three pointers",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Sort Colors / Dutch National Flag (LeetCode 75) =====
+
+function sortColors(nums) {
+  let low = 0, mid = 0, high = nums.length - 1;
+
+  while (mid <= high) {
+    if (nums[mid] === 0) {
+      [nums[low], nums[mid]] = [nums[mid], nums[low]];
+      low++;
+      mid++;
+    } else if (nums[mid] === 1) {
+      mid++;
+    } else {
+      [nums[mid], nums[high]] = [nums[high], nums[mid]];
+      high--;
+      // don't advance mid — swapped value needs checking
+    }
+  }
+}
+
+// ── Test case 1 ─────────────────────────────────
+let nums1 = [2, 0, 2, 1, 1, 0];
+console.log("Input:", JSON.stringify(nums1));
+sortColors(nums1);
+console.log("Output:", JSON.stringify(nums1));  // [0, 0, 1, 1, 2, 2]
+
+// ── Test case 2 ─────────────────────────────────
+let nums2 = [2, 0, 1];
+console.log("\\nInput:", JSON.stringify(nums2));
+sortColors(nums2);
+console.log("Output:", JSON.stringify(nums2));  // [0, 1, 2]
+
+// ── Test case 3 ─────────────────────────────────
+let nums3 = [0];
+console.log("\\nInput:", JSON.stringify(nums3));
+sortColors(nums3);
+console.log("Output:", JSON.stringify(nums3));  // [0]
+
+// ── Step-by-step trace ──────────────────────────
+console.log("\\n--- Step-by-step trace ---");
+function sortColorsVerbose(nums) {
+  let low = 0, mid = 0, high = nums.length - 1;
+  console.log("Start:", JSON.stringify(nums), "low=0 mid=0 high=" + high);
+  while (mid <= high) {
+    if (nums[mid] === 0) {
+      [nums[low], nums[mid]] = [nums[mid], nums[low]];
+      console.log(\`mid=\${mid} is 0 → swap(\${low},\${mid}) → [\${nums}] low=\${low+1} mid=\${mid+1}\`);
+      low++; mid++;
+    } else if (nums[mid] === 1) {
+      console.log(\`mid=\${mid} is 1 → skip → mid=\${mid+1}\`);
+      mid++;
+    } else {
+      [nums[mid], nums[high]] = [nums[high], nums[mid]];
+      console.log(\`mid=\${mid} is 2 → swap(\${mid},\${high}) → [\${nums}] high=\${high-1}\`);
+      high--;
+    }
+  }
+  console.log("Result:", JSON.stringify(nums));
+}
+sortColorsVerbose([2, 0, 2, 1, 1, 0]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Sort an array of 0s, 1s, and 2s in a single pass without using a sorting algorithm.",
+        difficulty: "Easy",
+        hint: "Dutch National Flag: three pointers — low, mid, high. Swap 0s to the front (low), leave 1s in the middle, swap 2s to the back (high). Key: don't advance mid after swapping with high.",
+      },
+      {
+        question: "Why don't we advance mid after swapping with high?",
+        difficulty: "Medium",
+        hint: "When we swap nums[mid] with nums[high], the value that comes from high hasn't been examined yet — it could be 0, 1, or 2. If we advance mid, we'd skip checking it. After swapping with low, both values are known (low region is processed), so advancing mid is safe.",
+      },
+      {
+        question: "How would you extend this to sort 4 colors (0, 1, 2, 3)?",
+        difficulty: "Hard",
+        hint: "Use four pointers: p0, p1, p2, p3. Or think of it as two passes of the Dutch National Flag: first partition around value 1 (0s left, rest right), then partition the right portion around value 2. Each pass is O(n), so total is still O(n).",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Running Sum of 1D Array
+  // ─────────────────────────────────────────────
+  {
+    id: "running-sum",
+    title: "Running Sum of 1D Array",
+    slug: "running-sum",
+    icon: "TrendingUp",
+    difficulty: "Beginner",
+    description:
+      "Return a running sum of an array where each element is the sum of all elements up to that index. LeetCode 1480.",
+    leetcodeLink: "https://leetcode.com/problems/running-sum-of-1d-array/",
+    concept: {
+      explanation:
+        "The running sum (also called prefix sum) of an array transforms each element into the cumulative total up to that index. For an array [1, 2, 3, 4], the running sum is [1, 3, 6, 10]. The approach is simple: iterate from index 1 onward, and at each position set nums[i] = nums[i] + nums[i-1]. This works because nums[i-1] already contains the cumulative sum up to that point. Prefix sums are a foundational technique in dynamic programming — they let you compute the sum of any subarray in O(1) time after an O(n) preprocessing step.",
+      realLifeAnalogy:
+        "Imagine you're tracking your monthly savings. In January you save $100, February $200, March $150. Your running total after each month is: $100, $300, $450. At any point, you know your total savings without re-adding everything — you just take last month's total and add this month's amount. That's exactly what a prefix sum does.",
+      keyPoints: [
+        "In-place: nums[i] += nums[i-1] for i from 1 to n-1",
+        "O(n) time — single pass; O(1) extra space (modifies in-place)",
+        "Prefix sums enable O(1) range sum queries: sum(i,j) = prefix[j] - prefix[i-1]",
+        "Foundation for many DP problems (subarray sums, range queries)",
+        "Can also be built into a separate prefix array to keep original data",
+        "LeetCode 1480: https://leetcode.com/problems/running-sum-of-1d-array/",
+      ],
+      timeComplexity: "O(n) — single pass",
+      spaceComplexity: "O(1) — in-place modification",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Running Sum of 1D Array (LeetCode 1480) =====
+
+function runningSum(nums) {
+  for (let i = 1; i < nums.length; i++) {
+    nums[i] += nums[i - 1];
+  }
+  return nums;
+}
+
+// ── Test cases ──────────────────────────────────
+console.log("Input: [1, 2, 3, 4]");
+console.log("Output:", JSON.stringify(runningSum([1, 2, 3, 4])));
+// [1, 3, 6, 10]
+
+console.log("\\nInput: [1, 1, 1, 1, 1]");
+console.log("Output:", JSON.stringify(runningSum([1, 1, 1, 1, 1])));
+// [1, 2, 3, 4, 5]
+
+console.log("\\nInput: [3, 1, 2, 10, 1]");
+console.log("Output:", JSON.stringify(runningSum([3, 1, 2, 10, 1])));
+// [3, 4, 6, 16, 17]
+
+// ── Step-by-step trace ──────────────────────────
+console.log("\\n--- Step-by-step trace ---");
+function runningSumVerbose(nums) {
+  console.log("Start:", JSON.stringify(nums));
+  for (let i = 1; i < nums.length; i++) {
+    const prev = nums[i];
+    nums[i] += nums[i - 1];
+    console.log(\`  i=\${i}: \${prev} + \${nums[i-1] - prev + prev} = \${nums[i]}\`);
+  }
+  console.log("Result:", JSON.stringify(nums));
+  return nums;
+}
+runningSumVerbose([1, 2, 3, 4]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Compute the running sum of an array.",
+        difficulty: "Easy",
+        hint: "Iterate from index 1: nums[i] += nums[i-1]. Each element becomes the cumulative sum up to that index.",
+      },
+      {
+        question: "Given a prefix sum array, find the sum of elements between indices i and j in O(1).",
+        difficulty: "Medium",
+        hint: "sum(i, j) = prefix[j] - prefix[i-1]. For i=0, just use prefix[j]. This is the core power of prefix sums.",
+      },
+      {
+        question: "How would you compute a 2D prefix sum for a matrix?",
+        difficulty: "Hard",
+        hint: "Use inclusion-exclusion: prefix[i][j] = matrix[i][j] + prefix[i-1][j] + prefix[i][j-1] - prefix[i-1][j-1]. Then any rectangle sum is computed in O(1).",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Find Pivot Index
+  // ─────────────────────────────────────────────
+  {
+    id: "find-pivot-index",
+    title: "Find Pivot Index",
+    slug: "find-pivot-index",
+    icon: "Crosshair",
+    difficulty: "Beginner",
+    description:
+      "Find the index where the sum of elements to the left equals the sum of elements to the right. LeetCode 724.",
+    leetcodeLink: "https://leetcode.com/problems/find-pivot-index/",
+    concept: {
+      explanation:
+        "The pivot index is the index where the sum of all elements strictly to the left equals the sum of all elements strictly to the right. The approach: first compute the total sum. Then iterate left to right, maintaining a leftSum. At each index i, rightSum = totalSum - leftSum - nums[i]. If leftSum === rightSum, you've found the pivot. Then add nums[i] to leftSum and continue. This is O(n) time with O(1) extra space — a classic prefix sum application.",
+      realLifeAnalogy:
+        "Imagine a seesaw with weighted blocks placed along it. You're looking for the balance point — the position where the weight on the left equals the weight on the right. Instead of recalculating from scratch each time, you slide the fulcrum one position at a time: move one block from the 'right side' to the 'left side' and check if it balances.",
+      keyPoints: [
+        "First pass: compute totalSum",
+        "Second pass: track leftSum, compute rightSum = totalSum - leftSum - nums[i]",
+        "If leftSum === rightSum, return i",
+        "O(n) time, O(1) space — two passes",
+        "If no pivot exists, return -1",
+        "Edge case: pivot at index 0 means leftSum = 0",
+        "LeetCode 724: https://leetcode.com/problems/find-pivot-index/",
+      ],
+      timeComplexity: "O(n) — two passes through the array",
+      spaceComplexity: "O(1) — only two variables",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Find Pivot Index (LeetCode 724) =====
+
+function pivotIndex(nums) {
+  const totalSum = nums.reduce((a, b) => a + b, 0);
+  let leftSum = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    const rightSum = totalSum - leftSum - nums[i];
+    if (leftSum === rightSum) return i;
+    leftSum += nums[i];
+  }
+  return -1;
+}
+
+// ── Test cases ──────────────────────────────────
+console.log("Input: [1, 7, 3, 6, 5, 6]");
+console.log("Pivot Index:", pivotIndex([1, 7, 3, 6, 5, 6]));  // 3
+
+console.log("\\nInput: [1, 2, 3]");
+console.log("Pivot Index:", pivotIndex([1, 2, 3]));  // -1
+
+console.log("\\nInput: [2, 1, -1]");
+console.log("Pivot Index:", pivotIndex([2, 1, -1]));  // 0
+
+// ── Step-by-step trace ──────────────────────────
+console.log("\\n--- Step-by-step trace ---");
+function pivotIndexVerbose(nums) {
+  const total = nums.reduce((a, b) => a + b, 0);
+  let leftSum = 0;
+  console.log("Total sum:", total);
+  for (let i = 0; i < nums.length; i++) {
+    const rightSum = total - leftSum - nums[i];
+    console.log(\`  i=\${i}: left=\${leftSum}, right=\${rightSum}\${leftSum === rightSum ? " ✅ PIVOT!" : ""}\`);
+    if (leftSum === rightSum) return i;
+    leftSum += nums[i];
+  }
+  return -1;
+}
+pivotIndexVerbose([1, 7, 3, 6, 5, 6]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Find the pivot index where left sum equals right sum.",
+        difficulty: "Easy",
+        hint: "Compute total sum first. Then scan left to right with leftSum. At each index: rightSum = total - leftSum - nums[i]. If equal, return i.",
+      },
+      {
+        question: "What if there are multiple pivot indices? Return the leftmost one.",
+        difficulty: "Medium",
+        hint: "The algorithm already returns the leftmost pivot because it scans left to right and returns immediately on the first match.",
+      },
+      {
+        question: "Can you find a pivot in a circular array?",
+        difficulty: "Hard",
+        hint: "For a circular array, the total sum stays the same. Try each index as a potential pivot, but compute left/right sums wrapping around. Or duplicate the array and use a sliding window approach.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Subarray Sum Equals K
+  // ─────────────────────────────────────────────
+  {
+    id: "subarray-sum-equals-k",
+    title: "Subarray Sum Equals K",
+    slug: "subarray-sum-equals-k",
+    icon: "Hash",
+    difficulty: "Intermediate",
+    description:
+      "Count the number of contiguous subarrays whose elements sum to k. LeetCode 560.",
+    leetcodeLink: "https://leetcode.com/problems/subarray-sum-equals-k/",
+    concept: {
+      explanation:
+        "Given an array and a target k, count how many contiguous subarrays sum to k. The brute force checks all pairs — O(n²). The optimal approach uses a prefix sum + hash map. As you scan, maintain a running sum (prefix). If prefix - k exists in the map, it means there's a subarray ending at the current index that sums to k. The map stores how many times each prefix sum has occurred. Key insight: sum(i..j) = prefix[j] - prefix[i-1], so if prefix[j] - k = prefix[i-1], we found a valid subarray. Initialize the map with {0: 1} to handle subarrays starting from index 0.",
+      realLifeAnalogy:
+        "You're walking along a trail with distance markers. You want to find how many sections of the trail are exactly 5 km long. Instead of measuring every possible start-end pair, you keep a notebook of all distances you've been at. At each marker, you check: 'Have I been at a point that's exactly 5 km behind me?' If yes, the trail between that point and here is exactly 5 km. The notebook is your hash map of prefix sums.",
+      keyPoints: [
+        "Prefix sum + hash map approach — O(n) time, O(n) space",
+        "Running sum: prefix += nums[i] at each step",
+        "Check if (prefix - k) exists in the map → found a valid subarray",
+        "Map stores frequency of each prefix sum seen so far",
+        "Initialize map with {0: 1} to handle subarrays starting at index 0",
+        "Works with negative numbers (unlike sliding window)",
+        "Cannot use sliding window because array may contain negatives",
+        "LeetCode 560: https://leetcode.com/problems/subarray-sum-equals-k/",
+      ],
+      timeComplexity: "O(n) — single pass with hash map lookups",
+      spaceComplexity: "O(n) — hash map of prefix sums",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Subarray Sum Equals K (LeetCode 560) =====
+
+function subarraySum(nums, k) {
+  const prefixMap = new Map();
+  prefixMap.set(0, 1); // empty subarray
+  let prefix = 0;
+  let count = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    prefix += nums[i];
+    if (prefixMap.has(prefix - k)) {
+      count += prefixMap.get(prefix - k);
+    }
+    prefixMap.set(prefix, (prefixMap.get(prefix) || 0) + 1);
+  }
+  return count;
+}
+
+// ── Test cases ──────────────────────────────────
+console.log("Input: [1,1,1], k=2");
+console.log("Count:", subarraySum([1, 1, 1], 2));  // 2
+
+console.log("\\nInput: [1,2,3], k=3");
+console.log("Count:", subarraySum([1, 2, 3], 3));  // 2
+
+console.log("\\nInput: [1,-1,0], k=0");
+console.log("Count:", subarraySum([1, -1, 0], 0));  // 3
+
+// ── Step-by-step trace ──────────────────────────
+console.log("\\n--- Step-by-step trace ---");
+function subarraySumVerbose(nums, k) {
+  const map = new Map(); map.set(0, 1);
+  let prefix = 0, count = 0;
+  console.log("Target k =", k);
+  for (let i = 0; i < nums.length; i++) {
+    prefix += nums[i];
+    const need = prefix - k;
+    const found = map.get(need) || 0;
+    if (found > 0) { count += found; console.log(\`  i=\${i}: prefix=\${prefix}, need=\${need} found \${found}x → count=\${count}\`); }
+    else { console.log(\`  i=\${i}: prefix=\${prefix}, need=\${need} not in map\`); }
+    map.set(prefix, (map.get(prefix) || 0) + 1);
+  }
+  console.log("Total subarrays:", count);
+  return count;
+}
+subarraySumVerbose([1, 1, 1], 2);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Count subarrays that sum to k.",
+        difficulty: "Easy",
+        hint: "Prefix sum + hash map. Track running sum; at each step check if (prefix - k) exists in the map. Initialize map with {0: 1}.",
+      },
+      {
+        question: "Why can't we use a sliding window for this problem?",
+        difficulty: "Medium",
+        hint: "Sliding window assumes adding elements increases the sum and removing decreases it. With negative numbers, this assumption breaks — shrinking the window might increase the sum. Prefix sum + map works regardless of sign.",
+      },
+      {
+        question: "Find the longest subarray with sum equal to k.",
+        difficulty: "Hard",
+        hint: "Similar prefix sum approach, but instead of counting, store the first index where each prefix sum occurs. When prefix - k is found, the subarray length is i - firstIndex. Track the maximum length.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Contains Duplicate
+  // ─────────────────────────────────────────────
+  {
+    id: "contains-duplicate",
+    title: "Contains Duplicate",
+    slug: "contains-duplicate",
+    icon: "Copy",
+    difficulty: "Beginner",
+    description:
+      "Determine if any value appears at least twice in the array. LeetCode 217.",
+    leetcodeLink: "https://leetcode.com/problems/contains-duplicate/",
+    concept: {
+      explanation:
+        "Given an integer array, return true if any value appears at least twice. The brute force uses nested loops — O(n²). Sorting first lets you check adjacent elements — O(n log n). The optimal approach uses a Set: iterate through the array, and for each element check if it's already in the Set. If yes, return true. Otherwise, add it. If you finish without finding a duplicate, return false. O(n) time, O(n) space.",
+      realLifeAnalogy:
+        "Imagine you're a bouncer at a club checking IDs. You have a guest list (your Set). Each person shows their ID — if they're already on the list, you catch them trying to enter twice. If not, you add their name. By the end of the line, you know if anyone tried to sneak in a second time.",
+      keyPoints: [
+        "Use a Set for O(1) lookup — check if element exists before adding",
+        "Return true immediately when a duplicate is found (early exit)",
+        "O(n) time — single pass; O(n) space for the Set",
+        "Alternative: sort first, then check adjacent pairs — O(n log n) time, O(1) space",
+        "Brute force: nested loops — O(n²), avoid this",
+        "LeetCode 217: https://leetcode.com/problems/contains-duplicate/",
+      ],
+      timeComplexity: "O(n) — single pass with Set",
+      spaceComplexity: "O(n) — Set stores up to n elements",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Contains Duplicate (LeetCode 217) =====
+
+function containsDuplicate(nums) {
+  const seen = new Set();
+  for (const num of nums) {
+    if (seen.has(num)) return true;
+    seen.add(num);
+  }
+  return false;
+}
+
+// ── Test cases ──────────────────────────────────
+console.log("Input: [1, 2, 3, 1]");
+console.log("Contains duplicate:", containsDuplicate([1, 2, 3, 1]));  // true
+
+console.log("\\nInput: [1, 2, 3, 4]");
+console.log("Contains duplicate:", containsDuplicate([1, 2, 3, 4]));  // false
+
+console.log("\\nInput: [1, 1, 1, 3, 3, 4, 3, 2, 4, 2]");
+console.log("Contains duplicate:", containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2]));  // true
+
+// ── Alternative: Sort approach ──────────────────
+function containsDuplicateSort(nums) {
+  nums.sort((a, b) => a - b);
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] === nums[i - 1]) return true;
+  }
+  return false;
+}
+console.log("\\n--- Sort approach ---");
+console.log("Contains duplicate:", containsDuplicateSort([1, 2, 3, 1]));  // true
+
+// ── Step-by-step trace ──────────────────────────
+console.log("\\n--- Step-by-step trace ---");
+function containsDuplicateVerbose(nums) {
+  const seen = new Set();
+  for (let i = 0; i < nums.length; i++) {
+    if (seen.has(nums[i])) {
+      console.log(\`  i=\${i}: \${nums[i]} already in Set → DUPLICATE!\`);
+      return true;
+    }
+    seen.add(nums[i]);
+    console.log(\`  i=\${i}: \${nums[i]} added to Set → {\${[...seen].join(", ")}}\`);
+  }
+  return false;
+}
+containsDuplicateVerbose([1, 2, 3, 1]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Check if an array contains any duplicates.",
+        difficulty: "Easy",
+        hint: "Use a Set. For each element, check if it's already in the Set. If yes, return true. Otherwise add it. O(n) time.",
+      },
+      {
+        question: "Contains Duplicate II (LeetCode 219): duplicates within distance k.",
+        difficulty: "Medium",
+        hint: "Use a sliding window Set of size k. Add nums[i] to the Set; if Set size exceeds k, remove nums[i-k]. If nums[i] is already in the Set before adding, return true.",
+      },
+      {
+        question: "Contains Duplicate III (LeetCode 220): elements within distance k with value difference ≤ t.",
+        difficulty: "Hard",
+        hint: "Use bucket sort with bucket size t+1. Each bucket holds values in range [bucket*size, (bucket+1)*size). Check current bucket and adjacent buckets. Maintain a sliding window of k buckets.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Missing Number
+  // ─────────────────────────────────────────────
+  {
+    id: "missing-number",
+    title: "Missing Number",
+    slug: "missing-number",
+    icon: "Search",
+    difficulty: "Beginner",
+    description:
+      "Given an array containing n distinct numbers from 0 to n, find the one missing. LeetCode 268.",
+    leetcodeLink: "https://leetcode.com/problems/missing-number/",
+    concept: {
+      explanation:
+        "Given n distinct numbers from the range [0, n], one number is missing. Find it. There are multiple elegant solutions: (1) Math: expected sum = n*(n+1)/2, actual sum = sum of array. Missing = expected - actual. O(n) time, O(1) space. (2) XOR: XOR all numbers 0..n with all array elements. Pairs cancel out, leaving the missing number. O(n) time, O(1) space. (3) Set: put all elements in a Set, then check which number 0..n is missing. O(n) time, O(n) space. The math approach is simplest and most interview-friendly.",
+      realLifeAnalogy:
+        "Imagine 100 students are assigned jersey numbers 0 to 100. One student is absent. To find who's missing, you don't need to call roll for everyone. Just add up all the jersey numbers present and subtract from the expected total (0+1+2+...+100 = 5050). The difference is the missing student's number. Quick, elegant, no extra equipment needed.",
+      keyPoints: [
+        "Math approach: missing = n*(n+1)/2 - sum(nums)",
+        "XOR approach: XOR all indices and values; duplicates cancel, missing remains",
+        "O(n) time, O(1) space for both math and XOR approaches",
+        "Set approach works but uses O(n) extra space",
+        "Gauss's formula: sum of 0 to n = n*(n+1)/2",
+        "LeetCode 268: https://leetcode.com/problems/missing-number/",
+      ],
+      timeComplexity: "O(n) — single pass",
+      spaceComplexity: "O(1) — math/XOR approach",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Missing Number (LeetCode 268) =====
+
+// ── Approach 1: Math (Gauss formula) ────────────
+function missingNumber(nums) {
+  const n = nums.length;
+  const expectedSum = n * (n + 1) / 2;
+  const actualSum = nums.reduce((a, b) => a + b, 0);
+  return expectedSum - actualSum;
+}
+
+console.log("Input: [3, 0, 1]");
+console.log("Missing:", missingNumber([3, 0, 1]));  // 2
+
+console.log("\\nInput: [0, 1]");
+console.log("Missing:", missingNumber([0, 1]));  // 2
+
+console.log("\\nInput: [9,6,4,2,3,5,7,0,1]");
+console.log("Missing:", missingNumber([9, 6, 4, 2, 3, 5, 7, 0, 1]));  // 8
+
+// ── Approach 2: XOR ─────────────────────────────
+function missingNumberXOR(nums) {
+  let xor = nums.length;
+  for (let i = 0; i < nums.length; i++) {
+    xor ^= i ^ nums[i];
+  }
+  return xor;
+}
+
+console.log("\\n--- XOR approach ---");
+console.log("Missing:", missingNumberXOR([3, 0, 1]));  // 2
+
+// ── Step-by-step trace ──────────────────────────
+console.log("\\n--- Step-by-step trace (Math) ---");
+function missingNumberVerbose(nums) {
+  const n = nums.length;
+  const expected = n * (n + 1) / 2;
+  const actual = nums.reduce((a, b) => a + b, 0);
+  console.log(\`  n = \${n}\`);
+  console.log(\`  Expected sum (0..\${n}) = \${expected}\`);
+  console.log(\`  Actual sum = \${actual}\`);
+  console.log(\`  Missing = \${expected} - \${actual} = \${expected - actual}\`);
+  return expected - actual;
+}
+missingNumberVerbose([3, 0, 1]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Find the missing number from 0 to n.",
+        difficulty: "Easy",
+        hint: "Gauss formula: expected = n*(n+1)/2. Subtract the actual sum. The difference is the missing number.",
+      },
+      {
+        question: "What if there are two missing numbers?",
+        difficulty: "Medium",
+        hint: "Sum gives you missing1 + missing2. XOR gives you missing1 XOR missing2. Use the XOR result to find a differing bit, then partition numbers into two groups based on that bit. XOR each group separately to find both missing numbers.",
+      },
+      {
+        question: "Find the missing number in a stream of n-1 numbers (you can only read once).",
+        difficulty: "Medium",
+        hint: "Use either the sum or XOR approach — both work in a single pass. XOR is preferred to avoid integer overflow for very large n.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Merge Intervals
+  // ─────────────────────────────────────────────
+  {
+    id: "merge-intervals",
+    title: "Merge Intervals",
+    slug: "merge-intervals",
+    icon: "GitMerge",
+    difficulty: "Intermediate",
+    description:
+      "Given an array of intervals, merge all overlapping intervals. LeetCode 56.",
+    leetcodeLink: "https://leetcode.com/problems/merge-intervals/",
+    concept: {
+      explanation:
+        "Given an array of intervals [start, end], merge all overlapping intervals. First, sort intervals by start time. Then iterate: if the current interval overlaps with the last merged interval (current.start <= lastMerged.end), extend the last merged interval's end to max(lastMerged.end, current.end). Otherwise, push the current interval as a new non-overlapping entry. Sorting ensures you only need to compare with the most recently merged interval — no need to look back further. O(n log n) time due to sorting, O(n) space for the result.",
+      realLifeAnalogy:
+        "Imagine you're a calendar app merging overlapping meetings. First, sort all meetings by start time. Then walk through them: if the next meeting starts before the current one ends, they overlap — extend the current block to cover both. If the next meeting starts after the current one ends, it's a separate block. By the end, you have the minimum set of non-overlapping time blocks.",
+      keyPoints: [
+        "Sort intervals by start time first — O(n log n)",
+        "Iterate: compare current interval with last merged interval",
+        "Overlap condition: current.start <= lastMerged.end",
+        "If overlapping: extend end to max(lastMerged.end, current.end)",
+        "If not overlapping: push current as new merged interval",
+        "O(n log n) time (sorting dominates), O(n) space for result",
+        "Edge case: single interval, already sorted, fully nested intervals",
+        "LeetCode 56: https://leetcode.com/problems/merge-intervals/",
+      ],
+      timeComplexity: "O(n log n) — sorting dominates",
+      spaceComplexity: "O(n) — for the merged result array",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Merge Intervals (LeetCode 56) =====
+
+function merge(intervals) {
+  intervals.sort((a, b) => a[0] - b[0]);
+  const merged = [intervals[0]];
+
+  for (let i = 1; i < intervals.length; i++) {
+    const last = merged[merged.length - 1];
+    const curr = intervals[i];
+
+    if (curr[0] <= last[1]) {
+      // Overlapping — extend the end
+      last[1] = Math.max(last[1], curr[1]);
+    } else {
+      // Non-overlapping — push new interval
+      merged.push(curr);
+    }
+  }
+  return merged;
+}
+
+// ── Test cases ──────────────────────────────────
+console.log("Input: [[1,3],[2,6],[8,10],[15,18]]");
+console.log("Output:", JSON.stringify(merge([[1,3],[2,6],[8,10],[15,18]])));
+// [[1,6],[8,10],[15,18]]
+
+console.log("\\nInput: [[1,4],[4,5]]");
+console.log("Output:", JSON.stringify(merge([[1,4],[4,5]])));
+// [[1,5]]
+
+console.log("\\nInput: [[1,4],[0,4]]");
+console.log("Output:", JSON.stringify(merge([[1,4],[0,4]])));
+// [[0,4]]
+
+// ── Step-by-step trace ──────────────────────────
+console.log("\\n--- Step-by-step trace ---");
+function mergeVerbose(intervals) {
+  intervals.sort((a, b) => a[0] - b[0]);
+  console.log("Sorted:", JSON.stringify(intervals));
+  const merged = [intervals[0]];
+  for (let i = 1; i < intervals.length; i++) {
+    const last = merged[merged.length - 1];
+    const curr = intervals[i];
+    if (curr[0] <= last[1]) {
+      last[1] = Math.max(last[1], curr[1]);
+      console.log(\`  [\${curr}] overlaps [\${last[0]},\${last[1]}] → merge to [\${last}]\`);
+    } else {
+      merged.push(curr);
+      console.log(\`  [\${curr}] no overlap → add new interval\`);
+    }
+  }
+  console.log("Result:", JSON.stringify(merged));
+  return merged;
+}
+mergeVerbose([[1,3],[2,6],[8,10],[15,18]]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Merge all overlapping intervals.",
+        difficulty: "Easy",
+        hint: "Sort by start time. Iterate and compare with last merged: if overlapping, extend end; otherwise push new interval.",
+      },
+      {
+        question: "Insert a new interval into a sorted non-overlapping list and merge (LeetCode 57).",
+        difficulty: "Medium",
+        hint: "Three phases: (1) add all intervals ending before new interval starts, (2) merge all overlapping intervals with the new one, (3) add remaining intervals. Or just push the new interval, re-sort, and use the standard merge.",
+      },
+      {
+        question: "Given a list of meetings, find the minimum number of conference rooms needed (LeetCode 253).",
+        difficulty: "Hard",
+        hint: "Separate starts and ends into two sorted arrays. Use two pointers: if next event is a start, increment rooms; if it's an end, decrement. Track the maximum rooms needed at any point.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Dynamic Programming batch 3
+  // ─────────────────────────────────────────────
+  {
+    id: "maximum-average-subarray",
+    title: "Maximum Average Subarray I",
+    slug: "maximum-average-subarray",
+    icon: "BarChart3",
+    difficulty: "Beginner",
+    description:
+      "Find a contiguous subarray of length k that has the maximum average value. LeetCode 643.",
+    leetcodeLink: "https://leetcode.com/problems/maximum-average-subarray-i/",
+    concept: {
+      explanation:
+        "Given an integer array nums and an integer k, find the contiguous subarray of length k that has the maximum average value. Instead of recalculating the sum from scratch for each window position, use the sliding window technique: compute the sum of the first k elements, then slide the window by adding the next element and removing the element that just left the window. Track the maximum sum seen so far and divide by k at the end.",
+      realLifeAnalogy:
+        "Imagine you run a café and track daily sales. You want the best consecutive 4-day period. Rather than re-adding 4 numbers every time, you keep a running total — when a new day enters the window, add its sales; when an old day drops off, subtract it. You always know the current 4-day total instantly.",
+      keyPoints: [
+        "Sliding window avoids O(n·k) brute force by reusing the previous sum",
+        "Initialize window sum with the first k elements",
+        "Slide: windowSum = windowSum + nums[i] - nums[i - k]",
+        "Track maxSum separately; answer = maxSum / k",
+        "LeetCode 643: https://leetcode.com/problems/maximum-average-subarray-i/",
+      ],
+      timeComplexity: "O(n)",
+      spaceComplexity: "O(1)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Maximum Average Subarray I (LeetCode 643) =====
+
+function findMaxAverage(nums, k) {
+  let windowSum = 0;
+  for (let i = 0; i < k; i++) windowSum += nums[i];
+  let maxSum = windowSum;
+  for (let i = k; i < nums.length; i++) {
+    windowSum += nums[i] - nums[i - k];
+    maxSum = Math.max(maxSum, windowSum);
+  }
+  return maxSum / k;
+}
+
+// ── Example ──
+console.log(findMaxAverage([1,12,-5,-6,50,3], 4)); // 12.75
+
+// ── Step-by-step trace ──
+function findMaxAverageVerbose(nums, k) {
+  let windowSum = 0;
+  for (let i = 0; i < k; i++) windowSum += nums[i];
+  console.log(\`Initial window [0..\${k-1}] sum = \${windowSum}\`);
+  let maxSum = windowSum;
+  for (let i = k; i < nums.length; i++) {
+    windowSum += nums[i] - nums[i - k];
+    console.log(\`Slide to [\${i-k+1}..\${i}]: +\${nums[i]} -\${nums[i-k]} → sum=\${windowSum}\`);
+    maxSum = Math.max(maxSum, windowSum);
+  }
+  console.log(\`Max average = \${maxSum} / \${k} = \${maxSum/k}\`);
+  return maxSum / k;
+}
+findMaxAverageVerbose([1,12,-5,-6,50,3], 4);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Find the maximum average of any subarray of length k.",
+        difficulty: "Easy",
+        hint: "Sliding window: compute sum of first k elements, then slide by adding/removing one element at a time. Track the max sum.",
+      },
+      {
+        question: "Find the smallest subarray with sum >= target (LeetCode 209).",
+        difficulty: "Medium",
+        hint: "Variable-length sliding window: expand right to increase sum, shrink left while sum >= target, track minimum length.",
+      },
+      {
+        question: "Longest substring without repeating characters (LeetCode 3).",
+        difficulty: "Hard",
+        hint: "Sliding window with a Set or Map. Expand right; if duplicate found, shrink left until no duplicate. Track max window size.",
+      },
+    ],
+  },
+  {
+    id: "move-zeroes",
+    title: "Move Zeroes",
+    slug: "move-zeroes",
+    icon: "ArrowRight",
+    difficulty: "Beginner",
+    description:
+      "Move all zeroes to the end of the array while maintaining relative order of non-zero elements. LeetCode 283.",
+    leetcodeLink: "https://leetcode.com/problems/move-zeroes/",
+    concept: {
+      explanation:
+        "Use two pointers: a write pointer (writePos) tracks where the next non-zero should go, and a scan pointer (i) walks through the array. When nums[i] is non-zero, swap it with nums[writePos] and advance both. When nums[i] is zero, only advance i. After one pass all non-zero elements are in front in original order and all zeroes are at the end.",
+      realLifeAnalogy:
+        "Imagine a line of people where some hold empty boxes (zeroes). A manager walks down the line: every time they find someone with a real item, they wave that person to the front of the 'valid' section. Empty-box holders drift to the back naturally.",
+      keyPoints: [
+        "Two-pointer / read-write approach — same pattern as Remove Element",
+        "writePos stays at the first zero (or next write position)",
+        "Swap ensures non-zero order is preserved",
+        "Single pass, in-place, stable",
+        "LeetCode 283: https://leetcode.com/problems/move-zeroes/",
+      ],
+      timeComplexity: "O(n)",
+      spaceComplexity: "O(1)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Move Zeroes (LeetCode 283) =====
+
+function moveZeroes(nums) {
+  let writePos = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== 0) {
+      [nums[writePos], nums[i]] = [nums[i], nums[writePos]];
+      writePos++;
+    }
+  }
+  return nums;
+}
+
+// ── Example ──
+console.log(JSON.stringify(moveZeroes([0,1,0,3,12]))); // [1,3,12,0,0]
+
+// ── Step-by-step trace ──
+function moveZeroesVerbose(nums) {
+  let writePos = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== 0) {
+      [nums[writePos], nums[i]] = [nums[i], nums[writePos]];
+      console.log(\`swap(\${writePos},\${i}) → [\${nums}] writePos=\${writePos+1}\`);
+      writePos++;
+    } else {
+      console.log(\`nums[\${i}]=0 → skip, writePos stays \${writePos}\`);
+    }
+  }
+  console.log("Result:", JSON.stringify(nums));
+  return nums;
+}
+moveZeroesVerbose([0,1,0,3,12]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Move all zeroes to the end while maintaining order of non-zero elements.",
+        difficulty: "Easy",
+        hint: "Two pointers: writePos for next non-zero position, i scans. Swap nums[writePos] and nums[i] when non-zero.",
+      },
+      {
+        question: "Remove Element in-place (LeetCode 27).",
+        difficulty: "Easy",
+        hint: "Same two-pointer pattern but skip elements equal to val instead of zero.",
+      },
+      {
+        question: "Sort an array of 0s, 1s, and 2s in-place (Dutch National Flag).",
+        difficulty: "Medium",
+        hint: "Three pointers: low, mid, high. Swap 0s to low, 2s to high, 1s stay in middle.",
+      },
+    ],
+  },
+  {
+    id: "longest-consecutive-sequence",
+    title: "Longest Consecutive Sequence",
+    slug: "longest-consecutive-sequence",
+    icon: "Link",
+    difficulty: "Intermediate",
+    description:
+      "Find the length of the longest consecutive elements sequence in an unsorted array. LeetCode 128.",
+    leetcodeLink: "https://leetcode.com/problems/longest-consecutive-sequence/",
+    concept: {
+      explanation:
+        "Put all numbers into a Set for O(1) lookup. For each number, check if it's the start of a sequence (num - 1 is NOT in the set). If it is, count consecutive numbers (num+1, num+2, …) that exist in the set. Track the longest streak found. This runs in O(n) because each number is visited at most twice.",
+      realLifeAnalogy:
+        "Imagine numbered puzzle pieces scattered on a table. You pick up a piece and check: is there a piece numbered one less? If not, you're at the start of a chain. Then you look for the next number, and the next, building the chain until it breaks. You record the chain length and move on. The Set is like having all pieces face-up so you can instantly spot any number.",
+      keyPoints: [
+        "Use a HashSet for O(1) contains checks",
+        "Only start counting from sequence heads (num - 1 not in set)",
+        "This avoids O(n²) — each element is part of exactly one chain",
+        "Alternative: sort first in O(n log n) and scan for consecutive runs",
+        "LeetCode 128: https://leetcode.com/problems/longest-consecutive-sequence/",
+      ],
+      timeComplexity: "O(n)",
+      spaceComplexity: "O(n) — for the Set",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Longest Consecutive Sequence (LeetCode 128) =====
+
+function longestConsecutive(nums) {
+  const numSet = new Set(nums);
+  let longest = 0;
+  for (const num of numSet) {
+    if (!numSet.has(num - 1)) {
+      let current = num;
+      let streak = 1;
+      while (numSet.has(current + 1)) {
+        current++;
+        streak++;
+      }
+      longest = Math.max(longest, streak);
+    }
+  }
+  return longest;
+}
+
+// ── Example ──
+console.log(longestConsecutive([100,4,200,1,3,2])); // 4
+
+// ── Step-by-step trace ──
+function longestConsecutiveVerbose(nums) {
+  const numSet = new Set(nums);
+  console.log("Set:", [...numSet]);
+  let longest = 0;
+  for (const num of numSet) {
+    if (!numSet.has(num - 1)) {
+      let current = num, streak = 1;
+      while (numSet.has(current + 1)) { current++; streak++; }
+      console.log(\`Sequence start \${num} → length \${streak}\`);
+      longest = Math.max(longest, streak);
+    } else {
+      console.log(\`\${num}: \${num-1} exists → skip (not a start)\`);
+    }
+  }
+  console.log("Longest:", longest);
+  return longest;
+}
+longestConsecutiveVerbose([100,4,200,1,3,2]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Find the length of the longest consecutive sequence in O(n).",
+        difficulty: "Easy",
+        hint: "Put all into a Set. For each num where num-1 is not in set, count forward. Track max streak.",
+      },
+      {
+        question: "Can you solve it without extra space (O(1) space)?",
+        difficulty: "Medium",
+        hint: "Sort the array in O(n log n), then walk through counting consecutive unique elements. Time becomes O(n log n).",
+      },
+      {
+        question: "Find the longest consecutive sequence and return the actual sequence, not just length.",
+        difficulty: "Medium",
+        hint: "Same approach but also record the starting number of the best streak. Then generate start..start+length-1.",
+      },
+    ],
+  },
+  {
+    id: "two-sum",
+    title: "Two Sum",
+    slug: "two-sum",
+    icon: "PlusCircle",
+    difficulty: "Beginner",
+    description:
+      "Find two numbers in an array that add up to a target. Return their indices. LeetCode 1.",
+    leetcodeLink: "https://leetcode.com/problems/two-sum/",
+    concept: {
+      explanation:
+        "Use a hash map to store each number's index as you iterate. For each element, compute the complement (target - nums[i]) and check if it already exists in the map. If it does, you've found the pair. If not, store the current number and its index. This gives O(n) time with a single pass.",
+      realLifeAnalogy:
+        "You're at a party looking for someone whose age plus yours equals 100. Instead of asking everyone twice, you keep a guest list as people arrive. When a new guest walks in, you check the list for someone whose age is (100 - new guest's age). If found, you have your pair instantly.",
+      keyPoints: [
+        "Hash map stores {value → index} for O(1) complement lookup",
+        "Single pass: check complement first, then store current",
+        "Brute force is O(n²) — nested loops checking all pairs",
+        "If the array is sorted, two-pointer approach also works in O(n)",
+        "LeetCode 1: https://leetcode.com/problems/two-sum/",
+      ],
+      timeComplexity: "O(n)",
+      spaceComplexity: "O(n) — for the hash map",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Two Sum (LeetCode 1) =====
+
+function twoSum(nums, target) {
+  const map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (map.has(complement)) {
+      return [map.get(complement), i];
+    }
+    map.set(nums[i], i);
+  }
+  return [];
+}
+
+// ── Example ──
+console.log(JSON.stringify(twoSum([2,7,11,15], 9))); // [0, 1]
+
+// ── Step-by-step trace ──
+function twoSumVerbose(nums, target) {
+  const map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    console.log(\`i=\${i}: nums[\${i}]=\${nums[i]}, need \${complement}\`);
+    if (map.has(complement)) {
+      console.log(\`  Found! map[\${complement}]=\${map.get(complement)} → [\${map.get(complement)}, \${i}]\`);
+      return [map.get(complement), i];
+    }
+    map.set(nums[i], i);
+    console.log(\`  Not found. Map: {\${[...map.entries()].map(e=>e[0]+':'+e[1]).join(', ')}}\`);
+  }
+  return [];
+}
+twoSumVerbose([2,7,11,15], 9);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Find two numbers that add up to a target and return their indices.",
+        difficulty: "Easy",
+        hint: "Hash map: for each num, check if (target - num) is in the map. If yes, return both indices.",
+      },
+      {
+        question: "What if the array is sorted? Can you solve it in O(1) space?",
+        difficulty: "Medium",
+        hint: "Two pointers from both ends. If sum < target, move left pointer right. If sum > target, move right pointer left.",
+      },
+      {
+        question: "Find all unique pairs that sum to target (no duplicates).",
+        difficulty: "Medium",
+        hint: "Sort + two pointers. After finding a pair, skip duplicate values on both sides.",
+      },
+    ],
+  },
+  {
+    id: "find-disappeared-numbers",
+    title: "Find All Disappeared Numbers",
+    slug: "find-disappeared-numbers",
+    icon: "Search",
+    difficulty: "Beginner",
+    description:
+      "Find all numbers in [1, n] missing from an array of n integers. LeetCode 448.",
+    leetcodeLink: "https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/",
+    concept: {
+      explanation:
+        "Use the array itself as a hash table. For each number nums[i], mark the element at index (|nums[i]| - 1) as negative. After marking, any index that still has a positive value means (index + 1) was never present in the array. This avoids extra space beyond the result array.",
+      realLifeAnalogy:
+        "Imagine numbered lockers 1 through n. Students are assigned locker numbers but some lockers are assigned to multiple students while others are skipped. Walk through the roster: for each assigned number, flip that locker's light on. After processing, any locker with its light still off was never assigned — those are your missing numbers.",
+      keyPoints: [
+        "Use the sign of array elements as markers — negative = present",
+        "Index mapping: number v maps to index |v| - 1",
+        "Second pass collects indices that are still positive → missing numbers",
+        "O(n) time, O(1) extra space (not counting output)",
+        "LeetCode 448: https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/",
+      ],
+      timeComplexity: "O(n)",
+      spaceComplexity: "O(1) extra (output not counted)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Find All Disappeared Numbers (LeetCode 448) =====
+
+function findDisappearedNumbers(nums) {
+  for (let i = 0; i < nums.length; i++) {
+    const idx = Math.abs(nums[i]) - 1;
+    if (nums[idx] > 0) nums[idx] = -nums[idx];
+  }
+  const result = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] > 0) result.push(i + 1);
+  }
+  return result;
+}
+
+// ── Example ──
+console.log(JSON.stringify(findDisappearedNumbers([4,3,2,7,8,2,3,1]))); // [5, 6]
+
+// ── Step-by-step trace ──
+function findDisappearedVerbose(nums) {
+  console.log("Input:", [...nums]);
+  for (let i = 0; i < nums.length; i++) {
+    const idx = Math.abs(nums[i]) - 1;
+    if (nums[idx] > 0) {
+      nums[idx] = -nums[idx];
+      console.log(\`Mark index \${idx} negative → [\${nums}]\`);
+    } else {
+      console.log(\`Index \${idx} already marked\`);
+    }
+  }
+  const result = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] > 0) result.push(i + 1);
+  }
+  console.log("Missing:", result);
+  return result;
+}
+findDisappearedVerbose([4,3,2,7,8,2,3,1]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Find all missing numbers from [1, n] in O(n) time and O(1) extra space.",
+        difficulty: "Easy",
+        hint: "Negate the value at index |nums[i]|-1. After marking, positive indices reveal missing numbers.",
+      },
+      {
+        question: "Find the single missing number from [0, n] (LeetCode 268).",
+        difficulty: "Easy",
+        hint: "Use Gauss formula: expected = n*(n+1)/2, subtract actual sum.",
+      },
+      {
+        question: "Find all duplicates in the array (LeetCode 442) using the same marking trick.",
+        difficulty: "Medium",
+        hint: "Same negative-marking approach. If nums[|val|-1] is already negative when you visit val, then val is a duplicate.",
+      },
+    ],
+  },
+  {
+    id: "container-with-most-water",
+    title: "Container With Most Water",
+    slug: "container-with-most-water",
+    icon: "Droplets",
+    difficulty: "Intermediate",
+    description:
+      "Find two lines that together with the x-axis form a container holding the most water. LeetCode 11.",
+    leetcodeLink: "https://leetcode.com/problems/container-with-most-water/",
+    concept: {
+      explanation:
+        "Use two pointers starting at the leftmost and rightmost lines. Compute the area formed between them: min(height[left], height[right]) × (right - left). Then move the pointer pointing to the shorter line inward, because moving the taller line can never increase the area (the width decreases and the height is limited by the shorter side). Repeat until the pointers meet.",
+      realLifeAnalogy:
+        "Imagine two walls at opposite ends of a yard with water between them. The water level is limited by the shorter wall. If you could slide the walls inward, you'd always move the shorter wall — keeping the taller wall fixed can't help because the shorter wall still limits the water level, and you're losing width.",
+      keyPoints: [
+        "Two pointers from both ends, moving inward",
+        "Area = min(height[L], height[R]) × (R - L)",
+        "Always move the shorter side — moving the taller side can only decrease or maintain area",
+        "Greedy approach is optimal because we start with maximum width",
+        "LeetCode 11: https://leetcode.com/problems/container-with-most-water/",
+      ],
+      timeComplexity: "O(n)",
+      spaceComplexity: "O(1)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Container With Most Water (LeetCode 11) =====
+
+function maxArea(height) {
+  let left = 0, right = height.length - 1;
+  let maxWater = 0;
+  while (left < right) {
+    const w = right - left;
+    const h = Math.min(height[left], height[right]);
+    maxWater = Math.max(maxWater, w * h);
+    if (height[left] < height[right]) left++;
+    else right--;
+  }
+  return maxWater;
+}
+
+// ── Example ──
+console.log(maxArea([1,8,6,2,5,4,8,3,7])); // 49
+
+// ── Step-by-step trace ──
+function maxAreaVerbose(height) {
+  let left = 0, right = height.length - 1, maxWater = 0;
+  while (left < right) {
+    const w = right - left;
+    const h = Math.min(height[left], height[right]);
+    const area = w * h;
+    maxWater = Math.max(maxWater, area);
+    console.log(\`L=\${left}(h=\${height[left]}) R=\${right}(h=\${height[right]}) → area=\${w}×\${h}=\${area} max=\${maxWater}\`);
+    if (height[left] < height[right]) left++;
+    else right--;
+  }
+  console.log("Max area:", maxWater);
+  return maxWater;
+}
+maxAreaVerbose([1,8,6,2,5,4,8,3,7]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Find two lines forming a container with the most water.",
+        difficulty: "Easy",
+        hint: "Two pointers from ends. Area = min(heights) × width. Move the shorter side inward.",
+      },
+      {
+        question: "Why does moving the shorter line guarantee we don't miss the optimal?",
+        difficulty: "Medium",
+        hint: "Moving the taller line can only decrease or maintain area (width shrinks, height stays limited by the shorter line). So skipping those states is safe.",
+      },
+      {
+        question: "Trapping Rain Water (LeetCode 42) — similar but different.",
+        difficulty: "Hard",
+        hint: "Two pointers with leftMax and rightMax. Water at each position = min(leftMax, rightMax) - height[i]. Process from the side with the smaller max.",
+      },
+    ],
+  },
+  {
+    id: "flood-fill",
+    title: "Flood Fill",
+    slug: "flood-fill",
+    icon: "Paintbrush",
+    difficulty: "Beginner",
+    description:
+      "Perform a flood fill on an image starting from a given pixel. LeetCode 733.",
+    leetcodeLink: "https://leetcode.com/problems/flood-fill/",
+    concept: {
+      explanation:
+        "Starting from pixel (sr, sc), change its color to newColor and recursively do the same for all 4-directionally connected pixels that share the same original color. This is essentially a DFS or BFS on a grid. Base cases: out of bounds, already the new color, or different from the original color.",
+      realLifeAnalogy:
+        "Think of the paint bucket tool in an image editor. Click on a pixel and it fills all connected same-colored pixels with the new color. It spreads in four directions (up, down, left, right) and stops at borders where the color is different.",
+      keyPoints: [
+        "DFS/BFS on a 2D grid — classic graph traversal on implicit graph",
+        "Base cases: out of bounds, wrong color, already painted",
+        "If startColor === newColor, return immediately (avoid infinite loop)",
+        "4-directional connectivity (up, down, left, right)",
+        "LeetCode 733: https://leetcode.com/problems/flood-fill/",
+      ],
+      timeComplexity: "O(m × n) — each pixel visited at most once",
+      spaceComplexity: "O(m × n) — recursion stack in worst case",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Flood Fill (LeetCode 733) =====
+
+function floodFill(image, sr, sc, color) {
+  const startColor = image[sr][sc];
+  if (startColor === color) return image;
+
+  function dfs(r, c) {
+    if (r < 0 || r >= image.length) return;
+    if (c < 0 || c >= image[0].length) return;
+    if (image[r][c] !== startColor) return;
+    image[r][c] = color;
+    dfs(r + 1, c);
+    dfs(r - 1, c);
+    dfs(r, c + 1);
+    dfs(r, c - 1);
+  }
+
+  dfs(sr, sc);
+  return image;
+}
+
+// ── Example ──
+const img = [[1,1,1],[1,1,0],[1,0,1]];
+console.log(JSON.stringify(floodFill(img, 1, 1, 2)));
+// [[2,2,2],[2,2,0],[2,0,1]]
+
+// ── Step-by-step trace ──
+function floodFillVerbose(image, sr, sc, color) {
+  const startColor = image[sr][sc];
+  if (startColor === color) return image;
+  function dfs(r, c) {
+    if (r < 0 || r >= image.length || c < 0 || c >= image[0].length) return;
+    if (image[r][c] !== startColor) return;
+    image[r][c] = color;
+    console.log(\`Fill (\${r},\${c}) → \${color}  grid: [\${image.map(r=>r.join(",")).join(" | ")}]\`);
+    dfs(r+1,c); dfs(r-1,c); dfs(r,c+1); dfs(r,c-1);
+  }
+  dfs(sr, sc);
+  return image;
+}
+floodFillVerbose([[1,1,1],[1,1,0],[1,0,1]], 1, 1, 2);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Perform flood fill from a starting pixel.",
+        difficulty: "Easy",
+        hint: "DFS/BFS from (sr, sc). Change color if same as start. Check bounds and avoid revisiting.",
+      },
+      {
+        question: "Number of Islands (LeetCode 200).",
+        difficulty: "Medium",
+        hint: "Iterate grid. When you find a '1', run flood fill to mark all connected '1's as visited. Count how many times you start a fill.",
+      },
+      {
+        question: "Surrounded Regions (LeetCode 130).",
+        difficulty: "Medium",
+        hint: "Flood fill from border 'O's to mark them safe. Then flip remaining 'O's to 'X'.",
+      },
+    ],
+  },
+  {
+    id: "island-perimeter",
+    title: "Island Perimeter",
+    slug: "island-perimeter",
+    icon: "Square",
+    difficulty: "Beginner",
+    description:
+      "Calculate the perimeter of a single island in a grid. LeetCode 463.",
+    leetcodeLink: "https://leetcode.com/problems/island-perimeter/",
+    concept: {
+      explanation:
+        "For each land cell (value 1), it contributes 4 edges. But for each adjacent land cell (up, down, left, right), one edge is shared — subtract 1 per adjacent land neighbor. Alternatively, count edges that touch water or the grid boundary. Single pass through the grid.",
+      realLifeAnalogy:
+        "Imagine a Lego island built on a blue baseplate. Each 1×1 block has 4 sides. When two blocks are next to each other, their touching sides are interior walls, not perimeter. Walk around the island — the perimeter is the total number of exposed edges.",
+      keyPoints: [
+        "Each land cell contributes 4 minus (number of land neighbors)",
+        "Or: for each land cell, add 1 for each side that faces water or boundary",
+        "No DFS/BFS needed — simple iteration works since there's one island",
+        "Grid boundary counts as water",
+        "LeetCode 463: https://leetcode.com/problems/island-perimeter/",
+      ],
+      timeComplexity: "O(m × n)",
+      spaceComplexity: "O(1)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Island Perimeter (LeetCode 463) =====
+
+function islandPerimeter(grid) {
+  let perimeter = 0;
+  const rows = grid.length, cols = grid[0].length;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (grid[r][c] === 1) {
+        perimeter += 4;
+        if (r > 0 && grid[r-1][c] === 1) perimeter -= 2;
+        if (c > 0 && grid[r][c-1] === 1) perimeter -= 2;
+      }
+    }
+  }
+  return perimeter;
+}
+
+// ── Example ──
+const grid = [
+  [0,1,0,0],
+  [1,1,1,0],
+  [0,1,0,0],
+  [1,1,0,0]
+];
+console.log(islandPerimeter(grid)); // 16
+
+// ── Step-by-step trace ──
+function islandPerimeterVerbose(grid) {
+  let perimeter = 0;
+  for (let r = 0; r < grid.length; r++) {
+    for (let c = 0; c < grid[0].length; c++) {
+      if (grid[r][c] === 1) {
+        let edges = 4;
+        if (r > 0 && grid[r-1][c] === 1) edges -= 2;
+        if (c > 0 && grid[r][c-1] === 1) edges -= 2;
+        perimeter += edges;
+        console.log(\`(\${r},\${c}): +\${edges} edges → perimeter=\${perimeter}\`);
+      }
+    }
+  }
+  console.log("Total perimeter:", perimeter);
+  return perimeter;
+}
+islandPerimeterVerbose(grid);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Calculate the perimeter of a single island.",
+        difficulty: "Easy",
+        hint: "Each land cell = 4 edges. Subtract 2 for each pair of adjacent land cells (they share a wall).",
+      },
+      {
+        question: "Max area of an island (LeetCode 695).",
+        difficulty: "Medium",
+        hint: "DFS/BFS from each unvisited land cell, counting cells. Track maximum area found.",
+      },
+      {
+        question: "Number of distinct islands (LeetCode 694).",
+        difficulty: "Hard",
+        hint: "DFS each island, record the shape as a normalized set of relative coordinates. Use a Set of serialized shapes.",
+      },
+    ],
+  },
+  {
+    id: "spiral-matrix",
+    title: "Spiral Matrix",
+    slug: "spiral-matrix",
+    icon: "RotateCw",
+    difficulty: "Intermediate",
+    description:
+      "Return all elements of a matrix in spiral order. LeetCode 54.",
+    leetcodeLink: "https://leetcode.com/problems/spiral-matrix/",
+    concept: {
+      explanation:
+        "Use four boundaries: top, bottom, left, right. Traverse right along the top row, then down the right column, then left along the bottom row, then up the left column. After each traversal, shrink the corresponding boundary. Continue until all elements are visited.",
+      realLifeAnalogy:
+        "Imagine mowing a rectangular lawn in a spiral pattern. Start along the top edge going right, turn down the right side, then left along the bottom, then up the left side. Each pass mows one outer ring, and the remaining unmowed area shrinks inward until everything is cut.",
+      keyPoints: [
+        "Four boundaries: top, bottom, left, right — shrink after each pass",
+        "Four traversals per layer: right → down → left → up",
+        "Check boundary validity before each traversal (handles non-square matrices)",
+        "Result array grows to m × n elements total",
+        "LeetCode 54: https://leetcode.com/problems/spiral-matrix/",
+      ],
+      timeComplexity: "O(m × n)",
+      spaceComplexity: "O(1) extra (output not counted)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Spiral Matrix (LeetCode 54) =====
+
+function spiralOrder(matrix) {
+  const result = [];
+  let top = 0, bottom = matrix.length - 1;
+  let left = 0, right = matrix[0].length - 1;
+
+  while (top <= bottom && left <= right) {
+    for (let c = left; c <= right; c++) result.push(matrix[top][c]);
+    top++;
+    for (let r = top; r <= bottom; r++) result.push(matrix[r][right]);
+    right--;
+    if (top <= bottom) {
+      for (let c = right; c >= left; c--) result.push(matrix[bottom][c]);
+      bottom--;
+    }
+    if (left <= right) {
+      for (let r = bottom; r >= top; r--) result.push(matrix[r][left]);
+      left++;
+    }
+  }
+  return result;
+}
+
+// ── Example ──
+console.log(JSON.stringify(spiralOrder([[1,2,3],[4,5,6],[7,8,9]])));
+// [1,2,3,6,9,8,7,4,5]
+
+// ── Step-by-step trace ──
+function spiralVerbose(matrix) {
+  const result = [];
+  let top = 0, bottom = matrix.length - 1;
+  let left = 0, right = matrix[0].length - 1;
+  while (top <= bottom && left <= right) {
+    for (let c = left; c <= right; c++) result.push(matrix[top][c]);
+    console.log(\`→ top row \${top}: [\${result}]\`);
+    top++;
+    for (let r = top; r <= bottom; r++) result.push(matrix[r][right]);
+    console.log(\`↓ right col \${right}: [\${result}]\`);
+    right--;
+    if (top <= bottom) {
+      for (let c = right; c >= left; c--) result.push(matrix[bottom][c]);
+      console.log(\`← bottom row \${bottom}: [\${result}]\`);
+      bottom--;
+    }
+    if (left <= right) {
+      for (let r = bottom; r >= top; r--) result.push(matrix[r][left]);
+      console.log(\`↑ left col \${left}: [\${result}]\`);
+      left++;
+    }
+  }
+  console.log("Spiral:", result);
+  return result;
+}
+spiralVerbose([[1,2,3],[4,5,6],[7,8,9]]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Return all elements of a matrix in spiral order.",
+        difficulty: "Easy",
+        hint: "Use four boundaries (top/bottom/left/right). Traverse each edge, then shrink the boundary.",
+      },
+      {
+        question: "Generate an n × n matrix filled with elements 1 to n² in spiral order (LeetCode 59).",
+        difficulty: "Medium",
+        hint: "Same boundary approach but instead of reading, write values 1, 2, 3… into the matrix.",
+      },
+      {
+        question: "Rotate a matrix 90° clockwise in-place (LeetCode 48).",
+        difficulty: "Medium",
+        hint: "Transpose the matrix (swap matrix[i][j] with matrix[j][i]), then reverse each row.",
+      },
+    ],
+  },
+  {
+    id: "can-place-flowers",
+    title: "Can Place Flowers",
+    slug: "can-place-flowers",
+    icon: "Flower2",
+    difficulty: "Beginner",
+    description:
+      "Determine if n new flowers can be planted in a flowerbed without violating no-adjacent-flowers rule. LeetCode 605.",
+    leetcodeLink: "https://leetcode.com/problems/can-place-flowers/",
+    concept: {
+      explanation:
+        "Scan the flowerbed left to right. At each empty plot (0), check if both neighbors are also empty (or the plot is at the boundary). If so, plant a flower (set to 1) and decrement n. Return true when n reaches 0. This greedy approach works because planting as early as possible never blocks a later valid placement.",
+      realLifeAnalogy:
+        "Imagine a row of chairs at a social-distancing event — every other chair must stay empty. Walk along the row: if a chair is empty and neither neighbor is taken, sit down. Greedy seating from left to right fills the maximum number of valid spots.",
+      keyPoints: [
+        "Greedy: plant at the first valid spot and continue",
+        "A spot is valid if: flowerbed[i] === 0, left neighbor is 0 or boundary, right neighbor is 0 or boundary",
+        "Modify in-place (set to 1) so future checks see the planted flower",
+        "Early return once n <= 0",
+        "LeetCode 605: https://leetcode.com/problems/can-place-flowers/",
+      ],
+      timeComplexity: "O(n) — single pass through the flowerbed",
+      spaceComplexity: "O(1)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Can Place Flowers (LeetCode 605) =====
+
+function canPlaceFlowers(flowerbed, n) {
+  for (let i = 0; i < flowerbed.length; i++) {
+    if (flowerbed[i] === 0) {
+      const leftEmpty = i === 0 || flowerbed[i - 1] === 0;
+      const rightEmpty = i === flowerbed.length - 1 || flowerbed[i + 1] === 0;
+      if (leftEmpty && rightEmpty) {
+        flowerbed[i] = 1;
+        n--;
+        if (n <= 0) return true;
+      }
+    }
+  }
+  return n <= 0;
+}
+
+// ── Example ──
+console.log(canPlaceFlowers([1,0,0,0,1], 1)); // true
+console.log(canPlaceFlowers([1,0,0,0,1], 2)); // false
+
+// ── Step-by-step trace ──
+function canPlaceVerbose(flowerbed, n) {
+  const fb = [...flowerbed];
+  for (let i = 0; i < fb.length; i++) {
+    if (fb[i] === 0) {
+      const leftOk = i === 0 || fb[i-1] === 0;
+      const rightOk = i === fb.length-1 || fb[i+1] === 0;
+      if (leftOk && rightOk) {
+        fb[i] = 1; n--;
+        console.log(\`Plant at \${i} → [\${fb}] remaining=\${n}\`);
+        if (n <= 0) { console.log("Done!"); return true; }
+      } else {
+        console.log(\`Skip \${i}: neighbor occupied\`);
+      }
+    }
+  }
+  console.log(n <= 0 ? "Can place all" : "Not enough room");
+  return n <= 0;
+}
+canPlaceVerbose([1,0,0,0,1], 1);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Can n flowers be planted without adjacent planting?",
+        difficulty: "Easy",
+        hint: "Greedy scan: if current and both neighbors are empty, plant and decrement n.",
+      },
+      {
+        question: "What if the flowerbed is circular (first and last are neighbors)?",
+        difficulty: "Medium",
+        hint: "Handle wrap-around: treat index 0's left neighbor as the last element and vice versa.",
+      },
+      {
+        question: "Maximum number of flowers that can be planted?",
+        difficulty: "Easy",
+        hint: "Same greedy — just count how many times you can plant instead of comparing to n.",
+      },
+    ],
+  },
+  {
+    id: "majority-element",
+    title: "Majority Element",
+    slug: "majority-element",
+    icon: "Crown",
+    difficulty: "Beginner",
+    description:
+      "Find the element that appears more than n/2 times. LeetCode 169.",
+    leetcodeLink: "https://leetcode.com/problems/majority-element/",
+    concept: {
+      explanation:
+        "Boyer-Moore Voting Algorithm: maintain a candidate and a count. Walk through the array: if count is 0, set the current element as candidate. If the current element equals the candidate, increment count; otherwise decrement. The majority element always survives because it appears more than n/2 times — it can't be fully 'cancelled out' by other elements.",
+      realLifeAnalogy:
+        "Imagine an election where one candidate has more than half the votes. Pair up voters who voted differently and send both home. After all cancellations, the remaining group must be the majority — because there are simply more of them than everyone else combined.",
+      keyPoints: [
+        "Boyer-Moore Voting: O(n) time, O(1) space",
+        "Candidate changes only when count drops to 0",
+        "Works only when a majority element is guaranteed to exist (> n/2)",
+        "Alternative: sort and pick middle element — O(n log n)",
+        "LeetCode 169: https://leetcode.com/problems/majority-element/",
+      ],
+      timeComplexity: "O(n)",
+      spaceComplexity: "O(1)",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== Majority Element (LeetCode 169) =====
+
+function majorityElement(nums) {
+  let candidate = nums[0];
+  let count = 0;
+  for (const num of nums) {
+    if (count === 0) candidate = num;
+    count += num === candidate ? 1 : -1;
+  }
+  return candidate;
+}
+
+// ── Example ──
+console.log(majorityElement([2,2,1,1,1,2,2])); // 2
+
+// ── Step-by-step trace ──
+function majorityVerbose(nums) {
+  let candidate = nums[0], count = 0;
+  for (const num of nums) {
+    if (count === 0) { candidate = num; console.log(\`Count=0 → new candidate: \${num}\`); }
+    count += num === candidate ? 1 : -1;
+    console.log(\`  num=\${num} candidate=\${candidate} count=\${count}\`);
+  }
+  console.log("Majority:", candidate);
+  return candidate;
+}
+majorityVerbose([2,2,1,1,1,2,2]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Find the majority element (appears > n/2 times).",
+        difficulty: "Easy",
+        hint: "Boyer-Moore Voting: track candidate and count. When count=0, switch candidate. Increment for match, decrement otherwise.",
+      },
+      {
+        question: "Find elements appearing more than n/3 times (LeetCode 229).",
+        difficulty: "Medium",
+        hint: "Extended Boyer-Moore with two candidates and two counts. At most 2 elements can appear > n/3 times. Verify candidates with a second pass.",
+      },
+      {
+        question: "What if no majority element is guaranteed? How do you verify?",
+        difficulty: "Medium",
+        hint: "Run Boyer-Moore to find a candidate, then do a second pass to count its occurrences. Return it only if count > n/2.",
+      },
+    ],
+  },
+  {
+    id: "three-sum",
+    title: "3Sum",
+    slug: "three-sum",
+    icon: "Triangle",
+    difficulty: "Intermediate",
+    description:
+      "Find all unique triplets in the array that sum to zero. LeetCode 15.",
+    leetcodeLink: "https://leetcode.com/problems/3sum/",
+    concept: {
+      explanation:
+        "Sort the array first. Fix one element (nums[i]), then use two pointers (left = i+1, right = n-1) to find pairs that sum to -nums[i]. Skip duplicates at all three positions to avoid duplicate triplets. The sort enables both the two-pointer technique and easy duplicate skipping.",
+      realLifeAnalogy:
+        "Imagine balancing a seesaw. You pick one weight (fixed element) and need to find two others from opposite ends of a sorted shelf that balance it to zero. Slide the lighter weight right or heavier weight left until balanced. Skip identical weights to avoid repeating the same combination.",
+      keyPoints: [
+        "Sort first: enables two-pointer and duplicate skipping",
+        "Fix nums[i], find pairs summing to -nums[i] using two pointers",
+        "Skip duplicate values for i, left, and right to ensure unique triplets",
+        "Early termination: if nums[i] > 0, no valid triplet possible (sorted array)",
+        "LeetCode 15: https://leetcode.com/problems/3sum/",
+      ],
+      timeComplexity: "O(n²) — sort is O(n log n), then O(n) per fixed element",
+      spaceComplexity: "O(1) extra (output not counted, sort may use O(log n))",
+    },
+    code: {
+      language: "javascript",
+      defaultCode: `// ===== 3Sum (LeetCode 15) =====
+
+function threeSum(nums) {
+  nums.sort((a, b) => a - b);
+  const result = [];
+  for (let i = 0; i < nums.length - 2; i++) {
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+    if (nums[i] > 0) break;
+    let left = i + 1, right = nums.length - 1;
+    while (left < right) {
+      const sum = nums[i] + nums[left] + nums[right];
+      if (sum === 0) {
+        result.push([nums[i], nums[left], nums[right]]);
+        while (left < right && nums[left] === nums[left + 1]) left++;
+        while (left < right && nums[right] === nums[right - 1]) right--;
+        left++; right--;
+      } else if (sum < 0) left++;
+      else right--;
+    }
+  }
+  return result;
+}
+
+// ── Example ──
+console.log(JSON.stringify(threeSum([-1,0,1,2,-1,-4])));
+// [[-1,-1,2],[-1,0,1]]
+
+// ── Step-by-step trace ──
+function threeSumVerbose(nums) {
+  nums.sort((a, b) => a - b);
+  console.log("Sorted:", JSON.stringify(nums));
+  const result = [];
+  for (let i = 0; i < nums.length - 2; i++) {
+    if (i > 0 && nums[i] === nums[i-1]) { console.log(\`Skip dup i=\${i}\`); continue; }
+    if (nums[i] > 0) break;
+    let l = i+1, r = nums.length-1;
+    while (l < r) {
+      const s = nums[i]+nums[l]+nums[r];
+      console.log(\`  i=\${i}(\${nums[i]}) L=\${l}(\${nums[l]}) R=\${r}(\${nums[r]}) sum=\${s}\`);
+      if (s === 0) {
+        result.push([nums[i],nums[l],nums[r]]);
+        while (l<r && nums[l]===nums[l+1]) l++;
+        while (l<r && nums[r]===nums[r-1]) r--;
+        l++; r--;
+      } else if (s < 0) l++;
+      else r--;
+    }
+  }
+  console.log("Triplets:", JSON.stringify(result));
+  return result;
+}
+threeSumVerbose([-1,0,1,2,-1,-4]);
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Find all unique triplets that sum to zero.",
+        difficulty: "Easy",
+        hint: "Sort, fix one element, two pointers for the other two. Skip duplicates.",
+      },
+      {
+        question: "4Sum — find all unique quadruplets summing to target (LeetCode 18).",
+        difficulty: "Medium",
+        hint: "Add another outer loop: fix two elements, then two-pointer for the remaining pair. O(n³).",
+      },
+      {
+        question: "3Sum Closest — find triplet with sum closest to target (LeetCode 16).",
+        difficulty: "Medium",
+        hint: "Same sort + fix + two-pointer approach. Track the minimum |sum - target| seen.",
+      },
+    ],
+  },
+
 ];
 
 export const categories: CategoryInfo[] = [
@@ -4968,7 +7212,7 @@ export const categories: CategoryInfo[] = [
     icon: "FileCode",
     description:
       "Master semantic HTML, accessibility, forms, and modern HTML5 APIs.",
-    topicCount: 49,
+    topicCount: 72,
     color: "from-amber-400 to-orange-400",
     available: true,
   },
@@ -4998,7 +7242,7 @@ export const categories: CategoryInfo[] = [
     icon: "Code",
     description:
       "Learn data structures and algorithms with JavaScript -- arrays, linked lists, stacks, queues, sorting, searching, and more.",
-    topicCount: 48,
+    topicCount: 49,
     color: "from-emerald-400 to-teal-500",
     available: true,
   },
@@ -5158,7 +7402,7 @@ export const dsaModules: DSAModule[] = [
     title: "Dynamic Programming",
     difficulty: "Advanced",
     description: "Memoisation and tabulation to turn exponential recursion into polynomial time.",
-    topicIds: [],
+    topicIds: ["find-largest-element", "remove-element", "best-time-to-buy-sell-stock", "squares-of-sorted-array", "remove-duplicates-sorted-array", "sort-colors", "running-sum", "find-pivot-index", "subarray-sum-equals-k", "contains-duplicate", "missing-number", "merge-intervals", "maximum-average-subarray", "move-zeroes", "longest-consecutive-sequence", "two-sum", "find-disappeared-numbers", "container-with-most-water", "flood-fill", "island-perimeter", "spiral-matrix", "can-place-flowers", "majority-element", "three-sum"],
   },
   {
     id: "interview-patterns",

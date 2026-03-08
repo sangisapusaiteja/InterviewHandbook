@@ -146,6 +146,12 @@ import {
   Combine,
   CheckSquare,
   FileSearch,
+  BarChart3,
+  ArrowRight,
+  Droplets,
+  Flower2,
+  Crown,
+  Triangle,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
@@ -157,7 +163,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { DSATopic, DSAModule } from "@/types/dsa";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMobileSidebar } from "@/contexts/MobileSidebarContext";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -298,6 +304,12 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Combine,
   CheckSquare,
   FileSearch,
+  BarChart3,
+  ArrowRight,
+  Droplets,
+  Flower2,
+  Crown,
+  Triangle,
 };
 
 const moduleIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -418,6 +430,30 @@ export function TopicSidebar({
     }
   }, [activeModuleId]);
 
+  // Preserve sidebar scroll position across navigations
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const savedScrollTop = useRef(0);
+  const activeTopicRef = useRef<HTMLAnchorElement>(null);
+
+  // Save scroll position before re-render
+  useEffect(() => {
+    const viewport = scrollRef.current?.querySelector("[data-radix-scroll-area-viewport]") as HTMLElement | null;
+    if (viewport) {
+      savedScrollTop.current = viewport.scrollTop;
+    }
+  });
+
+  // Restore scroll position after navigation, or scroll to active topic on first load
+  useEffect(() => {
+    const viewport = scrollRef.current?.querySelector("[data-radix-scroll-area-viewport]") as HTMLElement | null;
+    if (!viewport) return;
+    if (savedScrollTop.current > 0) {
+      viewport.scrollTop = savedScrollTop.current;
+    } else if (activeTopicRef.current) {
+      activeTopicRef.current.scrollIntoView({ block: "center" });
+    }
+  }, [pathname]);
+
   const toggleModule = (moduleId: string) => {
     setExpandedModules((prev) => {
       const next = new Set(prev);
@@ -520,7 +556,7 @@ export function TopicSidebar({
 
         {/* ── Topic list ── */}
         <div className="relative flex-1 min-h-0">
-          <ScrollArea type="always" className="h-full">
+          <ScrollArea ref={scrollRef} type="always" className="h-full">
             <nav className={cn("py-2", iconOnly ? "px-2" : "px-3 pb-6")}>
 
               {/* ── COLLAPSED: module icon strip ── */}
@@ -710,6 +746,7 @@ export function TopicSidebar({
                                   return (
                                     <Link
                                       key={topic.id}
+                                      ref={isActive ? activeTopicRef : undefined}
                                       href={`${basePath}/${topic.slug}`}
                                       className={cn(
                                         "flex items-center gap-2.5 rounded-lg px-2.5 py-2 relative",

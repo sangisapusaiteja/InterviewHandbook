@@ -41,6 +41,30 @@ import { GraphBFSVisualization } from "./visualizations/GraphBFSVisualization";
 import { CycleDetectionVisualization } from "./visualizations/CycleDetectionVisualization";
 import { TopologicalSortVisualization } from "./visualizations/TopologicalSortVisualization";
 import { DijkstraVisualization } from "./visualizations/DijkstraVisualization";
+import { FindLargestElementVisualization } from "./visualizations/FindLargestElementVisualization";
+import { RemoveElementVisualization } from "./visualizations/RemoveElementVisualization";
+import { BuyAndSellStockVisualization } from "./visualizations/BuyAndSellStockVisualization";
+import { SquaresOfSortedArrayVisualization } from "./visualizations/SquaresOfSortedArrayVisualization";
+import { RemoveDuplicatesSortedArrayVisualization } from "./visualizations/RemoveDuplicatesSortedArrayVisualization";
+import { SortColorsVisualization } from "./visualizations/SortColorsVisualization";
+import { RunningSumVisualization } from "./visualizations/RunningSumVisualization";
+import { FindPivotIndexVisualization } from "./visualizations/FindPivotIndexVisualization";
+import { SubarraySumEqualsKVisualization } from "./visualizations/SubarraySumEqualsKVisualization";
+import { ContainsDuplicateVisualization } from "./visualizations/ContainsDuplicateVisualization";
+import { MissingNumberVisualization } from "./visualizations/MissingNumberVisualization";
+import { MergeIntervalsVisualization } from "./visualizations/MergeIntervalsVisualization";
+import { MaximumAverageSubarrayVisualization } from "./visualizations/MaximumAverageSubarrayVisualization";
+import { MoveZeroesVisualization } from "./visualizations/MoveZeroesVisualization";
+import { LongestConsecutiveSequenceVisualization } from "./visualizations/LongestConsecutiveSequenceVisualization";
+import { TwoSumVisualization } from "./visualizations/TwoSumVisualization";
+import { FindDisappearedNumbersVisualization } from "./visualizations/FindDisappearedNumbersVisualization";
+import { ContainerWithMostWaterVisualization } from "./visualizations/ContainerWithMostWaterVisualization";
+import { FloodFillVisualization } from "./visualizations/FloodFillVisualization";
+import { IslandPerimeterVisualization } from "./visualizations/IslandPerimeterVisualization";
+import { SpiralMatrixVisualization } from "./visualizations/SpiralMatrixVisualization";
+import { CanPlaceFlowersVisualization } from "./visualizations/CanPlaceFlowersVisualization";
+import { MajorityElementVisualization } from "./visualizations/MajorityElementVisualization";
+import { ThreeSumVisualization } from "./visualizations/ThreeSumVisualization";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface VisualizationSectionProps {
@@ -88,6 +112,30 @@ const visualizationMap: Record<string, React.ComponentType> = {
   "cycle-detection":           CycleDetectionVisualization,
   "topological-sort":          TopologicalSortVisualization,
   "dijkstra":                  DijkstraVisualization,
+  "find-largest-element":       FindLargestElementVisualization,
+  "remove-element":             RemoveElementVisualization,
+  "best-time-to-buy-sell-stock": BuyAndSellStockVisualization,
+  "squares-of-sorted-array":     SquaresOfSortedArrayVisualization,
+  "remove-duplicates-sorted-array": RemoveDuplicatesSortedArrayVisualization,
+  "sort-colors":                 SortColorsVisualization,
+  "running-sum":                 RunningSumVisualization,
+  "find-pivot-index":            FindPivotIndexVisualization,
+  "subarray-sum-equals-k":       SubarraySumEqualsKVisualization,
+  "contains-duplicate":          ContainsDuplicateVisualization,
+  "missing-number":              MissingNumberVisualization,
+  "merge-intervals":             MergeIntervalsVisualization,
+  "maximum-average-subarray":    MaximumAverageSubarrayVisualization,
+  "move-zeroes":                 MoveZeroesVisualization,
+  "longest-consecutive-sequence": LongestConsecutiveSequenceVisualization,
+  "two-sum":                     TwoSumVisualization,
+  "find-disappeared-numbers":    FindDisappearedNumbersVisualization,
+  "container-with-most-water":   ContainerWithMostWaterVisualization,
+  "flood-fill":                  FloodFillVisualization,
+  "island-perimeter":            IslandPerimeterVisualization,
+  "spiral-matrix":               SpiralMatrixVisualization,
+  "can-place-flowers":           CanPlaceFlowersVisualization,
+  "majority-element":            MajorityElementVisualization,
+  "three-sum":                   ThreeSumVisualization,
 };
 
 export function VisualizationSection({ topicSlug }: VisualizationSectionProps) {
