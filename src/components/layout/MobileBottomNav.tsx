@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 export function MobileBottomNav() {
   const pathname = usePathname();
-  const isTopicPage = pathname.startsWith("/dsa") || pathname.startsWith("/html") || pathname.startsWith("/css");
+  const isTopicPage = pathname.startsWith("/dsa") || pathname.startsWith("/html") || pathname.startsWith("/css") || pathname.startsWith("/javascript") || pathname.startsWith("/python") || pathname.startsWith("/postgresql");
   const isHome = pathname === "/";
   const { open, toggle } = useMobileSidebar();
 

@@ -4998,7 +4998,7 @@ export const categories: CategoryInfo[] = [
     icon: "Code",
     description:
       "Learn data structures and algorithms with JavaScript -- arrays, linked lists, stacks, queues, sorting, searching, and more.",
-    topicCount: 32,
+    topicCount: 48,
     color: "from-emerald-400 to-teal-500",
     available: true,
   },
@@ -5035,10 +5035,11 @@ export const categories: CategoryInfo[] = [
     id: "postgresql",
     title: "PostgreSQL",
     icon: "Database",
-    description: "Master relational databases with PostgreSQL.",
-    topicCount: 0,
+    description:
+      "Learn PostgreSQL from fundamentals to advanced database concepts used in backend development and interviews.",
+    topicCount: 76,
     color: "from-violet-400 to-indigo-500",
-    available: false,
+    available: true,
   },
 ];
 

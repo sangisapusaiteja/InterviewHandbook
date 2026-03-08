@@ -29,6 +29,16 @@ export function CodeEditorSection({
     setIsRunning(true);
     setOutput([]);
 
+    // SQL cannot be executed in the browser
+    if (language === "sql") {
+      setOutput([
+        "-- SQL cannot be executed in the browser.",
+        "-- Copy this code and run it in psql, pgAdmin, or any PostgreSQL client.",
+      ]);
+      setIsRunning(false);
+      return;
+    }
+
     const logs: string[] = [];
 
     try {
@@ -63,7 +73,7 @@ export function CodeEditorSection({
     } finally {
       setIsRunning(false);
     }
-  }, [code]);
+  }, [code, language]);
 
   const resetCode = useCallback(() => {
     setCode(defaultCode);
