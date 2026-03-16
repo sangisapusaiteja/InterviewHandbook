@@ -152,6 +152,11 @@ import {
   Flower2,
   Crown,
   Triangle,
+  Minus,
+  SplitSquareHorizontal,
+  ShieldAlert,
+  BarChart2,
+  FlaskConical,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
@@ -310,6 +315,11 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Flower2,
   Crown,
   Triangle,
+  Minus,
+  SplitSquareHorizontal,
+  ShieldAlert,
+  BarChart2,
+  FlaskConical,
 };
 
 const moduleIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -355,6 +365,7 @@ const moduleIconMap: Record<string, React.ComponentType<{ className?: string }>>
   "python-error-file-handling": AlertTriangle,
   "python-modules-libraries": Boxes,
   "python-advanced-concepts": Zap,
+  "python-practice-problems": FlaskConical,
   // PostgreSQL modules
   "postgresql-fundamentals": Database,
   "basic-queries": Search,

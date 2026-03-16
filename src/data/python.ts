@@ -8499,6 +8499,1195 @@ for i, tip in enumerate(tips, 1):
       },
     ],
   },
+
+  // ─── Practice Problems ──────────────────────────────────────────────────────
+  {
+    id: "python-practice-sum-average",
+    title: "Sum and Average of Three Numbers",
+    slug: "python-practice-sum-average",
+    icon: "Calculator",
+    difficulty: "Beginner",
+    description:
+      "Ask the user for three numbers, then calculate and print their total and average.",
+    concept: {
+      explanation:
+        "This problem introduces variables, user input via input(), type conversion with float(), and arithmetic operations. You store each user-entered value in its own variable, compute the sum, divide by 3 to get the average, and display both results.",
+      realLifeAnalogy:
+        "Think of a teacher recording three test scores for a student. She adds them up to get the total marks, then divides by 3 to find the average grade — exactly what this program does.",
+      keyPoints: [
+        "Use input() three times to read each number separately.",
+        "Convert each input to a number using float() so you can do arithmetic.",
+        "total = num1 + num2 + num3 sums all three values.",
+        "average = total / 3 divides the sum by the count.",
+        "print() displays both results to the user.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 1: Sum and Average of Three Numbers
+
+num1 = float(input("Enter first number: "))
+num2 = float(input("Enter second number: "))
+num3 = float(input("Enter third number: "))
+
+total = num1 + num2 + num3
+average = total / 3
+
+print("Total:", total)
+print("Average:", average)
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Why do we use float() instead of int() for user input?",
+        difficulty: "Easy",
+        hint: "Think about what happens when the user types a decimal number like 4.5.",
+      },
+      {
+        question:
+          "How would you modify the program to handle any number of inputs, not just three?",
+        difficulty: "Medium",
+        hint: "Consider using a loop and keeping a running total.",
+      },
+      {
+        question:
+          "What will happen if the user enters a non-numeric value like 'abc'?",
+        difficulty: "Easy",
+        hint: "Python raises a ValueError. You can guard against it with try/except.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-for-loop-sequence",
+    title: "Print Number Sequence with For Loop",
+    slug: "python-practice-for-loop-sequence",
+    icon: "List",
+    difficulty: "Beginner",
+    description:
+      "Use a for loop with range() to print the sequence 8, 11, 14, 17, … up to 89.",
+    concept: {
+      explanation:
+        "Python's range(start, stop, step) generates a sequence of numbers starting at start, incrementing by step, and stopping before stop. Here start=8, stop=90 (exclusive), step=3 produces 8, 11, 14, …, 89. The for loop iterates over every value that range() yields.",
+      realLifeAnalogy:
+        "Imagine a bus that starts at stop 8 and picks up passengers every 3 stops: stop 8, 11, 14, … until it reaches the last stop at 89. The range() function is your timetable, and the for loop is the bus moving from stop to stop.",
+      keyPoints: [
+        "range(start, stop, step) — start is inclusive, stop is exclusive.",
+        "To include 89, set stop=90 (one past the last value you want).",
+        "step=3 means each iteration adds 3 to the current value.",
+        "The loop variable (e.g., i) holds the current number on each iteration.",
+        "print(i, end=' ') keeps all numbers on one line (optional style choice).",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 2: Print 8, 11, 14, ..., 89
+
+for i in range(8, 90, 3):
+    print(i)
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "What is the third argument to range() called, and what does it control?",
+        difficulty: "Easy",
+        hint: "It controls how much the value grows on each step of the loop.",
+      },
+      {
+        question:
+          "Why is the stop value 90 instead of 89 in range(8, 90, 3)?",
+        difficulty: "Easy",
+        hint: "range() stops before it reaches the stop value — it is exclusive.",
+      },
+      {
+        question:
+          "How would you print the same sequence in reverse (89, 86, …, 8)?",
+        difficulty: "Medium",
+        hint: "Use range(89, 7, -3) — a negative step goes backwards.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-negative-numbers",
+    title: "Negative Numbers with Interval of 2",
+    slug: "python-practice-negative-numbers",
+    icon: "Minus",
+    difficulty: "Beginner",
+    description:
+      "Use a for loop to print negative numbers with an interval of 2 (e.g., -2, -4, -6, …).",
+    concept: {
+      explanation:
+        "By combining a negative start with a negative step, range() counts downward. range(-2, -21, -2) starts at -2, moves by -2 each time, and stops before -20, producing -2, -4, -6, …, -20. This demonstrates that range() works equally well with negative numbers.",
+      realLifeAnalogy:
+        "Picture a thermometer dropping from -2°C. Every hour the temperature falls by another 2 degrees: -2, -4, -6, and so on. The for loop 'reads' the thermometer at each hourly snapshot.",
+      keyPoints: [
+        "A negative step makes range() count downward.",
+        "range(-2, -21, -2): start=-2, stop=-21 (exclusive), step=-2.",
+        "The stop value must be lower than the start when the step is negative.",
+        "You can choose any range: range(0, -11, -2) gives 0, -2, -4, …, -10.",
+        "Each loop iteration, the variable decreases by the absolute value of step.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 3: Negative numbers with interval of 2
+
+for i in range(-2, -21, -2):
+    print(i)
+`,
+    },
+    interviewQuestions: [
+      {
+        question:
+          "What happens if you accidentally write range(-2, -20, 2) with a positive step?",
+        difficulty: "Easy",
+        hint: "When start is less than stop but step is positive, range() produces an empty sequence.",
+      },
+      {
+        question: "How would you print 0, -2, -4, …, -20 starting from zero?",
+        difficulty: "Easy",
+        hint: "Change the start to 0: range(0, -21, -2).",
+      },
+      {
+        question:
+          "How can you collect all these negative numbers into a list instead of just printing them?",
+        difficulty: "Medium",
+        hint: "Use list(range(-2, -21, -2)) or a list comprehension.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-print-name",
+    title: "Print Name N Times",
+    slug: "python-practice-print-name",
+    icon: "Repeat",
+    difficulty: "Beginner",
+    description:
+      "Ask the user for their name and how many times to print it, then print the name that many times.",
+    concept: {
+      explanation:
+        "This problem combines input(), int() conversion, and a for loop with range(). The user provides a name (string) and a count (integer). range(count) generates count iterations, and inside the loop you print the name each time.",
+      realLifeAnalogy:
+        "Like a coach calling a player's name to keep them motivated: 'Alex! Alex! Alex!' — the coach decides how many times to call, and the loop does the repeating.",
+      keyPoints: [
+        "Read the name as a plain string — no conversion needed.",
+        "Read the count with int(input(...)) because range() requires an integer.",
+        "range(n) produces n iterations: 0, 1, 2, …, n-1.",
+        "The loop variable can be named _ when you don't need its value.",
+        "Each pass through the loop calls print(name) once.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 4: Print name N times
+
+name = input("Enter your name: ")
+times = int(input("How many times to print? "))
+
+for _ in range(times):
+    print(name)
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Why do we use int() to convert the 'times' input?",
+        difficulty: "Easy",
+        hint: "range() only accepts integers; passing a string would raise a TypeError.",
+      },
+      {
+        question:
+          "What does the underscore _ as a loop variable signify in Python?",
+        difficulty: "Easy",
+        hint: "It is a convention meaning 'I don't need this variable's value inside the loop.'",
+      },
+      {
+        question:
+          "How would you print the name along with its iteration number (e.g., '1. Alice')?",
+        difficulty: "Medium",
+        hint: "Use enumerate() or replace _ with i and print with f'{i+1}. {name}'.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-even-odd",
+    title: "Even and Odd Number Checker",
+    slug: "python-practice-even-odd",
+    icon: "SplitSquareHorizontal",
+    difficulty: "Beginner",
+    description:
+      "Ask the user for a number and use if/else to identify whether it is even or odd.",
+    concept: {
+      explanation:
+        "The modulo operator % returns the remainder of a division. Any integer divided by 2 has a remainder of either 0 (even) or 1 (odd). An if/else statement branches to the correct message based on that remainder, demonstrating the fundamental conditional structure in Python.",
+      realLifeAnalogy:
+        "Think of distributing items into two bins: every time you pick an item, you put the first in bin A, the second in bin B, the third back in A, and so on. Items that go into bin A are at even positions; items in bin B are at odd positions.",
+      keyPoints: [
+        "number % 2 computes the remainder when dividing by 2.",
+        "If the remainder is 0, the number is even; otherwise it is odd.",
+        "if number % 2 == 0: is the condition to test for evenness.",
+        "else: handles all remaining cases (the odd branch).",
+        "Convert the input to int() so arithmetic works correctly.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 5: Even and Odd Number Checker
+
+number = int(input("Enter a number: "))
+
+if number % 2 == 0:
+    print(number, "is Even")
+else:
+    print(number, "is Odd")
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "What does the % (modulo) operator do?",
+        difficulty: "Easy",
+        hint: "It returns the remainder after dividing the left number by the right number.",
+      },
+      {
+        question: "How would you check if a number is divisible by 3 instead of 2?",
+        difficulty: "Easy",
+        hint: "Change the condition to number % 3 == 0.",
+      },
+      {
+        question:
+          "How would you extend this program to classify numbers as positive-even, positive-odd, negative-even, or negative-odd?",
+        difficulty: "Medium",
+        hint: "Combine the % 2 check with number > 0 and number < 0 using nested if/elif/else.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-converging-triangle",
+    title: "Converging Triangle Pattern",
+    slug: "python-practice-converging-triangle",
+    icon: "Triangle",
+    difficulty: "Beginner",
+    description:
+      "Use a for loop to print two # symbols per row that converge toward each other as rows increase.",
+    concept: {
+      explanation:
+        "This pattern uses string multiplication and arithmetic to position two # characters on each row. As the row index i increases, the left indent grows by 1 space and the inner gap shrinks by 2 spaces. The result is two columns of # that start apart and move closer together.",
+      realLifeAnalogy:
+        "Imagine two people walking toward each other from opposite ends of a hallway. With each step (row), they get closer together — until they nearly meet at the bottom.",
+      keyPoints: [
+        "' ' * i creates i leading spaces (the left indent).",
+        "' ' * (2 * (h - i - 1)) creates the inner gap between the two #.",
+        "As i increases the left indent grows and the inner gap shrinks.",
+        "On the last row (i = h - 1) the gap is 0, so the two # are adjacent.",
+        "String concatenation builds each row: indent + '#' + gap + '#'.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 6: Converging Triangle
+
+h = int(input("Enter height: "))
+
+for i in range(h):
+    print(" " * i + "#" + " " * (2 * (h - i - 1)) + "#")
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "What happens to the inner gap as i increases in the loop?",
+        difficulty: "Easy",
+        hint: "The expression 2*(h-i-1) decreases by 2 on each iteration.",
+      },
+      {
+        question: "How would you make the two lines diverge (open upward) instead of converge?",
+        difficulty: "Medium",
+        hint: "Reverse the formula: indent = h-1-i and gap = 2*i.",
+      },
+      {
+        question: "How would you print only a single # on the last row when the gap becomes 0?",
+        difficulty: "Medium",
+        hint: "Add an if/else: if i == h-1: print one #, else print two with gap.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-centered-triangle",
+    title: "Centered Triangle (Pyramid)",
+    slug: "python-practice-centered-triangle",
+    icon: "Triangle",
+    difficulty: "Beginner",
+    description:
+      "Use a for loop to print a centered pyramid of * characters that grows wider from top to bottom.",
+    concept: {
+      explanation:
+        "Each row i (0-indexed) has 2*i+1 stars and (h-1-i) leading spaces. The leading spaces center the odd number of stars. Row 0 has 1 star with the most spaces; the last row has 2*h-1 stars with no spaces.",
+      realLifeAnalogy:
+        "Think of stacking layers of a wedding cake: each layer is wider than the one above, but they're all centered on the same axis.",
+      keyPoints: [
+        "Row i has 2*i+1 stars — always an odd number.",
+        "Leading spaces = h - 1 - i, which decreases by 1 each row.",
+        "The combination keeps everything centered.",
+        "range(h) iterates h times, producing h rows.",
+        "String multiplication ' ' * n and '*' * n build each row efficiently.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 7: Centered Pyramid
+
+h = int(input("Enter height: "))
+
+for i in range(h):
+    print(" " * (h - 1 - i) + "*" * (2 * i + 1))
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Why does the number of stars on each row always be odd?",
+        difficulty: "Easy",
+        hint: "2*i+1 is always odd because 2*i is even and adding 1 makes it odd.",
+      },
+      {
+        question: "How would you print the pyramid upside-down?",
+        difficulty: "Easy",
+        hint: "Iterate with range(h-1, -1, -1) to go from h-1 down to 0.",
+      },
+      {
+        question: "How would you add a hollow center to the pyramid (only the border stars)?",
+        difficulty: "Hard",
+        hint: "On inner rows (not first or last), print one * + spaces + one * instead of a full row.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-left-triangle",
+    title: "Left-Aligned Triangle",
+    slug: "python-practice-left-triangle",
+    icon: "Triangle",
+    difficulty: "Beginner",
+    description:
+      "Use a for loop to print a left-aligned triangle of * characters that widens from top to bottom.",
+    concept: {
+      explanation:
+        "The simplest triangle pattern. Row i (0-indexed) prints 2*i+1 stars with no leading spaces. Row 0 has 1 star, row 1 has 3, and so on. Each row always starts at the leftmost column.",
+      realLifeAnalogy:
+        "Like stacking bricks on the floor, each layer wider than the last but all pushed against the left wall.",
+      keyPoints: [
+        "No leading spaces — the triangle is flush left.",
+        "Row i prints 2*i+1 stars.",
+        "The first row (i=0) prints 1 star: 2*0+1 = 1.",
+        "The last row (i=h-1) prints 2*(h-1)+1 = 2h-1 stars.",
+        "This is the simplest version of the triangle pattern.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 8: Left-Aligned Triangle
+
+h = int(input("Enter height: "))
+
+for i in range(h):
+    print("*" * (2 * i + 1))
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "How many stars does the last row have for a height-4 triangle?",
+        difficulty: "Easy",
+        hint: "Plug i=3 into 2*i+1: 2*3+1 = 7.",
+      },
+      {
+        question: "How would you print just stars with no formula — using nested loops instead?",
+        difficulty: "Medium",
+        hint: "Use an outer loop for rows and an inner loop that runs 2*i+1 times, printing '*' without newline each time, then print() for the newline.",
+      },
+      {
+        question: "How would you print the same triangle with only the border stars (hollow)?",
+        difficulty: "Hard",
+        hint: "On the first and last row print all stars; on middle rows print one star, then spaces, then one star.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-right-triangle",
+    title: "Right-Aligned Triangle",
+    slug: "python-practice-right-triangle",
+    icon: "Triangle",
+    difficulty: "Beginner",
+    description:
+      "Use a for loop to print a right-aligned triangle of * characters that widens toward the left.",
+    concept: {
+      explanation:
+        "Similar to the centered pyramid, but the stars are right-aligned instead of centered. Row i has 2*i+1 stars and (h-1-i)*2 leading spaces. The last row fills the full width with no spaces.",
+      realLifeAnalogy:
+        "Like a staircase going down on the right side — each new step extends further to the left while the right edge stays fixed.",
+      keyPoints: [
+        "Leading spaces = (h - 1 - i) * 2, shrinking by 2 each row.",
+        "Stars = 2*i+1, growing by 2 each row.",
+        "The right edge of all rows aligns because spaces + stars = constant.",
+        "Total width of each row = (h-1-i)*2 + (2*i+1) = 2h-1 characters.",
+        "The last row has 0 spaces and 2*h-1 stars.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 9: Right-Aligned Triangle
+
+h = int(input("Enter height: "))
+
+for i in range(h):
+    print(" " * ((h - 1 - i) * 2) + "*" * (2 * i + 1))
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Why does the total row width stay the same for every row?",
+        difficulty: "Medium",
+        hint: "spaces + stars = (h-1-i)*2 + (2*i+1) = 2h-2-2i + 2i+1 = 2h-1, which is constant.",
+      },
+      {
+        question: "What is the difference between this pattern and the centered pyramid (Problem 7)?",
+        difficulty: "Easy",
+        hint: "The centered pyramid uses (h-1-i) spaces; this one uses (h-1-i)*2 spaces — twice as many.",
+      },
+      {
+        question: "How would you combine this with Problem 7 to create a diamond shape?",
+        difficulty: "Hard",
+        hint: "Print the pyramid (problems 7) then an inverted version: iterate range(h-2, -1, -1).",
+      },
+    ],
+  },
+  {
+    id: "python-practice-inverted-triangle",
+    title: "Inverted Triangle Pattern",
+    slug: "python-practice-inverted-triangle",
+    icon: "Triangle",
+    difficulty: "Beginner",
+    description:
+      "Use a for loop to print an inverted triangle of * characters — wide at the top, narrowing to a point.",
+    concept: {
+      explanation:
+        "This is the reverse of the left-aligned triangle. Row i (0-indexed) has i leading spaces and 2*(h-i)-1 stars. Row 0 starts with the most stars and no spaces; the last row has 1 star with the most spaces.",
+      realLifeAnalogy:
+        "Like melting ice — starts wide at the top and tapers to a single drip at the bottom.",
+      keyPoints: [
+        "Leading spaces = i (increases by 1 each row).",
+        "Stars = 2*(h-i)-1 (decreases by 2 each row).",
+        "Row 0: 0 spaces and 2*h-1 stars (widest).",
+        "Last row (i=h-1): h-1 spaces and 1 star (narrowest).",
+        "Total width of row 0 sets the visual width: 2*h-1 characters.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 10: Inverted Triangle
+
+h = int(input("Enter height: "))
+
+for i in range(h):
+    print(" " * i + "*" * (2 * (h - i) - 1))
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "How many stars are on the very last row?",
+        difficulty: "Easy",
+        hint: "Plug i=h-1: 2*(h-(h-1))-1 = 2*1-1 = 1.",
+      },
+      {
+        question: "How would you combine Problems 8 and 10 to make a full diamond?",
+        difficulty: "Medium",
+        hint: "Print the left-aligned triangle (Problem 8), then start Problem 10 from row 1 (i=1) to skip the duplicate middle row.",
+      },
+      {
+        question: "How would you center the inverted triangle (so it looks like an upside-down centered pyramid)?",
+        difficulty: "Medium",
+        hint: "Change leading spaces from i to (h-1-i)... wait, that reverses it. Actually use range(h-1, -1, -1) on Problem 7.",
+      },
+    ],
+  },
+
+  // ─── Problems 11-20 ─────────────────────────────────────────────────────────
+  {
+    id: "python-practice-list-properties",
+    title: "List Properties",
+    slug: "python-practice-list-properties",
+    icon: "List",
+    difficulty: "Beginner",
+    description: "Write a program to check whether lists can be ordered, indexed, mutable and nested.",
+    concept: {
+      explanation:
+        "Python lists have four key properties. Ordered means insertion order is preserved — the sequence you add items is the sequence you get them back. Indexed means each item can be accessed by a numeric position (0-based). Mutable means you can change, add, or remove items after creation. Nested means a list can contain other lists (or any object) as elements.",
+      realLifeAnalogy:
+        "Think of a list as a numbered shopping cart. The items stay in the order you added them (ordered), you can pick item #3 directly (indexed), you can swap or remove any item (mutable), and you can put a whole bag of items as a single entry (nested).",
+      keyPoints: [
+        "Ordered: print([3,1,2]) always outputs [3,1,2] — order is maintained.",
+        "Indexed: my_list[0] gives the first element; negative indices count from the end.",
+        "Mutable: my_list[0] = 99 and my_list.append(5) both modify the list in place.",
+        "Nested: [[1,2],[3,4]] is valid; access inner items with my_list[0][1].",
+        "Lists are created with square brackets [] or list().",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 11: List Properties
+
+my_list = [10, 20, 30, 40, 50]
+
+# 1. Ordered – insertion order is preserved
+print("1. ORDERED")
+print("Original:", my_list)
+
+# 2. Indexed – access by position
+print("\\n2. INDEXED")
+print("First element  (index 0):", my_list[0])
+print("Last element   (index -1):", my_list[-1])
+print("Third element  (index 2):", my_list[2])
+
+# 3. Mutable – can change elements
+print("\\n3. MUTABLE")
+my_list[0] = 99
+my_list.append(60)
+my_list.remove(30)
+print("After changes:", my_list)
+
+# 4. Nested – can contain other lists
+print("\\n4. NESTED")
+nested = [1, [2, 3], [4, [5, 6]]]
+print("Nested list:", nested)
+print("Access nested [1][0]:", nested[1][0])
+print("Access deep   [2][1][0]:", nested[2][1][0])
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "What is the difference between a list and a tuple in Python?",
+        difficulty: "Easy",
+        hint: "Tuples use () and are immutable; lists use [] and are mutable.",
+      },
+      {
+        question: "How can you check if a list is ordered in Python?",
+        difficulty: "Easy",
+        hint: "Lists always maintain insertion order — you can verify by printing the list after creation.",
+      },
+      {
+        question: "What happens when you do my_list[10] on a list with only 5 elements?",
+        difficulty: "Medium",
+        hint: "Python raises an IndexError. Always check len(my_list) before accessing by index.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-dict-properties",
+    title: "Dictionary Properties",
+    slug: "python-practice-dict-properties",
+    icon: "BookOpen",
+    difficulty: "Beginner",
+    description: "Write a program to check whether dictionaries can be ordered, indexed, mutable and nested.",
+    concept: {
+      explanation:
+        "Python dictionaries (since 3.7) maintain insertion order. They are NOT accessed by numeric index but by keys. They are mutable — key-value pairs can be added, changed, or deleted. They support nesting — values can themselves be dictionaries or lists.",
+      realLifeAnalogy:
+        "A dictionary is like a contact book: entries stay in the order you added them (ordered), you look people up by name not by page number (keyed, not indexed), you can add/edit/delete contacts (mutable), and each contact can have a nested 'addresses' list (nested).",
+      keyPoints: [
+        "Ordered (Python 3.7+): insertion order is preserved.",
+        "NOT indexed by position — accessed by key: my_dict['name'].",
+        "Mutable: my_dict['age'] = 30 and del my_dict['key'] both work.",
+        "Nested: values can be any type including dicts, lists, or other objects.",
+        "Keys must be immutable (strings, numbers, tuples); values can be anything.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 12: Dictionary Properties
+
+my_dict = {"name": "Alice", "age": 25, "city": "NYC"}
+
+# 1. Ordered (Python 3.7+)
+print("1. ORDERED")
+print("Dict:", my_dict)
+print("Keys in order:", list(my_dict.keys()))
+
+# 2. NOT indexed by position – accessed by KEY
+print("\\n2. KEYED (not positional index)")
+print("Name:", my_dict["name"])
+print("Age:", my_dict["age"])
+# my_dict[0]  # This would raise a KeyError!
+
+# 3. Mutable
+print("\\n3. MUTABLE")
+my_dict["age"] = 26
+my_dict["email"] = "alice@example.com"
+del my_dict["city"]
+print("After changes:", my_dict)
+
+# 4. Nested
+print("\\n4. NESTED")
+nested = {
+    "student": {
+        "name": "Bob",
+        "grades": [90, 85, 92],
+        "address": {"city": "LA", "zip": "90001"}
+    }
+}
+print("Nested dict:", nested)
+print("Name:", nested["student"]["name"])
+print("First grade:", nested["student"]["grades"][0])
+print("City:", nested["student"]["address"]["city"])
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "Can you access a dictionary value by its numeric position like dict[0]?",
+        difficulty: "Easy",
+        hint: "No — dicts are keyed. dict[0] works only if 0 is an actual key. Use list(dict.values())[0] for positional access.",
+      },
+      {
+        question: "What is the difference between dict.get('key') and dict['key']?",
+        difficulty: "Medium",
+        hint: "dict['key'] raises KeyError if the key doesn't exist; dict.get('key') returns None (or a default you specify).",
+      },
+      {
+        question: "Are dictionary keys ordered in Python 2?",
+        difficulty: "Medium",
+        hint: "No — ordering was only guaranteed from Python 3.7 onward. Before that, use collections.OrderedDict.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-vowel-checker",
+    title: "Vowel Checker",
+    slug: "python-practice-vowel-checker",
+    icon: "Search",
+    difficulty: "Beginner",
+    description: "Ask the user to enter a word and print whether that word contains any vowels.",
+    concept: {
+      explanation:
+        "Iterate over each character in the input word and check if it is in the vowels string 'aeiouAEIOU'. Collect all matching characters. If any are found, print them; otherwise report no vowels.",
+      realLifeAnalogy:
+        "Like scanning a word letter by letter with a highlighter — whenever you hit a, e, i, o, or u you mark it. At the end you report how many marks you made.",
+      keyPoints: [
+        "The in operator checks membership: 'a' in 'aeiou' returns True.",
+        "Iterating over a string gives each character one by one.",
+        "Collect found vowels in a list, then use set() to remove duplicates.",
+        "Handle both uppercase and lowercase by including both in the vowels string.",
+        "A single if/else at the end decides which message to print.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 13: Vowel Checker
+
+word = input("Enter a word: ")
+vowels = "aeiouAEIOU"
+found = []
+
+for char in word:
+    if char in vowels:
+        found.append(char)
+
+if found:
+    unique = list(dict.fromkeys(found))   # preserve order, remove duplicates
+    print(f"'{word}' contains vowels: {', '.join(unique)}")
+    print(f"Total vowel count: {len(found)}")
+else:
+    print(f"'{word}' contains no vowels.")
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "How would you count the exact number of vowels (including duplicates)?",
+        difficulty: "Easy",
+        hint: "Use len(found) after collecting all vowels (without deduplication).",
+      },
+      {
+        question: "How would you rewrite this using a list comprehension?",
+        difficulty: "Medium",
+        hint: "found = [c for c in word if c in 'aeiouAEIOU']",
+      },
+      {
+        question: "How would you check for vowels without being case-sensitive?",
+        difficulty: "Easy",
+        hint: "Convert the word to lowercase first: word.lower(), then check against 'aeiou'.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-string-alternator",
+    title: "Alternate Characters of Two Strings",
+    slug: "python-practice-string-alternator",
+    icon: "ArrowLeftRight",
+    difficulty: "Beginner",
+    description: "Enter two strings of equal length and interleave their characters (e.g. abcde + ABCDE → AaBbCcDdEe).",
+    concept: {
+      explanation:
+        "First check that both strings have the same length; if not, print an error and stop. Otherwise, loop through each index i and append str2[i] then str1[i] to a result string. This creates the interleaved output.",
+      realLifeAnalogy:
+        "Like shuffling two decks of cards together — one card from deck A, one from deck B, alternating until both are merged into a single combined deck.",
+      keyPoints: [
+        "len(str1) != len(str2) checks for mismatched lengths.",
+        "Loop with range(len(str1)) to visit each index.",
+        "Concatenation order str2[i] + str1[i] places the second string first (as per the example).",
+        "The result string starts empty and grows by 2 characters per iteration.",
+        "You can also use a list and ''.join() for better performance on long strings.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 14: Alternate Characters of Two Strings
+
+str1 = input("Enter first string:  ")
+str2 = input("Enter second string: ")
+
+if len(str1) != len(str2):
+    print(f"Strings have different lengths ({len(str1)} vs {len(str2)}). Exiting.")
+else:
+    result = ""
+    for i in range(len(str1)):
+        result += str2[i] + str1[i]
+    print("Alternated:", result)
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "How would you rewrite the alternation using zip()?",
+        difficulty: "Medium",
+        hint: "result = ''.join(b + a for a, b in zip(str1, str2))",
+      },
+      {
+        question: "What if the strings are different lengths but you still want to interleave them?",
+        difficulty: "Medium",
+        hint: "Use zip_longest from itertools with a fillvalue='' to handle the leftover characters.",
+      },
+      {
+        question: "How would you reverse the order so str1 comes first in each pair?",
+        difficulty: "Easy",
+        hint: "Change result += str2[i] + str1[i] to result += str1[i] + str2[i].",
+      },
+    ],
+  },
+  {
+    id: "python-practice-american-comma",
+    title: "American Comma Formatting",
+    slug: "python-practice-american-comma",
+    icon: "Hash",
+    difficulty: "Beginner",
+    description: "Ask the user for a large integer and format it with American-style commas (e.g. 1000000 → 1,000,000).",
+    concept: {
+      explanation:
+        "American comma formatting groups digits into sets of 3 from the right: 1,000,000. Python's built-in f-string format specifier {:,} does this automatically. Alternatively you can manually reverse the string, insert commas every 3 digits, then reverse again.",
+      realLifeAnalogy:
+        "Like reading a price tag in a US store — every three digits from the right get separated by a comma so large numbers are easy to read at a glance.",
+      keyPoints: [
+        "f'{number:,}' is the simplest way to format with American commas.",
+        "The comma format specifier works for both int and float.",
+        "Manual approach: reverse digits, insert comma after every 3rd, reverse result.",
+        "Always strip any existing commas from input before parsing: num_str.replace(',', '').",
+        "Use try/except to handle non-numeric input gracefully.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 15: American Comma Formatting
+
+num_str = input("Enter a large integer: ")
+num_str = num_str.replace(",", "")   # strip existing commas
+
+try:
+    number = int(num_str)
+    formatted = f"{number:,}"
+    print("American format:", formatted)
+except ValueError:
+    print("Invalid number entered.")
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "What does the {:,} format specifier do in an f-string?",
+        difficulty: "Easy",
+        hint: "It inserts commas as thousands separators in the American convention.",
+      },
+      {
+        question: "How would you format a float with 2 decimal places AND commas (e.g. 1,234,567.89)?",
+        difficulty: "Medium",
+        hint: "Use f'{number:,.2f}'.",
+      },
+      {
+        question: "How would you implement American comma formatting manually without format specifiers?",
+        difficulty: "Hard",
+        hint: "Reverse the digit string, join chunks of 3 with commas, then reverse the result.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-indian-comma",
+    title: "Indian Comma Formatting",
+    slug: "python-practice-indian-comma",
+    icon: "Hash",
+    difficulty: "Intermediate",
+    description: "Format a large integer with Indian-style commas (e.g. 1000000 → 10,00,000).",
+    concept: {
+      explanation:
+        "Indian comma formatting groups the last 3 digits, then groups every 2 digits to the left: 10,00,000. There is no built-in Python formatter for this, so it must be implemented manually by slicing the digit string.",
+      realLifeAnalogy:
+        "Like reading prices in Indian newspapers — the last three digits form hundreds/thousands, then pairs of digits represent lakhs and crores.",
+      keyPoints: [
+        "Separate the last 3 digits: s[-3:].",
+        "Then repeatedly take 2 digits from the right of the remaining string: s[-2:].",
+        "Build the result from right to left, prepending each group with a comma.",
+        "Handle negative numbers by checking n < 0 and prepending '-' at the end.",
+        "10,00,000 = 10 lakhs; 1,00,00,000 = 1 crore.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 16: Indian Comma Formatting
+
+def indian_format(n):
+    s = str(abs(n))
+    if len(s) <= 3:
+        return ("-" if n < 0 else "") + s
+    result = s[-3:]
+    s = s[:-3]
+    while s:
+        result = s[-2:] + "," + result
+        s = s[:-2]
+    return ("-" if n < 0 else "") + result
+
+num_str = input("Enter a large integer: ")
+try:
+    number = int(num_str.replace(",", ""))
+    print("Indian format:", indian_format(number))
+except ValueError:
+    print("Invalid number entered.")
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "What is the difference between American and Indian comma formats for 10 million?",
+        difficulty: "Easy",
+        hint: "American: 10,000,000 (groups of 3). Indian: 1,00,00,000 (last 3, then pairs).",
+      },
+      {
+        question: "What is 1 crore in American notation?",
+        difficulty: "Easy",
+        hint: "1 crore = 10,000,000 (ten million in American notation).",
+      },
+      {
+        question: "How would you extend the function to also handle decimal numbers?",
+        difficulty: "Hard",
+        hint: "Split on '.', format only the integer part with indian_format(), then re-join with the decimal portion.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-try-except",
+    title: "Try / Except / Else / Finally",
+    slug: "python-practice-try-except",
+    icon: "ShieldAlert",
+    difficulty: "Beginner",
+    description: "Write a program to demonstrate try, except, else, and finally blocks in Python.",
+    concept: {
+      explanation:
+        "Python exception handling uses four blocks: try (code that might fail), except (runs if an error occurs), else (runs only if no error occurred), finally (always runs regardless). This lets you handle errors gracefully without crashing.",
+      realLifeAnalogy:
+        "Like a bank transaction: try to process payment (try), if the card is declined handle the error (except), if payment succeeded send a receipt (else), and always print a transaction summary regardless (finally).",
+      keyPoints: [
+        "try: contains the risky code.",
+        "except ExceptionType: catches specific errors — always be specific when possible.",
+        "else: runs only when the try block succeeded with no exception.",
+        "finally: always runs — use for cleanup (closing files, releasing resources).",
+        "You can have multiple except blocks for different error types.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 17: Try / Except / Else / Finally
+
+def safe_divide(a, b):
+    try:
+        result = a / b
+    except ZeroDivisionError:
+        print("  [except] Error: Cannot divide by zero!")
+    except TypeError:
+        print("  [except] Error: Both arguments must be numbers!")
+    else:
+        print(f"  [else]   {a} / {b} = {result}")
+        return result
+    finally:
+        print("  [finally] Division attempt complete.")
+        print()
+
+print("Test 1: 10 / 2")
+safe_divide(10, 2)
+
+print("Test 2: 10 / 0")
+safe_divide(10, 0)
+
+print("Test 3: 'abc' / 2")
+safe_divide("abc", 2)
+
+print("Test 4: 7 / 3")
+safe_divide(7, 3)
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "When does the else block run in a try/except structure?",
+        difficulty: "Easy",
+        hint: "The else block only runs when the try block completes without raising any exception.",
+      },
+      {
+        question: "What is the difference between catching Exception and BaseException?",
+        difficulty: "Medium",
+        hint: "Exception catches most errors; BaseException also catches SystemExit and KeyboardInterrupt — usually avoid catching BaseException.",
+      },
+      {
+        question: "Is it a good practice to use a bare except: (no exception type)?",
+        difficulty: "Medium",
+        hint: "No — bare except catches everything including SystemExit and KeyboardInterrupt, making it hard to stop the program. Always specify the exception type.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-pandas-excel",
+    title: "Pandas: Load & Modify Data",
+    slug: "python-practice-pandas-excel",
+    icon: "Table",
+    difficulty: "Intermediate",
+    description: "Load a DataFrame (simulating Excel data), modify columns and rows, and perform simple operations using pandas.",
+    concept: {
+      explanation:
+        "Pandas is Python's primary data analysis library. A DataFrame is a 2D table of rows and columns — like an Excel sheet. You can create, filter, add columns, compute statistics, and export data. In practice you load real Excel files with pd.read_excel(); here we create data in a dict and pass it to pd.DataFrame().",
+      realLifeAnalogy:
+        "Think of pandas as a super-powered spreadsheet inside Python. Instead of clicking cells, you write code that processes thousands of rows in milliseconds.",
+      keyPoints: [
+        "pd.DataFrame(dict) creates a table from a dictionary.",
+        "df['new_col'] = expression adds a computed column.",
+        "df[df['col'] > value] filters rows by condition.",
+        "df.describe() gives count, mean, std, min, max for numeric columns.",
+        "pd.read_excel('file.xlsx') loads a real Excel file; pd.to_excel() saves one.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 18: Pandas – DataFrame Operations
+# Note: run this in a local Python environment with pandas installed
+# pip install pandas
+
+import pandas as pd
+
+# Create a DataFrame (simulating Excel data)
+data = {
+    "Name":    ["Alice", "Bob", "Charlie", "Diana"],
+    "Math":    [85, 92, 78, 95],
+    "Science": [90, 88, 82, 97],
+    "English": [78, 85, 91, 88],
+}
+df = pd.DataFrame(data)
+print("Original DataFrame:")
+print(df)
+
+# Add computed columns
+df["Total"]   = df["Math"] + df["Science"] + df["English"]
+df["Average"] = (df["Total"] / 3).round(2)
+print("\\nWith Total and Average:")
+print(df)
+
+# Filter rows
+print("\\nStudents with Average > 88:")
+print(df[df["Average"] > 88][["Name", "Average"]])
+
+# Modify a row value
+df.loc[df["Name"] == "Bob", "Math"] = 95
+print("\\nAfter updating Bob's Math score:")
+print(df[["Name", "Math"]])
+
+# Basic statistics
+print("\\nBasic Statistics:")
+print(df[["Math", "Science", "English"]].describe())
+
+# Save to Excel (uncomment to use)
+# df.to_excel("students.xlsx", index=False)
+# print("Saved to students.xlsx")
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "What is the difference between df.loc[] and df.iloc[]?",
+        difficulty: "Medium",
+        hint: "loc uses label-based indexing (column names, index labels); iloc uses integer position-based indexing (0, 1, 2...).",
+      },
+      {
+        question: "How do you read an actual Excel file into a DataFrame?",
+        difficulty: "Easy",
+        hint: "Use pd.read_excel('filename.xlsx'). You may need to install openpyxl: pip install openpyxl.",
+      },
+      {
+        question: "How do you drop rows with missing values in a DataFrame?",
+        difficulty: "Medium",
+        hint: "Use df.dropna() to remove rows with any NaN values, or df.fillna(0) to replace them.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-matplotlib",
+    title: "Matplotlib: Bar, Line & Scatter Charts",
+    slug: "python-practice-matplotlib",
+    icon: "BarChart2",
+    difficulty: "Intermediate",
+    description: "Draw bar charts, line charts, and scatter plots using the matplotlib library.",
+    concept: {
+      explanation:
+        "Matplotlib is Python's core plotting library. plt.bar() creates bar charts, plt.plot() creates line charts, and plt.scatter() creates scatter plots. You can customize titles, labels, colors, and legends. plt.show() displays the chart interactively; plt.savefig() saves it to a file.",
+      realLifeAnalogy:
+        "Like using Excel's chart wizard, but in code — you describe what your chart looks like (what data, what color, what labels) and matplotlib renders it for you.",
+      keyPoints: [
+        "import matplotlib.pyplot as plt is the standard import.",
+        "plt.bar(x, y) — bar chart; plt.plot(x, y) — line chart; plt.scatter(x, y) — scatter.",
+        "plt.title(), plt.xlabel(), plt.ylabel() add labels.",
+        "plt.legend() shows the legend when multiple series are plotted.",
+        "plt.tight_layout() prevents label overlap; plt.show() or plt.savefig() renders.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 19: Matplotlib – Bar, Line & Scatter Charts
+# Note: run this in a local Python environment with matplotlib installed
+# pip install matplotlib
+
+import matplotlib.pyplot as plt
+
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'May']
+sales  = [120, 145, 132, 168, 155]
+costs  = [80,  95,  88, 102,  98]
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+
+# 1. Bar Chart
+axes[0].bar(months, sales, color='steelblue', edgecolor='white')
+axes[0].set_title('Monthly Sales (Bar)')
+axes[0].set_ylabel('Units Sold')
+
+# 2. Line Chart
+axes[1].plot(months, sales, 'b-o', label='Sales')
+axes[1].plot(months, costs, 'r--s', label='Costs')
+axes[1].set_title('Sales vs Costs (Line)')
+axes[1].set_ylabel('Amount')
+axes[1].legend()
+
+# 3. Scatter Plot
+axes[2].scatter(costs, sales, color='green', s=100, zorder=5)
+for i, m in enumerate(months):
+    axes[2].annotate(m, (costs[i], sales[i]), textcoords="offset points",
+                     xytext=(5, 5), fontsize=8)
+axes[2].set_xlabel('Costs')
+axes[2].set_ylabel('Sales')
+axes[2].set_title('Costs vs Sales (Scatter)')
+
+plt.tight_layout()
+plt.savefig('charts.png', dpi=100)
+print("Charts saved to charts.png")
+print("In interactive mode use: plt.show()")
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "What is the difference between plt.show() and plt.savefig()?",
+        difficulty: "Easy",
+        hint: "show() opens an interactive window; savefig() writes the chart to an image file without displaying it.",
+      },
+      {
+        question: "How do you plot multiple lines on the same axes?",
+        difficulty: "Easy",
+        hint: "Call plt.plot() (or axes.plot()) multiple times before plt.show(). Add plt.legend() to distinguish them.",
+      },
+      {
+        question: "What does plt.subplots(1, 3) return and what do the numbers mean?",
+        difficulty: "Medium",
+        hint: "It returns a (fig, axes) tuple. 1 row and 3 columns of subplots — axes is an array of 3 Axes objects.",
+      },
+    ],
+  },
+  {
+    id: "python-practice-numpy",
+    title: "NumPy: Array & Mathematical Operations",
+    slug: "python-practice-numpy",
+    icon: "Calculator",
+    difficulty: "Intermediate",
+    description: "Perform basic mathematical operations over arrays and series using the NumPy library.",
+    concept: {
+      explanation:
+        "NumPy provides fast multi-dimensional arrays (ndarray) and mathematical functions that operate on entire arrays at once — called vectorized operations. Instead of looping, you write a + b and NumPy adds every element pair in a fraction of the time a Python loop would take.",
+      realLifeAnalogy:
+        "Using NumPy is like hiring an entire team instead of one worker. Asking the team to 'multiply everything by 2' gets done instantly by all members at once, versus telling each worker one at a time.",
+      keyPoints: [
+        "np.array([...]) creates a 1D array; np.array([[...]]) creates a 2D matrix.",
+        "Arithmetic operators +, -, *, / work element-wise on arrays.",
+        "np.sum(), np.mean(), np.max(), np.min(), np.std() compute statistics.",
+        "array.reshape(rows, cols) changes dimensions without copying data.",
+        "np.dot() or @ performs matrix multiplication.",
+      ],
+    },
+    code: {
+      language: "python",
+      defaultCode: `# Problem 20: NumPy – Array Operations
+# Note: NumPy is pre-installed in most Python environments
+# pip install numpy  (if needed)
+
+import numpy as np
+
+# Create arrays
+a = np.array([1, 2, 3, 4, 5])
+b = np.array([10, 20, 30, 40, 50])
+print("Array a:", a)
+print("Array b:", b)
+
+# Element-wise arithmetic
+print("\\nElement-wise Operations:")
+print("  a + b  =", a + b)
+print("  b - a  =", b - a)
+print("  a * b  =", a * b)
+print("  b / a  =", b / a)
+print("  a ** 2 =", a ** 2)
+
+# Statistics
+print("\\nStatistics on array a:")
+print("  Sum:    ", np.sum(a))
+print("  Mean:   ", np.mean(a))
+print("  Max:    ", np.max(a))
+print("  Min:    ", np.min(a))
+print("  Std Dev:", np.std(a).round(4))
+
+# 2D matrix
+matrix = np.array([[1, 2, 3],
+                   [4, 5, 6],
+                   [7, 8, 9]])
+print("\\n2D Matrix:")
+print(matrix)
+print("Transpose:")
+print(matrix.T)
+print("Row sums:", matrix.sum(axis=1))
+print("Col sums:", matrix.sum(axis=0))
+`,
+    },
+    interviewQuestions: [
+      {
+        question: "What is the difference between np.array and a Python list?",
+        difficulty: "Easy",
+        hint: "NumPy arrays are homogeneous (all same type), fixed-size, and support vectorized operations. Python lists can hold mixed types but have no built-in math operations.",
+      },
+      {
+        question: "What does axis=0 vs axis=1 mean in numpy operations like sum()?",
+        difficulty: "Medium",
+        hint: "axis=0 collapses rows (operates down columns); axis=1 collapses columns (operates across rows).",
+      },
+      {
+        question: "How is np.dot(A, B) different from A * B for 2D arrays?",
+        difficulty: "Medium",
+        hint: "A * B is element-wise multiplication; np.dot(A, B) is true matrix multiplication (each row of A dotted with each column of B).",
+      },
+    ],
+  },
 ];
 
 export const pythonModules: PythonModule[] = [
@@ -8668,6 +9857,36 @@ export const pythonModules: PythonModule[] = [
       "python-multiprocessing",
       "python-virtual-environments",
       "python-performance-tips",
+    ],
+  },
+  {
+    id: "python-practice-problems",
+    level: 10,
+    title: "Practice Problems",
+    difficulty: "Beginner",
+    description:
+      "Hands-on beginner Python problems covering variables, input/output, loops, and conditionals.",
+    topicIds: [
+      "python-practice-sum-average",
+      "python-practice-for-loop-sequence",
+      "python-practice-negative-numbers",
+      "python-practice-print-name",
+      "python-practice-even-odd",
+      "python-practice-converging-triangle",
+      "python-practice-centered-triangle",
+      "python-practice-left-triangle",
+      "python-practice-right-triangle",
+      "python-practice-inverted-triangle",
+      "python-practice-list-properties",
+      "python-practice-dict-properties",
+      "python-practice-vowel-checker",
+      "python-practice-string-alternator",
+      "python-practice-american-comma",
+      "python-practice-indian-comma",
+      "python-practice-try-except",
+      "python-practice-pandas-excel",
+      "python-practice-matplotlib",
+      "python-practice-numpy",
     ],
   },
 ];

@@ -79,6 +79,26 @@ import { MultithreadingVisualization } from "./visualizations/MultithreadingVisu
 import { MultiprocessingVisualization } from "./visualizations/MultiprocessingVisualization";
 import { VirtualEnvironmentsVisualization } from "./visualizations/VirtualEnvironmentsVisualization";
 import { PerformanceTipsVisualization } from "./visualizations/PerformanceTipsVisualization";
+import { SumAverageVisualization } from "@/components/pythonproblems/visualizations/SumAverageVisualization";
+import { ForLoopSequenceVisualization } from "@/components/pythonproblems/visualizations/ForLoopSequenceVisualization";
+import { NegativeNumbersVisualization } from "@/components/pythonproblems/visualizations/NegativeNumbersVisualization";
+import { PrintNameVisualization } from "@/components/pythonproblems/visualizations/PrintNameVisualization";
+import { EvenOddVisualization } from "@/components/pythonproblems/visualizations/EvenOddVisualization";
+import { ListPropertiesVisualization } from "@/components/pythonproblems/visualizations/ListPropertiesVisualization";
+import { DictPropertiesVisualization } from "@/components/pythonproblems/visualizations/DictPropertiesVisualization";
+import { VowelCheckerVisualization } from "@/components/pythonproblems/visualizations/VowelCheckerVisualization";
+import { StringAlternatorVisualization } from "@/components/pythonproblems/visualizations/StringAlternatorVisualization";
+import { AmericanCommaVisualization } from "@/components/pythonproblems/visualizations/AmericanCommaVisualization";
+import { IndianCommaVisualization } from "@/components/pythonproblems/visualizations/IndianCommaVisualization";
+import { TryExceptVisualization as PracticeTryExceptVisualization } from "@/components/pythonproblems/visualizations/TryExceptVisualization";
+import { PandasVisualization } from "@/components/pythonproblems/visualizations/PandasVisualization";
+import { MatplotlibVisualization } from "@/components/pythonproblems/visualizations/MatplotlibVisualization";
+import { NumpyVisualization } from "@/components/pythonproblems/visualizations/NumpyVisualization";
+import { ConvergingTriangleVisualization } from "@/components/pythonproblems/visualizations/ConvergingTriangleVisualization";
+import { CenteredTriangleVisualization } from "@/components/pythonproblems/visualizations/CenteredTriangleVisualization";
+import { LeftTriangleVisualization } from "@/components/pythonproblems/visualizations/LeftTriangleVisualization";
+import { RightTriangleVisualization } from "@/components/pythonproblems/visualizations/RightTriangleVisualization";
+import { InvertedTriangleVisualization } from "@/components/pythonproblems/visualizations/InvertedTriangleVisualization";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface PythonVisualizationSectionProps {
@@ -163,6 +183,27 @@ const visualizationMap: Record<string, React.ComponentType> = {
   "python-math-module": MathModuleVisualization,
   "python-random-module": RandomModuleVisualization,
   "python-os-module": OsModuleVisualization,
+  // Practice Problems
+  "python-practice-sum-average": SumAverageVisualization,
+  "python-practice-for-loop-sequence": ForLoopSequenceVisualization,
+  "python-practice-negative-numbers": NegativeNumbersVisualization,
+  "python-practice-print-name": PrintNameVisualization,
+  "python-practice-even-odd": EvenOddVisualization,
+  "python-practice-converging-triangle": ConvergingTriangleVisualization,
+  "python-practice-centered-triangle": CenteredTriangleVisualization,
+  "python-practice-left-triangle": LeftTriangleVisualization,
+  "python-practice-right-triangle": RightTriangleVisualization,
+  "python-practice-inverted-triangle": InvertedTriangleVisualization,
+  "python-practice-list-properties": ListPropertiesVisualization,
+  "python-practice-dict-properties": DictPropertiesVisualization,
+  "python-practice-vowel-checker": VowelCheckerVisualization,
+  "python-practice-string-alternator": StringAlternatorVisualization,
+  "python-practice-american-comma": AmericanCommaVisualization,
+  "python-practice-indian-comma": IndianCommaVisualization,
+  "python-practice-try-except": PracticeTryExceptVisualization,
+  "python-practice-pandas-excel": PandasVisualization,
+  "python-practice-matplotlib": MatplotlibVisualization,
+  "python-practice-numpy": NumpyVisualization,
   // Level 9: Advanced Python Concepts
   "python-iterators": IteratorsVisualization,
   "python-generators": GeneratorsVisualization,
