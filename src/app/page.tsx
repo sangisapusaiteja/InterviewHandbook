@@ -317,9 +317,6 @@ export default function DashboardPage() {
                 <DialogTitle className="text-xl font-semibold text-white sm:text-2xl">
                   About the Developer
                 </DialogTitle>
-                <DialogDescription className="text-sm text-slate-400">
-                  A compact profile card with direct links to connect.
-                </DialogDescription>
               </DialogHeader>
 
               <div className="grid gap-3 sm:grid-cols-2">
