@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -16,6 +17,7 @@ import {
   Sparkles,
   Target,
   Zap,
+  User,
 } from "lucide-react";
 import {
   Card,
@@ -26,8 +28,17 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { categories } from "@/data/dsa";
+import developerProfileImage from "@/data/saitejasangisapu.jpg";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Layout,
@@ -70,8 +81,7 @@ export default function DashboardPage() {
               Free &amp; Open Source
             </Badge>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-              My Interview{" "}
-              <span className="text-primary">Handbook</span>
+              My Interview <span className="text-primary">Handbook</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               Your complete guide to cracking technical interviews. Learn
@@ -119,8 +129,8 @@ export default function DashboardPage() {
               <Zap className="h-8 w-8 text-primary mb-3" />
               <h3 className="font-semibold mb-1">Interactive Visualizations</h3>
               <p className="text-sm text-muted-foreground">
-                Watch algorithms come alive with animated visualizations you
-                can interact with.
+                Watch algorithms come alive with animated visualizations you can
+                interact with.
               </p>
             </CardContent>
           </Card>
@@ -232,6 +242,7 @@ export default function DashboardPage() {
             );
           })}
         </motion.div>
+
       </section>
 
       {/* Footer */}
@@ -242,6 +253,113 @@ export default function DashboardPage() {
           </p>
         </div>
       </footer>
+
+      <Dialog>
+        <DialogTrigger asChild>
+          <button
+            type="button"
+            className="fixed bottom-6 right-4 z-40 flex items-center gap-3 rounded-full border border-primary/15 bg-background/90 p-2 shadow-[0_10px_30px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-[0_12px_40px_rgba(99,102,241,0.22)] sm:bottom-5 sm:right-5 sm:pr-4"
+          >
+            <div className="relative h-10 w-10 overflow-hidden rounded-full border border-primary/20 sm:h-11 sm:w-11">
+              <Image
+                src={developerProfileImage}
+                alt="Saiteja Sangisapu"
+                fill
+                className="object-cover"
+                sizes="44px"
+              />
+            </div>
+            <div className="hidden text-left sm:block">
+              <p className="text-xs text-muted-foreground">Developer</p>
+              <p className="text-sm font-medium leading-none">Saiteja</p>
+            </div>
+          </button>
+        </DialogTrigger>
+
+        <DialogContent className="max-h-[92vh] w-[calc(100vw-1.5rem)] max-w-3xl overflow-y-auto overflow-x-hidden rounded-2xl border border-primary/20 bg-[#11131c] p-0 shadow-[0_0_0_1px_rgba(99,102,241,0.08),0_0_40px_rgba(99,102,241,0.22)] sm:w-full">
+          <div className="grid gap-0 md:grid-cols-[260px,1fr]">
+            <div className="relative min-h-[220px] overflow-hidden bg-black md:min-h-full">
+              <Image
+                src={developerProfileImage}
+                alt="Saiteja Sangisapu"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 260px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0b0d14] via-[#0b0d14]/35 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
+                <p className="mt-1 text-xs text-white/75">Software Developer</p>
+                <div className="mt-3 flex items-center gap-3">
+                  <a
+                    href="https://github.com/sangisapusaiteja"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Open GitHub profile"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/85 transition hover:bg-white/20 hover:text-white"
+                  >
+                    <Code2 className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/saitejasangisapu/"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Open LinkedIn profile"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/85 transition hover:bg-white/20 hover:text-white"
+                  >
+                    <User className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.14),transparent_30%),linear-gradient(180deg,#171923_0%,#12141d_100%)] p-4 sm:p-6 md:p-7">
+              <DialogHeader className="mb-4 text-left sm:mb-5">
+                <DialogTitle className="text-xl font-semibold text-white sm:text-2xl">
+                  About the Developer
+                </DialogTitle>
+                <DialogDescription className="text-sm text-slate-400">
+                  A compact profile card with direct links to connect.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3.5 sm:p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    Name
+                  </p>
+                  <p className="mt-3 text-sm font-semibold text-white">
+                    Saiteja Sangisapu
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3.5 sm:p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    Email
+                  </p>
+                  <a
+                    href="mailto:tejasai38409@gmail.com"
+                    className="mt-3 inline-block break-all text-sm font-semibold text-indigo-400 underline-offset-4 hover:underline"
+                  >
+                    tejasai38409@gmail.com
+                  </a>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3.5 sm:p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] sm:col-span-2">
+                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    Portfolio
+                  </p>
+                  <a
+                    href="https://saitejasangisapu.vercel.app/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-3 inline-block break-all text-sm font-medium text-indigo-400 underline-offset-4 hover:underline"
+                  >
+                    saitejasangisapu.vercel.app
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
