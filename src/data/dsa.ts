@@ -7247,6 +7247,16 @@ export const categories: CategoryInfo[] = [
     available: true,
   },
   {
+    id: "system-design",
+    title: "System Design",
+    icon: "Server",
+    description:
+      "Build strong system design fundamentals across scalability, data, communication, security, and real-world case studies.",
+    topicCount: 52,
+    color: "from-cyan-400 to-sky-500",
+    available: true,
+  },
+  {
     id: "nextjs",
     title: "Next.js",
     icon: "Globe",

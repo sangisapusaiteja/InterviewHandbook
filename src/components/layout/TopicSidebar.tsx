@@ -157,6 +157,13 @@ import {
   ShieldAlert,
   BarChart2,
   FlaskConical,
+  Bell,
+  DatabaseZap,
+  ListChecks,
+  ShoppingCart,
+  Ticket,
+  Upload,
+  Users,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
@@ -320,6 +327,13 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   ShieldAlert,
   BarChart2,
   FlaskConical,
+  Bell,
+  DatabaseZap,
+  ListChecks,
+  ShoppingCart,
+  Ticket,
+  Upload,
+  Users,
 };
 
 const moduleIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -385,6 +399,12 @@ const moduleIconMap: Record<string, React.ComponentType<{ className?: string }>>
   "css-responsive-design": Smartphone,
   "css-animations-transitions": Play,
   "css-advanced": Sparkles,
+  // System Design modules
+  "system-design-core-fundamentals": BrainCircuit,
+  "system-design-data-caching": Database,
+  "system-design-communication": MessageSquare,
+  "system-design-security-observability": ShieldCheck,
+  "system-design-masterclass": LayoutDashboard,
 };
 
 
