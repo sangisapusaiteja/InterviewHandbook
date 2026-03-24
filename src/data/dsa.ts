@@ -4964,103 +4964,93 @@ console.log("\nPath 0→4:", dijkstraPath(5, edges, 0, 4));
   // ─────────────────────────────────────────────
   {
     id: "find-largest-element",
-    title: "Find Largest Element / Max",
+    title: "Majority Element",
     slug: "find-largest-element",
-    icon: "TrendingUp",
+    icon: "Crown",
     difficulty: "Beginner",
     description:
-      "Given an array of numbers, find and return the largest element. This foundational problem introduces iterative comparison — the building block for many dynamic programming patterns.",
+      "Return the element that appears more than floor(n / 2) times. LeetCode 169, explained here with a frequency map approach.",
     leetcodeLink: "https://leetcode.com/problems/majority-element/",
     concept: {
       explanation:
-        "Finding the largest element in an array is one of the simplest algorithmic problems but teaches a critical pattern: maintaining state (the current maximum) while scanning through data. You start by assuming the first element is the largest, then compare it with every other element. Whenever you find something bigger, you update your answer. This 'track the best so far' pattern appears everywhere in dynamic programming — from maximum subarray sum to longest increasing subsequence. The key insight is that you only need one pass through the array, giving O(n) time complexity.",
+        "The Majority Element problem asks you to find the value that appears more than floor(n / 2) times in the array. In this version, we solve it with a frequency map: scan the array once, count how many times each number appears, and the moment any count becomes greater than n / 2, return that number. This works because the input guarantees that a majority element exists, so one of the counts must cross the threshold. The approach is direct, easy to reason about, and great for beginners because it turns the problem into simple counting.",
       realLifeAnalogy:
-        "Imagine you're a teacher collecting exam papers. You pick up the first paper and note the score — say 72. As you flip through the stack, whenever you see a score higher than 72, you mentally update your 'highest score so far'. By the time you reach the last paper, you know the top score without having to sort the entire pile. You only needed to remember one number the whole time — the current maximum.",
+        "Imagine you are counting votes in a classroom election. Every time you hear a name, you add one tally mark next to that student on a board. As soon as one student's tally becomes more than half the class size, you already know they are the winner, so you can stop early. You do not need to finish building a perfect sorted list of votes, just keep running counts.",
       keyPoints: [
-        "Initialize max with the first element (or -Infinity for empty-safe version)",
-        "Single pass through the array — O(n) time, O(1) space",
-        "Compare each element with current max; update if larger",
-        "This 'track best so far' pattern is the foundation of many DP problems",
-        "Works with negative numbers too — max of [-5, -2, -8] is -2",
-        "Math.max(...arr) works but can stack overflow on very large arrays",
-        "Edge case: empty array should return undefined or throw",
-        "LeetCode reference: https://leetcode.com/problems/majority-element/",
+        "Use a Map where key = number and value = frequency",
+        "For each number, update its count with (map.get(num) ?? 0) + 1",
+        "If frequency > nums.length / 2, return immediately",
+        "Because a majority element is guaranteed, some value must cross the threshold",
+        "Time complexity is O(n) because each element is processed once",
+        "Space complexity is O(n) in the worst case because the map may store many distinct values",
+        "The Boyer-Moore Voting Algorithm solves the follow-up in O(1) space",
+        "LeetCode 169: https://leetcode.com/problems/majority-element/",
       ],
-      timeComplexity: "O(n) — must check every element at least once",
-      spaceComplexity: "O(1) — only one variable needed to track the maximum",
+      timeComplexity: "O(n) — one pass through the array",
+      spaceComplexity: "O(n) — map stores frequencies of seen values",
     },
     code: {
       language: "javascript",
-      defaultCode: `// ===== Find Largest Element / Max =====
+      defaultCode: `// ===== Majority Element (LeetCode 169) =====
 
-// ── Approach 1: Simple loop ─────────────────────
-function findLargest(arr) {
-  if (arr.length === 0) return undefined;
+function majorityElement(nums) {
+  const length = nums.length;
+  const map = new Map();
 
-  let max = arr[0];
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i] > max) {
-      max = arr[i];
+  for (let i = 0; i < length; i++) {
+    const frequency = (map.get(nums[i]) ?? 0) + 1;
+    map.set(nums[i], frequency);
+
+    if (frequency > length / 2) {
+      return nums[i];
     }
   }
-  return max;
+
+  return nums[0];
 }
 
-// ── Test cases ──────────────────────────────────
-console.log("Array: [3, 7, 1, 9, 4, 6, 2]");
-console.log("Largest:", findLargest([3, 7, 1, 9, 4, 6, 2]));  // 9
+console.log(majorityElement([3, 2, 3])); // 3
+console.log(majorityElement([2, 2, 1, 1, 1, 2, 2])); // 2
 
-console.log("\\nArray: [-5, -2, -8, -1, -3]");
-console.log("Largest:", findLargest([-5, -2, -8, -1, -3]));    // -1
-
-console.log("\\nArray: [42]");
-console.log("Largest:", findLargest([42]));                      // 42
-
-// ── Approach 2: Using reduce ────────────────────
-function findLargestReduce(arr) {
-  return arr.reduce((max, val) => val > max ? val : max, arr[0]);
-}
-
-console.log("\\n--- Using reduce ---");
-console.log("Largest:", findLargestReduce([10, 25, 8, 30, 15])); // 30
-
-// ── Approach 3: Math.max (caution with large arrays) ──
-console.log("\\n--- Using Math.max ---");
-console.log("Largest:", Math.max(...[4, 8, 2, 6]));              // 8
-
-// ── Step-by-step trace ──────────────────────────
 console.log("\\n--- Step-by-step trace ---");
-function findLargestVerbose(arr) {
-  let max = arr[0];
-  console.log("Start: max =", max);
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i] > max) {
-      console.log(\`arr[\${i}] = \${arr[i]} > \${max} → update max to \${arr[i]}\`);
-      max = arr[i];
-    } else {
-      console.log(\`arr[\${i}] = \${arr[i]} ≤ \${max} → no change\`);
+function majorityElementVerbose(nums) {
+  const length = nums.length;
+  const map = new Map();
+
+  for (let i = 0; i < length; i++) {
+    const frequency = (map.get(nums[i]) ?? 0) + 1;
+    map.set(nums[i], frequency);
+    console.log(
+      \`i=\${i}, num=\${nums[i]}, frequency=\${frequency}, threshold=\${Math.floor(length / 2)}\`
+    );
+
+    if (frequency > length / 2) {
+      console.log(\`Majority found: \${nums[i]}\`);
+      return nums[i];
     }
   }
-  return max;
+
+  return nums[0];
 }
-findLargestVerbose([3, 7, 1, 9, 4, 6, 2]);
+
+majorityElementVerbose([2, 2, 1, 1, 1, 2, 2]);
 `,
     },
     interviewQuestions: [
       {
-        question: "Find the largest element without using any built-in methods like Math.max.",
+        question: "Find the majority element using a hash map.",
         difficulty: "Easy",
-        hint: "Initialize a variable with the first element, loop through the rest, update whenever you find something bigger. One pass, O(n) time, O(1) space.",
+        hint: "Count frequencies in a Map while scanning. Return as soon as one count becomes greater than n / 2.",
       },
       {
-        question: "How would you find the second largest element in a single pass?",
+        question: "What changes if the majority element is not guaranteed to exist?",
         difficulty: "Medium",
-        hint: "Track two variables: max and secondMax. When you find a new max, move the old max to secondMax. When you find something bigger than secondMax but not max, update secondMax. Be careful with duplicates — if max === secondMax, the second largest might be different.",
+        hint: "You can still use the map, but after the loop you must verify whether any count is actually greater than n / 2 before returning a result.",
       },
       {
-        question: "Find the maximum element in a rotated sorted array in O(log n) time.",
-        difficulty: "Hard",
-        hint: "Use binary search. The maximum is the element after which the array 'drops'. Compare mid with the rightmost element: if arr[mid] > arr[right], the max is in the right half; otherwise, it's in the left half. The pivot point is where the maximum lives.",
+        question: "Could you solve the follow-up in linear time and O(1) extra space?",
+        difficulty: "Medium",
+        hint: "Yes. Use Boyer-Moore Voting: keep a candidate and a count, cancel out different elements, then verify if the guarantee does not exist.",
       },
     ],
   },
@@ -7033,7 +7023,7 @@ canPlaceVerbose([1,0,0,0,1], 1);
   },
   {
     id: "majority-element",
-    title: "Majority Element",
+    title: "Majority Element (Boyer-Moore)",
     slug: "majority-element",
     icon: "Crown",
     difficulty: "Beginner",

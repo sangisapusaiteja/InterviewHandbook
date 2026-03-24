@@ -65,6 +65,7 @@ import { SpiralMatrixVisualization } from "./visualizations/SpiralMatrixVisualiz
 import { CanPlaceFlowersVisualization } from "./visualizations/CanPlaceFlowersVisualization";
 import { MajorityElementVisualization } from "./visualizations/MajorityElementVisualization";
 import { ThreeSumVisualization } from "./visualizations/ThreeSumVisualization";
+import { StepChartSection } from "./StepChartSection";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface VisualizationSectionProps {
@@ -148,7 +149,10 @@ export function VisualizationSection({ topicSlug }: VisualizationSectionProps) {
       transition={{ duration: 0.3 }}
     >
       {VisualizationComponent ? (
-        <VisualizationComponent />
+        <div className="space-y-6">
+          <VisualizationComponent />
+          <StepChartSection topicSlug={topicSlug} />
+        </div>
       ) : (
         <Card>
           <CardContent className="p-12 text-center">
