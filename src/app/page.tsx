@@ -1,5 +1,6 @@
 "use client";
 
+import { FormEvent, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -18,6 +19,8 @@ import {
   Target,
   Zap,
   User,
+  Github,
+  Linkedin,
 } from "lucide-react";
 import {
   Card,
@@ -64,6 +67,39 @@ const item = {
 };
 
 export default function DashboardPage() {
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [formError, setFormError] = useState("");
+
+  const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const trimmedName = contactForm.name.trim();
+    const trimmedEmail = contactForm.email.trim();
+    const trimmedMessage = contactForm.message.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedMessage) {
+      setFormError("Fill out name, email, and message.");
+      return;
+    }
+
+    setFormError("");
+
+    const subject = `Interview Handbook contact from ${trimmedName}`;
+    const body = [
+      `Name: ${trimmedName}`,
+      `Email: ${trimmedEmail}`,
+      "",
+      "Message:",
+      trimmedMessage,
+    ].join("\n");
+
+    window.location.href = `mailto:tejasai38409@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
     <div className="min-h-[calc(100vh-3.5rem)]">
       {/* Hero Section */}
@@ -175,15 +211,12 @@ export default function DashboardPage() {
                 {category.available ? (
                   <Link href={`/${category.id}`}>
                     <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden">
-                      <div
-                        className={`h-2 bg-gradient-to-r ${category.color}`}
-                      />
                       <CardHeader className="pb-2">
                         <div className="flex items-start justify-between">
                           <div
-                            className={`w-10 h-10 rounded-lg bg-gradient-to-br ${category.color} flex items-center justify-center`}
+                            className={`flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary dark:bg-transparent dark:text-foreground`}
                           >
-                            <Icon className="h-5 w-5 text-white" />
+                            <Icon className="h-5 w-5" />
                           </div>
                           <Badge variant="success" className="text-[10px]">
                             Available
@@ -208,15 +241,12 @@ export default function DashboardPage() {
                   </Link>
                 ) : (
                   <Card className="relative overflow-hidden opacity-60">
-                    <div
-                      className={`h-2 bg-gradient-to-r ${category.color} opacity-50`}
-                    />
                     <CardHeader className="pb-2">
                       <div className="flex items-start justify-between">
                         <div
-                          className={`w-10 h-10 rounded-lg bg-gradient-to-br ${category.color} flex items-center justify-center opacity-50`}
+                          className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground"
                         >
-                          <Icon className="h-5 w-5 text-white" />
+                          <Icon className="h-5 w-5" />
                         </div>
                         <Badge variant="secondary" className="text-[10px]">
                           <Lock className="h-2.5 w-2.5 mr-1" />
@@ -241,7 +271,6 @@ export default function DashboardPage() {
             );
           })}
         </motion.div>
-
       </section>
 
       {/* Footer */}
@@ -275,81 +304,355 @@ export default function DashboardPage() {
           </button>
         </DialogTrigger>
 
-        <DialogContent className="max-h-[92vh] w-[calc(100vw-1.5rem)] max-w-3xl overflow-y-auto overflow-x-hidden rounded-2xl border border-primary/20 bg-[#11131c] p-0 shadow-[0_0_0_1px_rgba(99,102,241,0.08),0_0_40px_rgba(99,102,241,0.22)] sm:w-full">
-          <div className="grid gap-0 md:grid-cols-[260px,1fr]">
-            <div className="relative min-h-[220px] overflow-hidden bg-black md:min-h-full">
+        <DialogContent className="max-h-[calc(100vh-2rem)] w-[calc(100vw-1rem)] max-w-[420px] overflow-y-auto overflow-x-hidden rounded-[24px] border border-primary/20 bg-card p-0 text-card-foreground shadow-[0_0_0_1px_rgba(99,102,241,0.08),0_35px_120px_rgba(15,23,42,0.28)] lg:max-h-[92vh] lg:max-w-4xl lg:rounded-[28px]">
+          <div className="grid gap-0 lg:grid-cols-[320px,1fr]">
+            <div className="relative hidden min-h-[176px] overflow-hidden bg-muted lg:block lg:min-h-full">
               <Image
                 src={developerProfileImage}
                 alt="Saiteja Sangisapu"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 260px"
+                sizes="(max-width: 768px) 100vw, 320px"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0b0d14] via-[#0b0d14]/35 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
-                <p className="mt-1 text-xs text-white/75">Software Developer</p>
-                <div className="mt-3 flex items-center gap-3">
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,10,20,0.04)_0%,rgba(7,10,20,0.18)_35%,rgba(7,10,20,0.88)_100%)] dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.08)_0%,rgba(2,6,23,0.24)_35%,rgba(2,6,23,0.92)_100%)]" />
+              <div className="absolute left-4 top-4 inline-flex items-center rounded-full border border-white/20 bg-black/20 px-2.5 py-1 text-[10px] font-medium tracking-[0.18em] text-white/90 backdrop-blur-md sm:left-5 sm:top-5 sm:px-3 sm:text-[11px] sm:tracking-[0.2em]">
+                OPEN SOURCE
+              </div>
+              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 md:p-6">
+                <div className="max-w-[18rem]">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/65 sm:text-sm sm:tracking-[0.28em]">
+                    Software Developer
+                  </p>
+                  <h2 className="mt-2 text-[1.45rem] font-semibold tracking-tight text-white sm:mt-3 sm:text-3xl">
+                    Saiteja Sangisapu
+                  </h2>
+                  <p className="mt-2 hidden text-xs leading-5 text-white/72 sm:block sm:text-sm sm:leading-6">
+                    Building practical learning tools for interview prep, visual
+                    explanations, and developer education.
+                  </p>
+                </div>
+                <div className="mt-3 flex items-center gap-2.5 sm:mt-5 sm:gap-3">
                   <a
                     href="https://github.com/sangisapusaiteja"
                     target="_blank"
                     rel="noreferrer"
                     aria-label="Open GitHub profile"
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/85 transition hover:bg-white/20 hover:text-white"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white/90 backdrop-blur-sm transition hover:-translate-y-0.5 hover:bg-white/20 hover:text-white sm:h-10 sm:w-10"
                   >
-                    <Code2 className="h-4 w-4" />
+                    <Github className="h-4 w-4" />
                   </a>
                   <a
                     href="https://www.linkedin.com/in/saitejasangisapu/"
                     target="_blank"
                     rel="noreferrer"
                     aria-label="Open LinkedIn profile"
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/85 transition hover:bg-white/20 hover:text-white"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white/90 backdrop-blur-sm transition hover:-translate-y-0.5 hover:bg-white/20 hover:text-white sm:h-10 sm:w-10"
                   >
-                    <User className="h-4 w-4" />
+                    <Linkedin className="h-4 w-4" />
                   </a>
                 </div>
               </div>
             </div>
 
-            <div className="bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.14),transparent_30%),linear-gradient(180deg,#171923_0%,#12141d_100%)] p-4 sm:p-6 md:p-7">
-              <DialogHeader className="mb-4 text-left sm:mb-5">
-                <DialogTitle className="text-xl font-semibold text-white sm:text-2xl">
+            <div className="bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.16),transparent_34%),linear-gradient(180deg,hsl(var(--card))_0%,hsl(var(--background))_100%)] p-3 sm:p-5 lg:p-8">
+              <div className="mb-3 overflow-hidden rounded-[22px] border border-primary/15 shadow-[0_12px_32px_rgba(15,23,42,0.24)] lg:hidden">
+                <div className="relative min-h-[188px] overflow-hidden">
+                  <Image
+                    src={developerProfileImage}
+                    alt="Saiteja Sangisapu"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 400px"
+                  />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.08)_0%,rgba(2,6,23,0.2)_35%,rgba(2,6,23,0.88)_100%)]" />
+                  <div className="absolute inset-x-0 top-0 flex items-center justify-center pt-2.5">
+                    <div className="inline-flex items-center rounded-full border border-white/15 bg-black/25 px-3 py-1 text-[11px] font-semibold text-white/85 backdrop-blur-md">
+                      Free &amp; Open Source
+                    </div>
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 p-3.5">
+                    <p className="text-sm text-white/85">Software Developer</p>
+                    <div className="mt-2 flex items-center gap-3">
+                      <a
+                        href="https://github.com/sangisapusaiteja"
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="Open GitHub profile"
+                        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white/90 backdrop-blur-sm transition hover:bg-white/20"
+                      >
+                        <Code2 className="h-4 w-4" />
+                      </a>
+                      <a
+                        href="https://www.linkedin.com/in/saitejasangisapu/"
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="Open LinkedIn profile"
+                        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white/90 backdrop-blur-sm transition hover:bg-white/20"
+                      >
+                        <User className="h-4 w-4" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <DialogHeader className="mb-2 pr-12 text-left lg:mb-6">
+                <div className="hidden w-fit items-center rounded-full border border-primary/15 bg-primary/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary sm:text-[11px] sm:tracking-[0.22em] lg:inline-flex">
+                  About The Developer
+                </div>
+                <DialogTitle className="text-[1.75rem] font-semibold tracking-tight text-foreground lg:mt-2 lg:text-[1.5rem]">
                   About the Developer
                 </DialogTitle>
+
+                <p className="hidden max-w-xl text-sm leading-6 text-muted-foreground lg:block">
+                  A compact profile card with direct access to contact details,
+                  portfolio, and social links.
+                </p>
               </DialogHeader>
 
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3.5 sm:p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
-                    Name
-                  </p>
-                  <p className="mt-3 text-sm font-semibold text-white">
-                    Saiteja Sangisapu
-                  </p>
+              <div className="space-y-3 lg:hidden">
+                <div className="space-y-2 text-sm">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+                      Name
+                    </p>
+                    <p className="mt-1.5 font-semibold text-foreground">
+                      Saiteja Sangisapu
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+                      Email
+                    </p>
+                    <a
+                      href="mailto:tejasai38409@gmail.com"
+                      className="mt-1.5 inline-block break-all font-semibold text-primary underline-offset-4 hover:underline"
+                    >
+                      tejasai38409@gmail.com
+                    </a>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+                      Portfolio
+                    </p>
+                    <a
+                      href="https://saitejasangisapu.vercel.app/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-1.5 inline-block break-all font-semibold text-primary underline-offset-4 hover:underline"
+                    >
+                      saitejasangisapu.vercel.app
+                    </a>
+                  </div>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3.5 sm:p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
-                    Email
-                  </p>
-                  <a
-                    href="mailto:tejasai38409@gmail.com"
-                    className="mt-3 inline-block break-all text-sm font-semibold text-indigo-400 underline-offset-4 hover:underline"
-                  >
-                    tejasai38409@gmail.com
-                  </a>
+
+                <div className="rounded-[22px] border border-primary/15 bg-[linear-gradient(180deg,rgba(99,102,241,0.08),rgba(99,102,241,0.03))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+                  <div className="mb-2">
+                    <p className="text-base font-semibold text-foreground">
+                      Send a direct message
+                    </p>
+                    <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
+                      Opens an email draft with the form details.
+                    </p>
+                  </div>
+
+                  <form className="space-y-2.5" onSubmit={handleContactSubmit}>
+                    <div className="grid gap-2">
+                      <input
+                        type="text"
+                        placeholder="Your name"
+                        value={contactForm.name}
+                        onChange={(event) =>
+                          setContactForm((current) => ({
+                            ...current,
+                            name: event.target.value,
+                          }))
+                        }
+                        className="h-9 rounded-2xl border border-border/70 bg-background/90 px-3.5 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary/45"
+                      />
+                      <input
+                        type="email"
+                        placeholder="Your email"
+                        value={contactForm.email}
+                        onChange={(event) =>
+                          setContactForm((current) => ({
+                            ...current,
+                            email: event.target.value,
+                          }))
+                        }
+                        className="h-9 rounded-2xl border border-border/70 bg-background/90 px-3.5 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary/45"
+                      />
+                    </div>
+
+                    <textarea
+                      placeholder="Write your message"
+                      value={contactForm.message}
+                      onChange={(event) =>
+                        setContactForm((current) => ({
+                          ...current,
+                          message: event.target.value,
+                        }))
+                      }
+                      rows={2}
+                      className="min-h-[72px] w-full resize-none rounded-2xl border border-border/70 bg-background/90 px-3.5 py-2.5 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary/45"
+                    />
+
+                    {formError ? (
+                      <p className="text-xs font-medium text-destructive">
+                        {formError}
+                      </p>
+                    ) : (
+                      <p className="hidden text-[11px] leading-5 text-muted-foreground">
+                        Clicking send opens the user&apos;s email app with these
+                        details prefilled.
+                      </p>
+                    )}
+
+                    <div className="flex flex-col gap-2">
+                      <button
+                        type="submit"
+                        className="inline-flex w-full items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
+                      >
+                        Send Message
+                      </button>
+                      <a
+                        href="https://saitejasangisapu.vercel.app/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hidden w-full items-center justify-center rounded-full border border-border bg-background px-4 py-2 text-sm font-semibold text-foreground transition hover:border-primary/40 hover:text-primary"
+                      >
+                        Visit Portfolio
+                      </a>
+                    </div>
+                  </form>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3.5 sm:p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] sm:col-span-2">
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
-                    Portfolio
-                  </p>
-                  <a
-                    href="https://saitejasangisapu.vercel.app/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-3 inline-block break-all text-sm font-medium text-indigo-400 underline-offset-4 hover:underline"
+              </div>
+
+              <div className="hidden gap-3 lg:grid lg:grid-cols-2 lg:gap-4">
+                <div className="rounded-[20px] border border-border/70 bg-background/80 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.22)] backdrop-blur dark:bg-white/[0.04] lg:rounded-[24px] lg:p-5">
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+                      Name
+                    </p>
+                    <p className="mt-3 text-[15px] font-semibold text-foreground">
+                      Saiteja Sangisapu
+                    </p>
+                  </div>
+                </div>
+
+                <div className="rounded-[20px] border border-border/70 bg-background/80 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.22)] backdrop-blur dark:bg-white/[0.04] lg:rounded-[24px] lg:p-5">
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+                      Email
+                    </p>
+                    <a
+                      href="mailto:tejasai38409@gmail.com"
+                      className="mt-3 inline-block break-all text-[15px] font-semibold text-primary underline-offset-4 hover:underline"
+                    >
+                      tejasai38409@gmail.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="rounded-[20px] border border-border/70 bg-background/80 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.22)] backdrop-blur dark:bg-white/[0.04] lg:col-span-2 lg:rounded-[24px] lg:p-5">
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+                      Portfolio
+                    </p>
+                    <a
+                      href="https://saitejasangisapu.vercel.app/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-3 inline-block break-all text-[15px] font-semibold text-primary underline-offset-4 hover:underline"
+                    >
+                      saitejasangisapu.vercel.app
+                    </a>
+                  </div>
+                </div>
+
+                <div className="rounded-[22px] border border-primary/15 bg-[linear-gradient(180deg,rgba(99,102,241,0.08),rgba(99,102,241,0.03))] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] lg:col-span-2 lg:rounded-[24px] lg:p-5">
+                  <div className="mb-3">
+                    <p className="text-[1.05rem] font-semibold text-foreground lg:text-base">
+                      Send a direct message
+                    </p>
+                    <p className="mt-1 text-[12px] leading-5 text-muted-foreground lg:text-sm">
+                      The send button opens an email draft to your inbox with
+                      the form details.
+                    </p>
+                  </div>
+
+                  <form
+                    className="space-y-3"
+                    onSubmit={handleContactSubmit}
                   >
-                    saitejasangisapu.vercel.app
-                  </a>
+                    <div className="grid gap-2 lg:grid-cols-2 lg:gap-3">
+                      <input
+                        type="text"
+                        placeholder="Your name"
+                        value={contactForm.name}
+                        onChange={(event) =>
+                          setContactForm((current) => ({
+                            ...current,
+                            name: event.target.value,
+                          }))
+                        }
+                        className="h-11 rounded-2xl border border-border/70 bg-background/90 px-3.5 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary/45"
+                      />
+                      <input
+                        type="email"
+                        placeholder="Your email"
+                        value={contactForm.email}
+                        onChange={(event) =>
+                          setContactForm((current) => ({
+                            ...current,
+                            email: event.target.value,
+                          }))
+                        }
+                        className="h-11 rounded-2xl border border-border/70 bg-background/90 px-3.5 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary/45"
+                      />
+                    </div>
+
+                    <textarea
+                      placeholder="Write your message"
+                      value={contactForm.message}
+                      onChange={(event) =>
+                        setContactForm((current) => ({
+                          ...current,
+                          message: event.target.value,
+                        }))
+                      }
+                      rows={3}
+                      className="min-h-[104px] w-full resize-none rounded-2xl border border-border/70 bg-background/90 px-3.5 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary/45 lg:min-h-[110px]"
+                    />
+
+                    {formError ? (
+                      <p className="text-xs font-medium text-destructive">
+                        {formError}
+                      </p>
+                    ) : (
+                      <p className="text-[11px] leading-5 text-muted-foreground lg:text-xs">
+                        Clicking send opens the user&apos;s email app with these
+                        details prefilled.
+                      </p>
+                    )}
+
+                    <div className="flex flex-col gap-2 lg:flex-row lg:flex-wrap lg:gap-3">
+                      <button
+                        type="submit"
+                        className="inline-flex w-full items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:opacity-90 lg:w-auto"
+                      >
+                        Send Message
+                      </button>
+                      <a
+                        href="https://saitejasangisapu.vercel.app/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex w-full items-center justify-center rounded-full border border-border bg-background px-4 py-2 text-sm font-semibold text-foreground transition hover:border-primary/40 hover:text-primary lg:w-auto"
+                      >
+                        Visit Portfolio
+                      </a>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>

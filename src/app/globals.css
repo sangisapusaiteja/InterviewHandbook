@@ -53,8 +53,87 @@
   * {
     @apply border-border;
   }
+
+  html,
+  body,
+  div,
+  section,
+  article,
+  aside,
+  header,
+  footer,
+  main,
+  nav,
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    transition:
+      background-color 220ms ease,
+      border-color 220ms ease,
+      color 220ms ease,
+      fill 220ms ease,
+      stroke 220ms ease,
+      box-shadow 220ms ease;
+  }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer base {
+    html,
+    body,
+    div,
+    section,
+    article,
+    aside,
+    header,
+    footer,
+    main,
+    nav,
+    button,
+    a,
+    input,
+    textarea,
+    select {
+      transition: none;
+    }
+  }
+}
+
+@keyframes theme-circle-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-transition-x) var(--theme-transition-y));
+  }
+  to {
+    clip-path: circle(150vmax at var(--theme-transition-x) var(--theme-transition-y));
+  }
+}
+
+@supports (view-transition-name: root) {
+  :root {
+    view-transition-name: root;
+    --theme-reveal-duration: 1800ms;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--theme-reveal-duration);
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  :root.theme-circle-transition::view-transition-old(root) {
+    animation: none;
+  }
+
+  :root.theme-circle-transition::view-transition-new(root) {
+    animation:
+      theme-circle-reveal var(--theme-reveal-duration)
+      cubic-bezier(0.19, 1, 0.22, 1) both;
   }
 }
 
