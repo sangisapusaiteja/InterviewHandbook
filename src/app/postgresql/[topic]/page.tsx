@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { TopicSidebar } from "@/components/layout/TopicSidebar";
-import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 import { ConceptSection } from "@/components/dsa/ConceptSection";
 import { SQLEditorSection } from "@/components/postgresql/SQLEditorSection";
 import { PostgreSQLVisualizationSection } from "@/components/postgresql/PostgreSQLVisualizationSection";
@@ -201,7 +200,7 @@ export default function PostgreSQLTopicPage() {
           </div>
         </div>
       </div>
-      <TopicAssistant topic={topic} sectionTitle="PostgreSQL" />
+      {/* <TopicAssistant topic={topic} sectionTitle="PostgreSQL" /> */}
     </div>
   );
 }

@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { TopicSidebar } from "@/components/layout/TopicSidebar";
-import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 import { ConceptSection } from "@/components/dsa/ConceptSection";
 import { CodeEditorSection } from "@/components/dsa/CodeEditorSection";
 import { PythonVisualizationSection } from "@/components/python/PythonVisualizationSection";
@@ -201,7 +200,7 @@ export default function PythonTopicPage() {
           </div>
         </div>
       </div>
-      <TopicAssistant topic={topic} sectionTitle="Python" />
+      {/* <TopicAssistant topic={topic} sectionTitle="Python" /> */}
     </div>
   );
 }

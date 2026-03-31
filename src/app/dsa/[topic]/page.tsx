@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { TopicSidebar } from "@/components/layout/TopicSidebar";
-import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 import { ConceptSection } from "@/components/dsa/ConceptSection";
 import { VisualizationSection } from "@/components/dsa/VisualizationSection";
 import { CodeEditorSection } from "@/components/dsa/CodeEditorSection";
@@ -213,7 +212,7 @@ export default function TopicPage() {
           </div>
         </div>
       </div>
-      <TopicAssistant topic={topic} sectionTitle="DSA" />
+      {/* <TopicAssistant topic={topic} sectionTitle="DSA" /> */}
     </div>
   );
 }
