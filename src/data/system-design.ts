@@ -1,10 +1,10 @@
-import type { DSATopic, DSAModule } from "@/types/dsa";
+import type { SystemDesignTopic, SystemDesignModule } from "@/types/system-design";
 
 type TopicDef = {
   id: string;
   title: string;
   icon: string;
-  difficulty: DSATopic["difficulty"];
+  difficulty: SystemDesignTopic["difficulty"];
   description: string;
   summary: string;
   analogy: string;
@@ -12,7 +12,7 @@ type TopicDef = {
   code: string;
 };
 
-function topic(def: TopicDef): DSATopic {
+function topic(def: TopicDef): SystemDesignTopic {
   return {
     id: def.id,
     title: def.title,
@@ -51,7 +51,7 @@ function topic(def: TopicDef): DSATopic {
   };
 }
 
-const coreFundamentals: DSATopic[] = [
+const coreFundamentals: SystemDesignTopic[] = [
   topic({
     id: "what-is-system-design",
     title: "What is System Design?",
@@ -143,7 +143,7 @@ console.log(trafficHelpers);
 ` }),
 ];
 
-const dataCaching: DSATopic[] = [
+const dataCaching: SystemDesignTopic[] = [
   topic({ id: "relational-vs-nosql-decision-matrix", title: "Relational vs NoSQL Decision Matrix", icon: "Database", difficulty: "Intermediate", description: "Choose the right storage model based on access patterns, scale, and guarantees.", summary: "Relational databases excel when transactions, joins, and strict schemas matter. NoSQL systems excel when scale, flexible schemas, or specialized access patterns dominate. The right choice depends on consistency needs, query shapes, write volume, and operational complexity, not on trends.", analogy: "A spreadsheet with strict columns works well for accounting. A flexible warehouse with bins works better for irregular inventory.", keyPoints: ["Choose based on workload and guarantees", "Relational favors transactions and structured queries", "NoSQL favors scale or specialized patterns"], code: `const storageDecision = {
   relational: ["transactions", "joins", "schema"],
   nosql: ["scale", "flexibility", "specialized access"]
@@ -193,7 +193,7 @@ console.log(streamingPipeline);
 ` }),
 ];
 
-const communication: DSATopic[] = [
+const communication: SystemDesignTopic[] = [
   topic({ id: "message-queues-rabbitmq-sqs", title: "Message Queues (RabbitMQ/SQS)", icon: "MessageSquare", difficulty: "Beginner", description: "Decouple producers and consumers with asynchronous messaging.", summary: "Message queues buffer work between producers and consumers so spikes, retries, and background processing can be handled asynchronously. They improve decoupling, smoothing, and reliability, but they add delivery semantics, ordering questions, and poison-message handling concerns.", analogy: "A queue is like placing work orders in an inbox rather than interrupting a worker directly every time.", keyPoints: ["Queues decouple systems", "Useful for async work and buffering spikes", "Need retry and poison message handling"], code: `const queueBenefits = ["decoupling", "buffering", "retry", "async processing"];
 console.log(queueBenefits);
 ` }),
@@ -223,7 +223,7 @@ console.log(transportStack);
 ` }),
 ];
 
-const securityObservability: DSATopic[] = [
+const securityObservability: SystemDesignTopic[] = [
   topic({ id: "authentication-vs-authorization", title: "Authentication vs Authorization", icon: "UserCheck", difficulty: "Beginner", description: "Separate identity verification from permission checks.", summary: "Authentication answers who the caller is. Authorization answers what that caller may do. The distinction matters because systems often authenticate correctly but authorize too broadly or inconsistently, which becomes a security vulnerability.", analogy: "Authentication is checking a badge at the door. Authorization is deciding which rooms that badge opens.", keyPoints: ["AuthN = identity", "AuthZ = permissions", "Confusing the two leads to security bugs"], code: `const auth = {
   authentication: "who are you?",
   authorization: "what can you do?"
@@ -259,7 +259,7 @@ console.log(observabilityPillars);
 ` }),
 ];
 
-const masterclass: DSATopic[] = [
+const masterclass: SystemDesignTopic[] = [
   topic({ id: "walkthrough-twitter-x-feed", title: "Walkthrough: Twitter/X Feed", icon: "MessageSquare", difficulty: "Advanced", description: "Design a social feed system with fanout, ranking, caching, and storage tradeoffs.", summary: "A Twitter-like feed design usually discusses timelines, tweet storage, follower graphs, fanout-on-write versus fanout-on-read, ranking, and cache strategy. The core challenge is balancing read speed, write amplification, and celebrity-user traffic patterns.", analogy: "It is like deciding whether to pre-print newspapers for every home or assemble each paper when the reader opens it.", keyPoints: ["Follower graph and timeline storage are central", "Celebrity fanout changes architecture decisions", "Caching and ranking dominate read performance"], code: `const designFocus = ["tweet write path", "timeline generation", "fanout strategy", "cache policy"];
 console.log(designFocus);
 ` }),
@@ -286,7 +286,7 @@ console.log(retroQuestions);
 ` }),
 ];
 
-export const systemDesignTopics: DSATopic[] = [
+export const systemDesignTopics: SystemDesignTopic[] = [
   ...coreFundamentals,
   ...dataCaching,
   ...communication,
@@ -294,7 +294,7 @@ export const systemDesignTopics: DSATopic[] = [
   ...masterclass,
 ];
 
-export const systemDesignModules: DSAModule[] = [
+export const systemDesignModules: SystemDesignModule[] = [
   {
     id: "system-design-core-fundamentals",
     level: 1,

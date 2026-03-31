@@ -15,13 +15,13 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { TopicSidebar } from "@/components/layout/TopicSidebar";
+import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 import { ConceptSection } from "@/components/dsa/ConceptSection";
 import { HTMLPreviewSection } from "@/components/html/HTMLPreviewSection";
 import { HTMLVisualizationSection } from "@/components/html/HTMLVisualizationSection";
 import { htmlTopics, htmlModules } from "@/data/html";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
-import type { DSATopic } from "@/types/dsa";
 
 export default function HTMLTopicPage() {
   const params = useParams();
@@ -62,13 +62,10 @@ export default function HTMLTopicPage() {
 
   const completed = isLoaded && isTopicComplete(topic.id);
 
-  // ConceptSection expects DSATopic — HTML topics are structurally compatible
-  const topicAsDSA = topic as unknown as DSATopic;
-
   return (
     <div className="flex">
       <TopicSidebar
-        topics={htmlTopics as unknown as DSATopic[]}
+        topics={htmlTopics}
         completedTopics={progress.completedTopics}
         basePath="/html"
         modules={htmlModules}
@@ -148,7 +145,7 @@ export default function HTMLTopicPage() {
             </TabsList>
 
             <TabsContent value="concept">
-              <ConceptSection topic={topicAsDSA} />
+              <ConceptSection topic={topic} />
             </TabsContent>
 
             <TabsContent value="visualization">
@@ -204,6 +201,7 @@ export default function HTMLTopicPage() {
           </div>
         </div>
       </div>
+      <TopicAssistant topic={topic} sectionTitle="HTML" />
     </div>
   );
 }

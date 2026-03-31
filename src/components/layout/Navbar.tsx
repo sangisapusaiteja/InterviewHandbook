@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { BookOpen, Home } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { GlobalTopicSearch } from "./GlobalTopicSearch";
-import { categories } from "@/data/dsa";
+import { categories } from "@/data/categories";
 import { cn } from "@/lib/utils";
 import type { TopicSearchItem } from "@/lib/topic-search-index";
 
@@ -16,6 +16,7 @@ interface NavbarProps {
 export function Navbar({ searchIndex }: Readonly<NavbarProps>) {
   const pathname = usePathname();
   const navCategories = categories.filter((category) => category.available);
+  const showNavbarSearch = pathname !== "/";
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -29,7 +30,14 @@ export function Navbar({ searchIndex }: Readonly<NavbarProps>) {
           aria-label="Desktop category navigation"
           className="hidden min-w-0 flex-1 items-center gap-1 overflow-x-auto text-sm lg:flex"
         >
-          <GlobalTopicSearch searchIndex={searchIndex} shortcutEnabled />
+          {showNavbarSearch ? (
+            <GlobalTopicSearch searchIndex={searchIndex} shortcutEnabled />
+          ) : (
+            <div
+              aria-hidden="true"
+              className="h-9 w-[240px] shrink-0 lg:w-[220px] xl:w-[280px]"
+            />
+          )}
           <Link
             href="/"
             className={cn(
@@ -73,9 +81,11 @@ export function Navbar({ searchIndex }: Readonly<NavbarProps>) {
         </div>
       </div>
 
-      <div className="px-4 pb-3 md:px-6 lg:hidden">
-        <GlobalTopicSearch mobile searchIndex={searchIndex} />
-      </div>
+      {showNavbarSearch ? (
+        <div className="px-4 pb-3 md:px-6 lg:hidden">
+          <GlobalTopicSearch mobile searchIndex={searchIndex} />
+        </div>
+      ) : null}
     </header>
   );
 }

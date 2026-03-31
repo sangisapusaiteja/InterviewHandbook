@@ -5,11 +5,14 @@ import { motion } from "framer-motion";
 import { ArrowDown, ArrowRight, GitBranch } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { DSATopic, DSAModule } from "@/types/dsa";
+import type {
+  SystemDesignTopic,
+  SystemDesignModule,
+} from "@/types/system-design";
 
 interface SystemDesignVisualizationSectionProps {
-  readonly topic: DSATopic;
-  readonly modules: DSAModule[];
+  readonly topic: SystemDesignTopic;
+  readonly modules: SystemDesignModule[];
 }
 
 type FlowProfile = {
@@ -24,11 +27,14 @@ type FlowProfile = {
   failureFlow: string[];
 };
 
-function inferModule(topicId: string, modules: DSAModule[]) {
+function inferModule(topicId: string, modules: SystemDesignModule[]) {
   return modules.find((module) => module.topicIds.includes(topicId));
 }
 
-function buildDefaultProfile(topic: DSATopic, moduleTitle: string): FlowProfile {
+function buildDefaultProfile(
+  topic: SystemDesignTopic,
+  moduleTitle: string
+): FlowProfile {
   if (topic.title.includes(" vs ")) {
     const [left, right] = topic.title.split(" vs ", 2);
 
@@ -211,7 +217,10 @@ const flowOverrides: Record<string, Partial<FlowProfile>> = {
   },
 };
 
-function profileForTopic(topic: DSATopic, modules: DSAModule[]): FlowProfile {
+function profileForTopic(
+  topic: SystemDesignTopic,
+  modules: SystemDesignModule[]
+): FlowProfile {
   const moduleTitle = inferModule(topic.id, modules)?.title ?? "Core Fundamentals";
   const base = buildDefaultProfile(topic, moduleTitle);
   const override = flowOverrides[topic.slug] ?? {};

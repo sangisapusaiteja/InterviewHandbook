@@ -2,13 +2,13 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import type { DSATopic } from "@/types/dsa";
+import type { SystemDesignTopic } from "@/types/system-design";
 
 interface SystemDesignChecklistSectionProps {
-  readonly topic: DSATopic;
+  readonly topic: SystemDesignTopic;
 }
 
-function buildChecklist(topic: DSATopic) {
+function buildChecklist(topic: SystemDesignTopic) {
   const baseChecklist = [
     "Clarify the exact product goal before choosing components.",
     "State the main scale assumptions: users, traffic, data size, and growth.",
@@ -21,7 +21,7 @@ function buildChecklist(topic: DSATopic) {
   return [...baseChecklist, ...keywordChecklist].slice(0, 7);
 }
 
-function buildQuestions(topic: DSATopic) {
+function buildQuestions(topic: SystemDesignTopic) {
   return topic.interviewQuestions.map((item) => ({
     question: item.question,
     hint: item.hint,

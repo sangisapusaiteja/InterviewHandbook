@@ -15,13 +15,13 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { TopicSidebar } from "@/components/layout/TopicSidebar";
+import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 import { ConceptSection } from "@/components/dsa/ConceptSection";
 import { CodeEditorSection } from "@/components/dsa/CodeEditorSection";
 import { PythonVisualizationSection } from "@/components/python/PythonVisualizationSection";
 import { pythonTopics, pythonModules } from "@/data/python";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
-import type { DSATopic } from "@/types/dsa";
 
 export default function PythonTopicPage() {
   const params = useParams();
@@ -62,12 +62,10 @@ export default function PythonTopicPage() {
 
   const completed = isLoaded && isTopicComplete(topic.id);
 
-  const topicAsDSA = topic as unknown as DSATopic;
-
   return (
     <div className="flex">
       <TopicSidebar
-        topics={pythonTopics as unknown as DSATopic[]}
+        topics={pythonTopics}
         completedTopics={progress.completedTopics}
         basePath="/python"
         modules={pythonModules}
@@ -147,7 +145,7 @@ export default function PythonTopicPage() {
             </TabsList>
 
             <TabsContent value="concept">
-              <ConceptSection topic={topicAsDSA} />
+              <ConceptSection topic={topic} />
             </TabsContent>
 
             <TabsContent value="visualization">
@@ -203,6 +201,7 @@ export default function PythonTopicPage() {
           </div>
         </div>
       </div>
+      <TopicAssistant topic={topic} sectionTitle="Python" />
     </div>
   );
 }

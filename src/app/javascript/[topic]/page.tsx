@@ -15,13 +15,13 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { TopicSidebar } from "@/components/layout/TopicSidebar";
+import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 import { ConceptSection } from "@/components/dsa/ConceptSection";
 import { CodeEditorSection } from "@/components/dsa/CodeEditorSection";
 import { JavaScriptVisualizationSection } from "@/components/javascript/JavaScriptVisualizationSection";
 import { javascriptTopics, javascriptModules } from "@/data/javascript";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
-import type { DSATopic } from "@/types/dsa";
 
 export default function JavaScriptTopicPage() {
   const params = useParams();
@@ -62,13 +62,10 @@ export default function JavaScriptTopicPage() {
 
   const completed = isLoaded && isTopicComplete(topic.id);
 
-  // ConceptSection expects DSATopic — JavaScript topics are structurally compatible
-  const topicAsDSA = topic as unknown as DSATopic;
-
   return (
     <div className="flex">
       <TopicSidebar
-        topics={javascriptTopics as unknown as DSATopic[]}
+        topics={javascriptTopics}
         completedTopics={progress.completedTopics}
         basePath="/javascript"
         modules={javascriptModules}
@@ -148,7 +145,7 @@ export default function JavaScriptTopicPage() {
             </TabsList>
 
             <TabsContent value="concept">
-              <ConceptSection topic={topicAsDSA} />
+              <ConceptSection topic={topic} />
             </TabsContent>
 
             <TabsContent value="visualization">
@@ -204,6 +201,7 @@ export default function JavaScriptTopicPage() {
           </div>
         </div>
       </div>
+      <TopicAssistant topic={topic} sectionTitle="JavaScript" />
     </div>
   );
 }

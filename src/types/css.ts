@@ -1,37 +1,5 @@
-export interface CSSTopic {
-  id: string;
-  title: string;
-  slug: string;
-  icon: string;
-  difficulty: "Beginner" | "Intermediate" | "Advanced";
-  description: string;
-  concept: CSSTopicConcept;
-  code: CSSTopicCode;
-  interviewQuestions: CSSInterviewQuestion[];
-}
+import type { Topic, TopicModule } from "@/types/topic";
 
-export interface CSSTopicConcept {
-  explanation: string;
-  realLifeAnalogy: string;
-  keyPoints: string[];
-}
+export type CSSTopic = Topic;
 
-export interface CSSTopicCode {
-  defaultCode: string;
-  language: string;
-}
-
-export interface CSSInterviewQuestion {
-  question: string;
-  difficulty: "Easy" | "Medium" | "Hard";
-  hint: string;
-}
-
-export interface CSSModule {
-  id: string;
-  level: number;
-  title: string;
-  difficulty: "Beginner" | "Intermediate" | "Advanced";
-  description: string;
-  topicIds: string[];
-}
+export type CSSModule = TopicModule;

@@ -174,7 +174,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { DSATopic, DSAModule } from "@/types/dsa";
+import type { Topic, TopicModule } from "@/types/topic";
 import { useState, useEffect, useRef } from "react";
 import { useMobileSidebar } from "@/contexts/MobileSidebarContext";
 
@@ -415,10 +415,10 @@ const DIFFICULTY_DOT: Record<string, string> = {
 };
 
 interface TopicSidebarProps {
-  topics: DSATopic[];
+  topics: Topic[];
   completedTopics: string[];
   basePath?: string;
-  modules?: DSAModule[];
+  modules?: TopicModule[];
   sidebarTitle?: string;
   sidebarDescription?: string;
 }
@@ -620,7 +620,7 @@ export function TopicSidebar({
                     const isEmpty = module.topicIds.length === 0;
                     const moduleTopics = module.topicIds
                       .map((id) => topicMap.get(id))
-                      .filter(Boolean) as DSATopic[];
+                      .filter(Boolean) as Topic[];
                     const moduleCompleted = moduleTopics.filter((t) =>
                       completedTopics.includes(t.id)
                     ).length;
@@ -692,7 +692,7 @@ export function TopicSidebar({
                   {modules.map((module) => {
                     const moduleTopics = module.topicIds
                       .map((id) => topicMap.get(id))
-                      .filter(Boolean) as DSATopic[];
+                      .filter(Boolean) as Topic[];
 
                     const isExpanded = expandedModules.has(module.id);
                     const isEmpty = module.topicIds.length === 0;

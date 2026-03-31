@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ProgressState } from "@/types/dsa";
+import { ProgressState } from "@/types/topic";
 
 const STORAGE_KEY = "interview-handbook-progress";
 

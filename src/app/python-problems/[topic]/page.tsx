@@ -15,13 +15,13 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { TopicSidebar } from "@/components/layout/TopicSidebar";
+import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 import { ConceptSection } from "@/components/dsa/ConceptSection";
 import { CodeEditorSection } from "@/components/dsa/CodeEditorSection";
 import { PythonProblemsVisualizationSection } from "@/components/pythonproblems/PythonProblemsVisualizationSection";
 import { pythonProblemTopics, pythonProblemModules } from "@/data/pythonproblems";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
-import type { DSATopic } from "@/types/dsa";
 
 export default function PythonProblemTopicPage() {
   const params = useParams();
@@ -63,12 +63,11 @@ export default function PythonProblemTopicPage() {
   }
 
   const completed = isLoaded && isTopicComplete(topic.id);
-  const topicAsDSA = topic as unknown as DSATopic;
 
   return (
     <div className="flex">
       <TopicSidebar
-        topics={pythonProblemTopics as unknown as DSATopic[]}
+        topics={pythonProblemTopics}
         completedTopics={progress.completedTopics}
         basePath="/python-problems"
         modules={pythonProblemModules}
@@ -144,7 +143,7 @@ export default function PythonProblemTopicPage() {
             </TabsList>
 
             <TabsContent value="concept">
-              <ConceptSection topic={topicAsDSA} />
+              <ConceptSection topic={topic} />
             </TabsContent>
 
             <TabsContent value="visualization">
@@ -200,6 +199,7 @@ export default function PythonProblemTopicPage() {
           </div>
         </div>
       </div>
+      <TopicAssistant topic={topic} sectionTitle="Python Practice Problems" />
     </div>
   );
 }

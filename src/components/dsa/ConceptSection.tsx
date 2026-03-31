@@ -11,7 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { DSATopic } from "@/types/dsa";
+import type { Topic } from "@/types/topic";
 
 function Linkify({ text }: { text: string }) {
   const urlRegex = /(https?:\/\/[^\s,)]+)/g;
@@ -51,7 +51,7 @@ const item = {
 };
 
 interface ConceptSectionProps {
-  topic: DSATopic;
+  topic: Topic;
 }
 
 export function ConceptSection({ topic }: ConceptSectionProps) {

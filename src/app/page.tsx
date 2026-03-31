@@ -30,7 +30,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -39,8 +38,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { categories } from "@/data/dsa";
+import { GlobalTopicSearch } from "@/components/layout/GlobalTopicSearch";
+import { categories } from "@/data/categories";
 import developerProfileImage from "@/data/saitejasangisapu.jpg";
+import { topicSearchIndex } from "@/lib/topic-search-index";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Layout,
@@ -123,19 +124,23 @@ export default function DashboardPage() {
               concepts, visualize algorithms, and practice coding — all in one
               place.
             </p>
-            <div className="flex items-center justify-center">
-              <Button
-                size="lg"
-                onClick={(e: React.MouseEvent) => {
-                  e.preventDefault();
-                  document
-                    .getElementById("categories")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                Get Started
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
+            <div className="mx-auto mt-10 flex max-w-4xl flex-col items-center">
+              <GlobalTopicSearch
+                className="mx-auto h-16 w-full min-w-[min(720px,92vw)] max-w-4xl rounded-2xl border border-primary/15 bg-background/80 px-5 text-base shadow-[0_20px_70px_-28px_rgba(99,102,241,0.45)] backdrop-blur-md hover:border-primary/30"
+                searchIndex={topicSearchIndex}
+                shortcutEnabled
+              />
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
+                <span className="rounded-full border border-border/70 bg-background/40 px-3 py-1.5">
+                  Search all modules
+                </span>
+                <span className="rounded-full border border-border/70 bg-background/40 px-3 py-1.5">
+                  Jump to exact topics fast
+                </span>
+                <span className="rounded-full border border-border/70 bg-background/40 px-3 py-1.5">
+                  Use `/` or `Alt+K`
+                </span>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -243,9 +248,7 @@ export default function DashboardPage() {
                   <Card className="relative overflow-hidden opacity-60">
                     <CardHeader className="pb-2">
                       <div className="flex items-start justify-between">
-                        <div
-                          className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground"
-                        >
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
                           <Icon className="h-5 w-5" />
                         </div>
                         <Badge variant="secondary" className="text-[10px]">
@@ -403,11 +406,6 @@ export default function DashboardPage() {
                 <DialogTitle className="text-[1.75rem] font-semibold tracking-tight text-foreground lg:mt-2 lg:text-[1.5rem]">
                   About the Developer
                 </DialogTitle>
-
-                <p className="hidden max-w-xl text-sm leading-6 text-muted-foreground lg:block">
-                  A compact profile card with direct access to contact details,
-                  portfolio, and social links.
-                </p>
               </DialogHeader>
 
               <div className="space-y-3 lg:hidden">
@@ -581,10 +579,7 @@ export default function DashboardPage() {
                     </p>
                   </div>
 
-                  <form
-                    className="space-y-3"
-                    onSubmit={handleContactSubmit}
-                  >
+                  <form className="space-y-3" onSubmit={handleContactSubmit}>
                     <div className="grid gap-2 lg:grid-cols-2 lg:gap-3">
                       <input
                         type="text"

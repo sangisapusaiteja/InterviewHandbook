@@ -6,7 +6,7 @@ import { Home, LayoutGrid, LayoutList, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMobileSidebar } from "@/contexts/MobileSidebarContext";
 import { cn } from "@/lib/utils";
-import { categories } from "@/data/dsa";
+import { categories } from "@/data/categories";
 import { useEffect, useState } from "react";
 
 export function MobileBottomNav() {
