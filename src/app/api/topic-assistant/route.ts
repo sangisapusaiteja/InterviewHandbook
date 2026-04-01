@@ -9,10 +9,11 @@ type AssistantMessage = {
 type RequestBody = {
   sectionTitle?: string;
   topic?: Topic;
+  sessionId?: string;
   messages?: AssistantMessage[];
 };
 
-const MAX_HISTORY_MESSAGES = 8;
+const MAX_HISTORY_MESSAGES = 5;
 
 function summarizeTopic(topic: Topic, sectionTitle: string) {
   const keyPoints = topic.concept.keyPoints

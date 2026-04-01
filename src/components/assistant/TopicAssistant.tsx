@@ -6,7 +6,6 @@ import {
   Check,
   Copy,
   Loader2,
-  MessageSquare,
   Send,
   Sparkles,
   Lightbulb,
@@ -30,6 +29,10 @@ type AssistantMessage = {
   content: string;
 };
 
+type AssistantApiResponse =
+  | { reply?: string; error?: string }
+  | undefined;
+
 type TopicAssistantProps = {
   topic: Topic;
   sectionTitle: string;
@@ -43,6 +46,23 @@ const quickActions = [
 ];
 
 const MAX_CHAT_MESSAGES = 12;
+const DEFAULT_COOLDOWN_MS = 10_000;
+const RATE_LIMIT_COOLDOWN_MS = 15_000;
+const SESSION_STORAGE_KEY = "ajet-session-id";
+const LAST_SENT_AT_STORAGE_KEY = "ajet-last-sent-at";
+const COOLDOWN_MS_STORAGE_KEY = "ajet-cooldown-ms";
+
+function getCooldownRemainingMs(lastSentAt: number, cooldownMs: number) {
+  return Math.max(0, lastSentAt + cooldownMs - Date.now());
+}
+
+function formatCooldownLabel(remainingMs: number) {
+  return `Wait ${Math.ceil(remainingMs / 1000)}s`;
+}
+
+function isRateLimitError(status: number, message: string) {
+  return status === 429 || /rate limit|too many requests|quota/i.test(message);
+}
 
 function renderInlineFormatting(text: string) {
   const nodes: React.ReactNode[] = [];
@@ -171,6 +191,8 @@ export function TopicAssistant({
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [sessionId, setSessionId] = useState("");
+  const [cooldownRemainingMs, setCooldownRemainingMs] = useState(0);
   const initialMessage = useMemo(
     () => buildInitialMessage(topic, sectionTitle),
     [topic, sectionTitle]
@@ -183,6 +205,28 @@ export function TopicAssistant({
     },
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const persistCooldown = useCallback((timestamp: number, cooldownMs: number) => {
+    localStorage.setItem(LAST_SENT_AT_STORAGE_KEY, String(timestamp));
+    localStorage.setItem(COOLDOWN_MS_STORAGE_KEY, String(cooldownMs));
+    setCooldownRemainingMs(getCooldownRemainingMs(timestamp, cooldownMs));
+  }, []);
+
+  const refreshCooldown = useCallback(() => {
+    const lastSentAt = Number(localStorage.getItem(LAST_SENT_AT_STORAGE_KEY) ?? 0);
+    const cooldownMs = Number(
+      localStorage.getItem(COOLDOWN_MS_STORAGE_KEY) ?? DEFAULT_COOLDOWN_MS
+    );
+
+    if (!lastSentAt || !cooldownMs) {
+      setCooldownRemainingMs(0);
+      return 0;
+    }
+
+    const remainingMs = getCooldownRemainingMs(lastSentAt, cooldownMs);
+    setCooldownRemainingMs(remainingMs);
+    return remainingMs;
+  }, []);
 
   const resetConversation = useCallback(() => {
     setMessages([
@@ -200,6 +244,26 @@ export function TopicAssistant({
   useEffect(() => {
     resetConversation();
   }, [resetConversation]);
+
+  useEffect(() => {
+    const storedSessionId = localStorage.getItem(SESSION_STORAGE_KEY);
+    const nextSessionId = storedSessionId || crypto.randomUUID();
+
+    if (!storedSessionId) {
+      localStorage.setItem(SESSION_STORAGE_KEY, nextSessionId);
+    }
+
+    setSessionId(nextSessionId);
+    refreshCooldown();
+
+    const intervalId = window.setInterval(() => {
+      refreshCooldown();
+    }, 1000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [refreshCooldown]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -224,6 +288,13 @@ export function TopicAssistant({
       return;
     }
 
+    const remainingMs = refreshCooldown();
+
+    if (remainingMs > 0) {
+      setCooldownRemainingMs(remainingMs);
+      return;
+    }
+
     const userMessage: AssistantMessage = {
       id: `${Date.now()}-user`,
       role: "user",
@@ -245,6 +316,7 @@ export function TopicAssistant({
     setMessages(nextMessages);
     setInput("");
     setIsLoading(true);
+    persistCooldown(Date.now(), DEFAULT_COOLDOWN_MS);
 
     try {
       const response = await fetch("/api/topic-assistant", {
@@ -255,6 +327,7 @@ export function TopicAssistant({
         body: JSON.stringify({
           sectionTitle,
           topic,
+          sessionId,
           messages: nextMessages.map(({ role, content }) => ({
             role,
             content,
@@ -262,18 +335,26 @@ export function TopicAssistant({
         }),
       });
 
-      const payload = (await response.json()) as
-        | { reply?: string; error?: string }
-        | undefined;
+      const payload = (await response.json()) as AssistantApiResponse;
 
-      if (!response.ok || !payload?.reply) {
-        throw new Error(
+      if (!response.ok) {
+        const apiError =
           payload?.error ??
-            "The assistant could not respond right now. Please try again."
-        );
+          "The assistant could not respond right now. Please try again.";
+
+        if (isRateLimitError(response.status, apiError)) {
+          persistCooldown(Date.now(), RATE_LIMIT_COOLDOWN_MS);
+          throw new Error("Too many requests. Please wait a few seconds 🙏");
+        }
+
+        throw new Error(apiError);
       }
 
-      const reply = payload.reply;
+      const reply = payload?.reply;
+
+      if (!reply) {
+        throw new Error("The AI assistant returned an empty response.");
+      }
 
       setMessages((current) => [
         ...current,
@@ -305,7 +386,7 @@ export function TopicAssistant({
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="flex h-[min(82vh,760px)] w-[min(92vw,800px)] max-w-[800px] flex-col gap-0 overflow-hidden border-primary/20 bg-background/95 p-0 shadow-2xl outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 data-[state=open]:ring-0 supports-[backdrop-filter]:bg-background/90">
+        <DialogContent className="flex h-[min(82vh,760px)] w-[min(92vw,800px)] max-w-[800px] flex-col gap-0 overflow-hidden rounded-[1.75rem] border-primary/20 bg-background/95 p-0 shadow-2xl outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 data-[state=open]:ring-0 supports-[backdrop-filter]:bg-background/90 sm:rounded-[2rem]">
           <DialogHeader className="border-b border-border/70 px-6 pb-4 pt-6">
             <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">
               <Sparkles className="h-3.5 w-3.5" />
@@ -324,7 +405,7 @@ export function TopicAssistant({
                   <button
                     key={action}
                     type="button"
-                    disabled={isLoading}
+                    disabled={isLoading || cooldownRemainingMs > 0}
                     onClick={() => void sendPrompt(action)}
                     className="rounded-full border border-border/80 bg-muted/20 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
                   >
@@ -394,11 +475,22 @@ export function TopicAssistant({
                 />
                 <Button
                   type="submit"
-                  size="icon"
-                  className="h-12 w-12 rounded-xl focus-visible:ring-0 focus-visible:ring-offset-0"
-                  disabled={isLoading || !input.trim()}
+                  className="h-12 min-w-[5.5rem] rounded-xl px-3 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  disabled={isLoading || cooldownRemainingMs > 0 || !input.trim()}
                 >
-                  <Send className="h-4 w-4" />
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Sending
+                    </>
+                  ) : cooldownRemainingMs > 0 ? (
+                    formatCooldownLabel(cooldownRemainingMs)
+                  ) : (
+                    <>
+                      <Send className="mr-2 h-4 w-4" />
+                      Send
+                    </>
+                  )}
                 </Button>
               </form>
             </CardContent>
@@ -406,16 +498,15 @@ export function TopicAssistant({
         </DialogContent>
       </Dialog>
 
-      <div className="fixed bottom-4 right-4 z-50 flex items-end justify-end">
-      <Button
-        type="button"
-        size="lg"
-        onClick={() => setOpen((current) => !current)}
-        className="h-14 rounded-full px-5 shadow-[0_18px_45px_-20px_rgba(99,102,241,0.75)]"
-      >
-        <MessageSquare className="mr-2 h-5 w-5" />
-        Ask AJet
-      </Button>
+      <div className="fixed bottom-[calc(4rem+1rem)] right-4 z-50 flex justify-end sm:bottom-4 sm:right-4">
+        <Button
+          type="button"
+          onClick={() => setOpen((current) => !current)}
+          className="h-12 w-12 rounded-full px-0 shadow-[0_18px_45px_-20px_rgba(99,102,241,0.75)] sm:h-14 sm:w-auto sm:px-5"
+        >
+          <Bot className="h-5 w-5 sm:mr-2" />
+          <span className="hidden sm:inline">Ask AJet</span>
+        </Button>
       </div>
     </>
   );

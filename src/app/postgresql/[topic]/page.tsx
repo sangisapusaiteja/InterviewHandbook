@@ -21,6 +21,7 @@ import { PostgreSQLVisualizationSection } from "@/components/postgresql/PostgreS
 import { postgresqlTopics, postgresqlModules } from "@/data/postgresql";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
+import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 
 export default function PostgreSQLTopicPage() {
   const params = useParams();
@@ -200,7 +201,7 @@ export default function PostgreSQLTopicPage() {
           </div>
         </div>
       </div>
-      {/* <TopicAssistant topic={topic} sectionTitle="PostgreSQL" /> */}
+      <TopicAssistant topic={topic} sectionTitle="PostgreSQL" />
     </div>
   );
 }

@@ -21,6 +21,7 @@ import { JavaScriptVisualizationSection } from "@/components/javascript/JavaScri
 import { javascriptTopics, javascriptModules } from "@/data/javascript";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
+import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 
 export default function JavaScriptTopicPage() {
   const params = useParams();
@@ -200,7 +201,7 @@ export default function JavaScriptTopicPage() {
           </div>
         </div>
       </div>
-      {/* <TopicAssistant topic={topic} sectionTitle="JavaScript" /> */}
+      <TopicAssistant topic={topic} sectionTitle="JavaScript" />
     </div>
   );
 }

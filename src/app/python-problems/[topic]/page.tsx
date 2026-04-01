@@ -21,6 +21,7 @@ import { PythonProblemsVisualizationSection } from "@/components/pythonproblems/
 import { pythonProblemTopics, pythonProblemModules } from "@/data/pythonproblems";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
+import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 
 export default function PythonProblemTopicPage() {
   const params = useParams();
@@ -198,7 +199,7 @@ export default function PythonProblemTopicPage() {
           </div>
         </div>
       </div>
-      {/* <TopicAssistant topic={topic} sectionTitle="Python Practice Problems" /> */}
+      <TopicAssistant topic={topic} sectionTitle="Python Practice Problems" />
     </div>
   );
 }

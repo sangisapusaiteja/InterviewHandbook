@@ -22,6 +22,7 @@ import { CodeEditorSection } from "@/components/dsa/CodeEditorSection";
 import { dsaTopics, dsaModules } from "@/data/dsa";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
+import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 
 export default function TopicPage() {
   const params = useParams();
@@ -212,7 +213,7 @@ export default function TopicPage() {
           </div>
         </div>
       </div>
-      {/* <TopicAssistant topic={topic} sectionTitle="DSA" /> */}
+      <TopicAssistant topic={topic} sectionTitle="DSA" />
     </div>
   );
 }

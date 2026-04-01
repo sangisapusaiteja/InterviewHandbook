@@ -21,6 +21,7 @@ import { SystemDesignVisualizationSection } from "@/components/system-design/Sys
 import { systemDesignTopics, systemDesignModules } from "@/data/system-design";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
+import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 
 export default function SystemDesignTopicPage() {
   const params = useParams();
@@ -199,7 +200,7 @@ export default function SystemDesignTopicPage() {
           </div>
         </div>
       </div>
-      {/* <TopicAssistant topic={topic} sectionTitle="System Design" /> */}
+      <TopicAssistant topic={topic} sectionTitle="System Design" />
     </div>
   );
 }

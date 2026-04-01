@@ -21,6 +21,7 @@ import { CSSVisualizationSection } from "@/components/css/CSSVisualizationSectio
 import { cssTopics, cssModules } from "@/data/css";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
+import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 
 export default function CSSTopicPage() {
   const params = useParams();
@@ -200,7 +201,7 @@ export default function CSSTopicPage() {
           </div>
         </div>
       </div>
-      {/* <TopicAssistant topic={topic} sectionTitle="CSS" /> */}
+      <TopicAssistant topic={topic} sectionTitle="CSS" />
     </div>
   );
 }

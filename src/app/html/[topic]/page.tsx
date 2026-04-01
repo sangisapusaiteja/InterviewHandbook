@@ -21,6 +21,7 @@ import { HTMLVisualizationSection } from "@/components/html/HTMLVisualizationSec
 import { htmlTopics, htmlModules } from "@/data/html";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
+import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 
 export default function HTMLTopicPage() {
   const params = useParams();
@@ -200,7 +201,7 @@ export default function HTMLTopicPage() {
           </div>
         </div>
       </div>
-      {/* <TopicAssistant topic={topic} sectionTitle="HTML" /> */}
+      <TopicAssistant topic={topic} sectionTitle="HTML" />
     </div>
   );
 }

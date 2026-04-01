@@ -21,6 +21,7 @@ import { PythonVisualizationSection } from "@/components/python/PythonVisualizat
 import { pythonTopics, pythonModules } from "@/data/python";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
+import { TopicAssistant } from "@/components/assistant/TopicAssistant";
 
 export default function PythonTopicPage() {
   const params = useParams();
@@ -200,7 +201,7 @@ export default function PythonTopicPage() {
           </div>
         </div>
       </div>
-      {/* <TopicAssistant topic={topic} sectionTitle="Python" /> */}
+      <TopicAssistant topic={topic} sectionTitle="Python" />
     </div>
   );
 }
