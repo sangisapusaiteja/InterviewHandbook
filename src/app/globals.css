@@ -114,6 +114,22 @@
   }
 }
 
+@keyframes ajet-blink {
+  0%,
+  43%,
+  49%,
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+
+  45%,
+  47% {
+    transform: scaleY(0.2);
+    opacity: 0.75;
+  }
+}
+
 @supports (view-transition-name: root) {
   :root {
     view-transition-name: root;

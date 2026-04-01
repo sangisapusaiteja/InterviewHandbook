@@ -23,21 +23,13 @@ export function Navbar({ searchIndex }: Readonly<NavbarProps>) {
       <div className="flex h-14 items-center px-4 md:px-6">
         <Link href="/" className="mr-6 flex min-w-0 items-center gap-2">
           <BookOpen className="h-5 w-5 shrink-0 text-primary" />
-          <span className="truncate text-lg font-bold">My Interview Handbook</span>
+          <span className="truncate text-lg font-bold">Interview Handbook</span>
         </Link>
 
         <nav
           aria-label="Desktop category navigation"
-          className="hidden min-w-0 flex-1 items-center gap-1 overflow-x-auto text-sm lg:flex"
+          className="hidden min-w-0 flex-1 items-center justify-center gap-1 overflow-x-auto pl-16 text-sm lg:flex xl:pl-20"
         >
-          {showNavbarSearch ? (
-            <GlobalTopicSearch searchIndex={searchIndex} shortcutEnabled />
-          ) : (
-            <div
-              aria-hidden="true"
-              className="h-9 w-[240px] shrink-0 lg:w-[220px] xl:w-[280px]"
-            />
-          )}
           <Link
             href="/"
             className={cn(
@@ -52,7 +44,7 @@ export function Navbar({ searchIndex }: Readonly<NavbarProps>) {
               Dashboard
             </span>
           </Link>
-          <div className="flex min-w-0 items-center gap-1 overflow-x-auto">
+          <div className="flex min-w-0 items-center justify-center gap-1 overflow-x-auto">
             {navCategories.map((category) => {
               const href = `/${category.id}`;
               const isActive =
@@ -77,6 +69,16 @@ export function Navbar({ searchIndex }: Readonly<NavbarProps>) {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 pl-3">
+          {showNavbarSearch ? (
+            <div className="hidden lg:block">
+              <GlobalTopicSearch searchIndex={searchIndex} shortcutEnabled />
+            </div>
+          ) : (
+            <div
+              aria-hidden="true"
+              className="hidden h-9 w-[240px] shrink-0 lg:block lg:w-[220px] xl:w-[280px]"
+            />
+          )}
           <ThemeToggle />
         </div>
       </div>

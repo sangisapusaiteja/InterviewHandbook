@@ -20,7 +20,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "My Interview Handbook",
+  title: "Interview Handbook",
   description:
     "A comprehensive, beginner-friendly interview preparation handbook for software developers. Master DSA, JavaScript, and more.",
 };

@@ -7,7 +7,6 @@ import {
   Copy,
   Loader2,
   Send,
-  Sparkles,
   Lightbulb,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -181,6 +180,16 @@ function renderMessageContent(
 
 function buildInitialMessage(topic: Topic, sectionTitle: string) {
   return `I’m AJet, your ${sectionTitle} study assistant for "${topic.title}". Ask me anything related to this topic and I’ll answer with real reasoning, not just repeat the page.`;
+}
+
+function AJetLauncherIcon() {
+  return (
+    <span className="relative inline-flex h-5 w-5 shrink-0 items-center justify-center text-current sm:h-6 sm:w-6">
+      <Bot className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.9} />
+      <span className="pointer-events-none absolute left-[5.5px] top-[7px] h-[1.5px] w-[2.5px] origin-center rounded-full bg-current [animation:ajet-blink_3.4s_ease-in-out_infinite] sm:left-[6.5px] sm:top-[8px] sm:h-[1.75px] sm:w-[3px]" />
+      <span className="pointer-events-none absolute right-[5.5px] top-[7px] h-[1.5px] w-[2.5px] origin-center rounded-full bg-current [animation:ajet-blink_3.4s_ease-in-out_infinite] sm:right-[6.5px] sm:top-[8px] sm:h-[1.75px] sm:w-[3px]" />
+    </span>
+  );
 }
 
 export function TopicAssistant({
@@ -389,7 +398,7 @@ export function TopicAssistant({
         <DialogContent className="flex h-[min(82vh,760px)] w-[min(92vw,800px)] max-w-[800px] flex-col gap-0 overflow-hidden rounded-[1.75rem] border-primary/20 bg-background/95 p-0 shadow-2xl outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 data-[state=open]:ring-0 supports-[backdrop-filter]:bg-background/90 sm:rounded-[2rem]">
           <DialogHeader className="border-b border-border/70 px-6 pb-4 pt-6">
             <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">
-              <Sparkles className="h-3.5 w-3.5" />
+              <AJetLauncherIcon />
               AJet
             </p>
             <DialogTitle className="mt-2 text-xl">{topic.title}</DialogTitle>
@@ -428,7 +437,7 @@ export function TopicAssistant({
                     >
                       <p className="mb-1 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide opacity-80">
                         {message.role === "assistant" ? (
-                          <Bot className="h-3.5 w-3.5" />
+                          <AJetLauncherIcon />
                         ) : (
                           <Lightbulb className="h-3.5 w-3.5" />
                         )}
@@ -445,7 +454,7 @@ export function TopicAssistant({
                   {isLoading ? (
                     <div className="mr-auto max-w-[88%] rounded-2xl bg-secondary px-4 py-3 text-sm text-secondary-foreground">
                       <p className="mb-1 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide opacity-80">
-                        <Bot className="h-3.5 w-3.5" />
+                        <AJetLauncherIcon />
                         AJet
                       </p>
                       <div className="flex items-center gap-2">
@@ -504,8 +513,10 @@ export function TopicAssistant({
           onClick={() => setOpen((current) => !current)}
           className="h-12 w-12 rounded-full px-0 shadow-[0_18px_45px_-20px_rgba(99,102,241,0.75)] sm:h-14 sm:w-auto sm:px-5"
         >
-          <Bot className="h-5 w-5 sm:mr-2" />
-          <span className="hidden sm:inline">Ask AJet</span>
+          <span className="sm:mr-2.5">
+            <AJetLauncherIcon />
+          </span>
+          <span className="hidden sm:inline sm:text-[15px] sm:font-medium">Ask AJet</span>
         </Button>
       </div>
     </>

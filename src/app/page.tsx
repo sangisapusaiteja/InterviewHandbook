@@ -117,7 +117,7 @@ export default function DashboardPage() {
               Free &amp; Open Source
             </Badge>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-              My Interview <span className="text-primary">Handbook</span>
+              Interview <span className="text-primary">Handbook</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               Your complete guide to cracking technical interviews. Learn
@@ -280,7 +280,7 @@ export default function DashboardPage() {
       <footer className="border-t py-8 mt-12">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-muted-foreground">
-            My Interview Handbook — Built for developers, by developers.
+            Interview Handbook — Built for developers, by developers.
           </p>
         </div>
       </footer>

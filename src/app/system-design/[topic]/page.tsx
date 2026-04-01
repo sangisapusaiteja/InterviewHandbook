@@ -132,14 +132,14 @@ export default function SystemDesignTopicPage() {
           </motion.div>
 
           <Tabs defaultValue="concept" className="space-y-6">
-            <TabsList className="w-full justify-start h-auto p-1 flex-wrap">
-              <TabsTrigger value="concept" className="text-xs sm:text-sm">
+            <TabsList className="flex w-full justify-between p-1 sm:w-auto sm:justify-start">
+              <TabsTrigger value="concept" className="flex-1 text-xs sm:flex-none sm:text-sm">
                 Concept
               </TabsTrigger>
-              <TabsTrigger value="visualization" className="text-xs sm:text-sm">
+              <TabsTrigger value="visualization" className="flex-1 text-xs sm:flex-none sm:text-sm">
                 Visualization
               </TabsTrigger>
-              <TabsTrigger value="checklist" className="text-xs sm:text-sm">
+              <TabsTrigger value="checklist" className="flex-1 text-xs sm:flex-none sm:text-sm">
                 Design Checklist
               </TabsTrigger>
             </TabsList>
