@@ -511,7 +511,7 @@ export function TopicAssistant({
         <Button
           type="button"
           onClick={() => setOpen((current) => !current)}
-          className="h-12 w-12 rounded-full px-0 shadow-[0_18px_45px_-20px_rgba(99,102,241,0.75)] sm:h-14 sm:w-auto sm:px-5"
+          className="h-12 w-12 rounded-full px-0 shadow-[0_18px_45px_-20px_rgba(59,130,246,0.5)] sm:h-14 sm:w-auto sm:px-5"
         >
           <span className="sm:mr-2.5">
             <AJetLauncherIcon />

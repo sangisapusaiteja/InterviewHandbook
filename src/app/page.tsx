@@ -126,7 +126,7 @@ export default function DashboardPage() {
             </p>
             <div className="mx-auto mt-10 flex max-w-4xl flex-col items-center">
               <GlobalTopicSearch
-                className="mx-auto h-16 w-full min-w-[min(720px,92vw)] max-w-4xl rounded-2xl border border-primary/15 bg-background/80 px-5 text-base shadow-[0_20px_70px_-28px_rgba(99,102,241,0.45)] backdrop-blur-md hover:border-primary/30"
+                className="mx-auto h-16 w-full min-w-[min(720px,92vw)] max-w-4xl rounded-2xl border border-primary/15 bg-background/80 px-5 text-base shadow-[0_24px_80px_-30px_rgba(59,130,246,0.32)] backdrop-blur-md hover:border-primary/30"
                 searchIndex={topicSearchIndex}
                 shortcutEnabled
               />
@@ -289,7 +289,7 @@ export default function DashboardPage() {
         <DialogTrigger asChild>
           <button
             type="button"
-            className="fixed bottom-6 right-4 z-40 flex items-center gap-3 rounded-full border border-primary/15 bg-background/90 p-2 shadow-[0_10px_30px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-[0_12px_40px_rgba(99,102,241,0.22)] sm:bottom-5 sm:right-5 sm:pr-4"
+            className="fixed bottom-6 right-4 z-40 flex items-center gap-3 rounded-full border border-primary/15 bg-background/90 p-2 shadow-[0_10px_30px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-[0_12px_40px_rgba(59,130,246,0.16)] sm:bottom-5 sm:right-5 sm:pr-4"
           >
             <div className="relative h-10 w-10 overflow-hidden rounded-full border border-primary/20 sm:h-11 sm:w-11">
               <Image
@@ -307,7 +307,10 @@ export default function DashboardPage() {
           </button>
         </DialogTrigger>
 
-        <DialogContent className="max-h-[calc(100vh-2rem)] w-[calc(100vw-1rem)] max-w-[420px] overflow-y-auto overflow-x-hidden rounded-[24px] border border-primary/20 bg-card p-0 text-card-foreground shadow-[0_0_0_1px_rgba(99,102,241,0.08),0_35px_120px_rgba(15,23,42,0.28)] lg:max-h-[92vh] lg:max-w-4xl lg:rounded-[28px]">
+        <DialogContent
+          onOpenAutoFocus={(event) => event.preventDefault()}
+          className="max-h-[calc(100vh-2rem)] w-[calc(100vw-1rem)] max-w-[420px] overflow-y-auto overflow-x-hidden rounded-[24px] border border-primary/20 bg-card p-0 text-card-foreground shadow-[0_0_0_1px_rgba(59,130,246,0.07),0_35px_120px_rgba(15,23,42,0.28)] lg:max-h-[92vh] lg:max-w-4xl lg:rounded-[28px]"
+        >
           <div className="grid gap-0 lg:grid-cols-[320px,1fr]">
             <div className="relative hidden min-h-[176px] overflow-hidden bg-muted lg:block lg:min-h-full">
               <Image
@@ -357,7 +360,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.16),transparent_34%),linear-gradient(180deg,hsl(var(--card))_0%,hsl(var(--background))_100%)] p-3 sm:p-5 lg:p-8">
+            <div className="bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.16),transparent_34%),linear-gradient(180deg,hsl(var(--card))_0%,hsl(var(--background))_100%)] p-3 sm:p-5 lg:p-8">
               <div className="mb-3 overflow-hidden rounded-[22px] border border-primary/15 shadow-[0_12px_32px_rgba(15,23,42,0.24)] lg:hidden">
                 <div className="relative min-h-[188px] overflow-hidden">
                   <Image
@@ -444,7 +447,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                <div className="rounded-[22px] border border-primary/15 bg-[linear-gradient(180deg,rgba(99,102,241,0.08),rgba(99,102,241,0.03))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+                <div className="rounded-[22px] border border-primary/15 bg-[linear-gradient(180deg,rgba(59,130,246,0.08),rgba(16,185,129,0.03))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
                   <div className="mb-2">
                     <p className="text-base font-semibold text-foreground">
                       Send a direct message
@@ -568,7 +571,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                <div className="rounded-[22px] border border-primary/15 bg-[linear-gradient(180deg,rgba(99,102,241,0.08),rgba(99,102,241,0.03))] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] lg:col-span-2 lg:rounded-[24px] lg:p-5">
+                <div className="rounded-[22px] border border-primary/15 bg-[linear-gradient(180deg,rgba(59,130,246,0.08),rgba(16,185,129,0.03))] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] lg:col-span-2 lg:rounded-[24px] lg:p-5">
                   <div className="mb-3">
                     <p className="text-[1.05rem] font-semibold text-foreground lg:text-base">
                       Send a direct message
