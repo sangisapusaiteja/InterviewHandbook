@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 export function MobileBottomNav() {
   const pathname = usePathname();
-  const isTopicPage = pathname.startsWith("/dsa") || pathname.startsWith("/html") || pathname.startsWith("/css") || pathname.startsWith("/javascript") || pathname.startsWith("/python") || pathname.startsWith("/postgresql");
+  const isTopicPage = pathname.startsWith("/dsa") || pathname.startsWith("/html") || pathname.startsWith("/css") || pathname.startsWith("/javascript") || pathname.startsWith("/python") || pathname.startsWith("/postgresql") || pathname.startsWith("/system-design");
   const isHome = pathname === "/";
   const { open, setOpen, toggle } = useMobileSidebar();
   const [categoriesOpen, setCategoriesOpen] = useState(false);
@@ -32,8 +32,6 @@ export function MobileBottomNav() {
     setCategoriesOpen(false);
     toggle();
   };
-
-  if (isHome) return null;
 
   return (
     <>
@@ -106,19 +104,23 @@ export function MobileBottomNav() {
       >
         <div className="border-t bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
           <div className="flex items-center h-16 px-4">
-            <Link
-              href="/"
-              className={cn(
-                "relative flex flex-col items-center justify-center gap-1 flex-1 h-full",
-                "text-[11px] font-medium transition-colors duration-150",
-                "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <Home className="h-5 w-5 relative" />
-              <span className="relative">Home</span>
-            </Link>
+            {!isHome ? (
+              <>
+                <Link
+                  href="/"
+                  className={cn(
+                    "relative flex flex-col items-center justify-center gap-1 flex-1 h-full",
+                    "text-[11px] font-medium transition-colors duration-150",
+                    "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <Home className="h-5 w-5 relative" />
+                  <span className="relative">Home</span>
+                </Link>
 
-            <div className="w-px h-6 bg-border/60 shrink-0" />
+                <div className="w-px h-6 bg-border/60 shrink-0" />
+              </>
+            ) : null}
 
             <button
               type="button"
@@ -145,7 +147,7 @@ export function MobileBottomNav() {
               <span className="relative">Categories</span>
             </button>
 
-            {isTopicPage && (
+            {!isHome && isTopicPage && (
               <>
                 <div className="w-px h-6 bg-border/60 shrink-0" />
                 <button

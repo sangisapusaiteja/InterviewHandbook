@@ -34,6 +34,18 @@ type SuggestionSectionProps = {
 const RECENT_QUERIES_KEY = "global-topic-search:recent-queries";
 const RECENT_TOPICS_KEY = "global-topic-search:recent-topics";
 const PINNED_TOPICS_KEY = "global-topic-search:pinned-topics";
+const remotePinnedTopicsEnabled = Boolean(
+  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
+    process.env.NEXT_PUBLIC_SUPABASE_URL
+);
+
+type PreferencesPayload = {
+  preferences: {
+    pinned_topic_hrefs?: string[];
+    recent_queries?: string[];
+    recent_topic_hrefs?: string[];
+  } | null;
+};
 
 const POPULAR_SEARCHES = [
   "CAP theorem",
@@ -306,6 +318,10 @@ export function GlobalTopicSearch({
   const [pinnedTopicHrefs, setPinnedTopicHrefs] = useState<string[]>([]);
 
   useEffect(() => {
+    if (remotePinnedTopicsEnabled) {
+      return;
+    }
+
     if (typeof window === "undefined") {
       return;
     }
@@ -331,6 +347,54 @@ export function GlobalTopicSearch({
     setPinnedTopicHrefs(readStoredList(PINNED_TOPICS_KEY));
   }, []);
 
+  useEffect(() => {
+    if (!remotePinnedTopicsEnabled) {
+      return;
+    }
+
+    let cancelled = false;
+
+    const loadSearchPreferences = async () => {
+      try {
+        const response = await fetch("/api/user-preferences", {
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          return;
+        }
+
+        const payload = (await response.json()) as PreferencesPayload;
+        const remotePinnedTopics = payload.preferences?.pinned_topic_hrefs;
+        const remoteRecentQueries = payload.preferences?.recent_queries;
+        const remoteRecentTopicHrefs = payload.preferences?.recent_topic_hrefs;
+
+        if (
+          !cancelled &&
+          Array.isArray(remotePinnedTopics)
+        ) {
+          setPinnedTopicHrefs(remotePinnedTopics);
+        }
+
+        if (!cancelled && Array.isArray(remoteRecentQueries)) {
+          setRecentQueries(remoteRecentQueries);
+        }
+
+        if (!cancelled && Array.isArray(remoteRecentTopicHrefs)) {
+          setRecentTopicHrefs(remoteRecentTopicHrefs);
+        }
+      } catch {
+        // fall back to local storage
+      }
+    };
+
+    void loadSearchPreferences();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const persistStringList = (
     key: string,
     values: string[],
@@ -338,18 +402,36 @@ export function GlobalTopicSearch({
   ) => {
     setter(values);
 
-    if (typeof window !== "undefined") {
+    if (!remotePinnedTopicsEnabled && typeof window !== "undefined") {
       window.localStorage.setItem(key, JSON.stringify(values));
     }
   };
 
-  const trackRecentQuery = (value: string) => {
-    const trimmedValue = value.trim();
-    if (!trimmedValue) {
+  const persistRemoteSearchPreferences = (payload: {
+    pinnedTopicHrefs?: string[];
+    recentQueries?: string[];
+    recentTopicHrefs?: string[];
+  }) => {
+    if (!remotePinnedTopicsEnabled) {
       return;
     }
 
-    const nextQueries = [
+    void fetch("/api/user-preferences", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    }).catch(() => {});
+  };
+
+  const buildRecentQueries = (value: string) => {
+    const trimmedValue = value.trim();
+    if (!trimmedValue) {
+      return recentQueries;
+    }
+
+    return [
       trimmedValue,
       ...recentQueries.filter(
         (entry) => entry.toLowerCase() !== trimmedValue.toLowerCase(),
@@ -357,17 +439,20 @@ export function GlobalTopicSearch({
     ]
       .filter((entry) => !BLOCKED_RECENT_QUERIES.has(entry.toLowerCase()))
       .slice(0, 6);
-
-    persistStringList(RECENT_QUERIES_KEY, nextQueries, setRecentQueries);
   };
 
-  const trackRecentTopic = (href: string) => {
-    const nextTopics = [
+  const buildRecentTopics = (href: string) => {
+    return [
       href,
       ...recentTopicHrefs.filter((entry) => entry !== href),
     ].slice(0, 6);
+  };
 
-    persistStringList(RECENT_TOPICS_KEY, nextTopics, setRecentTopicHrefs);
+  const trackRecentQuery = (value: string) => {
+    const nextQueries = buildRecentQueries(value);
+    persistStringList(RECENT_QUERIES_KEY, nextQueries, setRecentQueries);
+    persistRemoteSearchPreferences({ recentQueries: nextQueries });
+    return nextQueries;
   };
 
   const togglePinnedTopic = (href: string) => {
@@ -376,6 +461,8 @@ export function GlobalTopicSearch({
       : [href, ...pinnedTopicHrefs].slice(0, 8);
 
     persistStringList(PINNED_TOPICS_KEY, nextPinned, setPinnedTopicHrefs);
+
+    persistRemoteSearchPreferences({ pinnedTopicHrefs: nextPinned });
   };
 
   useEffect(() => {
@@ -491,11 +578,19 @@ export function GlobalTopicSearch({
   }, [results, router]);
 
   const handleSelect = (item: TopicSearchItem) => {
+    let nextQueries = recentQueries;
+
     if (query.trim()) {
-      trackRecentQuery(query);
+      nextQueries = buildRecentQueries(query);
+      persistStringList(RECENT_QUERIES_KEY, nextQueries, setRecentQueries);
     }
 
-    trackRecentTopic(item.href);
+    const nextTopics = buildRecentTopics(item.href);
+    persistStringList(RECENT_TOPICS_KEY, nextTopics, setRecentTopicHrefs);
+    persistRemoteSearchPreferences({
+      recentQueries: nextQueries,
+      recentTopicHrefs: nextTopics,
+    });
     setOpen(false);
     router.push(item.href);
   };
@@ -591,7 +686,7 @@ export function GlobalTopicSearch({
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="flex h-[720px] max-h-[85vh] w-[calc(100vw-1rem)] max-w-3xl flex-col overflow-hidden rounded-2xl border border-border/70 p-0 sm:w-full">
+        <DialogContent className="flex h-[min(86vh,760px)] w-[min(96vw,980px)] max-h-[calc(100vh-1rem)] max-w-[980px] flex-col overflow-hidden rounded-[24px] border border-border/70 p-0 sm:max-h-[calc(100vh-2rem)] sm:rounded-[30px]">
           <div className="border-b px-4 pb-4 pt-6 sm:px-6">
             <DialogTitle>Search Topics</DialogTitle>
             <DialogDescription className="mt-1">

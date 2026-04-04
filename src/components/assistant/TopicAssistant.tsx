@@ -1,5 +1,7 @@
 "use client";
 
+import { useUser } from "@clerk/nextjs";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Bot,
@@ -37,6 +39,8 @@ type TopicAssistantProps = {
   sectionTitle: string;
 };
 
+const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+
 const quickActions = [
   "Explain this simply with an example",
   "Ask me 3 interview questions on this topic",
@@ -50,6 +54,14 @@ const RATE_LIMIT_COOLDOWN_MS = 15_000;
 const SESSION_STORAGE_KEY = "ajet-session-id";
 const LAST_SENT_AT_STORAGE_KEY = "ajet-last-sent-at";
 const COOLDOWN_MS_STORAGE_KEY = "ajet-cooldown-ms";
+const remoteAssistantPreferencesEnabled = Boolean(
+  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
+    process.env.NEXT_PUBLIC_SUPABASE_URL
+);
+
+function getScopedStorageKey(prefix: string, key: string) {
+  return `${prefix}:${key}`;
+}
 
 function getCooldownRemainingMs(lastSentAt: number, cooldownMs: number) {
   return Math.max(0, lastSentAt + cooldownMs - Date.now());
@@ -182,7 +194,13 @@ function buildInitialMessage(topic: Topic, sectionTitle: string) {
   return `I’m AJet, your ${sectionTitle} study assistant for "${topic.title}". Ask me anything related to this topic and I’ll answer with real reasoning, not just repeat the page.`;
 }
 
-function AJetLauncherIcon() {
+type AssistantPreferenceState = {
+  sessionIds?: Record<string, string>;
+  lastSentAt?: Record<string, number>;
+  cooldownMs?: Record<string, number>;
+};
+
+export function AJetLauncherIcon() {
   return (
     <span className="relative inline-flex h-5 w-5 shrink-0 items-center justify-center text-current sm:h-6 sm:w-6">
       <Bot className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.9} />
@@ -192,16 +210,27 @@ function AJetLauncherIcon() {
   );
 }
 
-export function TopicAssistant({
+function ClerkTopicAssistant({
   topic,
   sectionTitle,
 }: Readonly<TopicAssistantProps>) {
+  const { isSignedIn, user } = useUser();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [sessionId, setSessionId] = useState("");
   const [cooldownRemainingMs, setCooldownRemainingMs] = useState(0);
+  const [assistantPreferences, setAssistantPreferences] =
+    useState<AssistantPreferenceState>({});
+  const storageKeyPrefix = useMemo(
+    () => (user?.id ? `ajet:${user.id}` : "ajet:guest"),
+    [user?.id]
+  );
+  const assistantScopeKey = useMemo(
+    () => `${topic.slug}:${sectionTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+    [sectionTitle, topic.slug]
+  );
   const initialMessage = useMemo(
     () => buildInitialMessage(topic, sectionTitle),
     [topic, sectionTitle]
@@ -214,28 +243,6 @@ export function TopicAssistant({
     },
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const persistCooldown = useCallback((timestamp: number, cooldownMs: number) => {
-    localStorage.setItem(LAST_SENT_AT_STORAGE_KEY, String(timestamp));
-    localStorage.setItem(COOLDOWN_MS_STORAGE_KEY, String(cooldownMs));
-    setCooldownRemainingMs(getCooldownRemainingMs(timestamp, cooldownMs));
-  }, []);
-
-  const refreshCooldown = useCallback(() => {
-    const lastSentAt = Number(localStorage.getItem(LAST_SENT_AT_STORAGE_KEY) ?? 0);
-    const cooldownMs = Number(
-      localStorage.getItem(COOLDOWN_MS_STORAGE_KEY) ?? DEFAULT_COOLDOWN_MS
-    );
-
-    if (!lastSentAt || !cooldownMs) {
-      setCooldownRemainingMs(0);
-      return 0;
-    }
-
-    const remainingMs = getCooldownRemainingMs(lastSentAt, cooldownMs);
-    setCooldownRemainingMs(remainingMs);
-    return remainingMs;
-  }, []);
 
   const resetConversation = useCallback(() => {
     setMessages([
@@ -255,24 +262,140 @@ export function TopicAssistant({
   }, [resetConversation]);
 
   useEffect(() => {
-    const storedSessionId = localStorage.getItem(SESSION_STORAGE_KEY);
-    const nextSessionId = storedSessionId || crypto.randomUUID();
+    if (!remoteAssistantPreferencesEnabled) {
+      const sessionStorageKey = getScopedStorageKey(
+        storageKeyPrefix,
+        SESSION_STORAGE_KEY
+      );
+      const lastSentAtStorageKey = getScopedStorageKey(
+        storageKeyPrefix,
+        LAST_SENT_AT_STORAGE_KEY
+      );
+      const cooldownMsStorageKey = getScopedStorageKey(
+        storageKeyPrefix,
+        COOLDOWN_MS_STORAGE_KEY
+      );
+      const storedSessionId = localStorage.getItem(sessionStorageKey);
+      const nextSessionId = storedSessionId || crypto.randomUUID();
 
-    if (!storedSessionId) {
-      localStorage.setItem(SESSION_STORAGE_KEY, nextSessionId);
+      if (!storedSessionId) {
+        localStorage.setItem(sessionStorageKey, nextSessionId);
+      }
+
+      setSessionId(nextSessionId);
+      const refreshScopedCooldown = () => {
+        const lastSentAt = Number(localStorage.getItem(lastSentAtStorageKey) ?? 0);
+        const cooldownMs = Number(
+          localStorage.getItem(cooldownMsStorageKey) ?? DEFAULT_COOLDOWN_MS
+        );
+
+        if (!lastSentAt || !cooldownMs) {
+          setCooldownRemainingMs(0);
+          return 0;
+        }
+
+        const remainingMs = getCooldownRemainingMs(lastSentAt, cooldownMs);
+        setCooldownRemainingMs(remainingMs);
+        return remainingMs;
+      };
+
+      refreshScopedCooldown();
+
+      const intervalId = window.setInterval(() => {
+        refreshScopedCooldown();
+      }, 1000);
+
+      return () => {
+        window.clearInterval(intervalId);
+      };
     }
 
-    setSessionId(nextSessionId);
-    refreshCooldown();
+    let cancelled = false;
+
+    const loadAssistantPreferences = async () => {
+      try {
+        const response = await fetch("/api/user-preferences", {
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          return;
+        }
+
+        const payload = (await response.json()) as {
+          preferences: { assistant_state?: AssistantPreferenceState } | null;
+        };
+        const remoteState = payload.preferences?.assistant_state ?? {};
+        const sessionIds = remoteState.sessionIds ?? {};
+        const nextSessionId = sessionIds[assistantScopeKey] || crypto.randomUUID();
+        const lastSentAt = Number(remoteState.lastSentAt?.[assistantScopeKey] ?? 0);
+        const cooldownMs = Number(
+          remoteState.cooldownMs?.[assistantScopeKey] ?? DEFAULT_COOLDOWN_MS
+        );
+
+        if (!cancelled) {
+          setAssistantPreferences({
+            sessionIds: {
+              ...sessionIds,
+              [assistantScopeKey]: nextSessionId,
+            },
+            lastSentAt: remoteState.lastSentAt ?? {},
+            cooldownMs: remoteState.cooldownMs ?? {},
+          });
+          setSessionId(nextSessionId);
+          setCooldownRemainingMs(
+            lastSentAt && cooldownMs
+              ? getCooldownRemainingMs(lastSentAt, cooldownMs)
+              : 0
+          );
+        }
+
+        if (!sessionIds[assistantScopeKey]) {
+          void fetch("/api/user-preferences", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              assistantState: {
+                sessionIds: {
+                  ...sessionIds,
+                  [assistantScopeKey]: nextSessionId,
+                },
+                lastSentAt: remoteState.lastSentAt ?? {},
+                cooldownMs: remoteState.cooldownMs ?? {},
+              },
+            }),
+          }).catch(() => {});
+        }
+      } catch {
+        setSessionId(crypto.randomUUID());
+        setCooldownRemainingMs(0);
+      }
+    };
+
+    void loadAssistantPreferences();
 
     const intervalId = window.setInterval(() => {
-      refreshCooldown();
+      setAssistantPreferences((current) => {
+        const lastSentAt = Number(current.lastSentAt?.[assistantScopeKey] ?? 0);
+        const cooldownMs = Number(
+          current.cooldownMs?.[assistantScopeKey] ?? DEFAULT_COOLDOWN_MS
+        );
+        const remainingMs =
+          lastSentAt && cooldownMs
+            ? getCooldownRemainingMs(lastSentAt, cooldownMs)
+            : 0;
+        setCooldownRemainingMs(remainingMs);
+        return current;
+      });
     }, 1000);
 
     return () => {
+      cancelled = true;
       window.clearInterval(intervalId);
     };
-  }, [refreshCooldown]);
+  }, [assistantScopeKey, storageKeyPrefix]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -293,11 +416,52 @@ export function TopicAssistant({
   const sendPrompt = async (prompt: string) => {
     const trimmedPrompt = prompt.trim();
 
-    if (!trimmedPrompt || isLoading) {
+    if (!trimmedPrompt || isLoading || !isSignedIn) {
       return;
     }
 
-    const remainingMs = refreshCooldown();
+    const lastSentAtStorageKey = getScopedStorageKey(
+      storageKeyPrefix,
+      LAST_SENT_AT_STORAGE_KEY
+    );
+    const cooldownMsStorageKey = getScopedStorageKey(
+      storageKeyPrefix,
+      COOLDOWN_MS_STORAGE_KEY
+    );
+    const remainingMs = (() => {
+      if (remoteAssistantPreferencesEnabled) {
+        const lastSentAt = Number(
+          assistantPreferences.lastSentAt?.[assistantScopeKey] ?? 0
+        );
+        const cooldownMs = Number(
+          assistantPreferences.cooldownMs?.[assistantScopeKey] ??
+            DEFAULT_COOLDOWN_MS
+        );
+
+        if (!lastSentAt || !cooldownMs) {
+          setCooldownRemainingMs(0);
+          return 0;
+        }
+
+        const nextRemainingMs = getCooldownRemainingMs(lastSentAt, cooldownMs);
+        setCooldownRemainingMs(nextRemainingMs);
+        return nextRemainingMs;
+      }
+
+      const lastSentAt = Number(localStorage.getItem(lastSentAtStorageKey) ?? 0);
+      const cooldownMs = Number(
+        localStorage.getItem(cooldownMsStorageKey) ?? DEFAULT_COOLDOWN_MS
+      );
+
+      if (!lastSentAt || !cooldownMs) {
+        setCooldownRemainingMs(0);
+        return 0;
+      }
+
+      const nextRemainingMs = getCooldownRemainingMs(lastSentAt, cooldownMs);
+      setCooldownRemainingMs(nextRemainingMs);
+      return nextRemainingMs;
+    })();
 
     if (remainingMs > 0) {
       setCooldownRemainingMs(remainingMs);
@@ -325,7 +489,41 @@ export function TopicAssistant({
     setMessages(nextMessages);
     setInput("");
     setIsLoading(true);
-    persistCooldown(Date.now(), DEFAULT_COOLDOWN_MS);
+    const now = Date.now();
+
+    if (remoteAssistantPreferencesEnabled) {
+      const nextAssistantState: AssistantPreferenceState = {
+        sessionIds: {
+          ...(assistantPreferences.sessionIds ?? {}),
+          [assistantScopeKey]: sessionId || crypto.randomUUID(),
+        },
+        lastSentAt: {
+          ...(assistantPreferences.lastSentAt ?? {}),
+          [assistantScopeKey]: now,
+        },
+        cooldownMs: {
+          ...(assistantPreferences.cooldownMs ?? {}),
+          [assistantScopeKey]: DEFAULT_COOLDOWN_MS,
+        },
+      };
+
+      setAssistantPreferences(nextAssistantState);
+      setCooldownRemainingMs(getCooldownRemainingMs(now, DEFAULT_COOLDOWN_MS));
+
+      void fetch("/api/user-preferences", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          assistantState: nextAssistantState,
+        }),
+      }).catch(() => {});
+    } else {
+      localStorage.setItem(lastSentAtStorageKey, String(now));
+      localStorage.setItem(cooldownMsStorageKey, String(DEFAULT_COOLDOWN_MS));
+      setCooldownRemainingMs(getCooldownRemainingMs(now, DEFAULT_COOLDOWN_MS));
+    }
 
     try {
       const response = await fetch("/api/topic-assistant", {
@@ -352,7 +550,45 @@ export function TopicAssistant({
           "The assistant could not respond right now. Please try again.";
 
         if (isRateLimitError(response.status, apiError)) {
-          persistCooldown(Date.now(), RATE_LIMIT_COOLDOWN_MS);
+          const rateLimitNow = Date.now();
+
+          if (remoteAssistantPreferencesEnabled) {
+            const nextAssistantState: AssistantPreferenceState = {
+              sessionIds: {
+                ...(assistantPreferences.sessionIds ?? {}),
+                [assistantScopeKey]: sessionId || crypto.randomUUID(),
+              },
+              lastSentAt: {
+                ...(assistantPreferences.lastSentAt ?? {}),
+                [assistantScopeKey]: rateLimitNow,
+              },
+              cooldownMs: {
+                ...(assistantPreferences.cooldownMs ?? {}),
+                [assistantScopeKey]: RATE_LIMIT_COOLDOWN_MS,
+              },
+            };
+
+            setAssistantPreferences(nextAssistantState);
+            void fetch("/api/user-preferences", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                assistantState: nextAssistantState,
+              }),
+            }).catch(() => {});
+          } else {
+            localStorage.setItem(lastSentAtStorageKey, String(rateLimitNow));
+            localStorage.setItem(
+              cooldownMsStorageKey,
+              String(RATE_LIMIT_COOLDOWN_MS)
+            );
+          }
+
+          setCooldownRemainingMs(
+            getCooldownRemainingMs(rateLimitNow, RATE_LIMIT_COOLDOWN_MS)
+          );
           throw new Error("Too many requests. Please wait a few seconds 🙏");
         }
 
@@ -414,7 +650,7 @@ export function TopicAssistant({
                   <button
                     key={action}
                     type="button"
-                    disabled={isLoading || cooldownRemainingMs > 0}
+                    disabled={!isSignedIn || isLoading || cooldownRemainingMs > 0}
                     onClick={() => void sendPrompt(action)}
                     className="rounded-full border border-border/80 bg-muted/20 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
                   >
@@ -422,6 +658,25 @@ export function TopicAssistant({
                   </button>
                 ))}
               </div>
+
+              {!isSignedIn ? (
+                <div className="rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm">
+                  <p className="font-medium text-foreground">
+                    Sign in to use AJet and keep your assistant access tied to your account.
+                  </p>
+                  <p className="mt-1 text-muted-foreground">
+                    The handbook content stays public. Only the AI assistant needs an account.
+                  </p>
+                  <div className="mt-3">
+                    <Link
+                      href="/sign-in"
+                      className="inline-flex h-10 items-center justify-center rounded-xl bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                    >
+                      Sign in for AJet
+                    </Link>
+                  </div>
+                </div>
+              ) : null}
 
               <ScrollArea className="min-h-0 flex-1 rounded-2xl border border-border/70 bg-muted/10">
                 <div className="space-y-3 p-4">
@@ -478,14 +733,20 @@ export function TopicAssistant({
                 <input
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
-                  placeholder={`Ask about ${topic.title}...`}
-                  disabled={isLoading}
+                  placeholder={
+                    isSignedIn
+                      ? `Ask about ${topic.title}...`
+                      : "Sign in to ask AJet questions..."
+                  }
+                  disabled={!isSignedIn || isLoading}
                   className="h-12 flex-1 rounded-xl border border-border bg-background px-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/40 disabled:cursor-not-allowed disabled:opacity-60"
                 />
                 <Button
                   type="submit"
                   className="h-12 min-w-[5.5rem] rounded-xl px-3 focus-visible:ring-0 focus-visible:ring-offset-0"
-                  disabled={isLoading || cooldownRemainingMs > 0 || !input.trim()}
+                  disabled={
+                    !isSignedIn || isLoading || cooldownRemainingMs > 0 || !input.trim()
+                  }
                 >
                   {isLoading ? (
                     <>
@@ -516,9 +777,73 @@ export function TopicAssistant({
           <span className="sm:mr-2.5">
             <AJetLauncherIcon />
           </span>
-          <span className="hidden sm:inline sm:text-[15px] sm:font-medium">Ask AJet</span>
+          <span className="hidden sm:inline sm:text-[15px] sm:font-medium">
+            {isSignedIn ? "Ask AJet" : "Unlock AJet"}
+          </span>
         </Button>
       </div>
     </>
   );
+}
+
+function TopicAssistantFallback({
+  topic,
+}: Readonly<Pick<TopicAssistantProps, "topic">>) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="flex h-[min(82vh,560px)] w-[min(92vw,640px)] max-w-[640px] flex-col gap-0 overflow-hidden rounded-[1.75rem] border-primary/20 bg-background/95 p-0 shadow-2xl outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 data-[state=open]:ring-0 supports-[backdrop-filter]:bg-background/90 sm:rounded-[2rem]">
+          <DialogHeader className="border-b border-border/70 px-6 pb-4 pt-6">
+            <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">
+              <AJetLauncherIcon />
+              AJet
+            </p>
+            <DialogTitle className="mt-2 text-xl">{topic.title}</DialogTitle>
+            <DialogDescription className="mt-1 text-sm">
+              Add your Clerk keys to enable authenticated AI study help.
+            </DialogDescription>
+          </DialogHeader>
+
+          <Card className="flex min-h-0 flex-1 flex-col border-0 shadow-none">
+            <CardContent className="flex min-h-0 flex-1 flex-col justify-center gap-4 p-6 text-sm">
+              <div className="rounded-2xl border border-primary/20 bg-primary/5 px-4 py-4">
+                <p className="font-medium text-foreground">
+                  Clerk is integrated, but it is not configured yet.
+                </p>
+                <p className="mt-2 text-muted-foreground">
+                  Set `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY`
+                  in your local environment, then restart the app to unlock AJet.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </DialogContent>
+      </Dialog>
+
+      <div className="fixed bottom-[calc(4rem+1rem)] right-4 z-50 flex justify-end sm:bottom-4 sm:right-4">
+        <Button
+          type="button"
+          onClick={() => setOpen((current) => !current)}
+          className="h-12 w-12 rounded-full px-0 shadow-[0_18px_45px_-20px_rgba(59,130,246,0.5)] sm:h-14 sm:w-auto sm:px-5"
+        >
+          <span className="sm:mr-2.5">
+            <AJetLauncherIcon />
+          </span>
+          <span className="hidden sm:inline sm:text-[15px] sm:font-medium">
+            Configure AJet
+          </span>
+        </Button>
+      </div>
+    </>
+  );
+}
+
+export function TopicAssistant(props: Readonly<TopicAssistantProps>) {
+  if (!clerkEnabled) {
+    return <TopicAssistantFallback topic={props.topic} />;
+  }
+
+  return <ClerkTopicAssistant {...props} />;
 }

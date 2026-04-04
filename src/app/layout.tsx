@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
+import { clerkAppearance } from "@/lib/clerk-theme";
 import { ThemeProvider } from "@/providers/ThemeProvider";
-import { Navbar } from "@/components/layout/Navbar";
-import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { MobileSidebarProvider } from "@/contexts/MobileSidebarContext";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { topicSearchIndex } from "@/lib/topic-search-index";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,12 +24,18 @@ export const metadata: Metadata = {
     "A comprehensive, beginner-friendly interview preparation handbook for software developers. Master DSA, JavaScript, and more.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
+  const clerkEnabled = Boolean(
+    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY
+  );
+
+  const appShell = (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)] antialiased`}
@@ -42,16 +47,27 @@ export default function RootLayout({
         >
           <TooltipProvider>
             <MobileSidebarProvider>
-              <div className="min-h-screen flex flex-col">
-                <Navbar searchIndex={topicSearchIndex} />
-                {/* pb-16 prevents content being hidden behind the fixed mobile bottom nav */}
-                <main className="flex-1 pb-16 lg:pb-0">{children}</main>
-                <MobileBottomNav />
-              </div>
+              {children}
             </MobileSidebarProvider>
           </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>
+  );
+
+  if (!clerkEnabled) {
+    return appShell;
+  }
+
+  return (
+    <ClerkProvider
+      appearance={clerkAppearance}
+      signInUrl="/sign-in"
+      signUpUrl="/sign-up"
+      signInForceRedirectUrl="/"
+      signUpForceRedirectUrl="/"
+    >
+      {appShell}
+    </ClerkProvider>
   );
 }

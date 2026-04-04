@@ -50,7 +50,27 @@ export interface CategoryInfo {
 export interface ProgressState {
   completedTopics: string[];
   lastVisited?: string;
+  activityLog?: string[];
 }
+
+export interface ProgressTopicSummary {
+  key: string;
+  sectionSlug: string;
+  topicId: string;
+  topicSlug: string;
+  title: string;
+  href: string;
+}
+
+export interface ProgressSectionSummary {
+  sectionSlug: string;
+  title: string;
+  href: string;
+  completedCount: number;
+  totalCount: number;
+}
+
+export type AppThemePreference = "light" | "dark" | "system";
 
 export interface TopicModule {
   id: string;

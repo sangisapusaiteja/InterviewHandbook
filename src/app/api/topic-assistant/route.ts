@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import type { Topic } from "@/types/topic";
 
 type AssistantMessage = {
@@ -133,8 +134,32 @@ function extractGeminiText(payload: unknown) {
 }
 
 export async function POST(request: Request) {
+  const clerkEnabled = Boolean(
+    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY
+  );
   const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY;
   const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash-lite";
+
+  if (!clerkEnabled) {
+    return NextResponse.json(
+      {
+        error:
+          "Clerk is not configured yet. Add your Clerk keys to enable AJet sign-in.",
+      },
+      { status: 503 }
+    );
+  }
+
+  const { userId } = await auth();
+
+  if (!userId) {
+    return NextResponse.json(
+      {
+        error: "Sign in to use AJet.",
+      },
+      { status: 401 }
+    );
+  }
 
   if (!apiKey) {
     return NextResponse.json(

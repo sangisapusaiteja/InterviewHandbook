@@ -173,6 +173,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  countCompletedTopicsForSection,
+  getSectionSlugFromBasePath,
+  getTopicProgressKey,
+} from "@/lib/progress";
 import { cn } from "@/lib/utils";
 import type { Topic, TopicModule } from "@/types/topic";
 import { useState, useEffect, useRef } from "react";
@@ -432,6 +437,7 @@ export function TopicSidebar({
   sidebarDescription = "Master data structures & algorithms",
 }: Readonly<TopicSidebarProps>) {
   const pathname = usePathname();
+  const sectionSlug = getSectionSlugFromBasePath(basePath);
   const { open: mobileOpen, setOpen: setMobileOpen } = useMobileSidebar();
   const [desktopCollapsed, setDesktopCollapsed] = useState(false);
 
@@ -514,7 +520,10 @@ export function TopicSidebar({
     });
   };
 
-  const completedCount = completedTopics.length;
+  const completedCount = countCompletedTopicsForSection(
+    completedTopics,
+    sectionSlug
+  );
   const progressPercent = Math.round((completedCount / topics.length) * 100);
   const iconOnly = !mobileOpen && desktopCollapsed;
 
@@ -622,7 +631,9 @@ export function TopicSidebar({
                       .map((id) => topicMap.get(id))
                       .filter(Boolean) as Topic[];
                     const moduleCompleted = moduleTopics.filter((t) =>
-                      completedTopics.includes(t.id)
+                      completedTopics.includes(
+                        getTopicProgressKey(sectionSlug, t.slug)
+                      )
                     ).length;
                     const allDone = moduleCompleted === moduleTopics.length && moduleTopics.length > 0;
                     const dotColor = DIFFICULTY_DOT[module.difficulty] ?? "bg-muted-foreground";
@@ -697,7 +708,9 @@ export function TopicSidebar({
                     const isExpanded = expandedModules.has(module.id);
                     const isEmpty = module.topicIds.length === 0;
                     const moduleCompleted = moduleTopics.filter((t) =>
-                      completedTopics.includes(t.id)
+                      completedTopics.includes(
+                        getTopicProgressKey(sectionSlug, t.slug)
+                      )
                     ).length;
                     const isActiveModule = module.id === activeModuleId;
                     const dotColor =
@@ -793,7 +806,12 @@ export function TopicSidebar({
                                   const isActive =
                                     pathname === `${basePath}/${topic.slug}`;
                                   const isCompleted =
-                                    completedTopics.includes(topic.id);
+                                    completedTopics.includes(
+                                      getTopicProgressKey(
+                                        sectionSlug,
+                                        topic.slug
+                                      )
+                                    );
 
                                   return (
                                     <Link
