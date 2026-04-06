@@ -5,10 +5,6 @@ import { dsaModules, dsaTopics } from "@/data/dsa";
 import { pythonModules, pythonTopics } from "@/data/python";
 import { postgresqlModules, postgresqlTopics } from "@/data/postgresql";
 import { systemDesignModules, systemDesignTopics } from "@/data/system-design";
-import {
-  pythonProblemModules,
-  pythonProblemTopics,
-} from "@/data/pythonproblems";
 
 type SearchableTopic = {
   id: string;
@@ -159,12 +155,5 @@ export const topicSearchIndex: TopicSearchItem[] = [
     basePath: "/system-design",
     topics: systemDesignTopics,
     modules: systemDesignModules,
-  }),
-  ...buildSectionIndex({
-    sectionId: "python-problems",
-    sectionTitle: "Python Practice Problems",
-    basePath: "/python-problems",
-    topics: pythonProblemTopics,
-    modules: pythonProblemModules,
   }),
 ];

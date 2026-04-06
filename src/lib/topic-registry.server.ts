@@ -5,7 +5,6 @@ import { htmlTopics } from "@/data/html";
 import { javascriptTopics } from "@/data/javascript";
 import { postgresqlTopics } from "@/data/postgresql";
 import { pythonTopics } from "@/data/python";
-import { pythonProblemTopics } from "@/data/pythonproblems";
 import { systemDesignTopics } from "@/data/system-design";
 import { getTopicProgressKey, parseTopicProgressKey } from "@/lib/progress";
 import type { ProgressSectionSummary, ProgressTopicSummary } from "@/types/topic";
@@ -53,12 +52,6 @@ const sectionDefinitions: SectionDefinition[] = [
     title: "Python",
     href: "/python",
     topics: pythonTopics,
-  },
-  {
-    sectionSlug: "python-problems",
-    title: "Python Problems",
-    href: "/python-problems",
-    topics: pythonProblemTopics,
   },
   {
     sectionSlug: "postgresql",
