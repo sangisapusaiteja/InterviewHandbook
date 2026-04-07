@@ -228,15 +228,10 @@ export function ProgressPage() {
 
   if (!isLoaded) {
     return (
-      <div className="min-h-[calc(100vh-3.5rem)] bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.08),transparent_28%),linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background))_100%)]">
-        <div className="container mx-auto px-4 py-8 md:py-10">
-          <Card className={analyticsCardClassName}>
-            <CardContent className="p-8">
-              <p className="text-sm text-muted-foreground">
+ <div className="flex items-center justify-center h-[calc(100vh-3.5rem)]">
+      <div className="animate-pulse text-muted-foreground">
                 Loading your database progress analytics...
-              </p>
-            </CardContent>
-          </Card>
+
         </div>
       </div>
     );
@@ -244,7 +239,7 @@ export function ProgressPage() {
 
   return (
     <div className="min-h-[calc(100vh-3.5rem)] bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.08),transparent_28%),linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background))_100%)]">
-      <div className="container mx-auto max-w-7xl px-3 py-5 sm:px-6 md:py-8 xl:px-8">
+      <div className="container mx-auto max-w-fit px-3 py-5 sm:px-6 md:py-8 xl:px-8">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -311,8 +306,8 @@ export function ProgressPage() {
         </div>
 
         <div className="mt-4 grid items-start gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.82fr)]">
-          <div className="grid min-w-0 gap-4">
-            <Card className={`self-start overflow-hidden rounded-[24px] ${analyticsCardClassName}`}>
+          <div className="grid min-w-0 gap-4 ">
+            <Card className={`self-start overflow-hidden rounded-[24px] ${analyticsCardClassName} h-[400px]`}>
               <CardHeader className="p-5 pb-4 sm:p-6 sm:pb-4">
                 <CardTitle className="flex items-center gap-2 text-xl">
                   <CalendarDays className="h-5 w-5 text-primary" />
@@ -323,14 +318,14 @@ export function ProgressPage() {
                 </p>
               </CardHeader>
               <CardContent className="space-y-4 p-4 pt-0 sm:p-6 sm:pt-0">
-                <div className="rounded-[20px] border border-border/70 bg-background/55 p-3 sm:p-4">
+                <div className="rounded-[20px] border border-border/70 bg-background/55 p-3 sm:p-3">
                   <div className="w-full overflow-x-auto pb-1">
                     <div className="hidden min-w-max sm:block">
-                      <div className="mb-2 flex gap-1.5 pl-6 text-[11px] font-medium text-muted-foreground/80">
+                      <div className="mb-2 flex gap-0.5 pl-5 text-[10px] font-medium text-muted-foreground/80 xl:gap-1 xl:pl-6 xl:text-[11px]">
                         {monthLabels.map((label, index) => (
                           <div
                             key={`${label || "month"}-${index}`}
-                            className="w-4 text-center"
+                            className="w-3.5 text-center xl:w-4"
                           >
                             {label}
                           </div>
@@ -338,28 +333,28 @@ export function ProgressPage() {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <div className="grid gap-1.5 pt-[1px] text-[11px] text-muted-foreground/70">
-                          <span className="h-4 leading-4">Mon</span>
-                          <span className="h-4 leading-4 opacity-0">Tue</span>
-                          <span className="h-4 leading-4">Wed</span>
-                          <span className="h-4 leading-4 opacity-0">Thu</span>
-                          <span className="h-4 leading-4">Fri</span>
-                          <span className="h-4 leading-4 opacity-0">Sat</span>
-                          <span className="h-4 leading-4 opacity-0">Sun</span>
+                        <div className="grid gap-1 pt-[1px] text-[10px] text-muted-foreground/70 xl:gap-1.5 xl:text-[11px]">
+                          <span className="h-3.5 leading-[14px] xl:h-4 xl:leading-4">Mon</span>
+                          <span className="h-3.5 leading-[14px] opacity-0 xl:h-4 xl:leading-4">Tue</span>
+                          <span className="h-3.5 leading-[14px] xl:h-4 xl:leading-4">Wed</span>
+                          <span className="h-3.5 leading-[14px] opacity-0 xl:h-4 xl:leading-4">Thu</span>
+                          <span className="h-3.5 leading-[14px] xl:h-4 xl:leading-4">Fri</span>
+                          <span className="h-3.5 leading-[14px] opacity-0 xl:h-4 xl:leading-4">Sat</span>
+                          <span className="h-3.5 leading-[14px] opacity-0 xl:h-4 xl:leading-4">Sun</span>
                         </div>
 
-                        <div className="flex gap-1.5">
+                        <div className="flex gap-0.5 xl:gap-1">
                           {heatmapWeeks.map((week, index) => (
                             <div
                               key={`${week[0]?.key ?? index}`}
-                              className="grid gap-1.5"
+                              className="grid gap-1 xl:gap-1.5"
                             >
                               {week.map((cell) => (
                                 <div
                                   key={cell.key}
                                   title={`${cell.count} activities on ${formatActivityDate(cell.key)}`}
                                   className={cn(
-                                    "h-4 w-4 rounded-[5px] border border-border/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] transition-transform hover:scale-110",
+                                    "h-3.5 w-3.5 rounded-[5px] border border-border/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] transition-transform hover:scale-110 xl:h-4 xl:w-4",
                                     getHeatmapIntensity(cell.count)
                                   )}
                                 />
@@ -486,7 +481,7 @@ export function ProgressPage() {
           </div>
 
           <div className="grid gap-5">
-            <Card className={`rounded-[24px] ${analyticsCardClassName}`}>
+            <Card className={`rounded-[24px] ${analyticsCardClassName} h-[400px] `}>
               <CardHeader className="p-5 pb-4 sm:p-6 sm:pb-4">
                 <CardTitle className="flex items-center gap-2 text-xl">
                   <Flame className="h-5 w-5 text-primary" />
@@ -517,7 +512,7 @@ export function ProgressPage() {
               </CardContent>
             </Card>
 
-            <Card className={`rounded-[24px] ${analyticsCardClassName}`}>
+            <Card className={`rounded-[24px] ${analyticsCardClassName} h-[400px]`}>
               <CardHeader className="p-5 pb-4 sm:p-6 sm:pb-4">
                 <CardTitle className="flex items-center gap-2 text-xl">
                   <Trophy className="h-5 w-5 text-primary" />

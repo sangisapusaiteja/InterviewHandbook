@@ -60,6 +60,7 @@ export function CustomUserMenu() {
   const { signOut } = useClerk();
   const router = useRouter();
   const { sessionId } = useAuth();
+  const [hasMounted, setHasMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<AccountTab>("profile");
@@ -73,6 +74,10 @@ export function CustomUserMenu() {
   }>({ open: false });
   const reverificationCompleteRef = useRef<(() => void) | null>(null);
   const reverificationCancelRef = useRef<(() => void) | null>(null);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!accountOpen || !user) {
@@ -142,6 +147,8 @@ export function CustomUserMenu() {
     return null;
   }
 
+  const shouldRenderUserImage = hasMounted && Boolean(user.imageUrl);
+
   return (
     <>
       <DropdownMenu.Root open={menuOpen} onOpenChange={setMenuOpen}>
@@ -151,7 +158,7 @@ export function CustomUserMenu() {
             aria-label="Open account menu"
             className="inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-background transition hover:border-primary/30 hover:bg-muted/50"
           >
-            {user.imageUrl ? (
+            {shouldRenderUserImage ? (
               // Clerk avatar URLs are remote and lightweight, so a plain img keeps this menu simple.
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -176,7 +183,7 @@ export function CustomUserMenu() {
             <div className="rounded-3xl border border-border/70 bg-card/70 p-3">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-muted/40">
-                  {user.imageUrl ? (
+                  {shouldRenderUserImage ? (
                     // Clerk avatar URLs are remote and lightweight, so a plain img keeps this menu simple.
                     // eslint-disable-next-line @next/next/no-img-element
                     <img

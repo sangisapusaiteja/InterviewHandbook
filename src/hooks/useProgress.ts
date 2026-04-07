@@ -186,7 +186,7 @@ function useScopedLocalProgress(storageKey: string) {
 }
 
 function useRemoteClerkProgress() {
-  const { user } = useUser();
+  const { user, isLoaded: isUserLoaded } = useUser();
   const hasWarmCache =
     remoteProgressCache.userId === user?.id && remoteProgressCache.isLoaded;
   const [progress, setProgress] = useState<ProgressState>(
@@ -250,6 +250,11 @@ function useRemoteClerkProgress() {
   }, [applyApiResponse, user?.id]);
 
   useEffect(() => {
+    if (!isUserLoaded) {
+      setIsLoaded(false);
+      return;
+    }
+
     if (!user?.id) {
       return;
     }
@@ -264,9 +269,13 @@ function useRemoteClerkProgress() {
     }
 
     setIsLoaded(false);
-  }, [user?.id]);
+  }, [isUserLoaded, user?.id]);
 
   useEffect(() => {
+    if (!isUserLoaded) {
+      return;
+    }
+
     if (!user?.id) {
       setProgress(defaultProgress);
       setSectionProgress(defaultSectionProgress);
@@ -299,7 +308,7 @@ function useRemoteClerkProgress() {
     return () => {
       cancelled = true;
     };
-  }, [refreshProgress, user?.id]);
+  }, [isUserLoaded, refreshProgress, user?.id]);
 
   const mutateRemoteProgress = useCallback(
     async (body: Record<string, unknown>) => {
