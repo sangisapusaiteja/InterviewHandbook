@@ -18,6 +18,7 @@ export const databaseProgressConfigured =
 
 const defaultProgress: ProgressState = {
   completedTopics: [],
+  bookmarkedTopics: [],
   lastVisited: undefined,
   activityLog: [],
 };
@@ -121,6 +122,26 @@ function useScopedLocalProgress(storageKey: string) {
     [storageKey]
   );
 
+  const toggleBookmark = useCallback(
+    (topicKey: string) => {
+      setProgress((prev) => {
+        const isBookmarked = prev.bookmarkedTopics.includes(topicKey);
+        const bookmarkedTopics = isBookmarked
+          ? prev.bookmarkedTopics.filter((id) => id !== topicKey)
+          : [...prev.bookmarkedTopics, topicKey];
+        const next = { ...prev, bookmarkedTopics };
+        persistToStorageWithKey(storageKey, next);
+        return next;
+      });
+    },
+    [storageKey]
+  );
+
+  const isBookmarked = useCallback(
+    (topicKey: string) => progress.bookmarkedTopics.includes(topicKey),
+    [progress.bookmarkedTopics]
+  );
+
   const markTopicComplete = useCallback(
     (topicKey: string) => {
       setProgress((prev) => {
@@ -180,6 +201,8 @@ function useScopedLocalProgress(storageKey: string) {
     markTopicComplete,
     setLastVisited,
     isTopicComplete,
+    toggleBookmark,
+    isBookmarked,
     resetProgress,
     refreshProgress: async () => {},
   };
@@ -436,6 +459,8 @@ function useRemoteClerkProgress() {
     markTopicComplete,
     setLastVisited,
     isTopicComplete,
+    toggleBookmark: () => {},
+    isBookmarked: () => false,
     resetProgress,
     refreshProgress,
   };
@@ -459,6 +484,8 @@ function useUnavailableDatabaseProgress() {
     markTopicComplete: () => {},
     setLastVisited: () => {},
     isTopicComplete,
+    toggleBookmark: () => {},
+    isBookmarked: () => false,
     resetProgress: () => {},
     refreshProgress: async () => {},
   };

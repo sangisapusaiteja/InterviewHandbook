@@ -8,6 +8,7 @@ import {
   Circle,
   ChevronLeft,
   ChevronRight,
+  Bookmark,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +35,8 @@ export default function JavaScriptTopicPage() {
     progress,
     isLoaded,
     toggleTopicComplete,
+    toggleBookmark,
+    isBookmarked,
     setLastVisited,
     isTopicComplete,
   } = useProgress();
@@ -72,6 +75,8 @@ export default function JavaScriptTopicPage() {
 
   const completed =
     topicProgressKey && isLoaded ? isTopicComplete(topicProgressKey) : false;
+  const bookmarked =
+    topicProgressKey && isLoaded ? isBookmarked(topicProgressKey) : false;
 
   return (
     <div className="flex">
@@ -118,26 +123,39 @@ export default function JavaScriptTopicPage() {
                 </p>
               </div>
 
-              <Button
-                variant={completed ? "default" : "outline"}
-                size="sm"
-                onClick={() =>
-                  topicProgressKey && toggleTopicComplete(topicProgressKey)
-                }
-                className="shrink-0"
-              >
-                {completed ? (
-                  <>
-                    <CheckCircle2 className="h-4 w-4 mr-1.5" />
-                    Completed
-                  </>
-                ) : (
-                  <>
-                    <Circle className="h-4 w-4 mr-1.5" />
-                    Mark Complete
-                  </>
-                )}
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant={bookmarked ? "default" : "outline"}
+                  size="sm"
+                  onClick={() =>
+                    topicProgressKey && toggleBookmark(topicProgressKey)
+                  }
+                  className="shrink-0"
+                >
+                  <Bookmark className={`h-4 w-4 mr-1.5 ${bookmarked ? "fill-current" : ""}`} />
+                  {bookmarked ? "Saved" : "Save"}
+                </Button>
+                <Button
+                  variant={completed ? "default" : "outline"}
+                  size="sm"
+                  onClick={() =>
+                    topicProgressKey && toggleTopicComplete(topicProgressKey)
+                  }
+                  className="shrink-0"
+                >
+                  {completed ? (
+                    <>
+                      <CheckCircle2 className="h-4 w-4 mr-1.5" />
+                      Completed
+                    </>
+                  ) : (
+                    <>
+                      <Circle className="h-4 w-4 mr-1.5" />
+                      Mark Complete
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
 
             <Separator className="mt-4" />
