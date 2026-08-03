@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   Lightbulb,
@@ -9,6 +10,8 @@ import {
   AlertTriangle,
   CheckCircle2,
   XCircle,
+  Search,
+  X,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -211,7 +214,18 @@ function renderSectionContent(content: string) {
 }
 
 export function ConceptSection({ topic }: ConceptSectionProps) {
+  const [searchQuery, setSearchQuery] = useState("");
   const sections = parseSections(topic.concept.explanation);
+
+  const filteredSections = useMemo(() => {
+    if (!searchQuery.trim()) return sections;
+    const q = searchQuery.toLowerCase();
+    return sections.filter((s) => {
+      if (s.type === "code") return s.content.toLowerCase().includes(q);
+      if (s.type === "table") return s.content.toLowerCase().includes(q);
+      return s.title.toLowerCase().includes(q) || s.content.toLowerCase().includes(q);
+    });
+  }, [sections, searchQuery]);
 
   return (
     <motion.div
@@ -220,6 +234,26 @@ export function ConceptSection({ topic }: ConceptSectionProps) {
       animate="show"
       className="space-y-6"
     >
+      {/* Search within topic */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search within this topic..."
+          className="w-full h-10 pl-9 pr-8 rounded-xl border bg-background text-sm outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+        />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery("")}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+
       {/* Explanation */}
       <motion.div variants={item}>
         <Card>
@@ -230,7 +264,12 @@ export function ConceptSection({ topic }: ConceptSectionProps) {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {sections.map((section, i) => {
+            {filteredSections.length === 0 && searchQuery.trim() && (
+              <p className="text-sm text-muted-foreground text-center py-8">
+                No results found for &ldquo;{searchQuery}&rdquo;
+              </p>
+            )}
+            {filteredSections.map((section, i) => {
               if (section.type === "code") {
                 return <div key={i}>{renderCodeBlock(section.content)}</div>;
               }
