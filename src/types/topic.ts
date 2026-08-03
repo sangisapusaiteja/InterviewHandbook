@@ -50,7 +50,6 @@ export interface CategoryInfo {
 
 export interface ProgressState {
   completedTopics: string[];
-  bookmarkedTopics: string[];
   lastVisited?: string;
   activityLog?: string[];
 }
