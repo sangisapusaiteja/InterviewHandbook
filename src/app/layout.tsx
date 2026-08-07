@@ -22,6 +22,9 @@ export const metadata: Metadata = {
   title: "Interview Handbook",
   description:
     "A comprehensive, beginner-friendly interview preparation handbook for software developers. Master DSA, JavaScript, and more.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export const dynamic = "force-dynamic";
