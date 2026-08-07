@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { TopicSidebar } from "@/components/layout/TopicSidebar";
 import { ConceptSection } from "@/components/dsa/ConceptSection";
+import { QuizSection } from "@/components/dsa/QuizSection";
 import { CodeEditorSection } from "@/components/dsa/CodeEditorSection";
 import { technicalTopics, technicalModules } from "@/data/technical";
 import { useProgress } from "@/hooks/useProgress";
@@ -148,6 +149,9 @@ export default function TechnicalQuestionTopicPage() {
               <TabsTrigger value="concept" className="flex-1 text-xs sm:flex-none sm:text-sm">
                 Concept
               </TabsTrigger>
+              <TabsTrigger value="quiz" className="flex-1 text-xs sm:flex-none sm:text-sm">
+                Quiz
+              </TabsTrigger>
               <TabsTrigger value="code" className="flex-1 text-xs sm:flex-none sm:text-sm">
                 Code Editor
               </TabsTrigger>
@@ -155,6 +159,10 @@ export default function TechnicalQuestionTopicPage() {
 
             <TabsContent value="concept">
               <ConceptSection topic={topic} />
+            </TabsContent>
+
+            <TabsContent value="quiz">
+              <QuizSection topic={topic} />
             </TabsContent>
 
             <TabsContent value="code">

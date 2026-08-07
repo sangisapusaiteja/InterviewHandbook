@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { TopicSidebar } from "@/components/layout/TopicSidebar";
 import { ConceptSection } from "@/components/dsa/ConceptSection";
+import { QuizSection } from "@/components/dsa/QuizSection";
 import { SystemDesignChecklistSection } from "@/components/system-design/SystemDesignChecklistSection";
 import { SystemDesignVisualizationSection } from "@/components/system-design/SystemDesignVisualizationSection";
 import { systemDesignTopics, systemDesignModules } from "@/data/system-design";
@@ -152,6 +153,9 @@ export default function SystemDesignTopicPage() {
               <TabsTrigger value="visualization" className="flex-1 text-xs sm:flex-none sm:text-sm">
                 Visualization
               </TabsTrigger>
+              <TabsTrigger value="quiz" className="flex-1 text-xs sm:flex-none sm:text-sm">
+                Quiz
+              </TabsTrigger>
               <TabsTrigger value="checklist" className="flex-1 text-xs sm:flex-none sm:text-sm">
                 Design Checklist
               </TabsTrigger>
@@ -166,6 +170,10 @@ export default function SystemDesignTopicPage() {
                 topic={topic}
                 modules={systemDesignModules}
               />
+            </TabsContent>
+
+            <TabsContent value="quiz">
+              <QuizSection topic={topic} />
             </TabsContent>
 
             <TabsContent value="checklist">

@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { TopicSidebar } from "@/components/layout/TopicSidebar";
 import { ConceptSection } from "@/components/dsa/ConceptSection";
+import { QuizSection } from "@/components/dsa/QuizSection";
 import { HTMLPreviewSection } from "@/components/html/HTMLPreviewSection";
 import { CSSVisualizationSection } from "@/components/css/CSSVisualizationSection";
 import { cssTopics, cssModules } from "@/data/css";
@@ -152,6 +153,9 @@ export default function CSSTopicPage() {
               <TabsTrigger value="visualization" className="flex-1 text-xs sm:flex-none sm:text-sm">
                 Visualization
               </TabsTrigger>
+              <TabsTrigger value="quiz" className="flex-1 text-xs sm:flex-none sm:text-sm">
+                Quiz
+              </TabsTrigger>
               <TabsTrigger value="code" className="flex-1 text-xs sm:flex-none sm:text-sm">
                 Code Editor
               </TabsTrigger>
@@ -163,6 +167,10 @@ export default function CSSTopicPage() {
 
             <TabsContent value="visualization">
               <CSSVisualizationSection topicSlug={topicSlug} />
+            </TabsContent>
+
+            <TabsContent value="quiz">
+              <QuizSection topic={topic} />
             </TabsContent>
 
             <TabsContent value="code">
