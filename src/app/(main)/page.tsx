@@ -1,16 +1,12 @@
-import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { DashboardPage } from "@/components/home/DashboardPage";
+import { authServerEnabled, getCurrentUser } from "@/lib/auth-server";
 
 export default async function HomePage() {
-  const clerkEnabled = Boolean(
-    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY
-  );
+  if (authServerEnabled) {
+    const user = await getCurrentUser();
 
-  if (clerkEnabled) {
-    const { userId } = await auth();
-
-    if (!userId) {
+    if (!user) {
       redirect("/sign-in");
     }
   }

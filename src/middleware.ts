@@ -1,26 +1,30 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
-const isPublicRoute = createRouteMatcher([
-  "/sign-in(.*)",
-  "/sign-up(.*)",
-  "/sso-callback(.*)",
-]);
-const clerkEnabled = Boolean(
-  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY
-);
+const SESSION_COOKIE_NAME = "ih_session";
 
-const clerkHandler = clerkMiddleware(async (auth, req) => {
-  if (clerkEnabled && !isPublicRoute(req)) {
-    await auth.protect();
+const isPublicRoute = (pathname: string) =>
+  pathname.startsWith("/sign-in") ||
+  pathname.startsWith("/sign-up") ||
+  pathname.startsWith("/api/auth");
+
+export default function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  if (isPublicRoute(pathname)) {
+    return NextResponse.next();
   }
-});
 
-export default clerkEnabled
-  ? clerkHandler
-  : function middleware() {
-      return NextResponse.next();
-    };
+  const hasSession = Boolean(request.cookies.get(SESSION_COOKIE_NAME)?.value);
+
+  if (!hasSession) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/sign-in";
+    url.search = "";
+    return NextResponse.redirect(url);
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: [

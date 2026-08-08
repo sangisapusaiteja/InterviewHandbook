@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
+import { useAuth } from "@/contexts/AuthContext";
 import { categories } from "@/data/categories";
 import { countCompletedTopicsForSection, recordProgressActivity } from "@/lib/progress";
 import type {
@@ -11,10 +11,8 @@ import type {
 } from "@/types/topic";
 
 const STORAGE_KEY = "interview-handbook-progress";
-const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 const remoteProgressEnabled = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL);
-export const databaseProgressConfigured =
-  clerkEnabled && remoteProgressEnabled;
+export const databaseProgressConfigured = remoteProgressEnabled;
 
 const defaultProgress: ProgressState = {
   completedTopics: [],
@@ -186,7 +184,7 @@ function useScopedLocalProgress(storageKey: string) {
 }
 
 function useRemoteClerkProgress() {
-  const { user, isLoaded: isUserLoaded } = useUser();
+  const { user, isLoaded: isUserLoaded } = useAuth();
   const hasWarmCache =
     remoteProgressCache.userId === user?.id && remoteProgressCache.isLoaded;
   const [progress, setProgress] = useState<ProgressState>(

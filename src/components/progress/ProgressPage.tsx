@@ -217,7 +217,7 @@ export function ProgressPage() {
               </h1>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
                 This page only uses progress saved in the database. Configure
-                Clerk and Supabase progress syncing to view analytics here.
+                Supabase progress syncing to view analytics here.
               </p>
             </CardContent>
           </Card>

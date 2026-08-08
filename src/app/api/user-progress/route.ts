@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 import {
   buildSectionProgress,
   getTopicEntryByProgressKey,
   normalizeProgressKey,
 } from "@/lib/topic-registry.server";
 import { supabaseAdminRequest, supabaseServerEnabled } from "@/lib/supabase-rest";
+import { getCurrentUser } from "@/lib/auth-server";
 import type {
   ProgressSectionSummary,
   ProgressState,
@@ -13,7 +13,7 @@ import type {
 } from "@/types/topic";
 
 type ProgressRow = {
-  clerk_user_id: string;
+  user_id: string;
   section_slug: string;
   topic_slug: string;
   topic_id: string;
@@ -87,14 +87,14 @@ async function getUserProgressRows(userId: string) {
   return supabaseAdminRequest<ProgressRow[]>("user_topic_progress", {
     query: {
       select:
-        "clerk_user_id,section_slug,topic_slug,topic_id,completed,completed_at,last_opened_at,created_at,updated_at",
-      clerk_user_id: `eq.${userId}`,
+        "user_id,section_slug,topic_slug,topic_id,completed,completed_at,last_opened_at,created_at,updated_at",
+      user_id: `eq.${userId}`,
       order: "updated_at.desc",
     },
   });
 }
 
-async function upsertProgressRow(row: Partial<ProgressRow> & Pick<ProgressRow, "clerk_user_id" | "section_slug" | "topic_slug" | "topic_id">) {
+async function upsertProgressRow(row: Partial<ProgressRow> & Pick<ProgressRow, "user_id" | "section_slug" | "topic_slug" | "topic_id">) {
   return supabaseAdminRequest<ProgressRow[]>("user_topic_progress", {
     method: "POST",
     prefer: "resolution=merge-duplicates,return=representation",
@@ -122,9 +122,9 @@ function requireConfiguredSupabase() {
 }
 
 async function requireUser() {
-  const { userId } = await auth();
+  const user = await getCurrentUser();
 
-  if (!userId) {
+  if (!user) {
     return {
       userId: null,
       response: NextResponse.json(
@@ -135,7 +135,7 @@ async function requireUser() {
   }
 
   return {
-    userId,
+    userId: user.id,
     response: undefined,
   };
 }
@@ -189,7 +189,7 @@ export async function POST(request: Request) {
       await supabaseAdminRequest("user_topic_progress", {
         method: "DELETE",
         query: {
-          clerk_user_id: `eq.${userId}`,
+          user_id: `eq.${userId}`,
         },
       });
     }
@@ -207,7 +207,7 @@ export async function POST(request: Request) {
       const now = new Date().toISOString();
 
       await upsertProgressRow({
-        clerk_user_id: userId,
+        user_id: userId,
         section_slug: topicEntry.sectionSlug,
         topic_slug: topicEntry.topicSlug,
         topic_id: topicEntry.topicId,
@@ -244,7 +244,7 @@ export async function POST(request: Request) {
         }
 
         await upsertProgressRow({
-          clerk_user_id: userId,
+          user_id: userId,
           section_slug: topicEntry.sectionSlug,
           topic_slug: topicEntry.topicSlug,
           topic_id: topicEntry.topicId,
@@ -258,7 +258,7 @@ export async function POST(request: Request) {
 
         if (topicEntry) {
           await upsertProgressRow({
-            clerk_user_id: userId,
+            user_id: userId,
             section_slug: topicEntry.sectionSlug,
             topic_slug: topicEntry.topicSlug,
             topic_id: topicEntry.topicId,

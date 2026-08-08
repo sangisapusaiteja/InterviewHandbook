@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 import { isSupportedThemePreference } from "@/lib/progress";
 import { supabaseAdminRequest, supabaseServerEnabled } from "@/lib/supabase-rest";
+import { getCurrentUser } from "@/lib/auth-server";
 import type { AppThemePreference } from "@/types/topic";
 
 type PreferenceRow = {
-  clerk_user_id: string;
+  user_id: string;
   app_theme: AppThemePreference;
   pinned_topic_hrefs: string[];
   recent_queries: string[];
@@ -30,9 +30,9 @@ function requireConfiguredSupabase() {
 }
 
 async function requireUser() {
-  const { userId } = await auth();
+  const user = await getCurrentUser();
 
-  if (!userId) {
+  if (!user) {
     return {
       userId: null,
       response: NextResponse.json(
@@ -42,7 +42,7 @@ async function requireUser() {
     };
   }
 
-  return { userId, response: undefined };
+  return { userId: user.id, response: undefined };
 }
 
 export async function GET() {
@@ -60,8 +60,8 @@ export async function GET() {
     const rows = await supabaseAdminRequest<PreferenceRow[]>("user_preferences", {
       query: {
         select:
-          "clerk_user_id,app_theme,pinned_topic_hrefs,recent_queries,recent_topic_hrefs,assistant_state,created_at,updated_at",
-        clerk_user_id: `eq.${userId}`,
+          "user_id,app_theme,pinned_topic_hrefs,recent_queries,recent_topic_hrefs,assistant_state,created_at,updated_at",
+        user_id: `eq.${userId}`,
         limit: "1",
       },
     });
@@ -183,8 +183,8 @@ export async function POST(request: Request) {
     const existingRows = await supabaseAdminRequest<PreferenceRow[]>("user_preferences", {
       query: {
         select:
-          "clerk_user_id,app_theme,pinned_topic_hrefs,recent_queries,recent_topic_hrefs,assistant_state,created_at,updated_at",
-        clerk_user_id: `eq.${userId}`,
+          "user_id,app_theme,pinned_topic_hrefs,recent_queries,recent_topic_hrefs,assistant_state,created_at,updated_at",
+        user_id: `eq.${userId}`,
         limit: "1",
       },
     });
@@ -195,7 +195,7 @@ export async function POST(request: Request) {
       prefer: "resolution=merge-duplicates,return=representation",
       body: [
         {
-          clerk_user_id: userId,
+          user_id: userId,
           app_theme: body.appTheme ?? existing?.app_theme ?? "system",
           pinned_topic_hrefs:
             body.pinnedTopicHrefs ?? existing?.pinned_topic_hrefs ?? [],

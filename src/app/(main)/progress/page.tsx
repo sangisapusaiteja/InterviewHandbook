@@ -1,16 +1,12 @@
-import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { ProgressPage } from "@/components/progress/ProgressPage";
+import { authServerEnabled, getCurrentUser } from "@/lib/auth-server";
 
 export default async function UserProgressPage() {
-  const clerkEnabled = Boolean(
-    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY
-  );
+  if (authServerEnabled) {
+    const user = await getCurrentUser();
 
-  if (clerkEnabled) {
-    const { userId } = await auth();
-
-    if (!userId) {
+    if (!user) {
       redirect("/sign-in");
     }
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
+import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -39,7 +39,7 @@ type TopicAssistantProps = {
   sectionTitle: string;
 };
 
-const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL);
 
 const quickActions = [
   "Explain this simply with an example",
@@ -55,8 +55,7 @@ const SESSION_STORAGE_KEY = "ajet-session-id";
 const LAST_SENT_AT_STORAGE_KEY = "ajet-last-sent-at";
 const COOLDOWN_MS_STORAGE_KEY = "ajet-cooldown-ms";
 const remoteAssistantPreferencesEnabled = Boolean(
-  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
-    process.env.NEXT_PUBLIC_SUPABASE_URL
+  process.env.NEXT_PUBLIC_SUPABASE_URL
 );
 
 function getScopedStorageKey(prefix: string, key: string) {
@@ -214,7 +213,7 @@ function ClerkTopicAssistant({
   topic,
   sectionTitle,
 }: Readonly<TopicAssistantProps>) {
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn, user } = useAuth();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -802,7 +801,7 @@ function TopicAssistantFallback({
             </p>
             <DialogTitle className="mt-2 text-xl">{topic.title}</DialogTitle>
             <DialogDescription className="mt-1 text-sm">
-              Add your Clerk keys to enable authenticated AI study help.
+              Add your Supabase keys to enable authenticated AI study help.
             </DialogDescription>
           </DialogHeader>
 
@@ -810,10 +809,10 @@ function TopicAssistantFallback({
             <CardContent className="flex min-h-0 flex-1 flex-col justify-center gap-4 p-6 text-sm">
               <div className="rounded-2xl border border-primary/20 bg-primary/5 px-4 py-4">
                 <p className="font-medium text-foreground">
-                  Clerk is integrated, but it is not configured yet.
+                  Supabase is integrated, but it is not configured yet.
                 </p>
                 <p className="mt-2 text-muted-foreground">
-                  Set `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY`
+                  Set `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`
                   in your local environment, then restart the app to unlock AJet.
                 </p>
               </div>

@@ -2,77 +2,36 @@
 
 import { FormEvent, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { useSignIn } from "@clerk/nextjs";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   AuthCard,
-  AuthDivider,
   AuthError,
   AuthField,
   AuthFooterLink,
-  AuthSocialButton,
   AuthSubmitButton,
-  getClerkErrorMessage,
 } from "@/components/auth/CustomAuthShared";
 
 export function CustomSignInForm() {
   const router = useRouter();
-  const { isLoaded, signIn, setActive } = useSignIn();
-  const [emailAddress, setEmailAddress] = useState("");
+  const { signIn } = useAuth();
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const handleGoogleSignIn = async () => {
-    if (!isLoaded) {
-      return;
-    }
-
-    setError(null);
-
-    try {
-      await signIn.authenticateWithRedirect({
-        strategy: "oauth_google",
-        redirectUrl: "/sso-callback",
-        redirectUrlComplete: "/",
-      });
-    } catch (err) {
-      setError(
-        getClerkErrorMessage(
-          err,
-          "Google sign-in could not be started. Please try again."
-        )
-      );
-    }
-  };
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    if (!isLoaded) {
-      return;
-    }
-
     setError(null);
 
     try {
-      const result = await signIn.create({
-        identifier: emailAddress,
-        password,
-      });
-
-      if (result.status !== "complete") {
-        setError("Additional sign-in steps are required for this account.");
-        return;
-      }
-
-      await setActive({ session: result.createdSessionId });
+      await signIn(username.trim(), password);
       startTransition(() => {
         router.push("/");
         router.refresh();
       });
     } catch (err) {
       setError(
-        getClerkErrorMessage(err, "We couldn't sign you in. Please try again.")
+        err instanceof Error ? err.message : "We couldn't sign you in. Please try again."
       );
     }
   };
@@ -80,22 +39,18 @@ export function CustomSignInForm() {
   return (
     <AuthCard
       title="Welcome back to Interview Handbook"
-      subtitle="Sign in with your email and password to continue your prep."
+      subtitle="Sign in with your username and password to continue your prep."
     >
       <form className="space-y-5" onSubmit={handleSubmit}>
         <AuthError message={error} />
-        <AuthSocialButton onClick={handleGoogleSignIn} disabled={!isLoaded || isPending}>
-          Continue with Google
-        </AuthSocialButton>
-        <AuthDivider label="or" />
         <AuthField
-          label="Email"
-          type="email"
-          value={emailAddress}
-          onChange={setEmailAddress}
-          autoComplete="email"
-          placeholder="you@example.com"
-          disabled={!isLoaded || isPending}
+          label="Username"
+          type="text"
+          value={username}
+          onChange={setUsername}
+          autoComplete="username"
+          placeholder="your_username"
+          disabled={isPending}
         />
         <AuthField
           label="Password"
@@ -104,9 +59,9 @@ export function CustomSignInForm() {
           onChange={setPassword}
           autoComplete="current-password"
           placeholder="Enter your password"
-          disabled={!isLoaded || isPending}
+          disabled={isPending}
         />
-        <AuthSubmitButton loading={isPending} disabled={!isLoaded}>
+        <AuthSubmitButton loading={isPending} disabled={!username || !password}>
           Sign in
         </AuthSubmitButton>
         <AuthFooterLink

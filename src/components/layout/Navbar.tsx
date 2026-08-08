@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  SignedIn,
-  SignedOut,
-} from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -21,6 +17,7 @@ import {
 import { ThemeToggle } from "./ThemeToggle";
 import { GlobalTopicSearch } from "./GlobalTopicSearch";
 import { CustomUserMenu } from "./CustomUserMenu";
+import { useAuth } from "@/contexts/AuthContext";
 import { categories } from "@/data/categories";
 import { cn } from "@/lib/utils";
 import type { TopicSearchItem } from "@/lib/topic-search-index";
@@ -28,8 +25,6 @@ import type { TopicSearchItem } from "@/lib/topic-search-index";
 interface NavbarProps {
   searchIndex: TopicSearchItem[];
 }
-
-const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   FileCode,
@@ -43,24 +38,23 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 function NavbarAuthControls() {
-  if (!clerkEnabled) {
+  const { isSignedIn, isLoaded } = useAuth();
+
+  if (!isLoaded) {
     return null;
   }
 
+  if (isSignedIn) {
+    return <CustomUserMenu />;
+  }
+
   return (
-    <>
-      <SignedOut>
-        <Link
-          href="/sign-in"
-          className="inline-flex h-9 items-center justify-center rounded-md border border-border bg-background px-3 text-sm font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
-        >
-          Sign in
-        </Link>
-      </SignedOut>
-      <SignedIn>
-        <CustomUserMenu />
-      </SignedIn>
-    </>
+    <Link
+      href="/sign-in"
+      className="inline-flex h-9 items-center justify-center rounded-md border border-border bg-background px-3 text-sm font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+    >
+      Sign in
+    </Link>
   );
 }
 

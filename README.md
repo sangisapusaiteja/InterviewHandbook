@@ -24,13 +24,15 @@
 
 ## Features
 
-- **400+ Topics** across 9 categories — HTML, CSS, JavaScript, DSA, Python, PostgreSQL, React, System Design, and Technical Questions
+- **500+ Topics** across 9 categories — HTML, CSS, JavaScript, DSA, Python, PostgreSQL, React, System Design, and Technical Questions
 - **Interactive Visualizations** — Step-by-step animated walkthroughs for algorithms (Two Sum, Dijkstra, Flood Fill, Merge Sort, and 60+ more)
 - **Built-in Code Editor** — Monaco-powered editor with syntax highlighting to write and run code
 - **PostgreSQL Sandbox** — Run SQL queries directly in the browser with PGLite
 - **Progress Tracking** — Mark topics as complete and monitor your learning journey
+- **Progress Analytics** — Streaks, activity heatmap, and badges on the progress dashboard
 - **Dark / Light Mode** — Seamless theme switching with next-themes
-- **AI Topic Assistant** — Ask questions and get explanations for any topic
+- **AI Topic Assistant (AJet)** — Ask questions and get explanations for any topic
+- **Username + Password Accounts** — Custom auth backed by Supabase (no third-party provider)
 - **Responsive Design** — Optimized for desktop and mobile devices
 - **LeetCode Integration** — Direct links to practice problems for each DSA topic
 
@@ -38,15 +40,15 @@
 
 | Category | Topics | What You'll Learn |
 |----------|-------|-------------------|
-| **HTML** | 72 | Semantic HTML, accessibility (ARIA), forms, HTML5 APIs, SEO meta tags |
-| **CSS** | 68 | Flexbox, Grid, animations, responsive design, specificity, custom properties |
+| **HTML** | 49 | Semantic HTML, accessibility (ARIA), forms, HTML5 APIs, SEO meta tags |
+| **CSS** | 52 | Flexbox, Grid, animations, responsive design, specificity, custom properties |
 | **JavaScript** | 80 | Closures, prototypes, event loop, async/await, promises, ES6+, DOM, Web APIs |
 | **DSA (JavaScript)** | 64 | Arrays, linked lists, stacks, queues, trees, graphs, sorting, searching, DP |
-| **Python** | 78 | Data structures, OOP, decorators, generators, file I/O, standard library |
+| **Python** | 98 | Data structures, OOP, decorators, generators, file I/O, standard library |
 | **PostgreSQL** | 76 | Queries, joins, indexes, normalization, transactions, window functions, CTEs |
-| **React** | 15 | Components, state, props, hooks, context, custom hooks, performance |
-| **System Design** | — | Design principles, scalability, databases, caching, load balancing |
-| **Technical Questions** | — | Framework-specific Q&A (Next.js, Node.js, general engineering) |
+| **React** | 18 | Components, state, props, hooks, context, custom hooks, performance |
+| **System Design** | 52 | Design principles, scalability, databases, caching, load balancing |
+| **Technical Questions** | 12 | Framework-specific Q&A (JavaScript, React, TypeScript, Next.js) |
 
 Each topic includes:
 - Clear concept explanations with real-life analogies
@@ -66,7 +68,7 @@ Each topic includes:
 | [Lucide React](https://lucide.dev/) | Icons |
 | [Monaco Editor](https://microsoft.github.io/monaco-editor/) | Code editor |
 | [PGLite](https://pglite.dev/) | In-browser PostgreSQL |
-| [Clerk](https://clerk.com/) | Authentication |
+| [Supabase](https://supabase.com/) | Accounts, progress sync & preferences |
 | [next-themes](https://github.com/pacocoursey/next-themes) | Theme switching |
 | [Vitest](https://vitest.dev/) | Testing |
 
@@ -74,8 +76,9 @@ Each topic includes:
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm, yarn, or pnpm
+- A [Supabase](https://supabase.com/) project (for accounts, progress sync, and preferences)
 
 ### Installation
 
@@ -84,6 +87,25 @@ git clone https://github.com/sangisapusaiteja/InterviewHandbook.git
 cd InterviewHandbook
 npm install
 ```
+
+### Environment Setup
+
+Copy `.env.example` to `.env.local` and fill in your values:
+
+```bash
+cp .env.example .env.local
+```
+
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | Your Supabase service role key (server-side only) |
+| `GEMINI_API_KEY` | Google AI Studio key for the AJet assistant |
+| `GEMINI_MODEL` | Optional — defaults to `gemini-2.5-flash-lite` |
+
+### Database Setup
+
+Run the SQL in [`supabase/schema.sql`](./supabase/schema.sql) in the Supabase SQL Editor. This creates the `auth_users`, `auth_sessions`, `user_topic_progress`, and `user_preferences` tables.
 
 ### Development
 
@@ -113,23 +135,23 @@ src/
 ├── app/                      # Next.js App Router pages
 │   ├── (auth)/               # Sign-in / Sign-up
 │   ├── (main)/               # Main app pages (all categories)
-│   └── api/                  # API routes (progress, preferences, assistant)
+│   └── api/                  # API routes (auth, progress, preferences, assistant)
 ├── components/               # React components
-│   ├── css/visualizations/   # 68 CSS interactive visualizations
-│   ├── dsa/visualizations/   # 67 DSA algorithm visualizations
+│   ├── css/visualizations/   # CSS interactive visualizations
+│   ├── dsa/visualizations/    # DSA algorithm visualizations
 │   ├── dsa/stepcharts/       # Step-by-step code execution charts
-│   ├── html/visualizations/  # 52 HTML visualizations
-│   ├── javascript/visualizations/  # 86 JavaScript visualizations
-│   ├── python/visualizations/     # 78 Python visualizations
-│   ├── postgresql/visualizations/ # 83 PostgreSQL visualizations
-│   ├── react/visualizations/      # 15 React visualizations
-│   ├── layout/               # Navbar, sidebar, search
+│   ├── html/visualizations/  # HTML visualizations
+│   ├── javascript/visualizations/  # JavaScript visualizations
+│   ├── python/visualizations/       # Python visualizations
+│   ├── postgresql/visualizations/  # PostgreSQL visualizations
+│   ├── react/visualizations/       # React visualizations
+│   ├── layout/               # Navbar, sidebar, search, user menu
 │   └── ui/                   # shadcn/ui primitives
 ├── data/                     # Topic content definitions
 ├── types/                    # TypeScript type definitions
 ├── hooks/                    # Custom React hooks
-├── contexts/                 # React context providers
-├── lib/                      # Utilities (Clerk theme, Supabase, search)
+├── contexts/                 # React context providers (auth, sidebar)
+├── lib/                      # Utilities (auth, Supabase, progress, search)
 ├── providers/                # Theme provider
 └── test/                     # Test setup and data tests
 ```
@@ -144,11 +166,12 @@ src/
 
 ## Roadmap
 
-- [x] 400+ topics across 9 categories
+- [x] 500+ topics across 9 categories
 - [x] Interactive algorithm visualizations
 - [x] Code editor with live execution
 - [x] PostgreSQL in-browser sandbox
-- [x] Progress tracking
+- [x] Progress tracking & analytics
+- [x] Username + password accounts (Supabase)
 - [ ] Spaced repetition review mode
 - [ ] Daily interview questions
 - [ ] Flashcards for quick review

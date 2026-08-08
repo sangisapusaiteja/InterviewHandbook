@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
-import { clerkAppearance } from "@/lib/clerk-theme";
 import { ThemeProvider } from "@/providers/ThemeProvider";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { MobileSidebarProvider } from "@/contexts/MobileSidebarContext";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
@@ -34,43 +33,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const clerkEnabled = Boolean(
-    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY
-  );
-
-  const appShell = (
+  return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)] antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-        >
-          <TooltipProvider>
-            <MobileSidebarProvider>
-              {children}
-            </MobileSidebarProvider>
-          </TooltipProvider>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <TooltipProvider>
+              <MobileSidebarProvider>{children}</MobileSidebarProvider>
+            </TooltipProvider>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
-  );
-
-  if (!clerkEnabled) {
-    return appShell;
-  }
-
-  return (
-    <ClerkProvider
-      appearance={clerkAppearance}
-      signInUrl="/sign-in"
-      signUpUrl="/sign-up"
-      signInForceRedirectUrl="/"
-      signUpForceRedirectUrl="/"
-    >
-      {appShell}
-    </ClerkProvider>
   );
 }

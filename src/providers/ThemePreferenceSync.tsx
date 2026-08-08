@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useUser } from "@clerk/nextjs";
+import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "next-themes";
 import { isSupportedThemePreference } from "@/lib/progress";
 
 const remotePreferencesEnabled = Boolean(
-  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
-    process.env.NEXT_PUBLIC_SUPABASE_URL
+  process.env.NEXT_PUBLIC_SUPABASE_URL
 );
 
 type PreferenceResponse = {
@@ -17,7 +16,7 @@ type PreferenceResponse = {
 };
 
 export function ThemePreferenceSync() {
-  const { user, isLoaded } = useUser();
+  const { user, isLoaded } = useAuth();
   const { theme, setTheme } = useTheme();
   const [isReadyToSync, setIsReadyToSync] = useState(false);
   const lastSyncedTheme = useRef<string | null>(null);
