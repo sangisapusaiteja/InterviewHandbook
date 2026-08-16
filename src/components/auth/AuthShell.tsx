@@ -22,7 +22,7 @@ export function AuthShell({
   return (
     <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,rgba(101,92,255,0.18),transparent_30%),linear-gradient(180deg,rgba(14,16,28,1),rgba(10,11,20,1))]">
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,transparent_0%,rgba(255,255,255,0.02)_50%,transparent_100%)]" />
-      <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-10 px-4 py-6 sm:py-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-10">
+      <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-6 sm:gap-10 px-4 py-6 sm:py-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-10">
         <section className="hidden lg:block">
           <Link
             href="/"
@@ -36,10 +36,10 @@ export function AuthShell({
               <Sparkles className="h-4 w-4" />
               Focused learning for interviews
             </p>
-            <h1 className="mt-6 text-5xl font-semibold leading-tight tracking-tight text-white">
+            <h1 className="mt-6 text-4xl sm:text-5xl font-semibold leading-tight tracking-tight text-white">
               {title}
             </h1>
-            <p className="mt-5 max-w-lg text-lg leading-8 text-slate-400">
+            <p className="mt-5 max-w-lg text-base sm:text-lg leading-7 sm:leading-8 text-slate-400">
               {description}
             </p>
           </div>
@@ -82,7 +82,18 @@ export function AuthShell({
         </section>
 
         <section className="mx-auto flex w-full max-w-xl items-center justify-center self-center">
-          {children}
+          <div className="w-full max-w-md">
+            <div className="lg:hidden mb-6 text-center">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200"
+              >
+                <BookOpen className="h-4 w-4 text-primary" />
+                Interview Handbook
+              </Link>
+            </div>
+            {children}
+          </div>
         </section>
       </div>
     </div>

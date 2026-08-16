@@ -96,12 +96,12 @@ function renderTable(text: string) {
   const headers = rows[0]?.split("|").map((h) => h.trim()).filter(Boolean) ?? [];
   const dataRows = rows.slice(2).map((r) => r.split("|").map((c) => c.trim()).filter(Boolean));
   return (
-    <div className="overflow-x-auto rounded-xl border">
-      <table className="w-full text-sm">
+    <div className="overflow-x-auto rounded-xl border -mx-4 sm:mx-0">
+      <table className="w-full text-sm min-w-[400px]">
         <thead>
           <tr className="border-b bg-muted/50">
             {headers.map((h, i) => (
-              <th key={i} className="px-4 py-3 text-left font-semibold text-foreground">{h}</th>
+              <th key={i} className="px-3 sm:px-4 py-3 text-left font-semibold text-foreground whitespace-nowrap">{h}</th>
             ))}
           </tr>
         </thead>
@@ -109,7 +109,7 @@ function renderTable(text: string) {
           {dataRows.map((row, i) => (
             <tr key={i} className="border-b last:border-0 hover:bg-muted/30">
               {row.map((cell, j) => (
-                <td key={j} className="px-4 py-3 text-muted-foreground">
+                <td key={j} className="px-3 sm:px-4 py-3 text-muted-foreground">
                   {cell === "Yes" || cell === "Allowed" ? (
                     <span className="inline-flex items-center gap-1.5 text-emerald-600">
                       <CheckCircle2 className="h-3.5 w-3.5" /> {cell}

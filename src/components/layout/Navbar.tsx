@@ -17,6 +17,7 @@ import {
 import { ThemeToggle } from "./ThemeToggle";
 import { GlobalTopicSearch } from "./GlobalTopicSearch";
 import { CustomUserMenu } from "./CustomUserMenu";
+import { BugReport } from "./BugReport";
 import { useAuth } from "@/contexts/AuthContext";
 import { categories } from "@/data/categories";
 import { cn } from "@/lib/utils";
@@ -78,7 +79,7 @@ export function Navbar({ searchIndex }: Readonly<NavbarProps>) {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-14 items-center px-4 md:px-6">
-        <Link href="/" className="mr-6 flex min-w-0 items-center gap-2">
+        <Link href="/" className="mr-4 flex shrink-0 items-center gap-2">
           <BookOpen className="h-5 w-5 shrink-0 text-primary" />
           <span className="truncate text-lg font-bold">Interview Handbook</span>
         </Link>
@@ -88,30 +89,30 @@ export function Navbar({ searchIndex }: Readonly<NavbarProps>) {
         ) : (
           <nav
             aria-label="Desktop category navigation"
-            className="hidden min-w-0 flex-1 items-center justify-center gap-1 pl-16 text-sm lg:flex xl:pl-20"
+            className="hidden min-w-0 flex-1 items-center lg:flex"
           >
-            <Link
-              href="/"
-              className={cn(
-                "relative rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors duration-200 after:absolute after:left-3 after:right-3 after:bottom-1 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-primary/70 after:transition-transform after:duration-200",
-                pathname === "/"
-                  ? "text-primary after:scale-x-100"
-                  : "text-muted-foreground hover:text-foreground hover:after:scale-x-100"
-              )}
-            >
-              <span className="flex items-center gap-1.5">
-                <Home className="h-3.5 w-3.5" />
-                Dashboard
-              </span>
-            </Link>
-            <div className="flex min-w-0 items-center justify-center gap-1">
+            <div className="flex items-center gap-1 px-1 text-sm whitespace-nowrap">
+              <Link
+                href="/"
+                className={cn(
+                  "relative rounded-md px-2.5 py-2 text-sm font-medium whitespace-nowrap transition-colors duration-200 after:absolute after:left-2.5 after:right-2.5 after:bottom-1 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-primary/70 after:transition-transform after:duration-200",
+                  pathname === "/"
+                    ? "text-primary after:scale-x-100"
+                    : "text-muted-foreground hover:text-foreground hover:after:scale-x-100"
+                )}
+              >
+                <span className="flex items-center gap-1.5">
+                  <Home className="h-3.5 w-3.5" />
+                  Dashboard
+                </span>
+              </Link>
               {groups.map((group) => {
                 const groupActive = isGroupActive(group);
                 return (
                   <div key={group} className="relative group">
                     <button
                       className={cn(
-                        "relative rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors duration-200 after:absolute after:left-3 after:right-3 after:bottom-1 after:h-0.5 after:origin-center after:rounded-full after:transition-transform after:duration-200",
+                        "relative rounded-md px-2.5 py-2 text-sm font-medium whitespace-nowrap transition-colors duration-200 after:absolute after:left-2.5 after:right-2.5 after:bottom-1 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:transition-transform after:duration-200",
                         groupActive
                           ? "text-primary after:scale-x-100 after:bg-primary/70"
                           : "text-muted-foreground hover:text-foreground after:scale-x-0 after:bg-primary/70 group-hover:after:scale-x-100"
@@ -119,7 +120,7 @@ export function Navbar({ searchIndex }: Readonly<NavbarProps>) {
                     >
                       {group}
                     </button>
-                    <div className="absolute left-0 top-full mt-1.5 w-56 rounded-xl border bg-popover/95 backdrop-blur-sm p-1 shadow-xl z-50 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-150 translate-y-1 group-hover:translate-y-0">
+                    <div className="absolute left-0 top-full mt-1.5 w-56 rounded-xl border bg-popover p-1 shadow-xl z-50 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-150 translate-y-1 group-hover:translate-y-0">
                       <div className="px-3 pb-1 pt-2">
                         <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/50">
                           {group}
@@ -170,12 +171,8 @@ export function Navbar({ searchIndex }: Readonly<NavbarProps>) {
             <div className="hidden lg:block">
               <GlobalTopicSearch searchIndex={searchIndex} shortcutEnabled />
             </div>
-          ) : (
-            <div
-              aria-hidden="true"
-              className="hidden h-9 w-[240px] shrink-0 lg:block lg:w-[220px] xl:w-[280px]"
-            />
-          )}
+          ) : null}
+          {!isAuthPage ? <BugReport /> : null}
           {!isAuthPage ? <NavbarAuthControls /> : null}
           <ThemeToggle />
         </div>

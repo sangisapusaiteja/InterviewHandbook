@@ -48,7 +48,7 @@ export function MobileBottomNav() {
               onClick={() => setCategoriesOpen(false)}
             />
             <motion.div
-              className="fixed inset-x-3 bottom-20 z-50 rounded-2xl border bg-background/95 p-4 shadow-2xl lg:hidden"
+              className="fixed inset-x-3 bottom-20 z-50 max-h-[60vh] overflow-y-auto rounded-2xl border bg-background/95 p-4 shadow-2xl lg:hidden"
               initial={{ opacity: 0, y: 24, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 24, scale: 0.98 }}
@@ -71,7 +71,7 @@ export function MobileBottomNav() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {navCategories.map((category) => {
                   const href = `/${category.id}`;
                   const isActive =
@@ -82,7 +82,7 @@ export function MobileBottomNav() {
                       key={category.id}
                       href={href}
                       className={cn(
-                        "rounded-xl border px-3 py-3 text-sm font-medium transition-colors",
+                        "rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors",
                         isActive
                           ? "border-primary/40 text-primary"
                           : "border-border/80 text-muted-foreground hover:border-primary/30 hover:text-foreground"

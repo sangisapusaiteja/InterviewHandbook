@@ -307,7 +307,7 @@ export function ProgressPage() {
 
         <div className="mt-4 grid items-start gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.82fr)]">
           <div className="grid min-w-0 gap-4 ">
-            <Card className={`self-start overflow-hidden rounded-[24px] ${analyticsCardClassName} h-[400px]`}>
+            <Card className={`self-start overflow-hidden rounded-[24px] ${analyticsCardClassName} min-h-[350px] sm:h-[400px]`}>
               <CardHeader className="p-5 pb-4 sm:p-6 sm:pb-4">
                 <CardTitle className="flex items-center gap-2 text-xl">
                   <CalendarDays className="h-5 w-5 text-primary" />
@@ -481,7 +481,7 @@ export function ProgressPage() {
           </div>
 
           <div className="grid gap-5">
-            <Card className={`rounded-[24px] ${analyticsCardClassName} h-[400px] `}>
+            <Card className={`rounded-[24px] ${analyticsCardClassName} min-h-[300px] sm:h-[400px]`}>
               <CardHeader className="p-5 pb-4 sm:p-6 sm:pb-4">
                 <CardTitle className="flex items-center gap-2 text-xl">
                   <Flame className="h-5 w-5 text-primary" />
@@ -512,7 +512,7 @@ export function ProgressPage() {
               </CardContent>
             </Card>
 
-            <Card className={`rounded-[24px] ${analyticsCardClassName} h-[400px]`}>
+            <Card className={`rounded-[24px] ${analyticsCardClassName} min-h-[300px] sm:h-[400px]`}>
               <CardHeader className="p-5 pb-4 sm:p-6 sm:pb-4">
                 <CardTitle className="flex items-center gap-2 text-xl">
                   <Trophy className="h-5 w-5 text-primary" />

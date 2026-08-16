@@ -152,7 +152,7 @@ export function DashboardPage() {
             </p>
             <div className="mx-auto mt-10 flex max-w-4xl flex-col items-center">
               <GlobalTopicSearch
-                className="mx-auto h-16 w-full min-w-[min(720px,92vw)] max-w-4xl rounded-2xl border border-primary/15 bg-background/80 px-5 text-base shadow-[0_24px_80px_-30px_rgba(59,130,246,0.32)] backdrop-blur-md hover:border-primary/30"
+                className="mx-auto h-16 w-full max-w-4xl rounded-2xl border border-primary/15 bg-background/80 px-5 text-base shadow-[0_24px_80px_-30px_rgba(59,130,246,0.32)] backdrop-blur-md hover:border-primary/30"
                 searchIndex={topicSearchIndex}
                 shortcutEnabled
               />
@@ -396,7 +396,7 @@ export function DashboardPage() {
           <button
             type="button"
             aria-label="Open creator details"
-            className="fixed bottom-24 right-4 z-40 flex items-center gap-0 rounded-full border border-primary/15 bg-background/90 p-2 shadow-[0_10px_30px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-[0_12px_40px_rgba(59,130,246,0.16)] sm:bottom-5 sm:right-5 sm:gap-3 sm:rounded-2xl sm:px-4 sm:py-2"
+            className="fixed bottom-20 right-4 z-40 flex items-center gap-0 rounded-full border border-primary/15 bg-background/90 p-2 shadow-[0_10px_30px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-[0_12px_40px_rgba(59,130,246,0.16)] sm:bottom-5 sm:right-5 sm:gap-3 sm:rounded-2xl sm:px-4 sm:py-2"
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-primary sm:h-11 sm:w-11">
               <Code2 className="h-4.5 w-4.5 sm:h-5 sm:w-5" />

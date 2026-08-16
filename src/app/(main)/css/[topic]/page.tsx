@@ -75,7 +75,7 @@ export default function CSSTopicPage() {
     topicProgressKey && isLoaded ? isTopicComplete(topicProgressKey) : false;
 
   return (
-    <div className="flex">
+    <div className="flex min-h-[calc(100vh-3.5rem)]">
       <TopicSidebar
         topics={cssTopics}
         completedTopics={progress.completedTopics}
@@ -86,16 +86,16 @@ export default function CSSTopicPage() {
       />
 
       <div className="flex-1 min-w-0">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6"
+            className="mb-4 sm:mb-6"
           >
-            <div className="flex items-start justify-between gap-4 flex-wrap">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2 mb-1">
                   <Badge
                     variant={
                       topic.difficulty === "Beginner"
@@ -111,10 +111,10 @@ export default function CSSTopicPage() {
                     {sectionCompletedCount}/{cssTopics.length} topics completed
                   </span>
                 </div>
-                <h1 className="text-2xl md:text-3xl font-bold">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
                   {topic.title}
                 </h1>
-                <p className="text-muted-foreground mt-1">
+                <p className="text-sm sm:text-base text-muted-foreground mt-1">
                   {topic.description}
                 </p>
               </div>
@@ -125,7 +125,7 @@ export default function CSSTopicPage() {
                 onClick={() =>
                   topicProgressKey && toggleTopicComplete(topicProgressKey)
                 }
-                className="shrink-0"
+                className="shrink-0 self-start"
               >
                 {completed ? (
                   <>
@@ -145,7 +145,7 @@ export default function CSSTopicPage() {
           </motion.div>
 
           {/* Tabs */}
-          <Tabs defaultValue="concept" className="space-y-6">
+          <Tabs defaultValue="concept" className="space-y-4 sm:space-y-6">
             <TabsList className="flex w-full justify-between p-1 sm:w-auto sm:justify-start">
               <TabsTrigger value="concept" className="flex-1 text-xs sm:flex-none sm:text-sm">
                 Concept
@@ -182,12 +182,12 @@ export default function CSSTopicPage() {
           </Tabs>
 
           {/* Prev / Next Navigation */}
-          <Separator className="my-8" />
-          <div className="flex flex-col sm:flex-row gap-3 pb-8">
+          <Separator className="my-6 sm:my-8" />
+          <div className="flex flex-col sm:flex-row gap-3 pb-6 sm:pb-8">
             {prevTopic ? (
               <Link href={`/css/${prevTopic.slug}`} className="flex-1">
                 <Card className="h-full hover:bg-accent/50 transition-colors group cursor-pointer">
-                  <CardContent className="p-4">
+                  <CardContent className="p-3 sm:p-4">
                     <div className="flex items-center gap-1 text-xs text-muted-foreground mb-1.5 group-hover:text-primary transition-colors">
                       <ChevronLeft className="h-3.5 w-3.5 shrink-0" />
                       <span>Previous</span>
@@ -205,7 +205,7 @@ export default function CSSTopicPage() {
             {nextTopic ? (
               <Link href={`/css/${nextTopic.slug}`} className="flex-1">
                 <Card className="h-full hover:bg-accent/50 transition-colors group cursor-pointer">
-                  <CardContent className="p-4 text-right">
+                  <CardContent className="p-3 sm:p-4 text-right">
                     <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground mb-1.5 group-hover:text-primary transition-colors">
                       <span>Next</span>
                       <ChevronRight className="h-3.5 w-3.5 shrink-0" />

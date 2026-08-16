@@ -658,7 +658,7 @@ export function GlobalTopicSearch({
           "flex items-center gap-2 rounded-xl border border-border/70 bg-background/80 text-sm text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground",
           mobile
             ? "h-10 w-full px-3"
-            : "h-9 w-[240px] shrink-0 px-3 lg:w-[220px] xl:w-[280px]",
+            : "h-9 w-[180px] shrink-0 px-3 lg:w-[200px] xl:w-[240px]",
           className,
         )}
         aria-label="Search topics"
