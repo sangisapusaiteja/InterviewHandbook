@@ -11,6 +11,11 @@ import {
   DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -79,18 +84,24 @@ export function BugReport({ triggerClassName }: { triggerClassName?: string }) {
         if (!v) reset();
       }}
     >
-      <DialogTrigger asChild>
-        <button
-          type="button"
-          className={cn(
-            "inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
-            triggerClassName
-          )}
-        >
-          <Bug className="h-4 w-4" />
-          <span className="hidden sm:inline">Report Bug</span>
-        </button>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <button
+              type="button"
+              className={cn(
+                "inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
+                triggerClassName
+              )}
+            >
+              <Bug className="h-4 w-4" />
+            </button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">
+          <p>Report a bug or issue</p>
+        </TooltipContent>
+      </Tooltip>
 
       <DialogContent className="sm:max-w-[440px]">
         <DialogHeader>
