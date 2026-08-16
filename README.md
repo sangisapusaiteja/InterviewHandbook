@@ -1,86 +1,179 @@
 <div align="center">
-  <img src="./public/favicon.png" alt="Interview Handbook" width="80" height="80" />
-  <h1 align="center">Interview Handbook</h1>
-  <p align="center">
-    Your complete guide to cracking technical interviews.
-    <br />
-    Learn concepts, visualize algorithms, and practice coding — all in one place.
-  </p>
-  <p>
-    <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
-    <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-14-black?logo=next.js" alt="Next.js 14" /></a>
-    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript" alt="TypeScript" /></a>
-    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss" alt="Tailwind CSS" /></a>
-    <br />
-    <a href="#features">Features</a> •
-    <a href="#topics-covered">Topics</a> •
-    <a href="#getting-started">Getting Started</a> •
-    <a href="#project-structure">Structure</a> •
-    <a href="#tech-stack">Tech Stack</a>
-  </p>
+
+<img src="./public/favicon.png" alt="Interview Handbook" width="100" height="100" />
+
+# Interview Handbook
+
+### The definitive platform for mastering technical interviews
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![CI](https://img.shields.io/github/actions/workflow/status/sangisapusaiteja/InterviewHandbook/ci.yml?branch=main&label=CI)](https://github.com/sangisapusaiteja/InterviewHandbook/actions)
+
+[Features](#features) · [Architecture](#architecture) · [Topics](#topics-covered) · [Quick Start](#quick-start) · [Tech Stack](#tech-stack) · [Contributing](#contributing)
+
 </div>
 
 ---
 
 ## Features
 
-- **500+ Topics** across 9 categories — HTML, CSS, JavaScript, DSA, Python, PostgreSQL, React, System Design, and Technical Questions
-- **Interactive Visualizations** — Step-by-step animated walkthroughs for algorithms (Two Sum, Dijkstra, Flood Fill, Merge Sort, and 60+ more)
-- **Built-in Code Editor** — Monaco-powered editor with syntax highlighting to write and run code
-- **PostgreSQL Sandbox** — Run SQL queries directly in the browser with PGLite
-- **Progress Tracking** — Mark topics as complete and monitor your learning journey
-- **Progress Analytics** — Streaks, activity heatmap, and badges on the progress dashboard
-- **Dark / Light Mode** — Seamless theme switching with next-themes
-- **AI Topic Assistant (AJet)** — Ask questions and get explanations for any topic
-- **Username + Password Accounts** — Custom auth backed by Supabase (no third-party provider)
-- **Responsive Design** — Optimized for desktop and mobile devices
-- **LeetCode Integration** — Direct links to practice problems for each DSA topic
+| Feature | Description |
+|---------|-------------|
+| **500+ Topics** | 9 categories — HTML, CSS, JavaScript, DSA, Python, PostgreSQL, React, System Design, Technical Q&A |
+| **Algorithm Visualizations** | 60+ animated walkthroughs — Two Sum, Dijkstra, Flood Fill, Merge Sort, and more |
+| **Live Code Editor** | Monaco-powered editor with syntax highlighting and execution |
+| **PostgreSQL Sandbox** | Run SQL queries directly in your browser via PGLite |
+| **Progress Analytics** | Streaks, activity heatmap, and badges on your personal dashboard |
+| **AI Assistant (AJet)** | Ask questions and get instant explanations for any topic |
+| **Dark / Light Mode** | Seamless theme switching powered by next-themes |
+| **Custom Auth** | Username + password accounts backed by Supabase |
+| **LeetCode Links** | Direct links to practice problems for each DSA topic |
+
+---
+
+## Architecture
+
+```mermaid
+graph TB
+    subgraph "Presentation Layer"
+        UI[Next.js 14 App Router]
+        Pages[Pages & Routes]
+        Components[React Components]
+        Visualizations[Interactive Visualizations]
+    end
+
+    subgraph "State & Context"
+        AuthCtx[Auth Context]
+        MobileCtx[Mobile Sidebar Context]
+        Theme[Theme Provider]
+    end
+
+    subgraph "Data Layer"
+        Topics[Topic Definitions]
+        Search[Search Index]
+        Types[TypeScript Types]
+    end
+
+    subgraph "Backend Services"
+        API[API Routes]
+        Auth[Custom Auth]
+        Progress[Progress Sync]
+        Gemini[Gemini AI Assistant]
+    end
+
+    subgraph "External Services"
+        Supabase[(Supabase)]
+        Monaco[Monaco Editor]
+        PGLite[(PGLite)]
+    end
+
+    UI --> Pages --> Components --> Visualizations
+    Components --> AuthCtx & MobileCtx & Theme
+    Components --> Topics & Search & Types
+    Pages --> API --> Auth --> Supabase
+    API --> Progress --> Supabase
+    API --> Gemini
+    Components --> Monaco
+    Components --> PGLite
+```
+
+### Request Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Browser as Browser
+    participant Next as Next.js Server
+    participant Supa as Supabase
+    participant Gemini as Gemini AI
+
+    User->>Browser: Navigate to topic
+    Browser->>Next: SSR / RSC request
+    Next->>Supa: Fetch user progress
+    Supa-->>Next: Progress data
+    Next-->>Browser: Rendered page + topic data
+    Browser->>Browser: Initialize Monaco / PGLite
+
+    User->>Browser: Ask AI assistant
+    Browser->>Next: POST /api/assistant
+    Next->>Gemini: Send prompt + context
+    Gemini-->>Next: AI response
+    Next-->>Browser: Streamed answer
+```
+
+### Database Schema
+
+```mermaid
+erDiagram
+    AUTH_USERS {
+        text id PK
+        text username UK
+        text password_hash
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    AUTH_SESSIONS {
+        text id PK
+        text user_id FK
+        timestamptz expires_at
+        timestamptz created_at
+    }
+
+    USER_TOPIC_PROGRESS {
+        text id PK
+        text user_id FK
+        text topic_id
+        boolean completed
+        timestamptz last_opened_at
+        timestamptz completed_at
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    USER_PREFERENCES {
+        text id PK
+        text user_id FK
+        jsonb preferences
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    AUTH_USERS ||--o{ AUTH_SESSIONS : "creates"
+    AUTH_USERS ||--o{ USER_TOPIC_PROGRESS : "tracks"
+    AUTH_USERS ||--o{ USER_PREFERENCES : "stores"
+```
+
+---
 
 ## Topics Covered
 
 | Category | Topics | What You'll Learn |
-|----------|-------|-------------------|
-| **HTML** | 49 | Semantic HTML, accessibility (ARIA), forms, HTML5 APIs, SEO meta tags |
-| **CSS** | 52 | Flexbox, Grid, animations, responsive design, specificity, custom properties |
-| **JavaScript** | 80 | Closures, prototypes, event loop, async/await, promises, ES6+, DOM, Web APIs |
-| **DSA (JavaScript)** | 64 | Arrays, linked lists, stacks, queues, trees, graphs, sorting, searching, DP |
-| **Python** | 98 | Data structures, OOP, decorators, generators, file I/O, standard library |
-| **PostgreSQL** | 76 | Queries, joins, indexes, normalization, transactions, window functions, CTEs |
-| **React** | 18 | Components, state, props, hooks, context, custom hooks, performance |
-| **System Design** | 52 | Design principles, scalability, databases, caching, load balancing |
-| **Technical Questions** | 12 | Framework-specific Q&A (JavaScript, React, TypeScript, Next.js) |
+|----------|--------|-------------------|
+| **HTML** | 49 | Semantic elements, ARIA, forms, HTML5 APIs, SEO |
+| **CSS** | 52 | Flexbox, Grid, animations, responsive design, specificity |
+| **JavaScript** | 80 | Closures, prototypes, event loop, async/await, ES6+, DOM |
+| **DSA** | 64 | Arrays, linked lists, trees, graphs, sorting, DP, searching |
+| **Python** | 98 | Data structures, OOP, decorators, generators, stdlib |
+| **PostgreSQL** | 76 | Queries, joins, indexes, transactions, window functions, CTEs |
+| **React** | 18 | Components, hooks, context, performance, advanced patterns |
+| **System Design** | 52 | Scalability, databases, caching, load balancing, case studies |
+| **Technical Q&A** | 12 | Framework-specific interview questions |
 
-Each topic includes:
-- Clear concept explanations with real-life analogies
-- Interactive visualizations with step-by-step controls
-- Code examples with live editor
-- Common interview questions with hints
+Every topic includes concept explanations, interactive visualizations, code examples with live editor, and interview questions with hints.
 
-## Tech Stack
+---
 
-| Technology | Purpose |
-|------------|---------|
-| [Next.js 14](https://nextjs.org/) (App Router) | Framework |
-| [TypeScript](https://www.typescriptlang.org/) | Language |
-| [Tailwind CSS](https://tailwindcss.com/) | Styling |
-| [shadcn/ui](https://ui.shadcn.com/) + [Radix UI](https://www.radix-ui.com/) | Component library |
-| [Framer Motion](https://www.framer.com/motion/) | Animations |
-| [Lucide React](https://lucide.dev/) | Icons |
-| [Monaco Editor](https://microsoft.github.io/monaco-editor/) | Code editor |
-| [PGLite](https://pglite.dev/) | In-browser PostgreSQL |
-| [Supabase](https://supabase.com/) | Accounts, progress sync & preferences |
-| [next-themes](https://github.com/pacocoursey/next-themes) | Theme switching |
-| [Vitest](https://vitest.dev/) | Testing |
-
-## Getting Started
+## Quick Start
 
 ### Prerequisites
 
-- Node.js 18+
-- npm, yarn, or pnpm
-- A [Supabase](https://supabase.com/) project (for accounts, progress sync, and preferences)
+- **Node.js** 18+
+- **Supabase** project ([create one](https://supabase.com))
 
-### Installation
+### Install
 
 ```bash
 git clone https://github.com/sangisapusaiteja/InterviewHandbook.git
@@ -88,9 +181,7 @@ cd InterviewHandbook
 npm install
 ```
 
-### Environment Setup
-
-Copy `.env.example` to `.env.local` and fill in your values:
+### Configure
 
 ```bash
 cp .env.example .env.local
@@ -98,71 +189,72 @@ cp .env.example .env.local
 
 | Variable | Description |
 |----------|-------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL |
-| `SUPABASE_SERVICE_ROLE_KEY` | Your Supabase service role key (server-side only) |
-| `GEMINI_API_KEY` | Google AI Studio key for the AJet assistant |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role key (server-side only) |
+| `GEMINI_API_KEY` | Google AI Studio key for AJet |
 | `GEMINI_MODEL` | Optional — defaults to `gemini-2.5-flash-lite` |
 
-### Database Setup
+### Initialize Database
 
-Run the SQL in [`supabase/schema.sql`](./supabase/schema.sql) in the Supabase SQL Editor. This creates the `auth_users`, `auth_sessions`, `user_topic_progress`, and `user_preferences` tables.
+Run the contents of [`supabase/schema.sql`](./supabase/schema.sql) in the Supabase SQL Editor.
 
-### Development
+### Run
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) — the app will auto-reload on edits.
+Open [http://localhost:3000](http://localhost:3000).
 
-### Production Build
+---
 
-```bash
-npm run build
-npm run start
-```
+## Tech Stack
 
-### Testing
+| Layer | Technology |
+|-------|------------|
+| **Framework** | [Next.js 14](https://nextjs.org/) (App Router) |
+| **Language** | [TypeScript 5](https://www.typescriptlang.org/) |
+| **Styling** | [Tailwind CSS 3](https://tailwindcss.com/) |
+| **Components** | [shadcn/ui](https://ui.shadcn.com/) + [Radix UI](https://www.radix-ui.com/) |
+| **Animations** | [Framer Motion](https://www.framer.com/motion/) |
+| **Code Editor** | [Monaco Editor](https://microsoft.github.io/monaco-editor/) |
+| **SQL Sandbox** | [PGLite](https://pglite.dev/) |
+| **Backend** | [Supabase](https://supabase.com/) (Auth + Database) |
+| **AI** | [Google Gemini](https://ai.google.dev/) |
+| **Testing** | [Vitest](https://vitest.dev/) |
+| **CI** | [GitHub Actions](https://github.com/features/actions) |
 
-```bash
-npm test
-```
+---
 
 ## Project Structure
 
 ```
 src/
-├── app/                      # Next.js App Router pages
-│   ├── (auth)/               # Sign-in / Sign-up
-│   ├── (main)/               # Main app pages (all categories)
-│   └── api/                  # API routes (auth, progress, preferences, assistant)
-├── components/               # React components
-│   ├── css/visualizations/   # CSS interactive visualizations
-│   ├── dsa/visualizations/    # DSA algorithm visualizations
-│   ├── dsa/stepcharts/       # Step-by-step code execution charts
-│   ├── html/visualizations/  # HTML visualizations
-│   ├── javascript/visualizations/  # JavaScript visualizations
-│   ├── python/visualizations/       # Python visualizations
-│   ├── postgresql/visualizations/  # PostgreSQL visualizations
-│   ├── react/visualizations/       # React visualizations
-│   ├── layout/               # Navbar, sidebar, search, user menu
-│   └── ui/                   # shadcn/ui primitives
-├── data/                     # Topic content definitions
-├── types/                    # TypeScript type definitions
-├── hooks/                    # Custom React hooks
-├── contexts/                 # React context providers (auth, sidebar)
-├── lib/                      # Utilities (auth, Supabase, progress, search)
-├── providers/                # Theme provider
-└── test/                     # Test setup and data tests
+├── app/
+│   ├── (auth)/                  # Sign-in / Sign-up pages
+│   ├── (main)/                  # Dashboard & all category pages
+│   └── api/                     # API routes (auth, progress, assistant)
+├── components/
+│   ├── css/visualizations/      # CSS interactive demos
+│   ├── dsa/visualizations/      # Algorithm visualizations
+│   ├── dsa/stepcharts/          # Step-by-step execution charts
+│   ├── html/visualizations/     # HTML demos
+│   ├── javascript/visualizations/
+│   ├── python/visualizations/
+│   ├── postgresql/visualizations/
+│   ├── react/visualizations/
+│   ├── layout/                  # Navbar, sidebar, search, user menu
+│   └── ui/                      # shadcn/ui primitives
+├── data/                        # Topic content definitions
+├── types/                       # TypeScript type definitions
+├── hooks/                       # Custom React hooks
+├── contexts/                    # React context providers
+├── lib/                         # Utilities (auth, Supabase, progress)
+├── providers/                   # Theme provider
+└── test/                        # Test setup and tests
 ```
 
-## Screenshots
-
-<!-- Add screenshots here once available -->
-
-| Dashboard | Topic Page | Visualization |
-|-----------|------------|--------------|
-| *Coming soon* | *Coming soon* | *Coming soon* |
+---
 
 ## Roadmap
 
@@ -171,17 +263,19 @@ src/
 - [x] Code editor with live execution
 - [x] PostgreSQL in-browser sandbox
 - [x] Progress tracking & analytics
-- [x] Username + password accounts (Supabase)
+- [x] Custom username + password accounts
 - [ ] Spaced repetition review mode
 - [ ] Daily interview questions
 - [ ] Flashcards for quick review
 - [ ] Offline mode (PWA)
 - [ ] Community discussion per topic
 
+---
+
 ## Contributing
 
-Contributions are welcome! Feel free to open issues or submit pull requests.
+Contributions are welcome. Open an issue or submit a pull request.
 
 ## License
 
-This project is for educational purposes.
+[MIT](./LICENSE) — built for educational purposes.
