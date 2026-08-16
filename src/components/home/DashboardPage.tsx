@@ -152,7 +152,7 @@ export function DashboardPage() {
             </p>
             <div className="mx-auto mt-10 flex max-w-4xl flex-col items-center">
               <GlobalTopicSearch
-                className="mx-auto h-16 w-full max-w-4xl rounded-2xl border border-primary/15 bg-background/80 px-5 text-base shadow-[0_24px_80px_-30px_rgba(59,130,246,0.32)] backdrop-blur-md hover:border-primary/30"
+                className="mx-auto h-16 !w-[600px] max-w-4xl rounded-2xl border border-primary/15 bg-background/80 px-5 text-base shadow-[0_24px_80px_-30px_rgba(59,130,246,0.32)] backdrop-blur-md hover:border-primary/30"
                 searchIndex={topicSearchIndex}
                 shortcutEnabled
               />
