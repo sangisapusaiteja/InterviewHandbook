@@ -21,7 +21,7 @@ import { BugReport } from "./BugReport";
 import { useAuth } from "@/contexts/AuthContext";
 import { categories } from "@/data/categories";
 import { cn } from "@/lib/utils";
-import type { TopicSearchItem } from "@/lib/topic-search-index";
+import type { TopicSearchItem } from "@/lib/api/topics";
 
 interface NavbarProps {
   searchIndex: TopicSearchItem[];

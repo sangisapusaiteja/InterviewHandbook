@@ -18,10 +18,6 @@ import {
   ArrowRight,
   Sparkles,
   Star,
-  Github,
-  Linkedin,
-  Mail,
-  Globe,
 } from "lucide-react";
 import {
   Card,
@@ -31,16 +27,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { GlobalTopicSearch } from "@/components/layout/GlobalTopicSearch";
-import { categories } from "@/data/categories";
+import { useCategories } from "@/hooks/useCategories";
 import { useProgress } from "@/hooks/useProgress";
-import { topicSearchIndex } from "@/lib/topic-search-index";
+import type { TopicSearchItem } from "@/lib/api/topics";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Layout,
@@ -85,8 +75,11 @@ function formatProgressPercent(value: number, total: number) {
   return `${Math.round(rawPercent)}%`;
 }
 
-export function DashboardPage() {
+export function DashboardPage({
+  searchIndex,
+}: Readonly<{ searchIndex: TopicSearchItem[] }>) {
   const { isLoaded, lastVisitedTopic, sectionProgress } = useProgress();
+  const { categories } = useCategories();
   const totalTrackedTopics = sectionProgress.reduce(
     (count, section) => count + section.totalCount,
     0,
@@ -153,7 +146,7 @@ export function DashboardPage() {
             <div className="mx-auto mt-10 flex max-w-4xl flex-col items-center">
               <GlobalTopicSearch
                 className="mx-auto h-16 !w-[600px] max-w-4xl rounded-2xl border border-primary/15 bg-background/80 px-5 text-base shadow-[0_24px_80px_-30px_rgba(59,130,246,0.32)] backdrop-blur-md hover:border-primary/30"
-                searchIndex={topicSearchIndex}
+                searchIndex={searchIndex}
                 shortcutEnabled
               />
               <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
@@ -390,105 +383,6 @@ export function DashboardPage() {
           </p>
         </div>
       </footer>
-
-      <Dialog>
-        <DialogTrigger asChild>
-          <button
-            type="button"
-            aria-label="Open creator details"
-            className="fixed bottom-20 right-4 z-40 flex items-center gap-0 rounded-full border border-primary/15 bg-background/90 p-2 shadow-[0_10px_30px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-[0_12px_40px_rgba(59,130,246,0.16)] sm:bottom-5 sm:right-5 sm:gap-3 sm:rounded-2xl sm:px-4 sm:py-2"
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-primary sm:h-11 sm:w-11">
-              <Code2 className="h-4.5 w-4.5 sm:h-5 sm:w-5" />
-            </div>
-            <div className="hidden text-left sm:block">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                Built By
-              </p>
-              <p className="text-sm font-medium leading-none text-foreground">
-                Creator Details
-              </p>
-            </div>
-          </button>
-        </DialogTrigger>
-
-        <DialogContent
-          onOpenAutoFocus={(event) => event.preventDefault()}
-          className="w-[min(96vw,660px)] max-w-[660px] overflow-hidden rounded-[24px] border border-primary/20 bg-card p-0 text-card-foreground shadow-[0_0_0_1px_rgba(59,130,246,0.07),0_35px_120px_rgba(15,23,42,0.28)] sm:rounded-[28px]"
-        >
-          <div className="max-h-[calc(100vh-2rem)] overflow-y-auto bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.16),transparent_34%),linear-gradient(180deg,hsl(var(--card))_0%,hsl(var(--background))_100%)] p-4 sm:p-5 lg:p-7">
-            <DialogHeader className="mb-4 pr-12 text-left sm:mb-5">
-              <div className="inline-flex w-fit items-center rounded-full border border-primary/15 bg-primary/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary sm:text-[11px] sm:tracking-[0.22em]">
-                About
-              </div>
-            </DialogHeader>
-
-            <div className="flex flex-col gap-3">
-              <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-                  Built By
-                </p>
-                <h3 className="mt-3 text-[1.35rem] font-semibold tracking-tight text-foreground sm:text-[1.5rem]">
-                  Saiteja Sangisapu
-                </h3>
-                <p className="mt-1.5 text-sm text-muted-foreground">
-                  Creator of Interview Handbook
-                </p>
-              </div>
-
-              <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-primary">
-                  Purpose
-                </p>
-                <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
-                  Interview Handbook was built to make interview prep more
-                  structured, more visual, and less overwhelming for developers
-                  who learn best by actually understanding what they practice.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-4 rounded-[20px] border border-border/70 bg-background/50 p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur">
-              <div className="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap">
-                <a
-                  href="https://saitejasangisapu.vercel.app/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-primary/20 bg-primary/8 px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/40 hover:text-primary sm:justify-start sm:rounded-full sm:bg-background/85"
-                >
-                  <Globe className="h-4 w-4" />
-                  Portfolio
-                </a>
-                <a
-                  href="https://github.com/sangisapusaiteja"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border/70 bg-background/85 px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/40 hover:text-primary sm:justify-start sm:rounded-full"
-                >
-                  <Github className="h-4 w-4" />
-                  GitHub
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/saitejasangisapu/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border/70 bg-background/85 px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/40 hover:text-primary sm:justify-start sm:rounded-full"
-                >
-                  <Linkedin className="h-4 w-4" />
-                  LinkedIn
-                </a>
-                <a
-                  href="mailto:saitejasangisapu@gmail.com"
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border/70 bg-background/85 px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary/40 hover:text-primary sm:justify-start sm:rounded-full"
-                >
-                  <Mail className="h-4 w-4" />
-                  Email
-                </a>
-              </div>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

@@ -20,7 +20,7 @@ import { ConceptSection } from "@/components/dsa/ConceptSection";
 import { QuizSection } from "@/components/dsa/QuizSection";
 import { VisualizationSection } from "@/components/dsa/VisualizationSection";
 import { CodeEditorSection } from "@/components/dsa/CodeEditorSection";
-import { dsaTopics, dsaModules } from "@/data/dsa";
+import { useTopics } from "@/hooks/useTopics";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
 import { TopicAssistant } from "@/components/assistant/TopicAssistant";
@@ -39,6 +39,7 @@ export default function TopicPage() {
     setLastVisited,
     isTopicComplete,
   } = useProgress();
+  const { topics: dsaTopics, modules: dsaModules, isLoading } = useTopics("dsa");
 
   const topicIndex = dsaTopics.findIndex((t) => t.slug === topicSlug);
   const topic = topicIndex >= 0 ? dsaTopics[topicIndex] : undefined;
@@ -58,6 +59,16 @@ export default function TopicPage() {
       setLastVisited(topicProgressKey);
     }
   }, [setLastVisited, topicProgressKey]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-3.5rem)]">
+        <div className="animate-pulse text-muted-foreground">
+          Loading topic...
+        </div>
+      </div>
+    );
+  }
 
   if (!topic) {
     return (

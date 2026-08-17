@@ -20,7 +20,7 @@ import { QuizSection } from "@/components/dsa/QuizSection";
 import { CodeEditorSection } from "@/components/dsa/CodeEditorSection";
 import { ReactVisualizationSection } from "@/components/react/ReactVisualizationSection";
 import { ReactPreview } from "@/components/react/ReactPreview";
-import { reactTopics, reactModules } from "@/data/react";
+import { useTopics } from "@/hooks/useTopics";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
 import { TopicAssistant } from "@/components/assistant/TopicAssistant";
@@ -39,6 +39,7 @@ export default function ReactTopicPage() {
     setLastVisited,
     isTopicComplete,
   } = useProgress();
+  const { topics: reactTopics, modules: reactModules, isLoading } = useTopics("react");
 
   const topicIndex = reactTopics.findIndex((t) => t.slug === topicSlug);
   const topic = topicIndex >= 0 ? reactTopics[topicIndex] : undefined;
@@ -58,6 +59,16 @@ export default function ReactTopicPage() {
       setLastVisited(topicProgressKey);
     }
   }, [setLastVisited, topicProgressKey]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-3.5rem)]">
+        <div className="animate-pulse text-muted-foreground">
+          Loading topic...
+        </div>
+      </div>
+    );
+  }
 
   if (!topic) {
     return (

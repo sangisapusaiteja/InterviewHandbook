@@ -1,13 +1,31 @@
 import { cookies } from "next/headers";
-import { randomBytes, scryptSync, timingSafeEqual } from "crypto";
+import bcrypt from "bcryptjs";
+import { SignJWT, jwtVerify } from "jose";
 import { supabaseAdminRequest, supabaseServerEnabled } from "@/lib/supabase-rest";
 
-export const SESSION_COOKIE_NAME = "ih_session";
+// ---------------------------------------------------------------------------
+// Config
+// ---------------------------------------------------------------------------
+
+const SESSION_SECRET = new TextEncoder().encode(
+  process.env.SESSION_SECRET ?? "dev-secret-change-me-in-production"
+);
+
+export const SESSION_COOKIE_NAME = "cb_session";
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
 
 export type AuthUser = {
   id: string;
   username: string;
   createdAt: string;
+};
+
+export type SessionPayload = {
+  userId: string;
+  username: string;
 };
 
 type UserRow = {
@@ -17,142 +35,99 @@ type UserRow = {
   created_at: string;
 };
 
-type SessionRow = {
-  id: string;
-  user_id: string;
-  expires_at: string;
-};
-
 export const authServerEnabled = supabaseServerEnabled;
 
-function hashPassword(password: string, salt: string) {
-  return scryptSync(password, salt, 64).toString("hex");
+// ---------------------------------------------------------------------------
+// Password hashing (bcrypt)
+// ---------------------------------------------------------------------------
+
+export function createPasswordHash(password: string): string {
+  return bcrypt.hashSync(password, 10);
 }
 
-export function createPasswordHash(password: string) {
-  const salt = randomBytes(16).toString("hex");
-  const hash = hashPassword(password, salt);
-  return `${salt}:${hash}`;
+export function verifyPassword(password: string, stored: string): boolean {
+  return bcrypt.compareSync(password, stored);
 }
 
-export function verifyPassword(password: string, stored: string) {
-  const [salt, hash] = stored.split(":");
-  if (!salt || !hash) {
-    return false;
+// ---------------------------------------------------------------------------
+// JWT session tokens
+// ---------------------------------------------------------------------------
+
+export async function createSessionToken(
+  payload: SessionPayload
+): Promise<string> {
+  return new SignJWT({ ...payload })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("7d")
+    .sign(SESSION_SECRET);
+}
+
+export async function verifySessionToken(
+  token: string
+): Promise<SessionPayload | null> {
+  try {
+    const { payload } = await jwtVerify(token, SESSION_SECRET);
+    return {
+      userId: payload.userId as string,
+      username: payload.username as string,
+    };
+  } catch {
+    return null;
   }
-
-  const candidate = Buffer.from(hashPassword(password, salt), "hex");
-  const expected = Buffer.from(hash, "hex");
-
-  if (candidate.length !== expected.length) {
-    return false;
-  }
-
-  return timingSafeEqual(candidate, expected);
 }
 
-export function createSessionToken() {
-  return randomBytes(32).toString("base64url");
-}
+// ---------------------------------------------------------------------------
+// Cookie helpers
+// ---------------------------------------------------------------------------
 
-export function getSessionToken() {
-  const store = cookies();
-  return store.get(SESSION_COOKIE_NAME)?.value ?? null;
-}
-
-export async function createSession(userId: string) {
-  const token = createSessionToken();
-  const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-
-  await supabaseAdminRequest("auth_sessions", {
-    method: "POST",
-    prefer: "return=representation",
-    body: [
-      {
-        id: token,
-        user_id: userId,
-        expires_at: expiresAt,
-      },
-    ],
-  });
-
-  const store = cookies();
+export async function setSessionCookie(payload: SessionPayload) {
+  const token = await createSessionToken(payload);
+  const store = await cookies();
   store.set(SESSION_COOKIE_NAME, token, {
     httpOnly: true,
-    sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
     path: "/",
-    expires: new Date(expiresAt),
+    maxAge: 60 * 60 * 24 * 7, // 7 days
   });
-
-  return token;
 }
 
-export async function destroySession() {
-  const token = getSessionToken();
-
-  if (token) {
-    try {
-      await supabaseAdminRequest("auth_sessions", {
-        method: "DELETE",
-        query: {
-          id: `eq.${token}`,
-        },
-      });
-    } catch {
-      // Ignore cleanup failures; the cookie is still cleared below.
-    }
-  }
-
-  const store = cookies();
+export async function clearSessionCookie() {
+  const store = await cookies();
   store.set(SESSION_COOKIE_NAME, "", {
     httpOnly: true,
-    sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
     path: "/",
     maxAge: 0,
   });
 }
 
+export async function getSession(): Promise<SessionPayload | null> {
+  const store = await cookies();
+  const token = store.get(SESSION_COOKIE_NAME)?.value;
+  if (!token) return null;
+  return verifySessionToken(token);
+}
+
 export async function getCurrentUser(): Promise<AuthUser | null> {
-  if (!authServerEnabled) {
-    return null;
-  }
+  if (!authServerEnabled) return null;
 
-  const token = getSessionToken();
-
-  if (!token) {
-    return null;
-  }
+  const session = await getSession();
+  if (!session) return null;
 
   try {
-    const sessions = await supabaseAdminRequest<SessionRow[]>("auth_sessions", {
-      query: {
-        select: "id,user_id,expires_at",
-        id: `eq.${token}`,
-        limit: "1",
-      },
-    });
-
-    const session = sessions[0];
-
-    if (!session || new Date(session.expires_at).getTime() < Date.now()) {
-      return null;
-    }
-
-    const users = await supabaseAdminRequest<UserRow[]>("auth_users", {
+    const users = await supabaseAdminRequest<UserRow[]>("users", {
       query: {
         select: "id,username,password_hash,created_at",
-        id: `eq.${session.user_id}`,
+        id: `eq.${session.userId}`,
         limit: "1",
       },
     });
 
     const user = users[0];
-
-    if (!user) {
-      return null;
-    }
+    if (!user) return null;
 
     return {
       id: user.id,
@@ -164,8 +139,12 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
   }
 }
 
+// ---------------------------------------------------------------------------
+// User lookup / creation
+// ---------------------------------------------------------------------------
+
 export async function findUserByUsername(username: string) {
-  const users = await supabaseAdminRequest<UserRow[]>("auth_users", {
+  const users = await supabaseAdminRequest<UserRow[]>("users", {
     query: {
       select: "id,username,password_hash,created_at",
       username: `eq.${username}`,
@@ -177,17 +156,24 @@ export async function findUserByUsername(username: string) {
 }
 
 export async function createUser(username: string, password: string) {
-  const id = randomBytes(16).toString("hex");
   const passwordHash = createPasswordHash(password);
 
-  const rows = await supabaseAdminRequest<UserRow[]>("auth_users", {
+  const rows = await supabaseAdminRequest<UserRow[]>("users", {
     method: "POST",
     prefer: "return=representation",
     body: [
       {
-        id,
         username,
         password_hash: passwordHash,
+        elo: 1200,
+        xp: 0,
+        level: 1,
+        wins: 0,
+        losses: 0,
+        current_streak: 0,
+        best_streak: 0,
+        problems_solved: 0,
+        avg_solve_seconds: 0,
       },
     ],
   });

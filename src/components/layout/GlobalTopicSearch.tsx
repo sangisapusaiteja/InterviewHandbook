@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import type { TopicSearchItem } from "@/lib/topic-search-index";
+import type { TopicSearchItem } from "@/lib/api/topics";
 
 type SearchResultItem = TopicSearchItem & {
   score: number;

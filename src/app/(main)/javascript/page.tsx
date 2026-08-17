@@ -1,21 +1,10 @@
-"use client";
+import { redirect } from "next/navigation";
+import { getTopicsByCategory } from "@/lib/api/topics";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { javascriptTopics } from "@/data/javascript";
-
-export default function JavaScriptPage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.replace(`/javascript/${javascriptTopics[0].slug}`);
-  }, [router]);
-
-  return (
-    <div className="flex items-center justify-center h-[calc(100vh-3.5rem)]">
-      <div className="animate-pulse text-muted-foreground">
-        Loading JavaScript topics...
-      </div>
-    </div>
-  );
+export default async function JavaScriptPage() {
+  const topics = await getTopicsByCategory("javascript");
+  if (topics.length > 0) {
+    redirect(`/javascript/${topics[0].slug}`);
+  }
+  return null;
 }

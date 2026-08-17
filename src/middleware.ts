@@ -1,22 +1,24 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { verifySessionToken } from "@/lib/auth-server";
 
-const SESSION_COOKIE_NAME = "ih_session";
+const SESSION_COOKIE = "cb_session";
 
 const isPublicRoute = (pathname: string) =>
   pathname.startsWith("/sign-in") ||
   pathname.startsWith("/sign-up") ||
   pathname.startsWith("/api/auth");
 
-export default function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (isPublicRoute(pathname)) {
     return NextResponse.next();
   }
 
-  const hasSession = Boolean(request.cookies.get(SESSION_COOKIE_NAME)?.value);
+  const token = request.cookies.get(SESSION_COOKIE)?.value;
+  const session = token ? await verifySessionToken(token) : null;
 
-  if (!hasSession) {
+  if (!session) {
     const url = request.nextUrl.clone();
     url.pathname = "/sign-in";
     url.search = "";

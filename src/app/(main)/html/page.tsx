@@ -1,21 +1,10 @@
-"use client";
+import { redirect } from "next/navigation";
+import { getTopicsByCategory } from "@/lib/api/topics";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { htmlTopics } from "@/data/html";
-
-export default function HTMLPage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.replace(`/html/${htmlTopics[0].slug}`);
-  }, [router]);
-
-  return (
-    <div className="flex items-center justify-center h-[calc(100vh-3.5rem)]">
-      <div className="animate-pulse text-muted-foreground">
-        Loading HTML topics...
-      </div>
-    </div>
-  );
+export default async function HTMLPage() {
+  const topics = await getTopicsByCategory("html");
+  if (topics.length > 0) {
+    redirect(`/html/${topics[0].slug}`);
+  }
+  return null;
 }

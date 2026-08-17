@@ -1,21 +1,10 @@
-"use client";
+import { redirect } from "next/navigation";
+import { getTopicsByCategory } from "@/lib/api/topics";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { pythonTopics } from "@/data/python";
-
-export default function PythonPage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.replace(`/python/${pythonTopics[0].slug}`);
-  }, [router]);
-
-  return (
-    <div className="flex items-center justify-center h-[calc(100vh-3.5rem)]">
-      <div className="animate-pulse text-muted-foreground">
-        Loading Python topics...
-      </div>
-    </div>
-  );
+export default async function PythonPage() {
+  const topics = await getTopicsByCategory("python");
+  if (topics.length > 0) {
+    redirect(`/python/${topics[0].slug}`);
+  }
+  return null;
 }

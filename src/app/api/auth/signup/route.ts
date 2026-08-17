@@ -3,6 +3,7 @@ import {
   authServerEnabled,
   createUser,
   findUserByUsername,
+  setSessionCookie,
 } from "@/lib/auth-server";
 
 const USERNAME_PATTERN = /^[a-zA-Z0-9_]{3,24}$/;
@@ -51,6 +52,7 @@ export async function POST(request: Request) {
     }
 
     const user = await createUser(username, password);
+    await setSessionCookie({ userId: user.id, username: user.username });
 
     return NextResponse.json({ user }, { status: 201 });
   } catch {

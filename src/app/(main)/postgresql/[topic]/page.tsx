@@ -19,7 +19,7 @@ import { ConceptSection } from "@/components/dsa/ConceptSection";
 import { QuizSection } from "@/components/dsa/QuizSection";
 import { SQLEditorSection } from "@/components/postgresql/SQLEditorSection";
 import { PostgreSQLVisualizationSection } from "@/components/postgresql/PostgreSQLVisualizationSection";
-import { postgresqlTopics, postgresqlModules } from "@/data/postgresql";
+import { useTopics } from "@/hooks/useTopics";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
 import { TopicAssistant } from "@/components/assistant/TopicAssistant";
@@ -38,6 +38,7 @@ export default function PostgreSQLTopicPage() {
     setLastVisited,
     isTopicComplete,
   } = useProgress();
+  const { topics: postgresqlTopics, modules: postgresqlModules, isLoading } = useTopics("postgresql");
 
   const topicIndex = postgresqlTopics.findIndex((t) => t.slug === topicSlug);
   const topic = topicIndex >= 0 ? postgresqlTopics[topicIndex] : undefined;
@@ -57,6 +58,16 @@ export default function PostgreSQLTopicPage() {
       setLastVisited(topicProgressKey);
     }
   }, [setLastVisited, topicProgressKey]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-3.5rem)]">
+        <div className="animate-pulse text-muted-foreground">
+          Loading topic...
+        </div>
+      </div>
+    );
+  }
 
   if (!topic) {
     return (

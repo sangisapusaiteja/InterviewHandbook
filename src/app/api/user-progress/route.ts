@@ -53,7 +53,7 @@ type ProgressMutationBody =
       progress?: SyncProgressPayload;
     };
 
-function buildProgressResponse(rows: ProgressRow[]): ProgressResponseBody {
+async function buildProgressResponse(rows: ProgressRow[]): Promise<ProgressResponseBody> {
   const completedTopicKeys = rows
     .filter((row) => row.completed)
     .map((row) => `${row.section_slug}:${row.topic_slug}`);
@@ -69,7 +69,7 @@ function buildProgressResponse(rows: ProgressRow[]): ProgressResponseBody {
     )[0];
 
   const lastVisitedTopic = lastVisitedRow
-    ? getTopicEntryByProgressKey(`${lastVisitedRow.section_slug}:${lastVisitedRow.topic_slug}`)
+    ? await getTopicEntryByProgressKey(`${lastVisitedRow.section_slug}:${lastVisitedRow.topic_slug}`)
     : null;
 
   return {
@@ -78,7 +78,7 @@ function buildProgressResponse(rows: ProgressRow[]): ProgressResponseBody {
       lastVisited: lastVisitedTopic?.key,
       activityLog,
     },
-    sectionProgress: buildSectionProgress(completedTopicKeys),
+    sectionProgress: await buildSectionProgress(completedTopicKeys),
     lastVisitedTopic,
   };
 }
@@ -153,7 +153,7 @@ export async function GET() {
 
   try {
     const rows = await getUserProgressRows(userId);
-    return NextResponse.json(buildProgressResponse(rows));
+    return NextResponse.json(await buildProgressResponse(rows));
   } catch {
     return NextResponse.json(
       { error: "Failed to load user progress." },
@@ -195,7 +195,7 @@ export async function POST(request: Request) {
     }
 
     if (body.action === "setCompleted" || body.action === "setLastVisited") {
-      const topicEntry = getTopicEntryByProgressKey(body.topicKey);
+      const topicEntry = await getTopicEntryByProgressKey(body.topicKey);
 
       if (!topicEntry) {
         return NextResponse.json(
@@ -225,19 +225,23 @@ export async function POST(request: Request) {
     if (body.action === "syncFromClient") {
       const normalizedCompletedTopics = Array.from(
         new Set(
-          (body.progress?.completedTopics ?? [])
-            .map((topicKey) => normalizeProgressKey(topicKey))
-            .filter((topicKey): topicKey is string => Boolean(topicKey))
+          (
+            await Promise.all(
+              (body.progress?.completedTopics ?? []).map((topicKey) =>
+                normalizeProgressKey(topicKey)
+              )
+            )
+          ).filter((topicKey): topicKey is string => Boolean(topicKey))
         )
       );
 
       const normalizedLastVisited = body.progress?.lastVisited
-        ? normalizeProgressKey(body.progress.lastVisited)
+        ? await normalizeProgressKey(body.progress.lastVisited)
         : null;
       const now = new Date().toISOString();
 
       for (const topicKey of normalizedCompletedTopics) {
-        const topicEntry = getTopicEntryByProgressKey(topicKey);
+        const topicEntry = await getTopicEntryByProgressKey(topicKey);
 
         if (!topicEntry) {
           continue;
@@ -254,7 +258,7 @@ export async function POST(request: Request) {
       }
 
       if (normalizedLastVisited) {
-        const topicEntry = getTopicEntryByProgressKey(normalizedLastVisited);
+        const topicEntry = await getTopicEntryByProgressKey(normalizedLastVisited);
 
         if (topicEntry) {
           await upsertProgressRow({
@@ -269,7 +273,7 @@ export async function POST(request: Request) {
     }
 
     const rows = await getUserProgressRows(userId);
-    return NextResponse.json(buildProgressResponse(rows));
+    return NextResponse.json(await buildProgressResponse(rows));
   } catch {
     return NextResponse.json(
       { error: "Failed to update user progress." },

@@ -49,7 +49,7 @@ export async function POST(request: Request) {
       );
     }
 
-    await supabaseAdminRequest("auth_users", {
+    await supabaseAdminRequest("users", {
       method: "PATCH",
       query: {
         id: `eq.${user.id}`,

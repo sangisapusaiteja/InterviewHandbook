@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { destroySession, getCurrentUser } from "@/lib/auth-server";
+import { clearSessionCookie, getCurrentUser } from "@/lib/auth-server";
 import { supabaseAdminRequest } from "@/lib/supabase-rest";
 
 export async function POST() {
@@ -10,13 +10,6 @@ export async function POST() {
   }
 
   try {
-    await supabaseAdminRequest("auth_sessions", {
-      method: "DELETE",
-      query: {
-        user_id: `eq.${user.id}`,
-      },
-    });
-
     await supabaseAdminRequest("user_topic_progress", {
       method: "DELETE",
       query: {
@@ -31,14 +24,14 @@ export async function POST() {
       },
     });
 
-    await supabaseAdminRequest("auth_users", {
+    await supabaseAdminRequest("users", {
       method: "DELETE",
       query: {
         id: `eq.${user.id}`,
       },
     });
 
-    await destroySession();
+    await clearSessionCookie();
 
     return NextResponse.json({ ok: true });
   } catch {

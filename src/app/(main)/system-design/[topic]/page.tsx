@@ -19,7 +19,7 @@ import { ConceptSection } from "@/components/dsa/ConceptSection";
 import { QuizSection } from "@/components/dsa/QuizSection";
 import { SystemDesignChecklistSection } from "@/components/system-design/SystemDesignChecklistSection";
 import { SystemDesignVisualizationSection } from "@/components/system-design/SystemDesignVisualizationSection";
-import { systemDesignTopics, systemDesignModules } from "@/data/system-design";
+import { useTopics } from "@/hooks/useTopics";
 import { useProgress } from "@/hooks/useProgress";
 import { useEffect } from "react";
 import { TopicAssistant } from "@/components/assistant/TopicAssistant";
@@ -38,6 +38,7 @@ export default function SystemDesignTopicPage() {
     setLastVisited,
     isTopicComplete,
   } = useProgress();
+  const { topics: systemDesignTopics, modules: systemDesignModules, isLoading } = useTopics("system-design");
 
   const topicIndex = systemDesignTopics.findIndex((t) => t.slug === topicSlug);
   const topic = topicIndex >= 0 ? systemDesignTopics[topicIndex] : undefined;
@@ -59,6 +60,16 @@ export default function SystemDesignTopicPage() {
       setLastVisited(topicProgressKey);
     }
   }, [setLastVisited, topicProgressKey]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-3.5rem)]">
+        <div className="animate-pulse text-muted-foreground">
+          Loading topic...
+        </div>
+      </div>
+    );
+  }
 
   if (!topic) {
     return (

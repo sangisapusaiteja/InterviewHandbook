@@ -1,13 +1,4 @@
-import { cssTopics } from "@/data/css";
-import { categories } from "@/data/categories";
-import { dsaTopics } from "@/data/dsa";
-import { htmlTopics } from "@/data/html";
-import { javascriptTopics } from "@/data/javascript";
-import { postgresqlTopics } from "@/data/postgresql";
-import { pythonTopics } from "@/data/python";
-import { reactTopics } from "@/data/react";
-import { systemDesignTopics } from "@/data/system-design";
-import { technicalTopics } from "@/data/technical";
+import { getCategories, getTopicsByCategory } from "@/lib/api/topics";
 import { getTopicProgressKey, parseTopicProgressKey } from "@/lib/progress";
 import type { ProgressSectionSummary, ProgressTopicSummary } from "@/types/topic";
 
@@ -24,89 +15,51 @@ type SectionDefinition = {
   topics: TopicLike[];
 };
 
-const sectionDefinitions: SectionDefinition[] = [
-  {
-    sectionSlug: "html",
-    title: "HTML",
-    href: "/html",
-    topics: htmlTopics,
-  },
-  {
-    sectionSlug: "css",
-    title: "CSS",
-    href: "/css",
-    topics: cssTopics,
-  },
-  {
-    sectionSlug: "javascript",
-    title: "JavaScript",
-    href: "/javascript",
-    topics: javascriptTopics,
-  },
-  {
-    sectionSlug: "dsa",
-    title: "DSA",
-    href: "/dsa",
-    topics: dsaTopics,
-  },
-  {
-    sectionSlug: "python",
-    title: "Python",
-    href: "/python",
-    topics: pythonTopics,
-  },
-  {
-    sectionSlug: "postgresql",
-    title: "PostgreSQL",
-    href: "/postgresql",
-    topics: postgresqlTopics,
-  },
-  {
-    sectionSlug: "system-design",
-    title: "System Design",
-    href: "/system-design",
-    topics: systemDesignTopics,
-  },
-  {
-    sectionSlug: "technical-questions",
-    title: "Technical Questions",
-    href: "/technical-questions",
-    topics: technicalTopics,
-  },
-  {
-    sectionSlug: "react",
-    title: "React",
-    href: "/react",
-    topics: reactTopics,
-  },
-];
+async function buildSectionDefinitions(): Promise<SectionDefinition[]> {
+  const categories = await getCategories();
+  const available = categories.filter((c) => c.available);
 
-const topicEntries: ProgressTopicSummary[] = sectionDefinitions.flatMap(
-  (section) =>
-    section.topics.map((topic) => ({
-      key: getTopicProgressKey(section.sectionSlug, topic.slug),
-      sectionSlug: section.sectionSlug,
-      topicId: topic.id,
-      topicSlug: topic.slug,
-      title: topic.title,
-      href: `${section.href}/${topic.slug}`,
-    }))
-);
+  const definitions = await Promise.all(
+    available.map(async (category) => {
+      const topics = await getTopicsByCategory(category.id);
+      return {
+        sectionSlug: category.id,
+        title: category.title,
+        href: `/${category.id}`,
+        topics: topics.map((t) => ({
+          id: t.id,
+          slug: t.slug,
+          title: t.title,
+        })),
+      };
+    })
+  );
 
-const topicEntryByKey = new Map(topicEntries.map((entry) => [entry.key, entry]));
-const keysByLegacyTopicId = new Map<string, string[]>();
-
-for (const entry of topicEntries) {
-  const matches = keysByLegacyTopicId.get(entry.topicId) ?? [];
-  matches.push(entry.key);
-  keysByLegacyTopicId.set(entry.topicId, matches);
+  return definitions;
 }
 
-export function getTopicEntryByProgressKey(key: string) {
-  return topicEntryByKey.get(key) ?? null;
+export async function getTopicEntryByProgressKey(key: string) {
+  const parsed = parseTopicProgressKey(key);
+  if (!parsed) return null;
+
+  const definitions = await buildSectionDefinitions();
+  const section = definitions.find((s) => s.sectionSlug === parsed.sectionSlug);
+  if (!section) return null;
+
+  const topic = section.topics.find((t) => t.slug === parsed.topicSlug);
+  if (!topic) return null;
+
+  return {
+    key: getTopicProgressKey(section.sectionSlug, topic.slug),
+    sectionSlug: section.sectionSlug,
+    topicId: topic.id,
+    topicSlug: topic.slug,
+    title: topic.title,
+    href: `${section.href}/${topic.slug}`,
+  } satisfies ProgressTopicSummary;
 }
 
-export function normalizeProgressKey(candidate: string) {
+export async function normalizeProgressKey(candidate: string) {
   const parsedKey = parseTopicProgressKey(candidate);
 
   if (parsedKey) {
@@ -114,46 +67,35 @@ export function normalizeProgressKey(candidate: string) {
       parsedKey.sectionSlug,
       parsedKey.topicSlug
     );
-
-    return topicEntryByKey.has(normalizedKey) ? normalizedKey : null;
+    const entry = await getTopicEntryByProgressKey(normalizedKey);
+    return entry ? normalizedKey : null;
   }
 
-  const legacyMatches = keysByLegacyTopicId.get(candidate) ?? [];
-
-  return legacyMatches.length === 1 ? legacyMatches[0] : null;
+  return null;
 }
 
-export function buildSectionProgress(
+export async function buildSectionProgress(
   completedTopicKeys: Iterable<string>
-): ProgressSectionSummary[] {
+): Promise<ProgressSectionSummary[]> {
   const completedSet = new Set(completedTopicKeys);
-  const sectionDefinitionsBySlug = new Map(
-    sectionDefinitions.map((section) => [section.sectionSlug, section])
-  );
+  const definitions = await buildSectionDefinitions();
 
-  return categories
-    .filter((category) => category.available)
-    .map((category) => {
-      const section = sectionDefinitionsBySlug.get(category.id);
-
-      return {
-        sectionSlug: category.id,
-        title: category.title,
-        href: `/${category.id}`,
-        completedCount: section
-          ? section.topics.reduce((count, topic) => {
-              const progressKey = getTopicProgressKey(category.id, topic.slug);
-              return count + (completedSet.has(progressKey) ? 1 : 0);
-            }, 0)
-          : 0,
-        totalCount: category.topicCount,
-      };
-    });
+  return definitions.map((section) => ({
+    sectionSlug: section.sectionSlug,
+    title: section.title,
+    href: section.href,
+    completedCount: section.topics.reduce((count, topic) => {
+      const progressKey = getTopicProgressKey(section.sectionSlug, topic.slug);
+      return count + (completedSet.has(progressKey) ? 1 : 0);
+    }, 0),
+    totalCount: section.topics.length,
+  }));
 }
 
-export function getTopicCountBySection(sectionSlug: string) {
+export async function getTopicCountBySection(sectionSlug: string) {
+  const definitions = await buildSectionDefinitions();
   return (
-    sectionDefinitions.find((section) => section.sectionSlug === sectionSlug)
-      ?.topics.length ?? 0
+    definitions.find((section) => section.sectionSlug === sectionSlug)?.topics
+      .length ?? 0
   );
 }

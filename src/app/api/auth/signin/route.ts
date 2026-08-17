@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import {
   authServerEnabled,
-  createSession,
   findUserByUsername,
+  setSessionCookie,
   verifyPassword,
 } from "@/lib/auth-server";
 
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       );
     }
 
-    await createSession(user.id);
+    await setSessionCookie({ userId: user.id, username: user.username });
 
     return NextResponse.json({
       user: {
