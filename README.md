@@ -144,6 +144,15 @@ sequenceDiagram
     Next-->>Browser: Streamed answer
 ```
 
+### Key Design Decisions
+
+- **Server-side content caching.** Topic content and the search index are cached on the server (5-minute TTL), so navigation doesn't re-fetch from Supabase on every page change.
+- **Client-side search index.** The search index loads once via a dedicated API route and is cached in memory, keeping the navbar search instant without blocking page renders.
+- **Shared preferences.** Theme, pinned topics, recent items, and AI assistant state are loaded **once after login** through a single `PreferencesProvider` and shared across the app.
+- **Custom auth.** Username + password with bcrypt hashing and JWT `httpOnly` cookies — no email, no third-party auth provider.
+- **Row Level Security.** Every table is RLS-protected; the password hash is column-restricted so it's never exposed to the client.
+- **In-browser tooling.** Monaco powers the code editor and PGLite runs PostgreSQL queries entirely in the browser.
+
 ---
 
 ## Database Schema
