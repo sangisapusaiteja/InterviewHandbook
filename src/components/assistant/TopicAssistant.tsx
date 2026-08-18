@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { usePreferences } from "@/contexts/PreferencesContext";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -214,6 +215,7 @@ function ClerkTopicAssistant({
   sectionTitle,
 }: Readonly<TopicAssistantProps>) {
   const { isSignedIn, user } = useAuth();
+  const { preferences, isLoaded, updatePreferences } = usePreferences();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -309,81 +311,57 @@ function ClerkTopicAssistant({
       };
     }
 
-    let cancelled = false;
+    if (!isLoaded || !preferences) {
+      return;
+    }
 
-    const loadAssistantPreferences = async () => {
-      try {
-        const response = await fetch("/api/user-preferences", {
-          cache: "no-store",
-        });
+    const remoteState = (preferences.assistant_state ?? {}) as AssistantPreferenceState;
+    const sessionIds = remoteState.sessionIds ?? {};
+    const nextSessionId = sessionIds[assistantScopeKey] || crypto.randomUUID();
+    const lastSentAt = Number(remoteState.lastSentAt?.[assistantScopeKey] ?? 0);
+    const cooldownMs = Number(
+      remoteState.cooldownMs?.[assistantScopeKey] ?? DEFAULT_COOLDOWN_MS
+    );
 
-        if (!response.ok) {
-          return;
-        }
+    setAssistantPreferences({
+      sessionIds: {
+        ...sessionIds,
+        [assistantScopeKey]: nextSessionId,
+      },
+      lastSentAt: remoteState.lastSentAt ?? {},
+      cooldownMs: remoteState.cooldownMs ?? {},
+    });
+    setSessionId(nextSessionId);
+    setCooldownRemainingMs(
+      lastSentAt && cooldownMs
+        ? getCooldownRemainingMs(lastSentAt, cooldownMs)
+        : 0
+    );
 
-        const payload = (await response.json()) as {
-          preferences: { assistant_state?: AssistantPreferenceState } | null;
-        };
-        const remoteState = payload.preferences?.assistant_state ?? {};
-        const sessionIds = remoteState.sessionIds ?? {};
-        const nextSessionId = sessionIds[assistantScopeKey] || crypto.randomUUID();
-        const lastSentAt = Number(remoteState.lastSentAt?.[assistantScopeKey] ?? 0);
-        const cooldownMs = Number(
-          remoteState.cooldownMs?.[assistantScopeKey] ?? DEFAULT_COOLDOWN_MS
-        );
-
-        if (!cancelled) {
-          setAssistantPreferences({
-            sessionIds: {
-              ...sessionIds,
-              [assistantScopeKey]: nextSessionId,
-            },
-            lastSentAt: remoteState.lastSentAt ?? {},
-            cooldownMs: remoteState.cooldownMs ?? {},
-          });
-          setSessionId(nextSessionId);
-          setCooldownRemainingMs(
-            lastSentAt && cooldownMs
-              ? getCooldownRemainingMs(lastSentAt, cooldownMs)
-              : 0
-          );
-        }
-
-        if (!sessionIds[assistantScopeKey]) {
-          void fetch("/api/user-preferences", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              assistantState: {
-                sessionIds: {
-                  ...sessionIds,
-                  [assistantScopeKey]: nextSessionId,
-                },
-                lastSentAt: remoteState.lastSentAt ?? {},
-                cooldownMs: remoteState.cooldownMs ?? {},
-              },
-            }),
-          }).catch(() => {});
-        }
-      } catch {
-        setSessionId(crypto.randomUUID());
-        setCooldownRemainingMs(0);
-      }
-    };
-
-    void loadAssistantPreferences();
+    if (!sessionIds[assistantScopeKey]) {
+      updatePreferences({
+        assistantState: {
+          sessionIds: {
+            ...sessionIds,
+            [assistantScopeKey]: nextSessionId,
+          },
+          lastSentAt: remoteState.lastSentAt ?? {},
+          cooldownMs: remoteState.cooldownMs ?? {},
+        },
+      });
+    }
 
     const intervalId = window.setInterval(() => {
       setAssistantPreferences((current) => {
-        const lastSentAt = Number(current.lastSentAt?.[assistantScopeKey] ?? 0);
-        const cooldownMs = Number(
+        const currentLastSentAt = Number(
+          current.lastSentAt?.[assistantScopeKey] ?? 0
+        );
+        const currentCooldownMs = Number(
           current.cooldownMs?.[assistantScopeKey] ?? DEFAULT_COOLDOWN_MS
         );
         const remainingMs =
-          lastSentAt && cooldownMs
-            ? getCooldownRemainingMs(lastSentAt, cooldownMs)
+          currentLastSentAt && currentCooldownMs
+            ? getCooldownRemainingMs(currentLastSentAt, currentCooldownMs)
             : 0;
         setCooldownRemainingMs(remainingMs);
         return current;
@@ -391,10 +369,9 @@ function ClerkTopicAssistant({
     }, 1000);
 
     return () => {
-      cancelled = true;
       window.clearInterval(intervalId);
     };
-  }, [assistantScopeKey, storageKeyPrefix]);
+  }, [assistantScopeKey, storageKeyPrefix, isLoaded, preferences, updatePreferences]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -509,15 +486,7 @@ function ClerkTopicAssistant({
       setAssistantPreferences(nextAssistantState);
       setCooldownRemainingMs(getCooldownRemainingMs(now, DEFAULT_COOLDOWN_MS));
 
-      void fetch("/api/user-preferences", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          assistantState: nextAssistantState,
-        }),
-      }).catch(() => {});
+      updatePreferences({ assistantState: nextAssistantState });
     } else {
       localStorage.setItem(lastSentAtStorageKey, String(now));
       localStorage.setItem(cooldownMsStorageKey, String(DEFAULT_COOLDOWN_MS));
@@ -568,15 +537,7 @@ function ClerkTopicAssistant({
             };
 
             setAssistantPreferences(nextAssistantState);
-            void fetch("/api/user-preferences", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                assistantState: nextAssistantState,
-              }),
-            }).catch(() => {});
+            updatePreferences({ assistantState: nextAssistantState });
           } else {
             localStorage.setItem(lastSentAtStorageKey, String(rateLimitNow));
             localStorage.setItem(

@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { usePreferences } from "@/contexts/PreferencesContext";
 import type { TopicSearchItem } from "@/lib/api/topics";
 
 type SearchResultItem = TopicSearchItem & {
@@ -38,14 +39,6 @@ const remotePinnedTopicsEnabled = Boolean(
   process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
     process.env.NEXT_PUBLIC_SUPABASE_URL
 );
-
-type PreferencesPayload = {
-  preferences: {
-    pinned_topic_hrefs?: string[];
-    recent_queries?: string[];
-    recent_topic_hrefs?: string[];
-  } | null;
-};
 
 const POPULAR_SEARCHES = [
   "CAP theorem",
@@ -316,84 +309,44 @@ export function GlobalTopicSearch({
   const [recentQueries, setRecentQueries] = useState<string[]>([]);
   const [recentTopicHrefs, setRecentTopicHrefs] = useState<string[]>([]);
   const [pinnedTopicHrefs, setPinnedTopicHrefs] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (remotePinnedTopicsEnabled) {
-      return;
-    }
-
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    const readStoredList = (key: string) => {
-      try {
-        const value = window.localStorage.getItem(key);
-        const parsed = value ? JSON.parse(value) : [];
-        return Array.isArray(parsed)
-          ? parsed.filter(
-              (entry): entry is string =>
-                typeof entry === "string" &&
-                !BLOCKED_RECENT_QUERIES.has(entry.toLowerCase()),
-            )
-          : [];
-      } catch {
-        return [];
-      }
-    };
-
-    setRecentQueries(readStoredList(RECENT_QUERIES_KEY));
-    setRecentTopicHrefs(readStoredList(RECENT_TOPICS_KEY));
-    setPinnedTopicHrefs(readStoredList(PINNED_TOPICS_KEY));
-  }, []);
+  const { preferences, isLoaded, updatePreferences } = usePreferences();
 
   useEffect(() => {
     if (!remotePinnedTopicsEnabled) {
+      if (typeof window === "undefined") {
+        return;
+      }
+
+      const readStoredList = (key: string) => {
+        try {
+          const value = window.localStorage.getItem(key);
+          const parsed = value ? JSON.parse(value) : [];
+          return Array.isArray(parsed)
+            ? parsed.filter(
+                (entry): entry is string =>
+                  typeof entry === "string" &&
+                  !BLOCKED_RECENT_QUERIES.has(entry.toLowerCase()),
+              )
+            : [];
+        } catch {
+          return [];
+        }
+      };
+
+      setRecentQueries(readStoredList(RECENT_QUERIES_KEY));
+      setRecentTopicHrefs(readStoredList(RECENT_TOPICS_KEY));
+      setPinnedTopicHrefs(readStoredList(PINNED_TOPICS_KEY));
       return;
     }
 
-    let cancelled = false;
+    if (!isLoaded || !preferences) {
+      return;
+    }
 
-    const loadSearchPreferences = async () => {
-      try {
-        const response = await fetch("/api/user-preferences", {
-          cache: "no-store",
-        });
-
-        if (!response.ok) {
-          return;
-        }
-
-        const payload = (await response.json()) as PreferencesPayload;
-        const remotePinnedTopics = payload.preferences?.pinned_topic_hrefs;
-        const remoteRecentQueries = payload.preferences?.recent_queries;
-        const remoteRecentTopicHrefs = payload.preferences?.recent_topic_hrefs;
-
-        if (
-          !cancelled &&
-          Array.isArray(remotePinnedTopics)
-        ) {
-          setPinnedTopicHrefs(remotePinnedTopics);
-        }
-
-        if (!cancelled && Array.isArray(remoteRecentQueries)) {
-          setRecentQueries(remoteRecentQueries);
-        }
-
-        if (!cancelled && Array.isArray(remoteRecentTopicHrefs)) {
-          setRecentTopicHrefs(remoteRecentTopicHrefs);
-        }
-      } catch {
-        // fall back to local storage
-      }
-    };
-
-    void loadSearchPreferences();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    setPinnedTopicHrefs(preferences.pinned_topic_hrefs ?? []);
+    setRecentQueries(preferences.recent_queries ?? []);
+    setRecentTopicHrefs(preferences.recent_topic_hrefs ?? []);
+  }, [preferences, isLoaded]);
 
   const persistStringList = (
     key: string,
@@ -416,13 +369,7 @@ export function GlobalTopicSearch({
       return;
     }
 
-    void fetch("/api/user-preferences", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    }).catch(() => {});
+    updatePreferences(payload);
   };
 
   const buildRecentQueries = (value: string) => {

@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useRef } from "react";
 import {
   BookOpen,
   Home,
@@ -19,13 +20,9 @@ import { GlobalTopicSearch } from "./GlobalTopicSearch";
 import { CustomUserMenu } from "./CustomUserMenu";
 import { BugReport } from "./BugReport";
 import { useAuth } from "@/contexts/AuthContext";
+import { useSearchIndex } from "@/hooks/useSearchIndex";
 import { categories } from "@/data/categories";
 import { cn } from "@/lib/utils";
-import type { TopicSearchItem } from "@/lib/api/topics";
-
-interface NavbarProps {
-  searchIndex: TopicSearchItem[];
-}
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   FileCode,
@@ -59,12 +56,26 @@ function NavbarAuthControls() {
   );
 }
 
-export function Navbar({ searchIndex }: Readonly<NavbarProps>) {
+export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { searchIndex } = useSearchIndex();
+  const prefetchedRef = useRef<Set<string>>(new Set());
   const navCategories = categories.filter((category) => category.available);
   const isAuthPage =
     pathname.startsWith("/sign-in") || pathname.startsWith("/sign-up");
   const showNavbarSearch = pathname !== "/" && !isAuthPage;
+
+  const prefetch = useCallback(
+    (href: string) => {
+      if (prefetchedRef.current.has(href)) {
+        return;
+      }
+      prefetchedRef.current.add(href);
+      router.prefetch(href);
+    },
+    [router]
+  );
 
   const groups = Array.from(new Set(navCategories.map((c) => c.group)));
 
@@ -138,6 +149,9 @@ export function Navbar({ searchIndex }: Readonly<NavbarProps>) {
                             <Link
                               key={category.id}
                               href={href}
+                              onMouseEnter={() => prefetch(href)}
+                              onFocus={() => prefetch(href)}
+                              onTouchStart={() => prefetch(href)}
                               className={cn(
                                 "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150",
                                 isActive

@@ -108,12 +108,16 @@
   }
 }
 
-@keyframes theme-circle-reveal {
-  from {
-    clip-path: circle(0 at var(--theme-transition-x) var(--theme-transition-y));
+@keyframes handbook-breathe {
+  0%,
+  100% {
+    transform: scale(0.94);
+    opacity: 0.78;
   }
-  to {
-    clip-path: circle(150vmax at var(--theme-transition-x) var(--theme-transition-y));
+
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
   }
 }
 
@@ -133,39 +137,21 @@
   }
 }
 
-@keyframes handbook-breathe {
-  0%,
-  100% {
-    transform: scale(0.94);
-    opacity: 0.78;
+@keyframes route-progress {
+  0% {
+    transform: translateX(-100%);
   }
-
   50% {
-    transform: scale(1.06);
-    opacity: 1;
+    transform: translateX(60%);
+  }
+  100% {
+    transform: translateX(200%);
   }
 }
 
 @supports (view-transition-name: root) {
   :root {
     view-transition-name: root;
-    --theme-reveal-duration: 1800ms;
-  }
-
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation-duration: var(--theme-reveal-duration);
-    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
-  }
-
-  :root.theme-circle-transition::view-transition-old(root) {
-    animation: none;
-  }
-
-  :root.theme-circle-transition::view-transition-new(root) {
-    animation:
-      theme-circle-reveal var(--theme-reveal-duration)
-      cubic-bezier(0.19, 1, 0.22, 1) both;
   }
 }
 

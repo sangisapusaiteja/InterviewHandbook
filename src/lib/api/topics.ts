@@ -8,6 +8,45 @@ import type {
 } from "@/types/topic";
 
 // ---------------------------------------------------------------------------
+// TTL cache
+// Topic content (categories, modules, topics, questions) is static and shared
+// by all users, so it is safe to cache on the server for a short window. This
+// avoids re-fetching the same data from Supabase on every page navigation.
+// User-specific data (progress, preferences) is NOT cached here.
+// ---------------------------------------------------------------------------
+const CONTENT_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+function cached<T>(load: () => Promise<T>): () => Promise<T> {
+  let entry: { data: T; fetchedAt: number } | null = null;
+  return async () => {
+    const now = Date.now();
+    if (entry && now - entry.fetchedAt < CONTENT_TTL_MS) {
+      return entry.data;
+    }
+    const data = await load();
+    entry = { data, fetchedAt: now };
+    return data;
+  };
+}
+
+function cachedByKey<T, A extends unknown[]>(
+  load: (...args: A) => Promise<T>
+): (...args: A) => Promise<T> {
+  const entries = new Map<string, { data: T; fetchedAt: number }>();
+  return async (...args: A) => {
+    const now = Date.now();
+    const key = JSON.stringify(args);
+    const entry = entries.get(key);
+    if (entry && now - entry.fetchedAt < CONTENT_TTL_MS) {
+      return entry.data;
+    }
+    const data = await load(...args);
+    entries.set(key, { data, fetchedAt: now });
+    return data;
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Row shapes (matching the DB schema in code-battle/db/schema.sql)
 // ---------------------------------------------------------------------------
 
@@ -127,7 +166,7 @@ function mapModule(row: ModuleRow): TopicModule {
 // Queries
 // ---------------------------------------------------------------------------
 
-export async function getCategories(): Promise<CategoryInfo[]> {
+const loadCategories = async (): Promise<CategoryInfo[]> => {
   const rows = await supabaseAdminRequest<CategoryRow[]>("categories", {
     query: {
       select: "id,title,icon,description,color,group,available,sort_order",
@@ -147,7 +186,9 @@ export async function getCategories(): Promise<CategoryInfo[]> {
     available: row.available,
     group: row.group,
   }));
-}
+};
+
+export const getCategories = cached(loadCategories);
 
 export async function getTopicCountsByCategory(): Promise<Map<string, number>> {
   const rows = await supabaseAdminRequest<{ category_id: string; count: number }[]>(
@@ -166,7 +207,7 @@ export async function getTopicCountsByCategory(): Promise<Map<string, number>> {
   return counts;
 }
 
-export async function getTopicsByCategory(categoryId: string): Promise<Topic[]> {
+const loadTopicsByCategory = async (categoryId: string): Promise<Topic[]> => {
   const topicRows = await supabaseAdminRequest<TopicRow[]>("topics", {
     query: {
       select:
@@ -195,11 +236,13 @@ export async function getTopicsByCategory(categoryId: string): Promise<Topic[]> 
   }
 
   return topicRows.map((row) => mapTopic(row, questionsByTopic.get(row.id) ?? []));
-}
+};
 
-export async function getModulesByCategory(
+export const getTopicsByCategory = cachedByKey(loadTopicsByCategory);
+
+const loadModulesByCategory = async (
   categoryId: string
-): Promise<TopicModule[]> {
+): Promise<TopicModule[]> => {
   const moduleRows = await supabaseAdminRequest<ModuleRow[]>("modules", {
     query: {
       select: "id,category_id,level,title,difficulty,description,category,sort_order",
@@ -231,7 +274,9 @@ export async function getModulesByCategory(
     ...mapModule(row),
     topicIds: topicIdsByModule.get(row.id) ?? [],
   }));
-}
+};
+
+export const getModulesByCategory = cachedByKey(loadModulesByCategory);
 
 export type TopicSearchItem = {
   id: string;
@@ -256,7 +301,9 @@ function summarizeDescription(description: string) {
   return `${normalized.slice(0, 137).trimEnd()}...`;
 }
 
-export async function buildSearchIndex(): Promise<TopicSearchItem[]> {
+// The search index is static, shared content, so cache it to avoid
+// re-fetching from Supabase on every page navigation.
+const loadSearchIndex = async (): Promise<TopicSearchItem[]> => {
   const [categories, topicRows, moduleRows] = await Promise.all([
     supabaseAdminRequest<CategoryRow[]>("categories", {
       query: { select: "id,title", order: "sort_order.asc" },
@@ -281,7 +328,7 @@ export async function buildSearchIndex(): Promise<TopicSearchItem[]> {
     SECTION_DEFINITIONS.map((s) => [s.id, s])
   );
 
-  return topicRows.map((topic) => {
+  const result = topicRows.map((topic) => {
     const category = categoryById.get(topic.category_id);
     const section = sectionByCategoryId.get(topic.category_id);
     const topicModule = topic.module_id ? moduleById.get(topic.module_id) : undefined;
@@ -313,12 +360,15 @@ export async function buildSearchIndex(): Promise<TopicSearchItem[]> {
       ].join(" "),
     };
   });
-}
 
-export async function getTopicBySlug(
+  return result;
+};
+export const buildSearchIndex = cached(loadSearchIndex);
+
+const loadTopicBySlug = async (
   categoryId: string,
   slug: string
-): Promise<Topic | null> {
+): Promise<Topic | null> => {
   const topicRows = await supabaseAdminRequest<TopicRow[]>("topics", {
     query: {
       select:
@@ -344,4 +394,6 @@ export async function getTopicBySlug(
   );
 
   return mapTopic(row, questionRows);
-}
+};
+
+export const getTopicBySlug = cachedByKey(loadTopicBySlug);

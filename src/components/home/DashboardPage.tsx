@@ -30,7 +30,7 @@ import { Badge } from "@/components/ui/badge";
 import { GlobalTopicSearch } from "@/components/layout/GlobalTopicSearch";
 import { useCategories } from "@/hooks/useCategories";
 import { useProgress } from "@/hooks/useProgress";
-import type { TopicSearchItem } from "@/lib/api/topics";
+import { useSearchIndex } from "@/hooks/useSearchIndex";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Layout,
@@ -75,11 +75,10 @@ function formatProgressPercent(value: number, total: number) {
   return `${Math.round(rawPercent)}%`;
 }
 
-export function DashboardPage({
-  searchIndex,
-}: Readonly<{ searchIndex: TopicSearchItem[] }>) {
+export function DashboardPage() {
   const { isLoaded, lastVisitedTopic, sectionProgress } = useProgress();
   const { categories } = useCategories();
+  const { searchIndex } = useSearchIndex();
   const totalTrackedTopics = sectionProgress.reduce(
     (count, section) => count + section.totalCount,
     0,

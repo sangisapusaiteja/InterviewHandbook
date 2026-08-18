@@ -4,7 +4,9 @@ import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { MobileSidebarProvider } from "@/contexts/MobileSidebarContext";
+import { PreferencesProvider } from "@/contexts/PreferencesContext";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { RouteProgressBar } from "@/components/layout/RouteProgressBar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,12 +41,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)] antialiased`}
       >
         <AuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <TooltipProvider>
-              <MobileSidebarProvider>{children}</MobileSidebarProvider>
-            </TooltipProvider>
-          </ThemeProvider>
+          <PreferencesProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <TooltipProvider>
+                <MobileSidebarProvider>{children}</MobileSidebarProvider>
+              </TooltipProvider>
+            </ThemeProvider>
+          </PreferencesProvider>
         </AuthProvider>
+        <RouteProgressBar />
       </body>
     </html>
   );

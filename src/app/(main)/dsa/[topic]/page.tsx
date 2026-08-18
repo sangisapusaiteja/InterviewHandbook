@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { TopicSidebar } from "@/components/layout/TopicSidebar";
+import { TopicPageLoader } from "@/components/layout/TopicPageLoader";
 import { ConceptSection } from "@/components/dsa/ConceptSection";
 import { QuizSection } from "@/components/dsa/QuizSection";
 import { VisualizationSection } from "@/components/dsa/VisualizationSection";
@@ -61,13 +62,7 @@ export default function TopicPage() {
   }, [setLastVisited, topicProgressKey]);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-[calc(100vh-3.5rem)]">
-        <div className="animate-pulse text-muted-foreground">
-          Loading topic...
-        </div>
-      </div>
-    );
+    return <TopicPageLoader />;
   }
 
   if (!topic) {
