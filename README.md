@@ -168,6 +168,7 @@ erDiagram
         text password_hash
         int xp
         int level
+        text role
         timestamptz created_at
         timestamptz updated_at
     }
@@ -236,7 +237,7 @@ erDiagram
 
 | Table | Purpose |
 |-------|---------|
-| `users` | Shared identity table (username + bcrypt password hash, XP/level). |
+| `users` | Shared identity table (username + bcrypt password hash, XP/level, role). |
 | `user_topic_progress` | Per-user topic completion and last-opened tracking. |
 | `user_preferences` | Theme (read/light/dark), pinned topics, recent queries, AI assistant state. |
 | `categories` | Top-level sections (HTML, CSS, JavaScript, …). |
