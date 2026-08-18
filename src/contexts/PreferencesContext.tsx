@@ -45,7 +45,7 @@ const remotePreferencesEnabled = Boolean(
 );
 
 const defaultPreferences: Omit<UserPreferences, "user_id"> = {
-  app_theme: "system",
+  app_theme: "read",
   pinned_topic_hrefs: [],
   recent_queries: [],
   recent_topic_hrefs: [],

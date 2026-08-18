@@ -1,9 +1,24 @@
 "use client";
 
-import { Moon, Sun } from "lucide-react";
+import { BookOpen, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+
+const MODES = ["read", "light", "dark"] as const;
+type Mode = (typeof MODES)[number];
+
+const MODE_ICONS: Record<Mode, React.ComponentType<{ className?: string }>> = {
+  read: BookOpen,
+  light: Sun,
+  dark: Moon,
+};
+
+const MODE_LABELS: Record<Mode, string> = {
+  read: "Read mode",
+  light: "Light mode",
+  dark: "Dark mode",
+};
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -25,10 +40,15 @@ export function ThemeToggle() {
     );
   }
 
-  const isDark = theme === "dark";
+  const currentMode: Mode = MODES.includes(theme as Mode)
+    ? (theme as Mode)
+    : "read";
+  const nextMode: Mode =
+    MODES[(MODES.indexOf(currentMode) + 1) % MODES.length];
+  const CurrentIcon = MODE_ICONS[currentMode];
 
   const handleToggle = () => {
-    setTheme(isDark ? "light" : "dark");
+    setTheme(nextMode);
   };
 
   return (
@@ -37,22 +57,11 @@ export function ThemeToggle() {
       size="icon"
       className="relative h-9 w-9 shrink-0 rounded-xl transition-colors duration-300 hover:bg-accent/80"
       onClick={handleToggle}
+      title={`${MODE_LABELS[currentMode]} — click for ${MODE_LABELS[nextMode]}`}
+      aria-label={`${MODE_LABELS[currentMode]} — click for ${MODE_LABELS[nextMode]}`}
     >
-      <Sun
-        className={`absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
-          isDark
-            ? "rotate-0 scale-100 opacity-100"
-            : "rotate-90 scale-0 opacity-0"
-        }`}
-      />
-      <Moon
-        className={`absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
-          isDark
-            ? "-rotate-90 scale-0 opacity-0"
-            : "rotate-0 scale-100 opacity-100"
-        }`}
-      />
-      <span className="sr-only">Toggle theme</span>
+      <CurrentIcon className="h-4 w-4" />
+      <span className="sr-only">{MODE_LABELS[currentMode]}</span>
     </Button>
   );
 }

@@ -23,9 +23,6 @@ export const metadata: Metadata = {
   title: "Interview Handbook",
   description:
     "A comprehensive, beginner-friendly interview preparation handbook for software developers. Master DSA, JavaScript, and more.",
-  icons: {
-    icon: "/favicon.png",
-  },
 };
 
 export const dynamic = "force-dynamic";
@@ -42,7 +39,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           <PreferencesProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ThemeProvider attribute="class" defaultTheme="read" enableSystem={false}>
               <TooltipProvider>
                 <MobileSidebarProvider>{children}</MobileSidebarProvider>
               </TooltipProvider>

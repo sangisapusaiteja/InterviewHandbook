@@ -164,6 +164,10 @@ import {
   Ticket,
   Upload,
   Users,
+  Atom,
+  TextCursorInput,
+  Shield,
+  Server,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
@@ -339,6 +343,10 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Ticket,
   Upload,
   Users,
+  Atom,
+  TextCursorInput,
+  Shield,
+  Server,
 };
 
 const moduleIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -422,6 +430,16 @@ const moduleIconMap: Record<string, React.ComponentType<{ className?: string }>>
   "react-hooks": Code,
   "react-rendering": Monitor,
   "react-advanced": BrainCircuit,
+  "react-components": Boxes,
+  "react-props": ArrowRightLeft,
+  "react-state-events": Zap,
+  "react-rendering-lists": List,
+  "react-forms": TextCursorInput,
+  "react-useeffect": Timer,
+  "react-context-hooks": Share2,
+  "react-performance": Cpu,
+  "react-routing": Globe,
+  "react-api": Server,
   "nextjs-rendering": Globe,
   "nextjs-routing": Route,
   "ts-types": FileCode,

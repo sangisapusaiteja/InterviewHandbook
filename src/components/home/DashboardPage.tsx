@@ -16,7 +16,6 @@ import {
   House,
   Lock,
   ArrowRight,
-  Sparkles,
   Star,
 } from "lucide-react";
 import {
@@ -122,40 +121,82 @@ export function DashboardPage() {
   return (
     <div className="min-h-[calc(100vh-3.5rem)]">
       {/* Hero Section */}
-      <section className="relative overflow-hidden border-b bg-gradient-to-b from-primary/5 to-background">
-        <div className="container mx-auto px-4 py-16 md:py-24 relative">
+      <section className="relative overflow-hidden border-b bg-background">
+        {/* Ambient glow orbs */}
+        <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-emerald-500/5 blur-[120px]" />
+        <div className="pointer-events-none absolute -bottom-40 left-1/3 h-[400px] w-[400px] rounded-full bg-emerald-400/5 blur-[120px]" />
+
+        <div className="container relative z-10 mx-auto px-4 py-16 md:py-24">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <Badge variant="secondary" className="mb-4">
-              <Sparkles className="h-3 w-3 mr-1" />
-              Free &amp; Open Source
-            </Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-              Interview <span className="text-primary">Handbook</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight flex justify-center gap-4">
+              <span className="text-foreground">Interview</span>{" "}
+              <span
+                className="text-primary"
+                style={{ textShadow: "0 0 30px rgba(34,197,94,0.3)" }}
+              >
+                Handbook
+              </span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="mt-6 max-w-xl mx-auto text-lg leading-relaxed text-muted-foreground">
               Your complete guide to cracking technical interviews. Learn
               concepts, visualize algorithms, and practice coding — all in one
               place.
             </p>
-            <div className="mx-auto mt-10 flex max-w-4xl flex-col items-center">
+
+            {/* CTA Buttons */}
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href={learningPathHref}
+                className="w-full sm:w-auto px-8 py-4 text-lg font-bold rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:scale-105"
+              >
+                {learningPathLabel}
+              </Link>
+              <Link
+                href="#categories"
+                className="w-full sm:w-auto px-8 py-4 text-lg font-semibold rounded-xl border border-primary/30 text-primary transition-all duration-300 hover:bg-primary/10 hover:scale-105"
+              >
+                Browse Categories
+              </Link>
+            </div>
+
+            {/* Feature pills */}
+            <div className="mt-16 flex flex-wrap items-center justify-center gap-3">
+              {[
+                { icon: "📚", text: "500+ Topics" },
+                { icon: "🎨", text: "60+ Visualizations" },
+                { icon: "⚡", text: "Live Code Editor" },
+                { icon: "🤖", text: "AJet AI Assistant" },
+              ].map((f) => (
+                <span
+                  key={f.text}
+                  className="flex items-center gap-2 rounded-full border border-border bg-card/60 px-5 py-2.5 text-sm text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:bg-card"
+                >
+                  <span className="text-base">{f.icon}</span>
+                  {f.text}
+                </span>
+              ))}
+            </div>
+
+            {/* Search */}
+            <div className="mx-auto mt-12 flex max-w-4xl flex-col items-center">
               <GlobalTopicSearch
-                className="mx-auto h-16 !w-[600px] max-w-4xl rounded-2xl border border-primary/15 bg-background/80 px-5 text-base shadow-[0_24px_80px_-30px_rgba(59,130,246,0.32)] backdrop-blur-md hover:border-primary/30"
+                className="mx-auto h-16 !w-[600px] max-w-4xl rounded-2xl border border-border bg-card/60 px-5 text-base text-foreground shadow-[0_24px_80px_-30px_rgba(34,197,94,0.3)] backdrop-blur-md hover:border-primary/30"
                 searchIndex={searchIndex}
                 shortcutEnabled
               />
               <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
-                <span className="rounded-full border border-border/70 bg-background/40 px-3 py-1.5">
+                <span className="rounded-full border border-border bg-card/40 px-3 py-1.5">
                   Search all modules
                 </span>
-                <span className="rounded-full border border-border/70 bg-background/40 px-3 py-1.5">
+                <span className="rounded-full border border-border bg-card/40 px-3 py-1.5">
                   Jump to exact topics fast
                 </span>
-                <span className="rounded-full border border-border/70 bg-background/40 px-3 py-1.5">
+                <span className="rounded-full border border-border bg-card/40 px-3 py-1.5">
                   Use `/` or `Alt+K`
                 </span>
               </div>
@@ -378,7 +419,10 @@ export function DashboardPage() {
       <footer className="border-t py-8 mt-12">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-muted-foreground">
-            Interview Handbook — Built for developers, by developers.
+            Interview Handbook —{" "}
+            <span className="text-primary font-medium">
+              Built for developers, by developers.
+            </span>
           </p>
         </div>
       </footer>

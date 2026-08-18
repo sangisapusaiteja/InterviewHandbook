@@ -139,6 +139,6 @@ export function getProgressStreaks(dailyActivity: DailyActivityCount[]) {
 
 export function isSupportedThemePreference(
   value: string
-): value is "light" | "dark" | "system" {
-  return value === "light" || value === "dark" || value === "system";
+): value is "light" | "dark" | "read" {
+  return value === "light" || value === "dark" || value === "read";
 }

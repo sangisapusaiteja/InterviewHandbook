@@ -15,8 +15,8 @@ import {
   Palette,
   Server,
 } from "lucide-react";
-import { ThemeToggle } from "./ThemeToggle";
 import { GlobalTopicSearch } from "./GlobalTopicSearch";
+import { ThemeToggle } from "./ThemeToggle";
 import { CustomUserMenu } from "./CustomUserMenu";
 import { BugReport } from "./BugReport";
 import { useAuth } from "@/contexts/AuthContext";
@@ -88,7 +88,7 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-[70] w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-[70] w-full border-b bg-background">
       <div className="flex h-14 items-center px-4 md:px-6">
         <Link href="/" className="mr-4 flex shrink-0 items-center gap-2">
           <BookOpen className="h-5 w-5 shrink-0 text-primary" />

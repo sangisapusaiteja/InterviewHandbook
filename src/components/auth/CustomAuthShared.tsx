@@ -16,12 +16,12 @@ export function AuthCard({
   children: ReactNode;
 }>) {
   return (
-    <div className="w-full rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(20,22,38,0.96),rgba(16,18,32,0.98))] p-6 shadow-[0_30px_120px_-40px_rgba(92,86,255,0.45)] sm:p-8">
+    <div className="w-full rounded-[28px] border border-border bg-card p-6 shadow-[0_30px_120px_-40px_rgba(34,197,94,0.25)] sm:p-8">
       <div className="mb-8">
-        <h2 className="text-3xl font-semibold tracking-tight text-white">
+        <h2 className="text-3xl font-semibold tracking-tight text-foreground">
           {title}
         </h2>
-        <p className="mt-2 text-sm text-slate-400">{subtitle}</p>
+        <p className="mt-2 text-sm text-muted-foreground">{subtitle}</p>
       </div>
       {children}
     </div>
@@ -55,7 +55,7 @@ export function AuthField({
 
   return (
     <label className="block space-y-2">
-      <span className="text-sm font-medium text-slate-200">{label}</span>
+      <span className="text-sm font-medium text-foreground">{label}</span>
       <div className="relative">
         <input
           type={resolvedType}
@@ -67,7 +67,7 @@ export function AuthField({
           inputMode={inputMode}
           maxLength={maxLength}
           className={cn(
-            "h-12 w-full rounded-2xl border border-white/10 bg-white/5 px-4 text-slate-100 outline-none transition focus:border-[hsl(243,60%,68%)] focus:ring-1 focus:ring-[hsl(243,60%,68%)] placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-60",
+            "h-12 w-full rounded-2xl border border-border bg-muted/40 px-4 text-foreground outline-none transition focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-60",
             isPasswordField && "pr-12"
           )}
         />
@@ -77,7 +77,7 @@ export function AuthField({
             onClick={() => setShowPassword((value) => !value)}
             disabled={disabled}
             aria-label={showPassword ? "Hide password" : "Show password"}
-            className="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-slate-400 transition hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+            className="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-muted-foreground transition hover:text-foreground disabled:cursor-not-allowed disabled:opacity-60"
           >
             {showPassword ? (
               <EyeOff className="h-4 w-4" />
@@ -105,7 +105,7 @@ export function AuthSubmitButton({
       type="submit"
       disabled={disabled || loading}
       className={cn(
-        "flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[linear-gradient(135deg,hsl(243,60%,68%),hsl(254,78%,62%))] px-4 text-sm font-semibold text-[hsl(230,20%,10%)] shadow-[0_18px_40px_-18px_rgba(101,92,255,0.9)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+        "flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-[0_18px_40px_-18px_rgba(34,197,94,0.6)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
       )}
     >
       {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
@@ -128,7 +128,7 @@ export function AuthSocialButton({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="flex h-12 w-full items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 text-sm font-medium text-slate-100 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+      className="flex h-12 w-full items-center justify-center gap-3 rounded-2xl border border-border bg-muted/40 px-4 text-sm font-medium text-foreground transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-60"
     >
       <GoogleIcon className="h-4 w-4" />
       <span>{children}</span>
@@ -143,11 +143,11 @@ export function AuthDivider({
 }>) {
   return (
     <div className="flex items-center gap-3">
-      <div className="h-px flex-1 bg-white/10" />
-      <span className="text-xs uppercase tracking-[0.2em] text-slate-500">
+      <div className="h-px flex-1 bg-border" />
+      <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
         {label}
       </span>
-      <div className="h-px flex-1 bg-white/10" />
+      <div className="h-px flex-1 bg-border" />
     </div>
   );
 }
@@ -178,11 +178,11 @@ export function AuthFooterLink({
   linkLabel: string;
 }>) {
   return (
-    <p className="text-sm text-slate-400">
+    <p className="text-sm text-muted-foreground">
       {prompt}{" "}
       <Link
         href={href}
-        className="font-medium text-[hsl(243,60%,68%)] transition hover:text-white"
+        className="font-medium text-primary transition hover:text-foreground"
       >
         {linkLabel}
       </Link>

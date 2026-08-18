@@ -71,7 +71,7 @@ export interface ProgressSectionSummary {
   totalCount: number;
 }
 
-export type AppThemePreference = "light" | "dark" | "system";
+export type AppThemePreference = "light" | "dark" | "read";
 
 export interface TopicModule {
   id: string;

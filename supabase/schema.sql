@@ -55,8 +55,8 @@ create index if not exists user_topic_progress_user_idx
 -- ------------------------------------------------------------------
 create table if not exists public.user_preferences (
   user_id             uuid primary key references public.users (id) on delete cascade,
-  app_theme           text not null default 'system'
-                        check (app_theme in ('light','dark','system')),
+  app_theme           text not null default 'read'
+                        check (app_theme in ('light','dark','read')),
   pinned_topic_hrefs  text[] not null default '{}',
   recent_queries      text[] not null default '{}',
   recent_topic_hrefs  text[] not null default '{}',

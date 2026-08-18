@@ -29,7 +29,7 @@
 | **PostgreSQL Sandbox** | Run SQL queries directly in your browser via PGLite |
 | **Progress Analytics** | Streaks, activity heatmap, and badges on your personal dashboard |
 | **AI Assistant (AJet)** | Ask questions and get instant explanations for any topic |
-| **Dark / Light Mode** | Seamless theme switching powered by next-themes |
+| **Read / Light / Dark Modes** | Three themes — warm sepia read mode (default), crisp light, and soft dark — powered by next-themes |
 | **Custom Auth** | Username + password accounts backed by Supabase |
 | **Global Search** | Instant natural-language search across all topics and modules |
 
@@ -149,6 +149,7 @@ sequenceDiagram
 - **Server-side content caching.** Topic content and the search index are cached on the server (5-minute TTL), so navigation doesn't re-fetch from Supabase on every page change.
 - **Client-side search index.** The search index loads once via a dedicated API route and is cached in memory, keeping the navbar search instant without blocking page renders.
 - **Shared preferences.** Theme, pinned topics, recent items, and AI assistant state are loaded **once after login** through a single `PreferencesProvider` and shared across the app.
+- **Three theme modes.** Read (warm sepia, default), Light (crisp white), and Dark (soft charcoal) — cycled via the navbar toggle and persisted per user.
 - **Custom auth.** Username + password with bcrypt hashing and JWT `httpOnly` cookies — no email, no third-party auth provider.
 - **Row Level Security.** Every table is RLS-protected; the password hash is column-restricted so it's never exposed to the client.
 - **In-browser tooling.** Monaco powers the code editor and PGLite runs PostgreSQL queries entirely in the browser.
@@ -237,7 +238,7 @@ erDiagram
 |-------|---------|
 | `users` | Shared identity table (username + bcrypt password hash, XP/level). |
 | `user_topic_progress` | Per-user topic completion and last-opened tracking. |
-| `user_preferences` | Theme, pinned topics, recent queries, AI assistant state. |
+| `user_preferences` | Theme (read/light/dark), pinned topics, recent queries, AI assistant state. |
 | `categories` | Top-level sections (HTML, CSS, JavaScript, …). |
 | `modules` | Learning-path groupings within a category. |
 | `topics` | Core content — explanation, analogy, key points, starter code. |
