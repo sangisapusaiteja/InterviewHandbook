@@ -51,8 +51,8 @@ export function ConsoleSection({ output, stdin }: ConsoleSectionProps) {
         )}
 
         {/* ── output area ──────────────────────────────────────────── */}
-        <div className="bg-zinc-950 rounded-b-lg flex-1">
-          <ScrollArea className="h-[200px] lg:h-[380px]">
+        <div className="bg-zinc-950 rounded-b-lg flex-1 min-h-0">
+          <ScrollArea className="h-[200px] lg:h-full lg:min-h-0">
             <div className="p-4 font-mono text-sm">
               <AnimatePresence mode="wait">
                 {output.length === 0 ? (

@@ -152,7 +152,7 @@ export function CodeEditorSection({
             .map((arg) => {
               if (typeof arg === "object") {
                 try {
-                  return JSON.stringify(arg, null, 2);
+                  return JSON.stringify(arg);
                 } catch {
                   return String(arg);
                 }
@@ -204,7 +204,7 @@ export function CodeEditorSection({
   }, [code]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 lg:flex-row lg:h-[min(500px,60vh)]">
       {/* Editor */}
       <Card className="flex flex-col flex-1 min-w-0">
         <CardHeader className="pb-3 shrink-0">
@@ -232,9 +232,9 @@ export function CodeEditorSection({
           </div>
         </CardHeader>
         <CardContent className="p-0 flex-1">
-          <div className="border-t rounded-b-lg overflow-hidden">
+          <div className="border-t rounded-b-lg overflow-hidden h-full">
             <Editor
-              height="min(500px, 60vh)"
+              height="100%"
               language={language}
               value={code}
               onChange={(value) => setCode(value || "")}
@@ -258,7 +258,7 @@ export function CodeEditorSection({
       </Card>
 
       {/* Console */}
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 lg:w-1/2 lg:flex-none">
         <ConsoleSection
           output={output}
           stdin={hasInputCalls ? { value: stdinValue, onChange: setStdinValue } : undefined}
