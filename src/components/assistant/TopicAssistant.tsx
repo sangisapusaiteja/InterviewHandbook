@@ -591,28 +591,28 @@ function ClerkTopicAssistant({
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="flex h-[min(82vh,760px)] w-[min(92vw,800px)] max-w-[800px] flex-col gap-0 overflow-hidden rounded-[1.75rem] border-primary/20 bg-background/95 p-0 shadow-2xl outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 data-[state=open]:ring-0 supports-[backdrop-filter]:bg-background/90 sm:rounded-[2rem]">
-          <DialogHeader className="border-b border-border/70 px-6 pb-4 pt-6">
-            <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">
+        <DialogContent className="flex h-[min(94vh,960px)] w-[min(92vw,800px)] max-w-[800px] flex-col gap-0 overflow-hidden rounded-[1.75rem] border-primary/20 bg-background/95 p-0 shadow-2xl outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 data-[state=open]:ring-0 supports-[backdrop-filter]:bg-background/90 sm:rounded-[2rem]">
+          <DialogHeader className="flex-row items-center gap-4 border-b border-border/70 px-6 pb-4 pt-6">
+            <p className="flex shrink-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">
               <AJetLauncherIcon />
               AJet
             </p>
-            <DialogTitle className="mt-2 text-xl">{topic.title}</DialogTitle>
-            <DialogDescription className="mt-1 text-sm">
+            <DialogTitle className="text-xl">{topic.title}</DialogTitle>
+            <DialogDescription className="text-sm">
               Ask real topic-related questions and get AI answers.
             </DialogDescription>
           </DialogHeader>
 
           <Card className="flex min-h-0 flex-1 flex-col border-0 shadow-none">
             <CardContent className="flex min-h-0 flex-1 flex-col gap-4 p-5">
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {quickActions.map((action) => (
                   <button
                     key={action}
                     type="button"
                     disabled={!isSignedIn || isLoading || cooldownRemainingMs > 0}
                     onClick={() => void sendPrompt(action)}
-                    className="rounded-full border border-border/80 bg-muted/20 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                    className="rounded-full border border-border/80 bg-muted/20 px-2.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {action}
                   </button>
@@ -638,13 +638,13 @@ function ClerkTopicAssistant({
                 </div>
               ) : null}
 
-              <ScrollArea className="min-h-0 flex-1 rounded-2xl border border-border/70 bg-muted/10">
-                <div className="space-y-3 p-4">
+              <ScrollArea className="min-h-0 flex-1 rounded-xl border border-border/70 bg-muted/10">
+                <div className="space-y-2 p-3">
                   {messages.map((message) => (
                     <div
                       key={message.id}
                       className={cn(
-                        "max-w-[88%] rounded-2xl px-4 py-3 text-sm leading-6",
+                        "max-w-[75%] rounded-xl px-3 py-2 text-[11px] leading-5",
                         message.role === "assistant"
                           ? "mr-auto bg-secondary text-secondary-foreground"
                           : "ml-auto bg-primary text-primary-foreground"
@@ -667,7 +667,7 @@ function ClerkTopicAssistant({
                   ))}
 
                   {isLoading ? (
-                    <div className="mr-auto max-w-[88%] rounded-2xl bg-secondary px-4 py-3 text-sm text-secondary-foreground">
+                    <div className="mr-auto max-w-[75%] rounded-xl bg-secondary px-3 py-2 text-[11px] text-secondary-foreground">
                       <p className="mb-1 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide opacity-80">
                         <AJetLauncherIcon />
                         AJet
