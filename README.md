@@ -295,6 +295,7 @@ cp .env.example .env.local
 | `SESSION_SECRET` | JWT signing secret (must match Code Battle) |
 | `GEMINI_API_KEY` | Google AI Studio key for AJet |
 | `GEMINI_MODEL` | Optional — defaults to `gemini-2.5-flash-lite` |
+| `GOOGLE_BUG_REPORT_SCRIPT_URL` | Google Apps Script web app URL that logs bug reports to a Google Sheet |
 
 ### Initialize Database
 
