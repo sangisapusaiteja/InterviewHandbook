@@ -4,76 +4,36 @@ import { getCurrentUser } from "@/lib/auth-server";
 import { supabaseAdminRequest } from "@/lib/supabase-rest";
 
 /**
- * Lets Google-auth users (who never had a password) get one:
- * - GET                → returns the pending generated password, if any.
- * - { generate: true } → creates a strong readable password. Stored so it
- *                        KEEPS being displayed until the user changes it.
- * - { newPassword }    → stores a user-chosen password, flips the account to
- *                        normal password login, and clears the generated one.
- * Only available while auth_provider is 'google'.
+ * Password management for the Security tab.
+ * - Account WITHOUT a password (Google sign-up): create one — no current needed.
+ * - Account WITH a password: change it — requires the existing password.
  */
 
-const ALPHABET = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-function generateReadablePassword(length = 12): string {
-  const bytes = crypto.getRandomValues(new Uint8Array(length));
-  return Array.from(bytes, (b) => ALPHABET[b % ALPHABET.length]).join("");
-}
-
-interface PasswordRow {
-  auth_provider?: string;
-  generated_password?: string | null;
-}
-
-export async function GET() {
-  const user = await getCurrentUser();
-  if (!user || user.auth_provider !== "google") {
-    return NextResponse.json({});
-  }
-
-  const rows = await supabaseAdminRequest<PasswordRow[]>("users", {
-    query: {
-      select: "auth_provider,generated_password",
-      id: `eq.${user.id}`,
-      limit: "1",
-    },
-  });
-
-  const row = rows[0];
-  return NextResponse.json({
-    generatedPassword: row?.generated_password ?? null,
-  });
+interface UserRow {
+  id?: string;
+  username?: string;
+  password_hash?: string | null;
 }
 
 export async function POST(request: Request) {
-  const user = await getCurrentUser();
+  const sessionUser = await getCurrentUser();
 
-  if (!user) {
+  if (!sessionUser) {
     return NextResponse.json({ error: "Sign in first." }, { status: 401 });
   }
 
-  if (user.auth_provider !== "google") {
-    return NextResponse.json(
-      { error: "Your account already uses a password. Use change password instead." },
-      { status: 403 }
-    );
-  }
-
-  let body: { generate?: boolean; newPassword?: string };
+  let body: { currentPassword?: string; newPassword?: string };
 
   try {
-    body = (await request.json()) as { generate?: boolean; newPassword?: string };
+    body = (await request.json()) as {
+      currentPassword?: string;
+      newPassword?: string;
+    };
   } catch {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const generating = body.generate === true;
-  const newPassword = generating ? generateReadablePassword(12) : String(body.newPassword ?? "");
-
-  if (!newPassword) {
-    return NextResponse.json({ error: "Enter a new password." }, { status: 400 });
-  }
-
+  const newPassword = String(body.newPassword ?? "");
   if (newPassword.length < 8) {
     return NextResponse.json(
       { error: "Password must be at least 8 characters." },
@@ -81,28 +41,54 @@ export async function POST(request: Request) {
     );
   }
 
-  try {
+  const rows = await supabaseAdminRequest<UserRow[]>("users", {
+    query: {
+      select: "id,username,password_hash",
+      id: `eq.${sessionUser.id}`,
+      limit: "1",
+    },
+  });
+
+  const row = rows[0];
+  if (!row) {
+    return NextResponse.json({ error: "User not found." }, { status: 404 });
+  }
+
+  const hasPassword = Boolean(row.password_hash);
+  const passwordHash = bcrypt.hashSync(newPassword, 10);
+
+  if (!hasPassword) {
+    // CREATE — no current password required.
     await supabaseAdminRequest("users", {
       method: "PATCH",
-      query: { id: `eq.${user.id}` },
-      body: {
-        password_hash: bcrypt.hashSync(newPassword, 10),
-        generated_password: newPassword,
-        // Stay 'google' while it's just the generated placeholder; the
-        // change-password flow below flips the account to 'password'.
-        ...(generating ? {} : { auth_provider: "password" }),
-        updated_at: new Date().toISOString(),
-      },
+      query: { id: `eq.${sessionUser.id}` },
+      body: { password_hash: passwordHash, auth_provider: "password" },
     });
 
-    return NextResponse.json({
-      ok: true,
-      generatedPassword: newPassword,
-    });
-  } catch {
+    return NextResponse.json({ ok: true, mode: "created" });
+  }
+
+  // CHANGE — verify existing password first.
+  const currentPassword = String(body.currentPassword ?? "");
+  if (!currentPassword) {
     return NextResponse.json(
-      { error: "We couldn't update your password. Please try again." },
-      { status: 500 }
+      { error: "Enter your current password." },
+      { status: 400 }
     );
   }
+
+  if (!bcrypt.compareSync(currentPassword, row.password_hash as string)) {
+    return NextResponse.json(
+      { error: "Your current password is incorrect." },
+      { status: 401 }
+    );
+  }
+
+  await supabaseAdminRequest("users", {
+    method: "PATCH",
+    query: { id: `eq.${sessionUser.id}` },
+    body: { password_hash: passwordHash },
+  });
+
+  return NextResponse.json({ ok: true, mode: "changed" });
 }

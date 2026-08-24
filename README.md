@@ -168,7 +168,6 @@ erDiagram
         text password_hash
         text google_id UK "Google sign-in link"
         text auth_provider "password | google"
-        text generated_password "temp, until changed"
         text avatar_url
         int xp
         int level

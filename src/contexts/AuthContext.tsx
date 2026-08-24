@@ -14,6 +14,7 @@ export type AuthUser = {
   username: string;
   createdAt: string;
   avatar_url?: string | null;
+  has_password?: boolean;
   auth_provider?: string;
 };
 

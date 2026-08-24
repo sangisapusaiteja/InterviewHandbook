@@ -18,6 +18,7 @@ export const SESSION_COOKIE_NAME = "cb_session";
 // ---------------------------------------------------------------------------
 
 export type AuthUser = {
+  has_password?: boolean;
   id: string;
   username: string;
   createdAt: string;
@@ -139,6 +140,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
       createdAt: user.created_at,
       avatar_url: user.avatar_url ?? null,
       auth_provider: user.auth_provider ?? "password",
+      has_password: Boolean(user.password_hash),
     };
   } catch {
     return null;

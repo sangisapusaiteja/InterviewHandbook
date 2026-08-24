@@ -244,21 +244,21 @@ revoke select (password_hash) on public.users from anon;
 
 
 -- ============================================================
--- GOOGLE OAUTH — link Google identities to the shared users table.
--- (Shared database with Code Battle — run once per database.)
+-- GOOGLE OAUTH ï¿½ link Google identities to the shared users table.
+-- (Shared database with Code Battle ï¿½ run once per database.)
 -- ============================================================
 alter table public.users add column if not exists google_id text unique;
 
 
 -- ============================================================
--- AUTH PROVIDER — how the account signs in ('password' | 'google').
+-- AUTH PROVIDER ï¿½ how the account signs in ('password' | 'google').
 -- ============================================================
 alter table public.users add column if not exists auth_provider text not null default 'password';
 update public.users set auth_provider = 'google' where google_id is not null and auth_provider = 'password';
 
 
 -- ============================================================
--- GENERATED PASSWORD — plaintext kept only until the user sets
--- their own password (Google-auth accounts).
+-- PASSWORD OPTIONAL - Google accounts start without a password;
+-- they create one from Security settings.
 -- ============================================================
-alter table public.users add column if not exists generated_password text;
+alter table public.users alter column password_hash drop not null;

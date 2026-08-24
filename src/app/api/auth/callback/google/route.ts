@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 import { supabaseAdminRequest } from "@/lib/supabase-rest";
 import { setSessionCookie } from "@/lib/auth-server";
 import { exchangeCodeForProfile, getGoogleRedirectUri, isGoogleOAuthConfigured } from "@/lib/auth/google";
@@ -78,8 +77,6 @@ export async function GET(request: Request) {
 
     // First Google sign-in — create the shared user row.
     const username = await deriveUsername(profile.email ?? "", profile.name ?? "");
-    // Random unusable password — Google sign-in never checks it.
-    const passwordHash = bcrypt.hashSync(crypto.randomUUID() + crypto.randomUUID(), 10);
 
     const created = await supabaseAdminRequest<UserRow[]>("users", {
       method: "POST",
@@ -87,7 +84,6 @@ export async function GET(request: Request) {
       body: [
         {
           username,
-          password_hash: passwordHash,
           google_id: profile.sub,
           avatar_url: profile.picture ?? null,
           elo: 1200,

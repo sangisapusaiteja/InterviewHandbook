@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
   BarChart3,
@@ -9,7 +9,6 @@ import {
   EyeOff,
   LogOut,
   Shield,
-  Trash2,
   UserCircle2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -189,10 +188,8 @@ export function CustomUserMenu() {
                 <ProfilePanel username={user.username} avatarUrl={user?.avatar_url} />
               ) : (
                 <SecurityPanel
-                  authProvider={user?.auth_provider ?? "password"}
+                  hasPassword={user?.has_password ?? true}
                   onRefresh={() => void refresh()}
-                  onRequestDeleteAccount={() => setDeleteDialogOpen(true)}
-                  isDeleting={isDeleting}
                 />
               )}
             </section>
@@ -285,15 +282,11 @@ function ProfilePanel({
 }
 
 function SecurityPanel({
-  authProvider,
+  hasPassword,
   onRefresh,
-  onRequestDeleteAccount,
-  isDeleting,
 }: Readonly<{
-  authProvider: string;
+  hasPassword: boolean;
   onRefresh: () => void;
-  onRequestDeleteAccount: () => void;
-  isDeleting: boolean;
 }>) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -301,66 +294,6 @@ function SecurityPanel({
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
   const [isSavingPassword, setIsSavingPassword] = useState(false);
-  const [generatedPassword, setGeneratedPassword] = useState<string | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  const isGoogleUser = authProvider === "google";
-
-  async function handleGenerate() {
-    setIsGenerating(true);
-    try {
-      const response = await fetch("/api/auth/set-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ generate: true }),
-      });
-      const payload = (await response.json()) as { error?: string; generatedPassword?: string };
-      if (!response.ok || !payload.generatedPassword) {
-        throw new Error(payload.error ?? "Failed to generate password.");
-      }
-      setGeneratedPassword(payload.generatedPassword);
-    } finally {
-      setIsGenerating(false);
-    }
-  }
-
-  // Google users never had a password. Generate one on first open, then
-  // keep showing it until the user changes their password themselves.
-  useEffect(() => {
-    if (!isGoogleUser) return;
-    let cancelled = false;
-
-    async function loadPending() {
-      try {
-        const response = await fetch("/api/auth/set-password");
-        const payload = (await response.json()) as { generatedPassword?: string | null };
-        if (cancelled) return;
-        if (payload.generatedPassword) {
-          setGeneratedPassword(payload.generatedPassword);
-        } else {
-          await handleGenerate();
-        }
-      } catch {
-        // network hiccup — retry happens next open
-      }
-    }
-
-    void loadPending();
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isGoogleUser]);
-
-  const handleCopy = async () => {
-    if (!generatedPassword) return;
-    try {
-      await navigator.clipboard.writeText(generatedPassword);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {}
-  };
 
   const handlePasswordSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -382,7 +315,7 @@ function SecurityPanel({
       return;
     }
 
-    if (!currentPassword) {
+    if (hasPassword && !currentPassword) {
       setPasswordError("Please enter your current password.");
       return;
     }
@@ -390,13 +323,18 @@ function SecurityPanel({
     setIsSavingPassword(true);
 
     try {
-      const response = await fetch("/api/auth/change-password", {
+      const response = await fetch("/api/auth/set-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ currentPassword, newPassword }),
+        body: JSON.stringify(
+          hasPassword ? { currentPassword, newPassword } : { newPassword }
+        ),
       });
 
-      const payload = (await response.json()) as { error?: string };
+      const payload = (await response.json()) as {
+        error?: string;
+        mode?: string;
+      };
 
       if (!response.ok) {
         throw new Error(payload.error ?? "We couldn't update your password.");
@@ -405,8 +343,11 @@ function SecurityPanel({
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-      setGeneratedPassword(null);
-      setPasswordSuccess("Your password has been updated.");
+      setPasswordSuccess(
+        payload.mode === "created"
+          ? "Password created! You can now sign in with your username too."
+          : "Your password has been updated."
+      );
       onRefresh();
     } catch (err) {
       setPasswordError(
@@ -428,68 +369,29 @@ function SecurityPanel({
         </p>
       </div>
 
-      {isGoogleUser ? (
+      {!hasPassword ? (
         <InfoRow
-          label="System password"
+          label="Create password"
           content={
-            generatedPassword ? (
-              <div className="rounded-3xl border border-emerald-500/25 bg-emerald-500/10 p-4 sm:p-5">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-semibold text-emerald-300">
-                    System-generated password
-                  </p>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-muted/40 px-2.5 py-1 text-[11px] text-muted-foreground">
-                    <svg viewBox="0 0 24 24" aria-hidden className="h-3 w-3">
-                      <path fill="#4285F4" d="M21.1 13.7c.1-.3.2-.8.2-1.3s-.1-1-.2-1.3H12v3.9h5.4c-.3 1.2-1.2 2.2-2 2.8l2.9 2.4c1.7-1.6 2.8-3.9 2.8-6.5Z" />
-                      <path fill="#34A853" d="M2.8 7.3l3.2 2.3C6.8 7.9 9.1 6 12 6c1.8 0 3.1.8 3.8 1.5l2.6-2.5C16.8 3.6 14.6 2.7 12 2.7c-3.6 0-6.8 2.1-8.3 4.6Z" />
-                    </svg>
-                    Signed in with Google
-                  </span>
-                </div>
-                <div className="mt-3 flex items-center gap-2">
-                  <code className="flex-1 rounded-xl border border-emerald-500/30 bg-background px-3 py-2 font-mono text-sm tracking-wider text-emerald-200">
-                    {generatedPassword}
-                  </code>
-                  <button
-                    type="button"
-                    onClick={() => void handleCopy()}
-                    className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl border border-emerald-500/30 px-3 text-xs font-medium text-emerald-300 transition hover:bg-emerald-500/15"
-                  >
-                    {copied ? "Copied!" : "Copy"}
-                  </button>
-                </div>
-                <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                  Use this as your <strong className="text-foreground">current password</strong>{" "}
-                  below to set your own. It stays visible here until you do.
-                </p>
-              </div>
-            ) : (
-              <div className="rounded-3xl border border-border/70 bg-card/70 p-4 sm:p-5">
-                <p className="text-sm text-muted-foreground">
-                  {isGenerating ? "Generating your system password..." : "Generating failed. Please reopen this tab."}
-                </p>
-              </div>
-            )
+            <div className="rounded-3xl border border-emerald-500/25 bg-emerald-500/10 p-4 sm:p-5">
+              <p className="text-sm font-semibold text-emerald-300">
+                You signed up with Google
+              </p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                Create a password below to also sign in with your username.
+              </p>
+            </div>
           }
         />
       ) : null}
 
       <InfoRow
-        label="Password"
+        label={hasPassword ? "Password" : "New password"}
         content={
           <form
             onSubmit={handlePasswordSubmit}
             className="space-y-4 rounded-3xl border border-border/70 bg-card/70 p-4 sm:p-5"
           >
-            <div>
-              <p className="text-sm font-semibold text-foreground">
-                Change password
-              </p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Choose a new password for your account.
-              </p>
-            </div>
-
             <AuthError message={passwordError} />
             {passwordSuccess ? (
               <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">
@@ -497,15 +399,18 @@ function SecurityPanel({
               </div>
             ) : null}
 
-            <SettingsField
-              label="Current password"
-              type="password"
-              value={currentPassword}
-              onChange={setCurrentPassword}
-              autoComplete="current-password"
-              placeholder={isGoogleUser ? "Paste the system-generated password" : "Enter current password"}
-              disabled={isSavingPassword}
-            />
+            {hasPassword ? (
+              <SettingsField
+                label="Current password"
+                type="password"
+                value={currentPassword}
+                onChange={setCurrentPassword}
+                autoComplete="current-password"
+                placeholder="Enter current password"
+                disabled={isSavingPassword}
+              />
+            ) : null}
+
             <SettingsField
               label="New password"
               type="password"
@@ -527,32 +432,16 @@ function SecurityPanel({
 
             <div className="w-full sm:max-w-[240px]">
               <AuthSubmitButton loading={isSavingPassword}>
-                Update password
+                {hasPassword ? "Update password" : "Create password"}
               </AuthSubmitButton>
             </div>
           </form>
         }
       />
-
-      {!isGoogleUser ? (
-        <InfoRow
-          label="Danger zone"
-          content={
-            <button
-              type="button"
-              onClick={onRequestDeleteAccount}
-              disabled={isDeleting}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-rose-500/30 bg-rose-500/12 px-4 py-3 text-sm font-medium text-rose-600 transition hover:bg-rose-500/18 dark:text-rose-300 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-            >
-              <Trash2 className="h-4 w-4" />
-              {isDeleting ? "Deleting account..." : "Delete account"}
-            </button>
-          }
-        />
-      ) : null}
     </div>
   );
 }
+
 function MenuButton({
   icon,
   label,
