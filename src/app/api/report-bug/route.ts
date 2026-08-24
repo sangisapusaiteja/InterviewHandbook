@@ -32,6 +32,7 @@ export async function POST(request: Request) {
         email: email || "",
         page: page || "",
         timestamp: timestamp || new Date().toISOString(),
+        project: "Interview Handbook",
       }),
     });
 

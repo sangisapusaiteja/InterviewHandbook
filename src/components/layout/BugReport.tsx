@@ -103,30 +103,30 @@ export function BugReport({ triggerClassName }: { triggerClassName?: string }) {
         </TooltipContent>
       </Tooltip>
 
-      <DialogContent className="sm:max-w-[440px]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Bug className="h-5 w-5 text-primary" />
+      <DialogContent className="sm:max-w-[420px] p-5">
+        <DialogHeader className="mb-1 space-y-1.5">
+          <DialogTitle className="flex items-center gap-2 text-base">
+            <Bug className="h-4 w-4 text-primary" />
             Report a Bug
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-xs">
             Found something broken? Let us know and we&apos;ll fix it.
           </DialogDescription>
         </DialogHeader>
 
         {status === "success" ? (
-          <div className="flex flex-col items-center gap-3 py-8">
-            <CheckCircle2 className="h-12 w-12 text-emerald-500" />
+          <div className="flex flex-col items-center gap-2 py-6">
+            <CheckCircle2 className="h-10 w-10 text-emerald-500" />
             <p className="text-sm font-medium">Bug report submitted!</p>
             <p className="text-xs text-muted-foreground text-center">
               Thank you for helping improve Interview Handbook.
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3">
             {/* Bug Type */}
             <div>
-              <label className="text-sm font-medium mb-1.5 block">
+              <label className="text-sm font-medium mb-1 block">
                 Bug Type <span className="text-destructive">*</span>
               </label>
               <div className="flex flex-wrap gap-1.5">
@@ -150,7 +150,7 @@ export function BugReport({ triggerClassName }: { triggerClassName?: string }) {
 
             {/* Title */}
             <div>
-              <label className="text-sm font-medium mb-1.5 block" htmlFor="bug-title">
+              <label className="text-sm font-medium mb-1 block" htmlFor="bug-title">
                 Title <span className="text-destructive">*</span>
               </label>
               <input
@@ -159,14 +159,14 @@ export function BugReport({ triggerClassName }: { triggerClassName?: string }) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Short summary of the bug"
-                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary/60 focus:ring-1 focus:ring-primary/30"
+                className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-sm outline-none transition-colors focus:border-primary/60 focus:ring-1 focus:ring-primary/30"
                 required
               />
             </div>
 
             {/* Description */}
             <div>
-              <label className="text-sm font-medium mb-1.5 block" htmlFor="bug-desc">
+              <label className="text-sm font-medium mb-1 block" htmlFor="bug-desc">
                 Description
               </label>
               <textarea
@@ -174,14 +174,14 @@ export function BugReport({ triggerClassName }: { triggerClassName?: string }) {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="What happened? What did you expect?"
-                rows={3}
-                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary/60 focus:ring-1 focus:ring-primary/30 resize-none"
+                rows={2}
+                className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-sm outline-none transition-colors focus:border-primary/60 focus:ring-1 focus:ring-primary/30 resize-none"
               />
             </div>
 
             {/* Email */}
             <div>
-              <label className="text-sm font-medium mb-1.5 block" htmlFor="bug-email">
+              <label className="text-sm font-medium mb-1 block" htmlFor="bug-email">
                 Email <span className="text-muted-foreground text-xs">(optional)</span>
               </label>
               <input
@@ -190,7 +190,7 @@ export function BugReport({ triggerClassName }: { triggerClassName?: string }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="If you want a follow-up"
-                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary/60 focus:ring-1 focus:ring-primary/30"
+                className="w-full rounded-lg border border-border bg-background px-3 py-1.5 text-sm outline-none transition-colors focus:border-primary/60 focus:ring-1 focus:ring-primary/30"
               />
             </div>
 
@@ -207,7 +207,7 @@ export function BugReport({ triggerClassName }: { triggerClassName?: string }) {
             <Button
               type="submit"
               disabled={!bugType || !title.trim() || status === "submitting"}
-              className="w-full"
+              className="h-9 w-full"
             >
               {status === "submitting" ? (
                 <>
