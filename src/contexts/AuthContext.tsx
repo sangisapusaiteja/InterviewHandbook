@@ -13,6 +13,8 @@ export type AuthUser = {
   id: string;
   username: string;
   createdAt: string;
+  avatar_url?: string | null;
+  auth_provider?: string;
 };
 
 type AuthContextValue = {

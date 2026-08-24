@@ -21,6 +21,8 @@ export type AuthUser = {
   id: string;
   username: string;
   createdAt: string;
+  avatar_url?: string | null;
+  auth_provider?: string;
 };
 
 export type SessionPayload = {
@@ -33,6 +35,8 @@ type UserRow = {
   username: string;
   password_hash: string;
   created_at: string;
+  avatar_url?: string | null;
+  auth_provider?: string;
 };
 
 export const authServerEnabled = supabaseServerEnabled;
@@ -120,7 +124,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
   try {
     const users = await supabaseAdminRequest<UserRow[]>("users", {
       query: {
-        select: "id,username,password_hash,created_at",
+        select: "id,username,password_hash,created_at,avatar_url,auth_provider",
         id: `eq.${session.userId}`,
         limit: "1",
       },
@@ -133,6 +137,8 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
       id: user.id,
       username: user.username,
       createdAt: user.created_at,
+      avatar_url: user.avatar_url ?? null,
+      auth_provider: user.auth_provider ?? "password",
     };
   } catch {
     return null;
@@ -146,7 +152,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
 export async function findUserByUsername(username: string) {
   const users = await supabaseAdminRequest<UserRow[]>("users", {
     query: {
-      select: "id,username,password_hash,created_at",
+      select: "id,username,password_hash,created_at,avatar_url,auth_provider",
       username: `eq.${username}`,
       limit: "1",
     },

@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
   BarChart3,
@@ -24,13 +24,14 @@ import {
   AuthError,
   AuthSubmitButton,
 } from "@/components/auth/CustomAuthShared";
+import Avatar from "@/components/Avatar";
 import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/utils";
 
 type AccountTab = "profile" | "security";
 
 export function CustomUserMenu() {
-  const { user, isLoaded, signOut } = useAuth();
+  const { user, isLoaded, signOut, refresh } = useAuth();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
@@ -38,11 +39,6 @@ export function CustomUserMenu() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-
-  const initials = useMemo(
-    () => getInitials(user?.username),
-    [user?.username]
-  );
 
   const handleSignOut = async () => {
     await signOut();
@@ -89,9 +85,7 @@ export function CustomUserMenu() {
             aria-label="Open account menu"
             className="inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-background transition hover:border-primary/30 hover:bg-muted/50"
           >
-            <span className="text-xs font-semibold text-foreground">
-              {initials}
-            </span>
+            <Avatar src={user?.avatar_url} name={user?.username} className="h-full w-full text-xs font-semibold text-foreground" />
           </button>
         </DropdownMenu.Trigger>
 
@@ -104,9 +98,7 @@ export function CustomUserMenu() {
             <div className="rounded-3xl border border-border/70 bg-card/70 p-3">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-muted/40">
-                  <span className="text-sm font-semibold text-foreground">
-                    {initials}
-                  </span>
+                  <Avatar src={user?.avatar_url} name={user?.username} className="h-full w-full text-sm font-semibold text-foreground" />
                 </div>
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold text-foreground">
@@ -194,9 +186,11 @@ export function CustomUserMenu() {
 
             <section className="relative h-full min-h-0 overflow-y-auto overscroll-contain px-5 pb-5 pt-5 md:p-7">
               {activeTab === "profile" ? (
-                <ProfilePanel username={user.username} initials={initials} />
+                <ProfilePanel username={user.username} avatarUrl={user?.avatar_url} />
               ) : (
                 <SecurityPanel
+                  authProvider={user?.auth_provider ?? "password"}
+                  onRefresh={() => void refresh()}
                   onRequestDeleteAccount={() => setDeleteDialogOpen(true)}
                   isDeleting={isDeleting}
                 />
@@ -252,10 +246,10 @@ export function CustomUserMenu() {
 
 function ProfilePanel({
   username,
-  initials,
+  avatarUrl,
 }: Readonly<{
   username: string;
-  initials: string;
+  avatarUrl?: string | null;
 }>) {
   return (
     <div className="space-y-6 md:space-y-7">
@@ -273,9 +267,7 @@ function ProfilePanel({
         content={
           <div className="flex items-center gap-4 rounded-3xl border border-border/70 bg-card/70 p-4 sm:p-5">
             <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-muted/40">
-              <span className="text-base font-semibold text-foreground">
-                {initials}
-              </span>
+              <Avatar src={avatarUrl} name={username} className="h-full w-full text-base font-semibold text-foreground" />
             </div>
             <div className="min-w-0 flex-1">
               <p className="break-words text-lg font-semibold text-foreground">
@@ -293,9 +285,13 @@ function ProfilePanel({
 }
 
 function SecurityPanel({
+  authProvider,
+  onRefresh,
   onRequestDeleteAccount,
   isDeleting,
 }: Readonly<{
+  authProvider: string;
+  onRefresh: () => void;
   onRequestDeleteAccount: () => void;
   isDeleting: boolean;
 }>) {
@@ -305,6 +301,66 @@ function SecurityPanel({
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
   const [isSavingPassword, setIsSavingPassword] = useState(false);
+  const [generatedPassword, setGeneratedPassword] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const isGoogleUser = authProvider === "google";
+
+  async function handleGenerate() {
+    setIsGenerating(true);
+    try {
+      const response = await fetch("/api/auth/set-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ generate: true }),
+      });
+      const payload = (await response.json()) as { error?: string; generatedPassword?: string };
+      if (!response.ok || !payload.generatedPassword) {
+        throw new Error(payload.error ?? "Failed to generate password.");
+      }
+      setGeneratedPassword(payload.generatedPassword);
+    } finally {
+      setIsGenerating(false);
+    }
+  }
+
+  // Google users never had a password. Generate one on first open, then
+  // keep showing it until the user changes their password themselves.
+  useEffect(() => {
+    if (!isGoogleUser) return;
+    let cancelled = false;
+
+    async function loadPending() {
+      try {
+        const response = await fetch("/api/auth/set-password");
+        const payload = (await response.json()) as { generatedPassword?: string | null };
+        if (cancelled) return;
+        if (payload.generatedPassword) {
+          setGeneratedPassword(payload.generatedPassword);
+        } else {
+          await handleGenerate();
+        }
+      } catch {
+        // network hiccup — retry happens next open
+      }
+    }
+
+    void loadPending();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isGoogleUser]);
+
+  const handleCopy = async () => {
+    if (!generatedPassword) return;
+    try {
+      await navigator.clipboard.writeText(generatedPassword);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {}
+  };
 
   const handlePasswordSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -349,7 +405,9 @@ function SecurityPanel({
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
+      setGeneratedPassword(null);
       setPasswordSuccess("Your password has been updated.");
+      onRefresh();
     } catch (err) {
       setPasswordError(
         err instanceof Error ? err.message : "We couldn't update your password."
@@ -369,6 +427,52 @@ function SecurityPanel({
           Manage your password and account.
         </p>
       </div>
+
+      {isGoogleUser ? (
+        <InfoRow
+          label="System password"
+          content={
+            generatedPassword ? (
+              <div className="rounded-3xl border border-emerald-500/25 bg-emerald-500/10 p-4 sm:p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-semibold text-emerald-300">
+                    System-generated password
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-muted/40 px-2.5 py-1 text-[11px] text-muted-foreground">
+                    <svg viewBox="0 0 24 24" aria-hidden className="h-3 w-3">
+                      <path fill="#4285F4" d="M21.1 13.7c.1-.3.2-.8.2-1.3s-.1-1-.2-1.3H12v3.9h5.4c-.3 1.2-1.2 2.2-2 2.8l2.9 2.4c1.7-1.6 2.8-3.9 2.8-6.5Z" />
+                      <path fill="#34A853" d="M2.8 7.3l3.2 2.3C6.8 7.9 9.1 6 12 6c1.8 0 3.1.8 3.8 1.5l2.6-2.5C16.8 3.6 14.6 2.7 12 2.7c-3.6 0-6.8 2.1-8.3 4.6Z" />
+                    </svg>
+                    Signed in with Google
+                  </span>
+                </div>
+                <div className="mt-3 flex items-center gap-2">
+                  <code className="flex-1 rounded-xl border border-emerald-500/30 bg-background px-3 py-2 font-mono text-sm tracking-wider text-emerald-200">
+                    {generatedPassword}
+                  </code>
+                  <button
+                    type="button"
+                    onClick={() => void handleCopy()}
+                    className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl border border-emerald-500/30 px-3 text-xs font-medium text-emerald-300 transition hover:bg-emerald-500/15"
+                  >
+                    {copied ? "Copied!" : "Copy"}
+                  </button>
+                </div>
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                  Use this as your <strong className="text-foreground">current password</strong>{" "}
+                  below to set your own. It stays visible here until you do.
+                </p>
+              </div>
+            ) : (
+              <div className="rounded-3xl border border-border/70 bg-card/70 p-4 sm:p-5">
+                <p className="text-sm text-muted-foreground">
+                  {isGenerating ? "Generating your system password..." : "Generating failed. Please reopen this tab."}
+                </p>
+              </div>
+            )
+          }
+        />
+      ) : null}
 
       <InfoRow
         label="Password"
@@ -399,7 +503,7 @@ function SecurityPanel({
               value={currentPassword}
               onChange={setCurrentPassword}
               autoComplete="current-password"
-              placeholder="Enter current password"
+              placeholder={isGoogleUser ? "Paste the system-generated password" : "Enter current password"}
               disabled={isSavingPassword}
             />
             <SettingsField
@@ -412,12 +516,12 @@ function SecurityPanel({
               disabled={isSavingPassword}
             />
             <SettingsField
-              label="Confirm password"
+              label="Confirm new password"
               type="password"
               value={confirmPassword}
               onChange={setConfirmPassword}
               autoComplete="new-password"
-              placeholder="Re-enter password"
+              placeholder="Re-enter new password"
               disabled={isSavingPassword}
             />
 
@@ -430,24 +534,25 @@ function SecurityPanel({
         }
       />
 
-      <InfoRow
-        label="Danger zone"
-        content={
-          <button
-            type="button"
-            onClick={onRequestDeleteAccount}
-            disabled={isDeleting}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-rose-500/30 bg-rose-500/12 px-4 py-3 text-sm font-medium text-rose-600 transition hover:bg-rose-500/18 dark:text-rose-300 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-          >
-            <Trash2 className="h-4 w-4" />
-            {isDeleting ? "Deleting account..." : "Delete account"}
-          </button>
-        }
-      />
+      {!isGoogleUser ? (
+        <InfoRow
+          label="Danger zone"
+          content={
+            <button
+              type="button"
+              onClick={onRequestDeleteAccount}
+              disabled={isDeleting}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-rose-500/30 bg-rose-500/12 px-4 py-3 text-sm font-medium text-rose-600 transition hover:bg-rose-500/18 dark:text-rose-300 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+            >
+              <Trash2 className="h-4 w-4" />
+              {isDeleting ? "Deleting account..." : "Delete account"}
+            </button>
+          }
+        />
+      ) : null}
     </div>
   );
 }
-
 function MenuButton({
   icon,
   label,
@@ -576,16 +681,3 @@ function SettingsField({
   );
 }
 
-function getInitials(username?: string) {
-  if (!username) {
-    return "IH";
-  }
-
-  const parts = username.split(/[^a-zA-Z0-9]+/).filter(Boolean).slice(0, 2);
-
-  if (parts.length > 0) {
-    return parts.map((part) => part[0]?.toUpperCase() || "").join("");
-  }
-
-  return username.slice(0, 2).toUpperCase();
-}

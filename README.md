@@ -30,7 +30,7 @@
 | **Progress Analytics** | Streaks, activity heatmap, and badges on your personal dashboard |
 | **AI Assistant (AJet)** | Ask questions and get instant explanations for any topic |
 | **Read / Light / Dark Modes** | Three themes — warm sepia read mode (default), crisp light, and soft dark — powered by next-themes |
-| **Custom Auth** | Username + password accounts backed by Supabase |
+| **Custom Auth** | Username + password or Continue with Google, backed by Supabase |
 | **Global Search** | Instant natural-language search across all topics and modules |
 
 ---
@@ -166,6 +166,10 @@ erDiagram
         uuid id PK
         text username UK
         text password_hash
+        text google_id UK "Google sign-in link"
+        text auth_provider "password | google"
+        text generated_password "temp, until changed"
+        text avatar_url
         int xp
         int level
         text role
@@ -237,7 +241,7 @@ erDiagram
 
 | Table | Purpose |
 |-------|---------|
-| `users` | Shared identity table (username + bcrypt password hash, XP/level, role). |
+| `users` | Shared identity table (username + bcrypt hash or Google link, XP/level, role, avatar). |
 | `user_topic_progress` | Per-user topic completion and last-opened tracking. |
 | `user_preferences` | Theme (read/light/dark), pinned topics, recent queries, AI assistant state. |
 | `categories` | Top-level sections (HTML, CSS, JavaScript, …). |
@@ -294,6 +298,7 @@ cp .env.example .env.local
 | `SUPABASE_SERVICE_ROLE_KEY` | Service role key (server-side only) |
 | `SESSION_SECRET` | JWT signing secret (must match Code Battle) |
 | `GEMINI_API_KEY` | Google AI Studio key for AJet |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth client (Continue with Google) |
 | `GEMINI_MODEL` | Optional — defaults to `gemini-2.5-flash-lite` |
 | `GOOGLE_BUG_REPORT_SCRIPT_URL` | Google Apps Script web app URL that logs bug reports to a Google Sheet |
 

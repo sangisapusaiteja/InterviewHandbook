@@ -56,6 +56,7 @@ export async function POST(request: Request) {
       },
       body: {
         password_hash: createPasswordHash(newPassword),
+        generated_password: null,
       },
     });
 
