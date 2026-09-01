@@ -84,7 +84,7 @@ async function buildProgressResponse(rows: ProgressRow[]): Promise<ProgressRespo
 }
 
 async function getUserProgressRows(userId: string) {
-  return supabaseAdminRequest<ProgressRow[]>("user_topic_progress", {
+  return supabaseAdminRequest<ProgressRow[]>("ih_user_topic_progress", {
     query: {
       select:
         "user_id,section_slug,topic_slug,topic_id,completed,completed_at,last_opened_at,created_at,updated_at",
@@ -95,7 +95,7 @@ async function getUserProgressRows(userId: string) {
 }
 
 async function upsertProgressRow(row: Partial<ProgressRow> & Pick<ProgressRow, "user_id" | "section_slug" | "topic_slug" | "topic_id">) {
-  return supabaseAdminRequest<ProgressRow[]>("user_topic_progress", {
+  return supabaseAdminRequest<ProgressRow[]>("ih_user_topic_progress", {
     method: "POST",
     prefer: "resolution=merge-duplicates,return=representation",
     body: [
@@ -186,7 +186,7 @@ export async function POST(request: Request) {
 
   try {
     if (body.action === "resetProgress") {
-      await supabaseAdminRequest("user_topic_progress", {
+      await supabaseAdminRequest("ih_user_topic_progress", {
         method: "DELETE",
         query: {
           user_id: `eq.${userId}`,

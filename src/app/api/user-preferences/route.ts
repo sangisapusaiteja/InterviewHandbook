@@ -57,7 +57,7 @@ export async function GET() {
   }
 
   try {
-    const rows = await supabaseAdminRequest<PreferenceRow[]>("user_preferences", {
+    const rows = await supabaseAdminRequest<PreferenceRow[]>("ih_user_preferences", {
       query: {
         select:
           "user_id,app_theme,pinned_topic_hrefs,recent_queries,recent_topic_hrefs,assistant_state,created_at,updated_at",
@@ -180,7 +180,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const existingRows = await supabaseAdminRequest<PreferenceRow[]>("user_preferences", {
+    const existingRows = await supabaseAdminRequest<PreferenceRow[]>("ih_user_preferences", {
       query: {
         select:
           "user_id,app_theme,pinned_topic_hrefs,recent_queries,recent_topic_hrefs,assistant_state,created_at,updated_at",
@@ -190,7 +190,7 @@ export async function POST(request: Request) {
     });
 
     const existing = existingRows[0];
-    const rows = await supabaseAdminRequest<PreferenceRow[]>("user_preferences", {
+    const rows = await supabaseAdminRequest<PreferenceRow[]>("ih_user_preferences", {
       method: "POST",
       prefer: "resolution=merge-duplicates,return=representation",
       body: [

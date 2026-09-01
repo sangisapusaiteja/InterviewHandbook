@@ -10,14 +10,14 @@ export async function POST() {
   }
 
   try {
-    await supabaseAdminRequest("user_topic_progress", {
+    await supabaseAdminRequest("ih_user_topic_progress", {
       method: "DELETE",
       query: {
         user_id: `eq.${user.id}`,
       },
     });
 
-    await supabaseAdminRequest("user_preferences", {
+    await supabaseAdminRequest("ih_user_preferences", {
       method: "DELETE",
       query: {
         user_id: `eq.${user.id}`,

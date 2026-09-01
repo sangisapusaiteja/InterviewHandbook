@@ -36,7 +36,7 @@ create index if not exists users_elo_idx on public.users (elo desc);
 -- user_topic_progress — topic completion tracking.
 -- Composite PK: (user_id, section_slug, topic_slug).
 -- ------------------------------------------------------------------
-create table if not exists public.user_topic_progress (
+create table if not exists public.ih_user_topic_progress (
   user_id        uuid not null references public.users (id) on delete cascade,
   section_slug   text not null,
   topic_slug     text not null,
@@ -50,12 +50,12 @@ create table if not exists public.user_topic_progress (
 );
 
 create index if not exists user_topic_progress_user_idx
-  on public.user_topic_progress (user_id);
+  on public.ih_user_topic_progress (user_id);
 
 -- ------------------------------------------------------------------
 -- user_preferences — theme, pinned topics, assistant state, etc.
 -- ------------------------------------------------------------------
-create table if not exists public.user_preferences (
+create table if not exists public.ih_user_preferences (
   user_id             uuid primary key references public.users (id) on delete cascade,
   app_theme           text not null default 'read'
                         check (app_theme in ('light','dark','read')),
@@ -70,14 +70,14 @@ create table if not exists public.user_preferences (
 -- ------------------------------------------------------------------
 -- user_progress_dashboard — aggregated view for progress page.
 -- ------------------------------------------------------------------
-create or replace view public.user_progress_dashboard as
+create or replace view public.ih_user_progress_dashboard as
 select
   user_id,
   count(*) filter (where completed) as completed_topics,
   max(last_opened_at) as last_opened_at,
   max(completed_at) as last_completed_at,
   max(updated_at) as last_activity_at
-from public.user_topic_progress
+from public.ih_user_topic_progress
 group by user_id;
 
 -- ------------------------------------------------------------------
@@ -99,22 +99,22 @@ before update on public.users
 for each row
 execute function public.set_updated_at();
 
-drop trigger if exists set_user_topic_progress_updated_at on public.user_topic_progress;
+drop trigger if exists set_user_topic_progress_updated_at on public.ih_user_topic_progress;
 create trigger set_user_topic_progress_updated_at
-before update on public.user_topic_progress
+before update on public.ih_user_topic_progress
 for each row
 execute function public.set_updated_at();
 
-drop trigger if exists set_user_preferences_updated_at on public.user_preferences;
+drop trigger if exists set_user_preferences_updated_at on public.ih_user_preferences;
 create trigger set_user_preferences_updated_at
-before update on public.user_preferences
+before update on public.ih_user_preferences
 for each row
 execute function public.set_updated_at();
 
 -- ------------------------------------------------------------------
 -- categories — section metadata.
 -- ------------------------------------------------------------------
-create table if not exists public.categories (
+create table if not exists public.ih_categories (
   id          text primary key,
   title       text not null,
   icon        text not null,
@@ -128,9 +128,9 @@ create table if not exists public.categories (
 -- ------------------------------------------------------------------
 -- modules — learning path groupings within a category.
 -- ------------------------------------------------------------------
-create table if not exists public.modules (
+create table if not exists public.ih_modules (
   id          text primary key,
-  category_id text not null references public.categories(id) on delete cascade,
+  category_id text not null references public.ih_categories(id) on delete cascade,
   level       int not null,
   title       text not null,
   difficulty  text not null,
@@ -139,15 +139,15 @@ create table if not exists public.modules (
   sort_order  int not null default 0
 );
 
-create index if not exists modules_category_idx on public.modules (category_id);
+create index if not exists modules_category_idx on public.ih_modules (category_id);
 
 -- ------------------------------------------------------------------
 -- topics — main content (concept, code, metadata).
 -- ------------------------------------------------------------------
-create table if not exists public.topics (
+create table if not exists public.ih_topics (
   id            text primary key,
-  category_id   text not null references public.categories(id) on delete cascade,
-  module_id     text references public.modules(id) on delete set null,
+  category_id   text not null references public.ih_categories(id) on delete cascade,
+  module_id     text references public.ih_modules(id) on delete set null,
   title         text not null,
   slug          text not null,
   icon          text not null,
@@ -169,16 +169,16 @@ create table if not exists public.topics (
   unique (category_id, slug)
 );
 
-create index if not exists topics_category_idx on public.topics (category_id);
-create index if not exists topics_module_idx on public.topics (module_id);
-create index if not exists topics_slug_idx on public.topics (slug);
+create index if not exists topics_category_idx on public.ih_topics (category_id);
+create index if not exists topics_module_idx on public.ih_topics (module_id);
+create index if not exists topics_slug_idx on public.ih_topics (slug);
 
 -- ------------------------------------------------------------------
 -- interview_questions
 -- ------------------------------------------------------------------
-create table if not exists public.interview_questions (
+create table if not exists public.ih_interview_questions (
   id         uuid primary key default gen_random_uuid(),
-  topic_id   text not null references public.topics(id) on delete cascade,
+  topic_id   text not null references public.ih_topics(id) on delete cascade,
   question   text not null,
   difficulty text not null,
   hint       text not null,
@@ -186,7 +186,7 @@ create table if not exists public.interview_questions (
 );
 
 create index if not exists interview_questions_topic_idx
-  on public.interview_questions (topic_id);
+  on public.ih_interview_questions (topic_id);
 
 -- ============================================================
 -- ROW LEVEL SECURITY
@@ -198,12 +198,12 @@ create index if not exists interview_questions_topic_idx
 -- ============================================================
 
 alter table public.users                 enable row level security;
-alter table public.user_topic_progress   enable row level security;
-alter table public.user_preferences      enable row level security;
-alter table public.categories            enable row level security;
-alter table public.modules               enable row level security;
-alter table public.topics                enable row level security;
-alter table public.interview_questions   enable row level security;
+alter table public.ih_user_topic_progress   enable row level security;
+alter table public.ih_user_preferences      enable row level security;
+alter table public.ih_categories            enable row level security;
+alter table public.ih_modules               enable row level security;
+alter table public.ih_topics                enable row level security;
+alter table public.ih_interview_questions   enable row level security;
 
 -- users: readable by all, but password hash is protected by
 -- column-level privileges (see below). Anyone may insert (signup).
@@ -214,29 +214,29 @@ create policy "users can sign up"
 
 -- user_topic_progress: readable by all; anyone may insert/upsert.
 create policy "user topic progress readable by all"
-  on public.user_topic_progress for select to anon using (true);
+  on public.ih_user_topic_progress for select to anon using (true);
 create policy "users can upsert own progress"
-  on public.user_topic_progress for insert to anon with check (true);
+  on public.ih_user_topic_progress for insert to anon with check (true);
 create policy "users can update own progress"
-  on public.user_topic_progress for update to anon using (true);
+  on public.ih_user_topic_progress for update to anon using (true);
 
 -- user_preferences: readable by all; anyone may insert/upsert.
 create policy "user preferences readable by all"
-  on public.user_preferences for select to anon using (true);
+  on public.ih_user_preferences for select to anon using (true);
 create policy "users can upsert own preferences"
-  on public.user_preferences for insert to anon with check (true);
+  on public.ih_user_preferences for insert to anon with check (true);
 create policy "users can update own preferences"
-  on public.user_preferences for update to anon using (true);
+  on public.ih_user_preferences for update to anon using (true);
 
 -- categories, modules, topics, interview_questions: publicly readable.
 create policy "categories readable by all"
-  on public.categories for select to anon using (true);
+  on public.ih_categories for select to anon using (true);
 create policy "modules readable by all"
-  on public.modules for select to anon using (true);
+  on public.ih_modules for select to anon using (true);
 create policy "topics readable by all"
-  on public.topics for select to anon using (true);
+  on public.ih_topics for select to anon using (true);
 create policy "interview questions readable by all"
-  on public.interview_questions for select to anon using (true);
+  on public.ih_interview_questions for select to anon using (true);
 
 -- Protect the password hash: revoke select on the column from anon.
 -- ------------------------------------------------------------------

@@ -6,7 +6,7 @@
 -- ------------------------------------------------------------------
 -- categories
 -- ------------------------------------------------------------------
-insert into public.categories (id, title, icon, description, color, "group", available, sort_order) values
+insert into public.ih_categories (id, title, icon, description, color, "group", available, sort_order) values
   ('html', 'HTML', 'FileCode', 'HTML topics', 'from-amber-400 to-orange-400', 'Languages', true, 0),
   ('css', 'CSS', 'Palette', 'CSS topics', 'from-sky-400 to-blue-400', 'Languages', true, 1),
   ('javascript', 'JavaScript', 'Braces', 'JavaScript topics', 'from-yellow-300 to-amber-400', 'Languages', true, 2),
@@ -21,7 +21,7 @@ on conflict (id) do nothing;
 -- ------------------------------------------------------------------
 -- modules
 -- ------------------------------------------------------------------
-insert into public.modules (id, category_id, level, title, difficulty, description, category, sort_order) values
+insert into public.ih_modules (id, category_id, level, title, difficulty, description, category, sort_order) values
   ('js-variables-scope', 'technical-questions', 1, 'Variables & Scope', 'Beginner', 'var, let, const, global scope, function scope, block scope, TDZ, hoisting.', 'JavaScript', 0),
   ('system-design-core-fundamentals', 'system-design', 1, 'Core Fundamentals', 'Beginner', 'Foundational system design vocabulary and architectural tradeoffs.', null, 0),
   ('postgresql-fundamentals', 'postgresql', 1, 'PostgreSQL Fundamentals', 'Beginner', 'The foundation of PostgreSQL — learn the basics of relational databases, installation, architecture, data types, tables, constraints, and keys.', null, 0),
@@ -109,7 +109,7 @@ on conflict (id) do nothing;
 -- ------------------------------------------------------------------
 -- topics
 -- ------------------------------------------------------------------
-insert into public.topics (id, category_id, module_id, title, slug, icon, difficulty, description, leetcode_link, concept_explanation, concept_analogy, concept_key_points, concept_time_complexity, concept_space_complexity, code_default_code, code_language, code_files, sort_order) values
+insert into public.ih_topics (id, category_id, module_id, title, slug, icon, difficulty, description, leetcode_link, concept_explanation, concept_analogy, concept_key_points, concept_time_complexity, concept_space_complexity, code_default_code, code_language, code_files, sort_order) values
   ('what-is-system-design', 'system-design', 'system-design-core-fundamentals', 'What is System Design?', 'what-is-system-design', 'LayoutDashboard', 'Beginner', 'Define system design and how engineers reason about components, scale, failure, and tradeoffs.', null, 'System design is the process of turning product requirements into a technical architecture that can handle load, failures, growth, and operational reality. In interviews and real work, the goal is not to draw many boxes. The goal is to justify why each component exists, what problem it solves, and what tradeoffs it introduces.', 'It is like planning a city, not just drawing one building. Roads, utilities, zoning, emergency exits, and population growth all matter.', '["Start from requirements before choosing technology","Think in components, data flow, bottlenecks, and failure paths","Every design is a tradeoff between cost, complexity, and guarantees"]', 'Context dependent', 'Context dependent', '// System Design is about architecture and tradeoffs, not code execution.
 
 const systemDesignChecklist = [
@@ -28293,4002 +28293,4002 @@ on conflict (id) do nothing;
 -- ------------------------------------------------------------------
 -- interview_questions
 -- ------------------------------------------------------------------
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-z-index', 'Why does z-index only work on positioned elements?', 'Easy', 'Static elements are in normal flow and don''t participate in stacking order.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-input-output', 'What are the different console methods in JavaScript and when would you use each?', 'Easy', 'console.log() for general output, console.warn() for warnings (yellow), console.error() for errors (red), console.table() for tabular data, console.time()/timeEnd() for performance, console.group()/groupEnd() for nested output, console.assert() for conditional logging, console.count() for counting occurrences.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('caching-fundamentals-redis-memcached', 'Explain Caching Fundamentals (Redis/Memcached) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('api-gateways', 'Explain API Gateways in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-statements', 'What is the difference between for...of and for...in loops?', 'Easy', 'for...of iterates over the VALUES of an iterable (arrays, strings, Maps, Sets). for...in iterates over the KEYS (property names) of an object. Use for...of for arrays and for...in for objects. Using for...in on arrays can produce unexpected results because it iterates over all enumerable properties, including inherited ones.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('materialized-views', 'What is a materialized view and how does it differ from a regular view?', 'Easy', 'A materialized view stores query results on disk; a regular view re-executes the query each time. Materialized: fast reads, stale data until REFRESH, uses disk space, can be indexed. Regular: always current data, slower for complex queries, no storage overhead. Use materialized views for expensive aggregations, dashboards, and reports. Use regular views for real-time data, simple queries, and updatable views.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-memo', 'What is React.memo?', 'Medium', 'React.memo is a higher-order component that prevents unnecessary re-renders if props haven''t changed (shallow comparison). It''s used for pure components that render often with the same props.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-strict-mode', 'What is strict mode in JavaScript and how do you enable it?', 'Easy', 'Strict mode is a restricted variant of JavaScript that catches common mistakes. Enable it by adding ''use strict''; at the top of a script file or function body. It must be the first statement (after comments). ES6 modules and classes are automatically in strict mode.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-performance-tips', 'Why are list comprehensions faster than for loops?', 'Easy', 'List comprehensions are optimized at the bytecode level. The loop and append happen in C code internally, avoiding Python-level function call overhead for .append(). A for loop: each iteration calls list.append() — a Python method call with attribute lookup, function call overhead. Comprehension: uses LIST_APPEND bytecode instruction — direct C-level operation. Typically 20-30% faster. Also more readable and Pythonic. Same applies to dict/set comprehensions and generator expressions.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('array-methods', 'What is the difference between map() and forEach()?', 'Easy', 'map() transforms each element and returns a new array of the same length. forEach() executes a function for each element but returns undefined. map() is used for transformation, forEach() for side effects like logging.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('if-else-statements', 'What is the difference between if/else and multiple separate if statements?', 'Easy', 'An if/else if/else chain is mutually exclusive — only the first matching branch runs. Separate if statements are independent — each one is evaluated regardless of whether a previous if was true. Use if/else when only one branch should execute; use separate if''s when multiple conditions can be true simultaneously.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-writing-files', 'What is the difference between write() and writelines()?', 'Easy', 'write(string): writes a single string to the file. Returns number of characters written. writelines(iterable): writes a list/iterable of strings. Does NOT add newlines — you must include \n in each string. writelines([''a\n'', ''b\n'']) writes two lines. writelines([''a'', ''b'']) writes ''ab'' (no separation). writelines is essentially: for s in iterable: f.write(s). Neither method adds automatic newlines. Use print(text, file=f) if you want automatic newline.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-gap', 'What is the difference between gap and margin for spacing?', 'Medium', 'Gap only appears between items. Margin adds space around each item including edges, can cause doubling between items.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('switch-statements', 'What happens if you forget the break statement in a switch case?', 'Easy', 'Without break, execution ''falls through'' to the next case and keeps running until it hits a break or the end of the switch. This can cause unintended behaviour. However, fall-through can be intentional — it is used to group multiple cases that should run the same code.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-introduction', 'What is React?', 'Easy', 'React is a JavaScript library for building user interfaces, created by Facebook. It uses a component-based architecture and a Virtual DOM for efficient updates.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-custom-hooks', 'What are custom hooks?', 'Easy', 'Custom hooks are reusable functions that start with ''use'' and encapsulate stateful logic. They can call other hooks and enable logic reuse across components.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('ternary-operator', 'What is the difference between the ternary operator and an if/else statement?', 'Easy', 'The ternary is an expression — it returns a value and can be used inside assignments, template literals, and function arguments. if/else is a statement — it performs actions but does not return a value. Use ternary for simple value selection; use if/else for complex logic or side effects.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('views', 'What is a view and how is it different from a table?', 'Easy', 'A view is a stored SQL query that acts as a virtual table. Key differences: (1) A table stores data on disk; a view stores only the query definition. (2) Querying a view executes the underlying query each time. (3) Views always show current data from base tables. (4) Views can combine multiple tables into one logical table. (5) Views can restrict which columns/rows users see. Use views for simplification and security; use tables for actual data storage.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('load-balancers-l4-vs-l7', 'Explain Load Balancers (L4 vs L7) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('for-loop', 'What are the three parts of a for loop header and what does each do?', 'Easy', 'Initialization (runs once before the loop starts — typically declares the counter), Condition (evaluated before each iteration — loop continues while truthy), Update (runs after each iteration — typically increments/decrements the counter). All three are optional.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dot-vs-bracket', 'What is the difference between dot notation and bracket notation in JavaScript?', 'Easy', 'Dot notation (user.name) looks for the literal property name. Bracket notation (user[key]) evaluates the variable first, then uses its value as the property name. Dot notation is for fixed names; bracket notation is for dynamic names.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('block-file-and-object-storage-s3', 'Explain Block, File, and Object (S3) Storage in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('while-loop', 'What is the difference between a while loop and a for loop?', 'Easy', 'A for loop is best when you know the number of iterations upfront (it has init, condition, and update in the header). A while loop is best when you don''t know how many iterations are needed — you loop until a condition changes. Any for loop can be rewritten as a while loop, but while loops are more natural for unknown iteration counts.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-twitter-x-feed', 'Explain Walkthrough: Twitter/X Feed in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-routing', 'What is React Router?', 'Medium', 'React Router is the standard routing library for React. It enables navigation between views without page reload using the HTML5 History API.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('do-while-loop', 'What is the key difference between while and do...while loops?', 'Easy', 'A while loop checks the condition BEFORE each iteration — the body may never execute if the condition is initially false. A do...while loop checks the condition AFTER each iteration — the body always executes at least once. Use do...while when you need guaranteed first execution.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-sum-average', 'Why do we use float() instead of int() for user input?', 'Easy', 'Think about what happens when the user types a decimal number like 4.5.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('nextjs-basics', 'What is Next.js?', 'Easy', 'Next.js is a React framework that provides file-based routing, server-side rendering, static generation, API routes, and performance optimizations like image optimization and code splitting.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('break-and-continue', 'What is the difference between break and continue?', 'Easy', 'break exits the entire loop immediately — no more iterations run. continue skips the rest of the current iteration and jumps to the next one. break says ''stop everything''; continue says ''skip this one, keep going''.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dns-domain-management', 'Explain DNS & Domain Management in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('what-is-system-design', 'Explain What is System Design? in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('nested-loops', 'What is the time complexity of a nested loop?', 'Easy', 'If the outer loop runs n times and the inner loop runs m times, the total operations are n * m, giving O(n * m) time complexity. If both iterate the same collection of size n, it is O(n^2). Adding another nested loop makes it O(n^3). Each level of nesting multiplies the complexity.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('schema-design-best-practices', 'What are the most important columns every database table should have?', 'Easy', 'Every table should have: (1) A primary key — usually id SERIAL or UUID. Uniquely identifies each row. (2) created_at TIMESTAMPTZ DEFAULT NOW() — records when the row was created. (3) updated_at TIMESTAMPTZ DEFAULT NOW() — records last modification (updated via trigger). These enable: auditing (when was this changed?), debugging (was this created before or after that bug?), data synchronization (what changed since last sync?), and compliance (data retention policies). Some teams also add created_by and updated_by for user tracking.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-api-calls', 'How do you make API calls in React?', 'Medium', 'Use useEffect for initial data fetching, or event handlers for user-triggered calls. Always handle loading, success, and error states. Use AbortController for cancellation.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('function-declaration', 'What is function hoisting in JavaScript?', 'Easy', 'Function declarations are fully hoisted — the entire function definition is moved to the top of its scope during compilation. This means you can call a function before its declaration appears in the code. Function expressions and arrow functions are NOT hoisted — only the variable declaration is hoisted (with undefined for var, TDZ for let/const).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-datetime-module', 'What is the difference between strftime() and strptime()?', 'Easy', 'strftime() = ''string format time'' — converts datetime object TO a formatted string. strptime() = ''string parse time'' — parses a string INTO a datetime object. Example: dt.strftime(''%Y-%m-%d'') → ''2024-03-15''. datetime.strptime(''2024-03-15'', ''%Y-%m-%d'') → datetime object. Mnemonic: f = format (output), p = parse (input). Both use the same format codes (%Y, %m, %d, %H, %M, %S, etc.).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('nextjs-routing', 'What is the difference between router.push and window.location.href?', 'Medium', 'router.push does client-side navigation without a full page refresh. window.location.href causes a full page reload. router.push is faster and preserves React state.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('function-expressions', 'What is the difference between function declarations and function expressions?', 'Easy', 'Function declarations are hoisted (callable before definition) and always named. Function expressions are NOT hoisted and can be anonymous. Declarations use ''function name()'' syntax; expressions assign a function to a variable: ''const name = function() {}''.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('can-place-flowers', 'Can n flowers be planted without adjacent planting?', 'Easy', 'Greedy scan: if current and both neighbors are empty, plant and decrement n.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-overflow', 'How do you truncate text with an ellipsis?', 'Easy', 'overflow: hidden; white-space: nowrap; text-overflow: ellipsis; — all three required.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('functional-vs-non-functional-requirements', 'Explain Functional vs Non-Functional Requirements in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('arrow-functions', 'What are the differences between arrow functions and regular functions?', 'Medium', 'Arrow functions: no own ''this'' (lexical), no ''arguments'' object, cannot be constructors (no new), shorter syntax, implicit return for single expressions. Regular functions: own ''this'' (dynamic), have ''arguments'', can be constructors, always need explicit return, can be generators.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-areas', 'How do you create empty cells with grid-template-areas?', 'Easy', 'Use a dot (.) for empty cells in the area template string.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-state-management', 'What is the difference between Context API and Redux?', 'Medium', 'Context API is built-in, good for simple global state. Redux Toolkit is more powerful for complex state with devtools, middleware, and predictable updates. Use Context for small apps, Redux for large ones.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('parameters-and-arguments', 'Is JavaScript pass-by-value or pass-by-reference?', 'Medium', 'JavaScript is always pass-by-value, but for objects the ''value'' is a reference (memory address). Primitives: a copy of the value is passed — changes inside don''t affect the original. Objects: a copy of the reference is passed — the function can modify the object''s properties, but reassigning the parameter itself doesn''t affect the original variable.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('database-relationships', 'What are the three types of database relationships and how are they implemented?', 'Easy', '1) One-to-One (1:1): Add a UNIQUE foreign key in either table. Example: users + user_profiles. 2) One-to-Many (1:N): Add a foreign key in the ''many'' side table. Example: departments + employees (employee has department_id). 3) Many-to-Many (M:N): Create a junction table with foreign keys to both tables. Example: students + courses + student_courses junction table. The junction table''s primary key is usually the composite of both foreign keys.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('ts-basics', 'What is TypeScript and why use it?', 'Easy', 'TypeScript is JavaScript with static typing. It catches errors at compile time, improves IntelliSense, and makes code more maintainable.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('return-statement', 'What does a function return if there is no return statement?', 'Easy', 'undefined. If a function has no return statement, or uses ''return;'' without a value, JavaScript returns undefined to the caller. Constructor functions called with ''new'' are an exception — they implicitly return the new object.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('consistent-hashing-algorithms', 'Explain Consistent Hashing Algorithms in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('data-warehouses-snowflake-bigquery', 'Explain Data Warehouses (Snowflake/BigQuery) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('default-parameters', 'When are default parameter values used?', 'Easy', 'Default values are used only when the argument is undefined — either not passed at all or explicitly passed as undefined. null, 0, '''', and false do NOT trigger defaults. This is different from the old || pattern which treats all falsy values as missing.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('review-facebook-insta-newsfeed', 'Explain Review: Facebook/Insta Newsfeed in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-advanced', 'What are error boundaries?', 'Hard', 'Error boundaries catch JavaScript errors in their child component tree and display a fallback UI. They must be class components using getDerivedStateFromError and componentDidCatch.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('rest-parameters', 'What is the difference between rest parameters and the arguments object?', 'Easy', 'Rest parameters (...args) produce a real Array with full array methods (map, filter, reduce). The arguments object is array-like (has length and indices) but is NOT a real array. Rest works in arrow functions; arguments does not. Rest only collects ''remaining'' args; arguments collects all args.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-for-loop-sequence', 'What is the third argument to range() called, and what does it control?', 'Easy', 'It controls how much the value grows on each step of the loop.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('er-diagrams', 'What are the three main components of an ER diagram?', 'Easy', 'The three components are: (1) Entities — represent real-world objects or concepts that become tables (e.g., Student, Course, Order). Drawn as rectangles. (2) Attributes — properties or characteristics of entities that become columns (e.g., name, email, price). Listed inside the entity or drawn as ovals. Primary keys are underlined. (3) Relationships — connections between entities that become foreign keys (e.g., ''enrolls in'', ''teaches''). Drawn as diamonds or lines with cardinality notation (1:1, 1:N, M:N).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('callback-functions', 'What is a callback function and why are they used in JavaScript?', 'Easy', 'A callback is a function passed as an argument to another function, called at a later time. They are used because JavaScript is single-threaded — callbacks allow non-blocking async operations. Instead of waiting for a timer/request to complete, JS continues executing and calls the callback when the operation finishes.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('ts-utility-types', 'What is Partial<T> in TypeScript?', 'Easy', 'Partial<T> makes all properties of T optional. It is commonly used for update APIs where you only send the fields that changed.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('reverse-proxies-sidecars', 'Explain Reverse Proxies & Sidecars in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-components', 'What is the difference between functional and class components?', 'Easy', 'Functional components are plain functions that return JSX. Class components use ES6 classes with lifecycle methods and ''this''. With hooks, functional components can do everything class components can.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('higher-order-functions', 'What is a higher-order function? Give examples.', 'Easy', 'A HOF takes functions as arguments or returns functions. Built-in examples: map, filter, reduce, forEach, sort, find, some, every. Custom example: function createMultiplier(factor) { return n => n * factor; } — it returns a function. HOFs enable abstraction, composition, and reusable patterns.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('debouncing-throttling', 'What is debouncing?', 'Medium', 'Debouncing delays the execution of a function until the user stops performing an action for a specified amount of time. It is commonly used for search inputs and autocomplete to reduce API calls.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-finally', 'What is the purpose of the finally clause?', 'Easy', 'finally contains cleanup code that ALWAYS runs regardless of what happens in try. It runs if: 1) try succeeds normally. 2) except catches an exception. 3) Exception is re-raised. 4) try has a return statement. 5) break or continue in a loop. Use for: closing files/connections, releasing locks, restoring state. The full order is: try → except (if error) OR else (if no error) → finally (always). Context managers (with statement) are often cleaner for resource management.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-arrays', 'What is the difference between push/pop and unshift/shift?', 'Easy', 'push/pop work at the end (O(1)). unshift/shift work at the beginning (O(n) because all elements must be re-indexed). In performance-critical code, prefer push/pop.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-vs-flexbox', 'When should you use Grid vs Flexbox?', 'Medium', 'Grid for 2D layouts (page structure). Flexbox for 1D layouts (component internals, navbars, centering).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('json-jsonb', 'What is the difference between JSON and JSONB in PostgreSQL?', 'Easy', 'JSON stores the exact input text — preserves whitespace, key order, and duplicate keys. Faster to insert (no parsing), but slower to query. JSONB stores binary decomposed format — parses on input, removes whitespace, deduplicates keys, sorts keys. Slower to insert but much faster to query. JSONB supports GIN indexes for containment (@>) and key existence (?) operators. Use JSONB for almost everything. Use JSON only when you need exact text preservation (audit logs, API response archiving).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('array-methods', 'What is the difference between map() and forEach()?', 'Easy', 'map() returns a new array with transformed elements. forEach() returns undefined — it is for side effects only. Use map() when you need the result, forEach() when you just need to iterate (like logging).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('full-text-search', 'How does full-text search differ from LIKE and ILIKE?', 'Easy', 'LIKE/ILIKE: (1) Pattern matching on exact strings. (2) No stemming — ''run'' won''t match ''running''. (3) Leading wildcards (%text) can''t use indexes. (4) No relevance ranking. (5) Language-unaware. Full-text search: (1) Linguistic matching with stemming. (2) Stop word removal. (3) GIN-indexable for fast searches. (4) ts_rank for relevance scoring. (5) Language-aware processing. (6) Boolean operators (AND, OR, NOT). Use LIKE for exact patterns; use FTS for natural language search.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-introduction', 'What is HTML and why is it not considered a programming language?', 'Easy', 'HTML is a markup language that structures content using tags. It has no logic, variables, conditionals, or loops — it only describes what content exists and how it is organized. Programming languages (JavaScript, Python) execute instructions and make decisions. HTML simply marks up text so the browser knows how to display it.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('array-iteration-methods', 'What is the difference between find() and filter()?', 'Easy', 'find() returns the FIRST matching element (or undefined). filter() returns ALL matching elements in a new array. find() stops after the first match (more efficient when you only need one).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-ticketmaster-booking', 'Explain Walkthrough: Ticketmaster/Booking in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('relational-vs-nosql-decision-matrix', 'Explain Relational vs NoSQL Decision Matrix in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('spread-operator', 'What is the difference between spread and rest?', 'Easy', 'Same syntax (...) but opposite purpose. Spread EXPANDS: [...arr] unpacks elements. Rest COLLECTS: function(...args) gathers arguments into an array. Spread is used in calls/literals, rest in definitions/destructuring.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-specificity', 'Calculate the specificity of: div#main .content p.intro::first-line', 'Hard', 'Count: 0 inline + 1 ID (#main) + 2 classes (.content, .intro) + 3 elements (div, p, ::first-line) = 0-1-2-3.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('slo-sla-sli-metrics', 'Explain SLO / SLA / SLI Metrics in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-objects', 'What is the difference between dot and bracket notation?', 'Easy', 'Dot notation (obj.key) is cleaner but requires a valid identifier (no spaces, no starting with numbers). Bracket notation (obj[''key'']) accepts any string, variables, and expressions. Use bracket for dynamic keys: obj[variable], obj[''multi word''], obj[computedKey].', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-components', 'What is the difference between functional and class components?', 'Easy', 'Functional components are plain functions that return JSX. Class components use ES6 classes with lifecycle methods and ''this''. With hooks, functional components can do everything class components can.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-float-clear', 'What is the clearfix hack and why is it needed?', 'Medium', 'Uses ::after with clear: both to make parent contain floated children, needed because floats don''t contribute to parent height.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('object-methods', 'What is the difference between Object.freeze() and Object.seal()?', 'Medium', 'freeze(): cannot add, remove, or modify properties — fully immutable (shallow). seal(): cannot add or remove properties, but CAN modify existing values. Both are shallow — nested objects are not affected. Use Object.freeze() for constants, Object.seal() when structure is fixed but values may change.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('database-sharding-partitioning', 'Explain Database Sharding & Partitioning in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-document-structure', 'What is the purpose of the <head> section in an HTML document? Name at least 5 things that go inside it.', 'Easy', 'The <head> contains metadata — information about the page that is not directly visible. Key contents: (1) <meta charset=''UTF-8''> for character encoding, (2) <title> for the browser tab and SEO, (3) <meta name=''viewport''> for responsive mobile design, (4) <meta name=''description''> for SEO snippets, (5) <link rel=''stylesheet''> for CSS files, (6) <link rel=''icon''> for the favicon, (7) <script> for JavaScript (though often placed at end of body).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('object-destructuring', 'What happens if you destructure a property that doesn''t exist?', 'Easy', 'The variable gets undefined. Use default values to handle this: const { missing = ''default'' } = obj. For nested destructuring, if the parent is undefined it throws TypeError — guard with defaults: const { address: { city } = {} } = obj.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-props', 'What are props in React?', 'Easy', 'Props are read-only data passed from parent to child. They are like function arguments for components. Children cannot modify props.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-negative-numbers', 'What happens if you accidentally write range(-2, -20, 2) with a positive step?', 'Easy', 'When start is less than stop but step is positive, range() produces an empty sequence.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('json-basics', 'What are the limitations of JSON.parse(JSON.stringify()) for deep cloning?', 'Medium', 'Loses: undefined, functions, Symbol, Date (becomes string), RegExp (becomes {}), Map/Set (becomes {}), circular references (throws). Better alternative: structuredClone() which handles Dates, RegExp, Map, Set, ArrayBuffer, and even circular references.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-patterns', 'How do you create a responsive grid without media queries?', 'Medium', 'grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) — auto-adjusts column count.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('large-file-upload-strategies', 'Explain Large File Upload Strategies in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('shallow-vs-deep-copy', 'What is the difference between shallow copy and deep copy?', 'Easy', 'Shallow copy: new object at top level, but nested objects share references. Changing nested data in the copy affects the original. Deep copy: completely independent clone at every level. Spread/Object.assign = shallow. structuredClone = deep.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-state', 'What is useState?', 'Easy', 'useState is a React hook that adds state to functional components. It returns an array with the current state value and a function to update it. Example: const [count, setCount] = useState(0).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-elements-and-tags', 'What is the difference between block-level and inline elements? Give examples of each.', 'Easy', 'Block elements start on a new line and take the full available width — they stack vertically. Examples: <div>, <p>, <h1>-<h6>, <ul>, <section>, <article>. Inline elements flow within text and only take the width of their content — they sit side by side. Examples: <span>, <a>, <strong>, <em>, <img>, <input>. Block can contain inline; inline should not contain block.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('what-is-dom', 'What is the DOM and how does it relate to HTML?', 'Easy', 'The DOM is a tree-shaped programming interface built by the browser from HTML source. HTML is static text. The DOM is a live, in-memory object model that JS can read/modify. Changes to the DOM update the page but don''t change the .html file. The DOM may differ from HTML (e.g., JS-added elements, browser corrections).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-group-selectors', 'What happens if one selector in a grouped rule is invalid?', 'Medium', 'In modern browsers the valid selectors still work. But in older browsers the entire rule might be discarded.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('replication-leader-follower', 'Explain Replication (Leader/Follower) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('selecting-elements', 'What is the difference between querySelector and getElementById?', 'Easy', 'getElementById only selects by id, returns one element, and is slightly faster. querySelector accepts any CSS selector (#id, .class, div > p, [attr]), returns first match. querySelector is more flexible; getElementById is more performant for id lookups.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('denormalization', 'What is denormalization and when would you use it?', 'Easy', 'Denormalization is intentionally adding redundant data to normalized tables to improve read performance. Use it when: (1) Queries require frequent complex JOINs across many tables. (2) Read performance is critical (dashboards, reports). (3) The system is read-heavy with infrequent writes. (4) Query response time is more important than storage. Common in data warehouses, reporting systems, and high-traffic APIs. Always keep the normalized data as the source of truth.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-events', 'How are events different in React vs vanilla JavaScript?', 'Easy', 'React events use camelCase (onClick), pass function references (not strings), and use SyntheticEvent — a cross-browser wrapper around native events.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('modifying-html-content', 'What is the difference between textContent and innerHTML?', 'Easy', 'textContent: gets/sets raw text, ignores HTML, is safe from XSS. innerHTML: gets/sets HTML markup, parses tags, can create XSS if used with user input. textContent is faster (no HTML parsing). Use textContent for user data, innerHTML only for trusted HTML.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-math-module', 'Why does 0.1 + 0.2 != 0.3 in Python and how do you handle it?', 'Easy', 'Floating-point numbers use binary representation (IEEE 754). 0.1 and 0.2 can''t be represented exactly in binary, so there''s a tiny rounding error: 0.1 + 0.2 = 0.30000000000000004. Solutions: 1) math.isclose(a, b) — checks approximate equality. 2) decimal.Decimal(''0.1'') + Decimal(''0.2'') == Decimal(''0.3'') — exact decimal arithmetic. 3) Round before comparing: round(0.1 + 0.2, 1) == 0.3. 4) For money: use integers (cents) or Decimal. Never compare floats with ==.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-attributes', 'What is the difference between the id and class attributes? When would you use each?', 'Easy', 'id must be unique across the entire page — only one element can have a given id. It is used for JavaScript targeting (getElementById), CSS specificity (#id), and anchor links (<a href=''#section''>). class can be shared by multiple elements and an element can have multiple classes. It is the primary mechanism for applying reusable CSS styles. Use id for unique landmarks; use class for reusable styling groups.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('modifying-css-styles', 'What is the difference between element.style and getComputedStyle?', 'Easy', 'element.style reads/writes INLINE styles only (what''s in the style attribute). getComputedStyle(el) returns the FINAL computed value after all CSS rules cascade — it''s read-only. element.style.color may be '''' even if the element is red from a stylesheet.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-print-name', 'Why do we use int() to convert the ''times'' input?', 'Easy', 'range() only accepts integers; passing a string would raise a TypeError.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-conditional-rendering', 'What are the different ways to conditionally render in React?', 'Easy', 'if/else statements, ternary operator (condition ? A : B), logical AND (condition && element), switch statements, and conditional assignment to variables.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('creating-removing-elements', 'What is the difference between append() and appendChild()?', 'Easy', 'appendChild: takes ONE Node, returns the node. append: takes multiple Nodes AND strings, returns undefined. append is newer (no IE support) and more flexible. Both add to the end. There''s also prepend() for the beginning.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('distributed-dbs-cassandra-dynamo', 'Explain Distributed DBs (Cassandra/Dynamo) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-lists-keys', 'Why are keys important in React lists?', 'Easy', 'Keys help React identify which items have changed, been added, or removed. They enable efficient reconciliation and prevent UI bugs.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dom-traversal', 'What does closest() do and when would you use it?', 'Medium', 'closest(selector) traverses UP from the element through its ancestors and returns the first one matching the CSS selector. Returns null if none found. Key use case: event delegation — e.target.closest(''.card'') finds the card a clicked button belongs to, even if the click was on a nested element.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-list-properties', 'What is the difference between a list and a tuple in Python?', 'Easy', 'Tuples use () and are immutable; lists use [] and are mutable.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('headings-and-paragraphs', 'Why should you use only one <h1> per page? What impact does heading hierarchy have on SEO and accessibility?', 'Easy', 'One <h1> per page clearly communicates the main topic to search engines — Google uses it as a strong ranking signal. For accessibility, screen readers build a heading outline that users navigate like a table of contents. Proper hierarchy (h1 → h2 → h3, no skipping) ensures this outline makes logical sense. Multiple <h1> tags dilute the page topic signal and confuse the heading outline.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('event-listeners', 'What is the difference between event.target and event.currentTarget?', 'Medium', 'event.target is the ACTUAL element that triggered the event (the deepest element clicked). event.currentTarget is the element the listener is ATTACHED to. They differ when events bubble — click a <span> inside a <button> with the listener: target=span, currentTarget=button.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-responsive-basics', 'What are the three pillars of responsive web design?', 'Easy', 'Flexible grids, flexible images, and media queries — coined by Ethan Marcotte.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-forms', 'What is the difference between controlled and uncontrolled components?', 'Easy', 'Controlled: React manages the input value via state (value + onChange). Uncontrolled: the browser manages the value, accessed via ref. Controlled is the React-recommended approach.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('event-propagation', 'What are the three phases of event propagation?', 'Easy', '1) Capturing: event travels DOWN from window to target. 2) Target: event reaches the clicked element. 3) Bubbling: event travels back UP from target to window. Listeners fire on bubble by default. Use { capture: true } for capture phase.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-flexbox-intro', 'What problems does flexbox solve?', 'Easy', 'Centering, equal-height columns, space distribution, source order independence.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('media-cdns-video-streaming', 'Explain Media CDNs & Video Streaming in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('event-delegation', 'What is event delegation and why is it useful?', 'Easy', 'Attach one listener to a parent instead of many on children. Uses event bubbling — check event.target to identify which child was clicked. Benefits: works with dynamic elements, uses less memory, simpler code. Pattern: parent.addEventListener(''click'', e => { if (e.target.matches(''.x'')) handle(e.target); });', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('caching-fundamentals-redis-memcached', 'Explain Caching Fundamentals (Redis/Memcached) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('text-formatting', 'What is the difference between <strong> and <b>, and between <em> and <i>?', 'Easy', '<strong> means semantically important text — screen readers emphasize it, and search engines give it extra weight. <b> only makes text visually bold with no semantic meaning. Similarly, <em> means stressed emphasis — screen readers change their tone of voice. <i> only makes text visually italic. In modern HTML, always prefer <strong> over <b> and <em> over <i> because accessibility and SEO benefit from semantic meaning.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('sync-vs-async', 'What is the difference between synchronous and asynchronous code in JavaScript?', 'Easy', 'Synchronous code executes line by line — each operation must complete before the next starts (blocking). Asynchronous code allows operations to start and then continues executing without waiting for them to finish. Results are handled later via callbacks, promises, or async/await. JS uses the event loop to manage async operations.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-useeffect', 'What is useEffect used for?', 'Easy', 'useEffect performs side effects in React components — API calls, timers, event listeners, and DOM manipulation. It runs after the component renders.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-iframe', 'What is the sandbox attribute and why is it important?', 'Medium', 'sandbox restricts iframe capabilities. Default blocks scripts, forms, popups, navigation. Selectively re-enable with allow-scripts, allow-forms. Critical for third-party content security.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('set-timeout-set-interval', 'What is the difference between setTimeout and setInterval?', 'Easy', 'setTimeout runs a function ONCE after a delay. setInterval runs a function REPEATEDLY at the given interval until cleared. Both accept (callback, delay) and return an ID for cancellation. Use clearTimeout/clearInterval to stop them.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-id-selector', 'Why is using ID selectors for styling considered a bad practice?', 'Medium', 'Their high specificity (1-0-0) makes them very hard to override without resorting to more IDs or !important.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-props', 'What are props in React?', 'Easy', 'Props are read-only data passed from parent to child. They are like function arguments for components. Children cannot modify props.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('callbacks', 'What is a callback function in JavaScript?', 'Easy', 'A callback is a function passed as an argument to another function, to be executed later. Example: setTimeout(myFunction, 1000) — myFunction is the callback. Callbacks can be synchronous (Array.map) or asynchronous (setTimeout, fetch). They''re the original way JS handles async operations.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-even-odd', 'What does the % (modulo) operator do?', 'Easy', 'It returns the remainder after dividing the left number by the right number.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-links', 'Why should you always add rel=''noopener noreferrer'' when using target=''_blank''?', 'Easy', 'Without rel=''noopener'', the new page can access your page''s window.opener object — a security vulnerability called ''tabnapping'' where the new page could redirect your original page to a phishing site. noopener prevents this access. noreferrer additionally prevents the new page from knowing which page linked to it (hides the Referer header). Modern browsers now default to noopener for target=''_blank'', but explicit declaration ensures compatibility with older browsers.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('callback-hell', 'What is callback hell and why is it a problem?', 'Easy', 'Callback hell is deeply nested callbacks that form a pyramid/triangle shape in code. It happens when async operations depend on each other. Problems: hard to read (rightward drift), hard to maintain, error handling scattered at each level, hard to debug. Also called ''pyramid of doom''.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('third-normal-form', 'What is a transitive dependency and how does it violate 3NF?', 'Easy', 'A transitive dependency is when column C depends on column B, which depends on the primary key A: A -> B -> C. Example: employee_id -> department_id -> department_name. The department_name doesn''t depend directly on the employee — it depends on the department. This violates 3NF because a non-key column (department_name) depends on another non-key column (department_id). Fix: move department_name to a separate departments table.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cache-eviction-invalidation', 'Explain Cache Eviction & Invalidation in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('promises', 'What are the three states of a Promise?', 'Easy', 'Pending (initial state, waiting for result), Fulfilled (resolved successfully with a value), Rejected (failed with a reason/error). A promise is ''settled'' once it''s either fulfilled or rejected. Once settled, it cannot change state — it''s immutable.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-usecontext', 'What is useContext and how does it work?', 'Medium', 'useContext provides global state without prop drilling. You create a context with createContext(), wrap components with Provider, and consume with useContext(). Without Provider, it returns the default value.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('availability-vs-reliability', 'Explain Availability vs Reliability in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('promise-chaining', 'How does Promise chaining work?', 'Easy', '.then() always returns a new Promise. Whatever you return from .then() becomes the resolved value of that new Promise. If you return a Promise, the chain waits for it. This lets you chain: fetch().then(parse).then(process).catch(handleError). Each step gets the previous step''s result.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-random-module', 'What is the difference between choice(), choices(), and sample()?', 'Easy', 'choice(seq) picks ONE random element. choices(seq, k=n) picks n elements WITH replacement — same element can be picked multiple times. sample(seq, k=n) picks n elements WITHOUT replacement — each element picked at most once, k must be Γëñ len(seq). Example with [1,2,3]: choice → 2. choices(k=5) → [1,3,1,2,1] (repeats ok). sample(k=3) → [3,1,2] (no repeats). choices also supports weights parameter for non-uniform probability.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-images', 'Why is the alt attribute important, and what should you write for decorative vs informative images?', 'Easy', 'alt serves three purposes: (1) screen readers read it aloud for visually impaired users — it IS the image for them; (2) it displays as fallback text when the image fails to load; (3) search engines use it to understand image content for indexing. For informative images: describe what the image shows in context (''Team photo of five engineers at the 2024 hackathon''). For decorative images (borders, spacers): use alt='''' (empty string) so screen readers skip them. Never omit alt entirely — that makes screen readers announce the filename, which is worse.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('async-await', 'What does the async keyword do to a function?', 'Easy', 'The async keyword makes a function always return a Promise. If the function returns a value, it''s wrapped in Promise.resolve(). If it throws, it''s wrapped in Promise.reject(). This enables the use of ''await'' inside the function body.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-media-queries', 'What is the difference between min-width and max-width in media queries?', 'Easy', 'min-width: styles apply at that width AND above (mobile-first). max-width: styles apply at that width AND below (desktop-first).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-usememo', 'What is useMemo?', 'Medium', 'useMemo caches a computed value and only recalculates when dependencies change. It''s used for expensive calculations and maintaining referential equality.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('error-handling-try-catch', 'What is the purpose of the finally block?', 'Easy', 'The finally block always executes regardless of whether an error was thrown or caught. It''s used for cleanup: closing database connections, releasing file handles, hiding loading spinners, etc. It runs after try (if no error) or after catch (if error). Even if try or catch has a return statement, finally still runs.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('latency-vs-throughput', 'Explain Latency vs Throughput in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('message-queues-rabbitmq-sqs', 'Explain Message Queues (RabbitMQ/SQS) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('fetch-api', 'Why doesn''t fetch reject on HTTP error status codes like 404 or 500?', 'Easy', 'fetch() only rejects on network failures (no internet, DNS error, CORS blocked). HTTP error responses (404, 500) are still valid responses from the server — the request succeeded, the server just returned an error status. You must check response.ok (true for 200-299) or response.status manually to handle HTTP errors.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cdn-architectures', 'Explain CDN Architectures in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-lists', 'What are the three types of HTML lists and when would you use each?', 'Easy', '<ul> (unordered): when item order doesn''t matter — navigation links, feature lists, shopping lists. <ol> (ordered): when sequence is meaningful — step-by-step instructions, rankings, numbered references. <dl> (description): when pairing terms with definitions — glossaries, FAQs, metadata key-value pairs. Choose based on semantics, not appearance — you can always change the visual style with CSS.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('template-literals', 'What are template literals and how do they differ from regular strings?', 'Easy', 'Template literals use backticks (`) instead of quotes. They support: 1) String interpolation with ${expression}. 2) Multi-line strings without \n. 3) Tagged templates for custom processing. Regular strings need concatenation (+) for expressions and \n for new lines.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-usecallback', 'What is useCallback?', 'Medium', 'useCallback caches a function reference and only creates a new function when dependencies change. It prevents unnecessary re-renders when passing callbacks to memoized child components.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-important-rule', 'How can you override an !important declaration?', 'Medium', 'With another !important that has equal or higher specificity, or by matching the exact same selector later in the source.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('destructuring-assignment', 'What is the difference between array and object destructuring?', 'Easy', 'Array destructuring extracts by POSITION: const [a, b] = [1, 2]. Object destructuring extracts by PROPERTY NAME: const {name, age} = obj. Array uses [], object uses {}. Array order matters; object order doesn''t. Both support defaults, rest patterns, and nesting.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-flex-container', 'What is the difference between flex and inline-flex?', 'Easy', 'flex creates a block-level container. inline-flex creates an inline-level container that flows with text.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-memo', 'What is React.memo?', 'Medium', 'React.memo is a higher-order component that prevents unnecessary re-renders if props haven''t changed (shallow comparison). It''s used for pure components that render often with the same props.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('es6-default-parameters', 'How do ES6 default parameters differ from the old || pattern?', 'Easy', 'Old: x = x || default — triggers on ALL falsy values (0, '''', false, null, undefined). New: function(x = default) — triggers ONLY on undefined. This means 0, '''', false, and null are preserved as valid arguments with ES6 defaults but get overwritten with the || pattern.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('global-data-replication', 'Explain Global Data Replication in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-comments', 'Are HTML comments truly hidden from users? Why should you never put sensitive data in them?', 'Easy', 'No — HTML comments are hidden from the rendered page but are fully visible in the page source code. Anyone can right-click → View Page Source (or use browser DevTools) and read every comment. Never put API keys, passwords, internal server paths, security notes, or user data in HTML comments. Use server-side environment variables for secrets. In production, use a build tool to strip comments from the HTML to reduce file size.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('modules-import-export', 'What is the difference between named exports and default exports?', 'Easy', 'Named exports: multiple per file, imported by exact name in curly braces { }. Default export: one per file, imported with any name, no curly braces. Named: export const foo; import { foo }. Default: export default foo; import anyName. You can have both in one file.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-mobile-first', 'What is mobile-first design and why is it preferred?', 'Medium', 'Write base styles for mobile, use min-width to enhance. Simpler base, better performance, forces content prioritization.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('linked-list', 'How do you find the middle node of a linked list in one pass?', 'Easy', 'Use two pointers — slow moves one step, fast moves two steps. When fast reaches the end, slow is at the middle. For even-length lists this lands on the second middle node.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-custom-hooks', 'What are custom hooks?', 'Easy', 'Custom hooks are reusable functions that start with ''use'' and encapsulate stateful logic. They can call other hooks and enable logic reuse across components.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('optional-chaining', 'What is optional chaining and what problem does it solve?', 'Easy', 'Optional chaining (?.) safely accesses nested properties. If any part is null/undefined, it returns undefined instead of throwing TypeError. Solves the problem of deeply nested access: user?.address?.city replaces user && user.address && user.address.city. Works with properties, methods (?.()), and brackets (?.[]).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-converging-triangle', 'What happens to the inner gap as i increases in the loop?', 'Easy', 'The expression 2*(h-i-1) decreases by 2 on each iteration.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('api-gateways', 'Explain API Gateways in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('nullish-coalescing', 'What is the difference between ?? and ||?', 'Easy', '|| returns the right side for ANY falsy value: 0, '''', false, null, undefined, NaN. ?? returns the right side ONLY for null and undefined. So 0 ?? 10 gives 0 (correct for counts), but 0 || 10 gives 10 (incorrect). Use ?? when 0, '''', or false are valid values.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-csv-json', 'What is the difference between json.load and json.loads?', 'Easy', 'json.load(file_object): reads JSON from a FILE object and parses it. json.loads(string): parses a JSON STRING. The ''s'' stands for ''string.'' Similarly: json.dump(data, file): writes to file. json.dumps(data): returns a string. Mnemonic: with ''s'' = string, without ''s'' = file. Common pattern: with open(''data.json'') as f: data = json.load(f). For strings: data = json.loads(''{"key": "value"}'').', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('div-vs-span', 'What is the difference between <div> and <span>? When would you use each?', 'Easy', '<div> is a block-level element — it starts on a new line and takes the full width of its parent. <span> is an inline element — it sits within the text flow and only takes as much width as its content. Use <div> to group sections (cards, rows, wrappers). Use <span> to style or target a specific piece of inline text. Neither has semantic meaning — they are generic containers for CSS and JavaScript hooks.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('spread-and-rest', 'What is the difference between spread and rest operators?', 'Easy', 'Both use ... syntax but serve opposite purposes. Spread EXPANDS: [...arr] unpacks elements, {...obj} unpacks properties, f(...args) expands into arguments. Rest COLLECTS: function(...args) collects arguments into array, [a, ...rest] collects remaining elements, {a, ...rest} collects remaining properties. Spread = unpack, Rest = pack.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-routing', 'What is React Router?', 'Medium', 'React Router is the standard routing library for React. It enables navigation between views without page reload using the HTML5 History API.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('block-file-and-object-storage-s3', 'Explain Block, File, and Object (S3) Storage in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('short-circuiting', 'How does short-circuit evaluation work with && and ||?', 'Easy', '|| returns the first truthy value (or the last value). It stops evaluating when it finds truthy. && returns the first falsy value (or the last value). It stops evaluating when it finds falsy. Both return the actual VALUE, not a boolean. Examples: ''hello'' || ''world'' → ''hello''. '''' && ''world'' → ''''. 1 && 2 && 3 → 3.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-class-selector', 'What is the difference between .card.featured and .card .featured?', 'Medium', 'Without space: element must have BOTH classes. With space: .featured is a descendant inside .card.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('kafka-internals-topics-partitions', 'Explain Kafka Internals (Topics/Partitions) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('execution-context', 'What is an execution context in JavaScript?', 'Medium', 'An execution context is the environment where JS code is evaluated. It has two phases: Creation (hoists declarations, sets up scope chain, binds ''this'') and Execution (assigns values, runs code). Three types: Global (one, creates global object), Function (per function call), and Eval. Managed by the call stack.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-api-calls', 'How do you make API calls in React?', 'Medium', 'Use useEffect for initial data fetching, or event handlers for user-triggered calls. Always handle loading, success, and error states. Use AbortController for cancellation.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-tables', 'What is the difference between <th> and <td>? Why does it matter for accessibility?', 'Easy', '<th> defines a header cell and <td> defines a data cell. Screen readers use <th> to announce column/row headers as users navigate — ''Name: Alice''. Without <th>, assistive technology cannot associate data cells with headers.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('call-stack', 'What is the call stack and how does it work?', 'Medium', 'The call stack is a LIFO data structure tracking function execution. When a function is called, its execution context is pushed on top. When it returns, it''s popped off. JS has one call stack (single-threaded). Global context sits at the bottom. Stack overflow happens with infinite recursion. Stack traces in errors show the call stack at the point of failure.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('review-amazon-checkout', 'Explain Review: Amazon Checkout in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-breakpoints', 'How do you choose breakpoints?', 'Medium', 'Based on content, not devices. Resize until the layout looks broken, then add a breakpoint there.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-state-management', 'What is the difference between Context API and Redux?', 'Medium', 'Context API is built-in, good for simple global state. Redux Toolkit is more powerful for complex state with devtools, middleware, and predictable updates. Use Context for small apps, Redux for large ones.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('hoisting', 'What is hoisting in JavaScript?', 'Easy', 'Hoisting is JS moving declarations to the top of their scope during the creation phase. var is hoisted and set to undefined. Function declarations are fully hoisted. let/const are hoisted but put in the Temporal Dead Zone (TDZ) — accessing them before declaration throws ReferenceError. It''s not physical movement, but how the engine processes code.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('data-warehouses-snowflake-bigquery', 'Explain Data Warehouses (Snowflake/BigQuery) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-centered-triangle', 'Why does the number of stars on each row always be odd?', 'Easy', '2*i+1 is always odd because 2*i is even and adding 1 makes it odd.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('scope-and-lexical-scope', 'What are the different types of scope in JavaScript?', 'Easy', 'Three types: 1) Global scope — accessible everywhere. 2) Function scope — var is scoped to the function. 3) Block scope — let/const are scoped to the { } block. var ignores blocks (leaks out of if/for). let/const respect blocks. Scope chain: JS looks up from local → parent → global.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-advanced', 'What are error boundaries?', 'Hard', 'Error boundaries catch JavaScript errors in their child component tree and display a fallback UI. They must be class components using getDerivedStateFromError and componentDidCatch.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-forms-basics', 'What is the difference between GET and POST in HTML forms?', 'Easy', 'GET appends data to URL as query parameters — visible, bookmarkable, cached, ~2KB limit. POST sends in request body — private, not cached, no size limit. Use GET for searches; POST for sensitive data, file uploads, and creating resources.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('closures', 'What is a closure in JavaScript?', 'Medium', 'A closure is a function bundled with its lexical environment — it retains access to variables from its outer scope even after the outer function has returned. Created whenever a function is defined inside another function. The inner function ''closes over'' the outer variables. Used for data privacy, factories, callbacks, and state management.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-flex-direction', 'What is the default flex-direction?', 'Easy', 'row — items flow horizontally from left to right.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-state', 'What is useState?', 'Easy', 'useState is a React hook that adds state to functional components. It returns an array with the current state value and a function to update it. Example: const [count, setCount] = useState(0).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('this-keyword', 'How is ''this'' determined in JavaScript?', 'Medium', 'By how the function is called, in priority order: 1) new — this is the new object. 2) call/apply/bind — this is the explicit argument. 3) obj.method() — this is the object before the dot. 4) Regular call — this is window (sloppy) or undefined (strict). Arrow functions don''t have their own this — they inherit from the enclosing scope.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('second-normal-form', 'What is Second Normal Form and what does it eliminate?', 'Easy', '2NF eliminates partial dependencies. A table is in 2NF when: (1) It''s in 1NF, and (2) Every non-key column depends on the entire primary key. Partial dependency: in a table with composite key (A, B), column C depends only on A. Example: order_items(order_id, product_id, quantity, product_name) — product_name depends only on product_id, not the full key. Fix: move product_name to a products table.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('introduction-to-postgresql', 'What is PostgreSQL and how is it different from MySQL?', 'Easy', 'PostgreSQL is an object-relational database with full ACID compliance, MVCC, and support for advanced data types. MySQL is simpler and faster for read-heavy workloads but has fewer advanced features. PostgreSQL supports table inheritance, custom types, and full-text search natively.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('prototypes', 'What is a prototype in JavaScript?', 'Medium', 'Every object has a [[Prototype]] — a hidden link to another object. When you access a property that doesn''t exist on the object, JS follows the prototype chain to find it. Constructor functions have a .prototype property. When you use ''new'', the instance''s [[Prototype]] links to Constructor.prototype. Methods on the prototype are shared by all instances (memory efficient).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('large-file-upload-strategies', 'Explain Large File Upload Strategies in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-input-types', 'What happens if you use type=''text'' instead of type=''email''?', 'Easy', 'No built-in email validation. Standard keyboard on mobile instead of email keyboard. You lose autofill suggestions. You must write custom JS validation. Always use the most specific input type.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-responsive-images', 'How do you make an image responsive?', 'Easy', 'max-width: 100%; height: auto — image scales down but never exceeds its natural size.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('prototype-chain', 'How does property lookup work in the prototype chain?', 'Medium', 'When accessing obj.prop: 1) Check obj''s own properties. 2) If not found, check obj.__proto__ (prototype). 3) Continue up the chain. 4) If reaching null (end), return undefined. For methods, ''this'' still refers to the original object, not the prototype where the method was found. hasOwnProperty checks only own properties; ''in'' checks the entire chain.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('installing-postgresql', 'What is the default port for PostgreSQL and how would you change it?', 'Easy', 'The default port is 5432. You can change it by editing the ''port'' parameter in postgresql.conf, which is located in the data directory. After changing, restart the PostgreSQL service for the change to take effect.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('event-driven-design-patterns', 'Explain Event-Driven Design Patterns in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-classes', 'Are JavaScript classes real classes or syntactic sugar?', 'Medium', 'Syntactic sugar over prototypes. class Person { greet() {} } is equivalent to: function Person() {} Person.prototype.greet = function() {}. typeof class is ''function''. extends sets up prototype chain. Methods go on Constructor.prototype. The ''new'' keyword works the same way. Classes just provide cleaner syntax — the underlying mechanism is prototypal inheritance.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-descendant-selector', 'What is the difference between `.card p` and `.card > p`?', 'Medium', 'Space (descendant) matches at any depth. > (child) matches only direct children.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('buttons-and-labels', 'What are the three types of <button> and what is the default?', 'Easy', 'submit (submits form), reset (clears fields), button (no default action). Default is ''submit'' when type is omitted — a common bug causing accidental submissions.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('garbage-collection', 'How does garbage collection work in JavaScript?', 'Medium', 'JS uses mark-and-sweep algorithm. Starting from ''roots'' (global object, call stack, active closures), the GC traverses all reachable objects and marks them. Unmarked objects are unreachable and their memory is freed. Modern engines like V8 use generational GC: young generation (frequent, fast scans) and old generation (infrequent, thorough scans). GC runs automatically — you can''t trigger it manually.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-os-module', 'What is the difference between os.path and pathlib?', 'Easy', 'os.path uses strings and functions: os.path.join(''a'', ''b''), os.path.exists(path). pathlib uses objects: Path(''a'') / ''b'', path.exists(). pathlib (3.4+) is more Pythonic: uses / operator for joining, methods on path objects, supports method chaining. os.path is older but still widely used. pathlib covers most os.path needs plus more: Path.home(), path.read_text(), path.mkdir(parents=True). Some libraries still need strings — use str(path) to convert. Recommendation: use pathlib for new code.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('postgresql-architecture', 'Explain the PostgreSQL client-server architecture.', 'Medium', 'PostgreSQL uses a multi-process model. The Postmaster listens for connections and forks a new backend process for each client. Each backend handles queries independently. They communicate through shared memory for data caching and lock management.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('local-storage', 'What is the difference between localStorage and sessionStorage?', 'Easy', 'localStorage persists until explicitly deleted — data survives browser close. sessionStorage is cleared when the tab/window is closed. Both share the same API (setItem, getItem, removeItem, clear) and same ~5MB limit. sessionStorage is per-tab — opening a new tab creates a new session. localStorage is shared across all tabs of the same origin.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('media-cdns-video-streaming', 'Explain Media CDNs & Video Streaming in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-file-handling', 'Why should you use ''with'' statement for file handling?', 'Easy', 'The ''with'' statement (context manager) guarantees the file is closed when the block exits, even if an exception occurs. Without it: f = open(''file''); f.read(); f.close() — if read() raises, close() is never called (resource leak). With: with open(''file'') as f: f.read() — file closed automatically. Also: cleaner syntax, no need for try/finally. The ''with'' statement calls __enter__ (opens file) and __exit__ (closes file). Multiple files: with open(a) as f1, open(b) as f2: ...', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('session-storage', 'When would you use sessionStorage over localStorage?', 'Easy', 'Use sessionStorage for data that should not persist beyond the current session: multi-step form wizards (lose progress on tab close), one-time notifications, temporary UI state, sensitive data that shouldn''t linger. Use localStorage for data that should persist: user preferences, theme choice, cached data. Rule of thumb: if the user would expect to see the data after reopening the browser, use localStorage.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('creating-a-database', 'How do you create a database in PostgreSQL?', 'Easy', 'Use CREATE DATABASE db_name; to create a database with defaults. You can specify options like OWNER, ENCODING, and TEMPLATE. You can also use the createdb command-line tool. Only users with the CREATEDB privilege or superusers can create databases.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('select-radio-checkbox', 'What happens when a checkbox is unchecked and the form is submitted?', 'Easy', 'The unchecked checkbox is completely omitted from submitted data. Workaround: add a hidden input before it with same name and default ''no'' value — if checked, checkbox overrides hidden input.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-vowel-checker', 'How would you count the exact number of vowels (including duplicates)?', 'Easy', 'Use len(found) after collecting all vowels (without deduplication).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('geolocation-api', 'How does the Geolocation API handle user privacy?', 'Easy', 'The browser always asks for user permission before sharing location. The permission prompt shows the origin requesting access. Users can Allow, Block, or dismiss. Once blocked, the site can''t ask again (user must change it in browser settings). The API only works on secure origins (HTTPS). There''s no way to silently access location — it''s always opt-in. The Permissions API can check the current permission state.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-fluid-layouts', 'What does clamp(1rem, 2.5vw, 2rem) do?', 'Medium', 'Font size is 2.5vw but never smaller than 1rem or larger than 2rem. Smoothly scales between those bounds.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('postgresql-data-types', 'What is the difference between CHAR, VARCHAR, and TEXT in PostgreSQL?', 'Easy', 'CHAR(n) is fixed-length — it pads with spaces to fill n characters. VARCHAR(n) is variable-length with a maximum of n characters. TEXT has no length limit. In PostgreSQL, TEXT and VARCHAR without a length specifier are essentially the same. There is no performance difference between VARCHAR and TEXT in PostgreSQL.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('drag-and-drop-api', 'Why do you need to call preventDefault() on the dragover event?', 'Easy', 'By default, most elements don''t allow dropping — the browser''s default behavior is to reject the drop. Calling e.preventDefault() in the dragover handler signals that this element accepts drops. Without it, the drop event will never fire. You should also call preventDefault() in the drop handler to prevent the browser''s default handling (like opening a link). This is the most common mistake when implementing drag and drop.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('message-queues-rabbitmq-sqs', 'Explain Message Queues (RabbitMQ/SQS) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('fieldset-and-legend', 'Why is <fieldset> with <legend> important for radio button accessibility?', 'Easy', 'Without it, screen readers announce each radio in isolation. With fieldset+legend, the reader announces ''Payment Method group'' first, then lists options. The legend provides the group label (the question). Required by WCAG.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('clipboard-api', 'Why does the Clipboard API require a secure context?', 'Easy', 'Clipboard access is sensitive — malicious scripts could read passwords, credit card numbers, or other sensitive data from the clipboard. HTTPS ensures the page hasn''t been tampered with (man-in-the-middle attacks). The browser also requires user interaction (click, keypress) to trigger clipboard operations — you can''t silently read/write on page load. The Permissions API manages clipboard-read and clipboard-write permissions separately.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-modules', 'What is the purpose of if __name__ == ''__main__''?', 'Easy', 'When Python runs a file directly, __name__ is set to ''__main__''. When a file is imported as a module, __name__ is the module name. The if __name__ == ''__main__'' guard lets you write code that only runs when the file is executed directly, not when imported. This is useful for: testing code in the module, providing a CLI interface, running demos. Without it, import mymodule would execute ALL code in the file, including test prints and function calls.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('creating-tables', 'What is the difference between SERIAL and GENERATED ALWAYS AS IDENTITY?', 'Medium', 'SERIAL creates a sequence and sets a default, but you can still manually insert values. GENERATED ALWAYS AS IDENTITY (SQL standard) prevents manual value insertion unless you use OVERRIDING SYSTEM VALUE. GENERATED BY DEFAULT AS IDENTITY allows manual values. Identity columns are the modern, preferred approach.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('history-api', 'What is the difference between pushState and replaceState?', 'Easy', 'pushState ADDS a new entry to the history stack — the user can press back to return to the previous state. replaceState MODIFIES the current entry — it doesn''t add a new one, so back goes to whatever was before. Use pushState for navigation (user expects back to work). Use replaceState for updates that shouldn''t create history (like updating query params for filters, or redirects where back to the old URL doesn''t make sense).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-justify-content', 'What is the difference between space-between and space-evenly?', 'Medium', 'space-between has no space at edges. space-evenly has equal space everywhere including edges.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dead-letter-queues-retries', 'Explain Dead Letter Queues & Retries in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('web-workers', 'Why can''t Web Workers access the DOM?', 'Easy', 'The DOM is not thread-safe — if multiple threads modified the DOM simultaneously, it would cause race conditions and corruption (two threads adding/removing the same element). JavaScript''s single-threaded model guarantees DOM operations happen sequentially. Workers run on separate threads, so they''re intentionally isolated from the DOM. Communication via postMessage serializes data, preventing shared-state bugs. Workers CAN compute data and send it to the main thread, which then safely updates the DOM.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cache-eviction-invalidation', 'Explain Cache Eviction & Invalidation in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-syntax', 'What are the three parts of a CSS rule?', 'Easy', 'Think about what targets the element, and what goes inside the curly braces.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('intersection-observer', 'Why is Intersection Observer better than scroll event listeners?', 'Easy', 'Scroll events fire on EVERY pixel of scrolling (potentially 60+ times per second), blocking the main thread. Even with throttling/debouncing, you''re running getBoundingClientRect() which triggers layout recalculation (layout thrashing). Intersection Observer is asynchronous — the browser batches observations and runs callbacks off the main thread. It''s also simpler: no manual scroll position math, no throttling, no cleanup of scroll listeners. It handles edge cases like CSS transforms and nested scrolling automatically.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('altering-tables', 'How do you add a column to an existing table in PostgreSQL?', 'Easy', 'Use ALTER TABLE table_name ADD COLUMN column_name data_type. You can include constraints like NOT NULL (if you also provide a DEFAULT), DEFAULT, UNIQUE, etc. Existing rows will have NULL or the default value for the new column.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('kafka-internals-topics-partitions', 'Explain Kafka Internals (Topics/Partitions) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('variables-and-data-types', 'What is the difference between let, const, and var in JavaScript?', 'Easy', 'Focus on scope (block vs function), hoisting behaviour, and whether the binding can be reassigned. var is function-scoped and hoisted with value undefined; let and const are block-scoped and in the TDZ until their declaration.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-container-queries', 'What is the difference between media queries and container queries?', 'Medium', 'Media queries respond to viewport size. Container queries respond to the parent container''s size — making components truly reusable.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dropping-tables', 'What is the difference between DROP TABLE and TRUNCATE TABLE?', 'Easy', 'DROP TABLE removes the entire table (structure + data) from the database. TRUNCATE TABLE removes all rows but keeps the table structure, indexes, and constraints intact. TRUNCATE is also faster than DELETE FROM table because it doesn''t scan individual rows.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('operators', 'What is the difference between == and === in JavaScript? When should you use each?', 'Easy', '== performs type coercion before comparing (loose equality), while === compares both value and type without coercion (strict equality). Always prefer === to avoid subtle bugs like 0 == false being true. Use == only when you explicitly want null == undefined to be true.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-display-property', 'What is the difference between display: none and visibility: hidden?', 'Easy', 'display: none removes the element from layout flow entirely. visibility: hidden hides it visually but it still occupies space.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('semantic-html-overview', 'What is semantic HTML and why is it important?', 'Easy', 'Semantic HTML uses elements that describe their content''s meaning (<header>, <nav>, <article>, <footer>) instead of generic containers (<div>, <span>). Benefits: (1) Accessibility — screen readers announce landmarks and create a navigable page outline. (2) SEO — search engines understand page structure and prioritize content in <main>/<article>. (3) Maintainability — code is self-documenting. (4) Standards compliance — required by WCAG for accessibility.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('loops', 'What is the difference between for...of and for...in? When would you use each?', 'Easy', 'for...of iterates over the values of an iterable (array, string, Set, Map). for...in iterates over the enumerable property keys of an object. Avoid for...in on arrays — it may also enumerate inherited prototype properties and does not guarantee order. Use for...of for arrays and for...in for plain objects.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-string-alternator', 'How would you rewrite the alternation using zip()?', 'Medium', 'result = ''''.join(b + a for a, b in zip(str1, str2))', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('postgresql-constraints', 'What are the different types of constraints in PostgreSQL?', 'Easy', 'PostgreSQL supports NOT NULL (no null values), UNIQUE (no duplicate values), PRIMARY KEY (NOT NULL + UNIQUE), FOREIGN KEY (references another table), CHECK (custom validation), DEFAULT (fallback value), and EXCLUSION (prevents overlapping values). Constraints enforce data integrity at the database level.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('event-driven-design-patterns', 'Explain Event-Driven Design Patterns in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('functions', 'What is the difference between a function declaration and a function expression (or arrow function)?', 'Easy', 'Function declarations are hoisted — you can call them before they appear in the code. Function expressions and arrow functions are not hoisted; accessing them before their line throws a ReferenceError (TDZ). Arrow functions also lack their own ''this'' and cannot be used as constructors.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-iterators', 'What is the difference between an iterable and an iterator?', 'Easy', 'An iterable has __iter__() that returns an iterator (list, dict, str, set, tuple). An iterator has both __iter__() (returns self) and __next__(). All iterators are iterables, but not all iterables are iterators. A list is iterable but not an iterator — you call iter(list) to get one. Key difference: iterators maintain state (current position), iterables don''t. You can create multiple iterators from one iterable. iter() + next() is the protocol; for loops use it automatically.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('load-balancers-l4-vs-l7', 'Explain Load Balancers (L4 vs L7) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('arrays', 'What is the difference between slice and splice? Which one mutates the original array?', 'Easy', 'slice(start, end) returns a new sub-array and never changes the original. splice(start, deleteCount, ...items) mutates the original array by removing elements and optionally inserting new ones in their place. Remember: splice is destructive, slice is safe.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('primary-key-and-foreign-key', 'What is the difference between a primary key and a unique key?', 'Easy', 'A primary key is NOT NULL + UNIQUE and there can be only one per table. A unique key allows NULL values (multiple NULLs in PostgreSQL) and a table can have many unique constraints. The primary key is the main identifier for rows and is referenced by foreign keys.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-header-tag', 'Can a page have multiple <header> elements? When would you use more than one?', 'Easy', 'Yes. A page can have one page-level <header> (for site branding, nav) and additional <header> elements inside <article> or <section> elements (for article title, author, date). The page-level <header> gets the ''banner'' ARIA role. Nested headers do not get this role — they are just semantic groupings within their parent.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('strings', 'Why are strings immutable in JavaScript and what does that mean for string operations?', 'Easy', 'Immutability means you cannot change individual characters after creation. Methods like replace(), toLowerCase(), slice() all return NEW strings — they never modify the original. This means str[0] = ''X'' silently fails. It also means building a string by concatenating in a loop is O(n²) — prefer an array of parts joined at the end.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('distributed-dbs-cassandra-dynamo', 'Explain Distributed DBs (Cassandra/Dynamo) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-transitions', 'Transition shorthand?', 'Easy', 'transition: property duration timing-function delay;', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('objects', 'What is the difference between dot notation and bracket notation when accessing object properties?', 'Easy', 'Dot notation (obj.key) works when you know the key name at write time and it is a valid identifier. Bracket notation (obj[''key''] or obj[variable]) is needed when the key is dynamic (stored in a variable), contains spaces, or starts with a number.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('select-statement', 'What is the difference between SELECT * and selecting specific columns?', 'Easy', 'SELECT * retrieves all columns from a table, which is convenient for exploration but inefficient in production. Selecting specific columns reduces data transfer, improves performance, and makes code more maintainable. If columns are added later, SELECT * may return unexpected data.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('grpc-vs-rest-vs-graphql', 'Explain gRPC vs REST vs GraphQL in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('map', 'Why would you use a Map instead of a plain object for frequency counting in a DSA problem?', 'Easy', 'Maps allow any key type (including numbers and objects), have a .size property for O(1) count, maintain insertion order, and avoid prototype chain issues (e.g., a key named ''constructor'' or ''toString'' would clash in a plain object but not in a Map).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dead-letter-queues-retries', 'Explain Dead Letter Queues & Retries in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-nav-tag', 'When should you use <nav> and when is it unnecessary?', 'Easy', 'Use <nav> for MAJOR navigation blocks: primary menu, sidebar navigation, breadcrumbs, pagination, footer site links. Do NOT use <nav> for every group of links — a few social media links, a list of references in a blog post, or inline links in text do not warrant <nav>. The rule: if a screen reader user would benefit from jumping to this navigation section as a landmark, use <nav>.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('set', 'Why is Set.has() preferred over Array.includes() in DSA problems? Give an example.', 'Easy', 'Array.includes() is O(n) — it scans every element. Set.has() is O(1) — instant hash-based lookup. In problems like ''Contains Duplicate'' or ''Two Sum'', if you use an array for lookups, the solution is O(n²). Switching to a Set makes it O(n).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-try-except', 'What is the difference between try/except/else?', 'Easy', 'try: code that might raise an exception. except: runs if an exception IS raised. else: runs only if NO exception was raised. Why use else instead of putting code in try? 1) Keeps the try block minimal — only code that might fail. 2) Exceptions in else are NOT caught by the except. 3) Makes intent clear: ''do this if the risky part succeeded.'' Example: try: f = open(path) except IOError: handle_error() else: process(f.read()). The else separates ''risky code'' from ''success code.''', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('where-clause', 'Why can''t you use = to compare with NULL? What should you use instead?', 'Easy', 'In SQL, NULL represents an unknown value. Any comparison with NULL using = returns NULL (not TRUE or FALSE), so WHERE column = NULL returns no rows. Use IS NULL or IS NOT NULL instead. This follows three-valued logic (TRUE, FALSE, NULL).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('objects-vs-map', 'Why is Map preferred over Object for a frequency counter?', 'Easy', 'Three reasons: (1) map.size gives the count of distinct keys in O(1) vs Object.keys(freq).length which is O(n); (2) map.has(key) is prototype-safe — you won''t accidentally match ''constructor'', ''toString'', etc.; (3) Map is optimised by JS engines for frequent set/get operations. The pattern: map.set(key, (map.get(key) ?? 0) + 1).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-align-items', 'What is the default value of align-items?', 'Easy', 'stretch — items stretch to fill the container''s cross-axis.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-events', 'How are events different in React vs vanilla JavaScript?', 'Easy', 'React events use camelCase (onClick), pass function references (not strings), and use SyntheticEvent — a cross-browser wrapper around native events.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('weakmap', 'What is the difference between a Map and a WeakMap?', 'Easy', 'Four key differences: (1) Keys — Map accepts any value; WeakMap requires object (or non-reg. Symbol) keys. (2) GC — Map holds strong references, preventing key GC; WeakMap holds weak references, allowing the key object to be collected. (3) Size/iteration — Map has .size and is iterable; WeakMap has neither (non-deterministic live entry count). (4) Use case — Map for general KV storage; WeakMap for private class data, DOM metadata, or memoisation caches where you don''t want to prevent GC.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('order-by', 'What is the default sort order in ORDER BY, and how are NULLs handled?', 'Easy', 'The default sort order is ASC (ascending). NULLs are treated as the largest possible value in PostgreSQL — they appear last in ASC order and first in DESC order. You can override this with NULLS FIRST or NULLS LAST.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-section-tag', 'When should you use <section> versus <div>?', 'Easy', 'Use <section> when content forms a thematic group that would appear in a table of contents — it should have a heading. Use <div> for non-semantic grouping needed only for styling or layout (flex container, grid wrapper, card shell). Test: if you would give the group a heading in an outline, use <section>. If it is purely visual, use <div>.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('time-complexity', 'What is Big-O notation and why do we drop constants and smaller terms?', 'Easy', 'Big-O describes the growth rate in the worst case as n → Γê₧. Constants become irrelevant at large scale: O(100n) and O(n) both double when input doubles. Smaller terms like n in O(n² + n) are negligible compared to n² for large n.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('grpc-vs-rest-vs-graphql', 'Explain gRPC vs REST vs GraphQL in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-transition-properties', 'Default timing function?', 'Easy', 'ease', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('linear-search', 'What is the time complexity of linear search and when would you prefer it over binary search?', 'Easy', 'Linear search is O(n) worst case. Prefer it when the array is unsorted (binary search requires sorted data), when n is small (overhead of sorting outweighs the benefit), or when you only search once. If you search many times on a large sorted array, binary search O(log n) is better.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('limit-and-offset', 'Why should you always use ORDER BY with LIMIT and OFFSET?', 'Easy', 'Without ORDER BY, PostgreSQL doesn''t guarantee row order. The same LIMIT/OFFSET query might return different rows each time, making pagination unreliable. ORDER BY ensures consistent, predictable results across pages.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-american-comma', 'What does the {:,} format specifier do in an f-string?', 'Easy', 'It inserts commas as thousands separators in the American convention.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('binary-search', 'Why must the array be sorted for binary search to work? What happens if it isn''t?', 'Easy', 'Binary search discards half the array based on the assumption that all elements in the left half are smaller and all in the right half are larger. If the array is unsorted, this assumption is wrong — you might discard the half that actually contains the target, giving an incorrect result or missing the element entirely.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-child-selector', 'When would you use > instead of a space in a selector?', 'Medium', 'When you want to style only the direct children of a container, preventing styles from leaking into nested sub-components.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-article-tag', 'How do you decide between <article> and <section>?', 'Easy', 'Ask: ''Would this content make sense if extracted and displayed independently — in an RSS feed, a social media embed, or on another website?'' If yes, use <article>. If the content is a thematic group that only makes sense within the current page (like a ''Features'' section), use <section>. Articles can contain sections (chapters of a post) and sections can contain articles (a ''Latest Posts'' section with article cards).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('bubble-sort', 'What is the time complexity of bubble sort and why is it O(n²)?', 'Easy', 'Bubble sort uses two nested loops. The outer loop runs n-1 times (passes). The inner loop runs n-1-pass times per pass. Total comparisons: (n-1) + (n-2) + … + 1 = n(n-1)/2 Γëê n²/2, which simplifies to O(n²). Doubling the input quadruples the work.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('middle-linked-list', 'Why does the slow/fast pointer find the middle in exactly one pass?', 'Easy', 'When fast has travelled the full length n, slow has travelled n/2 steps. Since fast moves at 2x the speed of slow and they both start at head, slow is always at the halfway point when fast reaches the end.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('distinct', 'What is the difference between DISTINCT and DISTINCT ON in PostgreSQL?', 'Easy', 'DISTINCT removes rows where ALL selected columns are identical. DISTINCT ON (column) returns the first row for each unique value of the specified column, determined by ORDER BY. DISTINCT ON is PostgreSQL-specific and great for ''latest per group'' queries.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-selectors-basics', 'What is the difference between a class selector and an ID selector?', 'Easy', 'Think about reusability and specificity — one uses a dot, the other uses a hash.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('selection-sort', 'What is the key difference between selection sort and bubble sort in terms of swaps?', 'Easy', 'Bubble sort can make O(n²) swaps in the worst case because it swaps adjacent pairs on every comparison. Selection sort makes at most n-1 swaps — one per pass — because it first finds the minimum, then does a single swap to place it. When swaps are expensive (e.g. writing to flash memory), selection sort''s O(n) swap count is an advantage.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('real-time-websockets-sse', 'Explain Real-time (WebSockets/SSE) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-uber-lyft-map', 'Explain Walkthrough: Uber/Lyft Map in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('insertion-sort', 'Why is insertion sort O(n) on a nearly-sorted array? Give a concrete example.', 'Easy', 'In each pass, the inner while loop only shifts elements larger than the key. If the array is nearly sorted, each key needs at most 1–2 shifts — the while loop terminates almost immediately. For a fully sorted array, the while condition `arr[j] > key` is always false: 0 shifts per pass, total n-1 passes = O(n). Example: [1,2,3,5,4] — only the last element (4) needs one shift.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('aliases', 'Can you use a column alias in the WHERE clause? Why or why not?', 'Easy', 'No, you cannot use column aliases in WHERE because WHERE is evaluated before SELECT. The alias doesn''t exist yet when WHERE runs. You must repeat the expression: WHERE hourly_rate * 40 > 2000 instead of WHERE weekly_pay > 2000.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('real-time-websockets-sse', 'Explain Real-time (WebSockets/SSE) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('merge-sort', 'Why is merge sort O(n log n) and why can''t comparison-based sorting do better?', 'Easy', 'Merge sort creates logΓéén levels of splitting (each halving doubles the number of subarrays). At each level, merging all subarrays costs O(n) total. So total = O(n) ├ù O(log n) = O(n log n). The theoretical lower bound for comparison-based sorting is ╬⌐(n log n) — proven by counting the number of distinct orderings (n!) that must be distinguishable via binary comparisons: logΓéé(n!) Γëê n log n by Stirling''s approximation.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-youtube-netflix', 'Explain Walkthrough: YouTube/Netflix in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-aside-tag', 'What is the difference between <aside> at page level and inside an <article>?', 'Easy', 'At page level, <aside> is a sidebar — related links, ads, author bio, social widgets. It acts as the ''complementary'' landmark. Inside an <article>, <aside> is tangentially related content — a pull quote, fun fact, glossary definition. Both are supplementary content that can be removed without affecting the main meaning, but they differ in scope.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('quick-sort', 'Explain the Lomuto partition scheme. What does it return and why?', 'Easy', 'Lomuto picks arr[hi] as the pivot and uses a single index i that tracks the boundary of elements already confirmed Γëñ pivot. A scan pointer j walks from lo to hi-1; whenever arr[j] Γëñ pivot, i is incremented and arr[i] is swapped with arr[j]. After the loop, the pivot is swapped into position i+1 — guaranteed to have only smaller elements to its left and only larger elements to its right. The function returns i+1 as the pivot''s final (sorted) index.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-transform', 'Do transforms affect layout?', 'Easy', 'No — visual only.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('and-or-not-operators', 'What is the operator precedence for NOT, AND, and OR?', 'Easy', 'NOT has the highest precedence, then AND, then OR. So WHERE a OR b AND NOT c is evaluated as WHERE a OR (b AND (NOT c)). Always use parentheses for clarity.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('availability-vs-reliability', 'Explain Availability vs Reliability in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('push-notification-engines', 'Explain Push Notification Engines in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-indian-comma', 'What is the difference between American and Indian comma formats for 10 million?', 'Easy', 'American: 10,000,000 (groups of 3). Indian: 1,00,00,000 (last 3, then pairs).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('linked-list-cycle', 'Why does Floyd''s algorithm guarantee slow and fast will meet inside the cycle?', 'Easy', 'Once fast enters the cycle it never leaves. From that point on, each iteration reduces the gap between fast and slow by exactly 1 (fast gains +2, slow gains +1 on the cycle). So the gap decreases to 0 within at most (cycle length) iterations — they will always meet.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('between-operator', 'Is BETWEEN inclusive or exclusive of the boundary values?', 'Easy', 'BETWEEN is inclusive on both ends. BETWEEN 10 AND 20 includes rows with values 10, 15, and 20. It''s equivalent to >= 10 AND <= 20.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-footer-tag', 'Can a page have multiple <footer> elements? What are the use cases?', 'Easy', 'Yes. A page can have one page-level <footer> (copyright, site links) and additional <footer> elements inside <article> or <section> elements (article tags, author info, share buttons). The page-level footer gets role=''contentinfo''. Article/section footers do not get this role — they are scoped to their parent.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('stack-array', 'What is the difference between a stack and a queue?', 'Easy', 'Stack = LIFO (Last In First Out). Queue = FIFO (First In First Out). Plates vs a checkout line.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-align-content', 'When does align-content have an effect?', 'Medium', 'Only when there are multiple flex lines — flex-wrap must be wrap or wrap-reverse.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('http3-quic', 'Explain HTTP/3 & QUIC in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('queue-array', 'Why is using shift() for dequeue bad, and how do you fix it?', 'Easy', 'shift() is O(n) because JavaScript must decrement the index of every remaining element after removing index 0. Fix it with a head pointer: track the front index, increment it on dequeue, and periodically compact the backing array. This gives O(1) amortized dequeue.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('in-operator', 'What is the IN operator equivalent to in terms of OR conditions?', 'Easy', 'WHERE col IN (''a'', ''b'', ''c'') is equivalent to WHERE col = ''a'' OR col = ''b'' OR col = ''c''. IN is more readable and concise, especially with many values.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-generators', 'What is the difference between yield and return?', 'Easy', 'return terminates the function and sends back a value — function state is lost. yield pauses the function and sends back a value — function state is preserved. On the next next() call, execution resumes after yield. A function with yield becomes a generator function — calling it returns a generator object (doesn''t execute the body). Multiple yields are allowed. return in a generator raises StopIteration. yield makes functions lazy — values produced one at a time.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('queue-linked-list', 'What is the advantage of a linked-list queue over an array-based queue?', 'Easy', 'Linked-list gives true O(1) enqueue and dequeue — no amortized spikes and no wasted memory slots. Array queues either pay O(n) for shift() or accumulate wasted head slots. The downside is slightly more memory per element due to the .next pointer.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-translate', 'Why translate(-50%,-50%) for centering?', 'Medium', 'Shifts back by half element''s own size.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-main-tag', 'Why should there be only one visible <main> element per page?', 'Easy', 'The <main> element represents THE dominant content of the page. Having multiple visible <main> elements creates confusion for screen readers — which one is the primary content? The ARIA role=''main'' should appear once. In SPAs, you can have multiple <main> elements if only one is visible at a time (others hidden with CSS or the hidden attribute). The spec requires no more than one visible <main>.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('circular-queue', 'Implement Design Circular Queue (LeetCode 622). What is the full/empty detection formula?', 'Medium', 'Track a size counter alongside front and rear. isFull: size === capacity. isEmpty: size === 0. On enqueue: rear = (rear + 1) % capacity, increment size. On dequeue: front = (front + 1) % capacity, decrement size. Reset front and rear to -1 when size reaches 0 (optional but cleaner).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('like-operator', 'What is the difference between % and _ wildcards in LIKE?', 'Easy', '% matches zero or more characters of any kind. _ matches exactly one character. So ''A%'' matches ''A'', ''AB'', ''ABC'', while ''A_'' only matches ''AB'', ''AC'' (exactly two characters starting with A). ''%on%'' finds ''on'' anywhere, ''_on'' finds ''Jon'', ''Ron'' etc.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-block-inline', 'Why does setting width/height on a span have no effect?', 'Easy', 'span is inline by default. Inline elements ignore width and height.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('stack-linked-list', 'What advantage does a linked-list stack have over an array-based stack?', 'Easy', 'True O(1) push/pop with no resizing overhead. An array-based stack occasionally doubles its backing array (amortized O(1) but with spikes). A linked-list stack also has no fixed capacity.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('authentication-vs-authorization', 'Explain Authentication vs Authorization in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('majority-element', 'Find the majority element (appears > n/2 times).', 'Easy', 'Boyer-Moore Voting: track candidate and count. When count=0, switch candidate. Increment for match, decrement otherwise.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('push-notification-engines', 'Explain Push Notification Engines in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('queue-using-stack', 'Why does pouring the inbox stack into the outbox produce FIFO order?', 'Easy', 'A stack is LIFO, so the first element pushed onto inbox sits at the bottom; the last is at the top. Popping inbox into outbox reverses this: the last-pushed element goes to the bottom of outbox and the first-pushed element ends up at the top. Popping from outbox now gives the original first-in order — exactly FIFO.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('insert-statement', 'What happens if you try to INSERT a row that violates a UNIQUE constraint?', 'Easy', 'PostgreSQL raises a unique_violation error and the entire INSERT fails — no row is added. The error message includes the constraint name and the duplicate value. You can handle this with ON CONFLICT (UPSERT) to update instead of failing.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-figure-figcaption', 'What is the difference between using <figure>/<figcaption> versus an <img> with a <p> below it?', 'Easy', 'With <img> + <p>, there is no semantic relationship — the browser, screen readers, and search engines do not know the paragraph is a caption for the image. With <figure>/<figcaption>, the caption is semantically associated with the figure. Screen readers announce ''figure'' and read the figcaption as its accessible name. Google can use figcaption text for image search ranking. The semantic relationship persists even if the figure is moved.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('binary-tree-basics', 'What is the difference between height and depth in a binary tree?', 'Easy', 'Height is a property of a subtree — it measures the longest path going downward from a given node to a leaf. Depth is a property of an individual node — it measures how far that node is from the root going upward. height(leaf) = 0, depth(root) = 0. They are opposite directions: height looks down, depth looks up. For the root specifically, depth = 0 and height = overall tree height.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-try-except', 'When does the else block run in a try/except structure?', 'Easy', 'The else block only runs when the try block completes without raising any exception.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-conditional-rendering', 'What are the different ways to conditionally render in React?', 'Easy', 'if/else statements, ternary operator (condition ? A : B), logical AND (condition && element), switch statements, and conditional assignment to variables.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('tree-traversals', 'What is the difference between Inorder, Preorder, and Postorder traversals? Give the output for a simple tree.', 'Easy', 'Inorder is L→N→R (sorted for BST). Preorder is N→L→R (root first). Postorder is L→R→N (root last). For a tree with root 1, left child 2, right child 3: Inorder = [2,1,3], Preorder = [1,2,3], Postorder = [2,3,1]. The key is the position of N (the current node) in the pattern — before (Pre), between (In), or after (Post) the children.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('update-statement', 'What happens if you run UPDATE without a WHERE clause?', 'Easy', 'Without WHERE, UPDATE modifies EVERY row in the table. This is almost always a mistake. Always test your WHERE condition with a SELECT first to verify which rows will be affected. In production, use transactions so you can ROLLBACK if needed.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cap-theorem', 'Explain CAP Theorem in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('binary-search-tree', 'What is the BST invariant, and why is it recursive (not just about immediate children)?', 'Easy', 'The BST invariant states that for every node N, ALL values in N''s left subtree are strictly less than N.val, and ALL values in its right subtree are strictly greater. ''All'' means every descendant, not just direct children. Example violation: a right child has a left subtree node that is smaller than the grandparent — it satisfies the immediate child''s BST rule but violates the grandparent''s rule. This is why validation must pass min/max bounds down the entire tree.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-rotate', 'Units for rotate()?', 'Easy', 'deg, rad, turn.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-audio', 'What audio formats are supported by the <audio> element and why should you provide multiple sources?', 'Medium', 'The main formats are MP3 (widest support), OGG Vorbis, and WAV. Different browsers support different formats — for example, older Firefox versions didn''t support MP3. By providing multiple <source> elements, the browser picks the first format it can play, ensuring cross-browser compatibility.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('diameter-binary-tree', 'Why might the diameter of a binary tree NOT pass through the root? Give an example.', 'Easy', 'Consider a tree where the root has a single-node right subtree, but the left subtree contains two long arms. The longest path is entirely within the left subtree and never touches the root. More concretely: root=1, root.right=2 (short), root.left is a subtree with depth 3 on both sides — the diameter of that left subtree (6 edges) exceeds any path that goes through root=1 (at most 3+1+0 = 4 edges). This is why we must track maxDiameter at EVERY node, not just at the root.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('remove-element', 'Remove all occurrences of a value from an array in-place and return the new length.', 'Easy', 'Use two pointers: a slow write pointer k and a fast scan pointer i. When nums[i] !== val, copy it to nums[k] and increment k. Return k at the end.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('delete-statement', 'What is the difference between DELETE and TRUNCATE?', 'Easy', 'DELETE removes rows one by one, supports WHERE, fires row triggers, and is fully logged (slow but flexible). TRUNCATE removes all rows instantly by deallocating data pages, doesn''t support WHERE, resets sequences (with RESTART IDENTITY), and is much faster. Both can be rolled back in a transaction in PostgreSQL.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('oauth2-openid-connect', 'Explain OAuth2 & OpenID Connect in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('lowest-common-ancestor', 'Explain the recursive LCA algorithm. Why do we return the node immediately when it equals p or q?', 'Medium', 'We return the node immediately when it equals p or q because: (1) The problem states a node can be its own ancestor, so if the current node is p or q, it might be the LCA (e.g., if the other target is in its subtree). (2) We don''t need to search deeper — either the other target is in this node''s subtree (making this node the LCA), or it is above in the tree (in which case the parent will see this node returned from one side and the other target from the other side, correctly identifying the parent as the LCA). Searching deeper would still work but is unnecessary — the parent''s logic handles both cases correctly.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-import-statements', 'What is the difference between import module and from module import name?', 'Easy', '''import math'' loads the math module and binds the name ''math'' in your namespace. Access via math.pi, math.sqrt(). ''from math import pi, sqrt'' loads math but only binds pi and sqrt directly — you use pi not math.pi. Trade-offs: ''import math'' is explicit (clear where pi comes from), avoids name collisions. ''from math import pi'' is shorter but risks shadowing local names. Best practice: use ''import module'' for large modules; ''from module import name'' for frequently used items.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('returning-clause', 'What is the RETURNING clause and which statements support it?', 'Easy', 'RETURNING is a PostgreSQL extension that returns data from rows affected by INSERT, UPDATE, or DELETE. It avoids the need for a separate SELECT query. RETURNING * returns all columns, or you can specify individual columns and expressions.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('maximum-path-sum', 'Why is the ''gain returned to the parent'' different from the ''candidate path sum at the current node''? What would go wrong if you mixed them up?', 'Hard', 'The gain returned upward can only use ONE arm (left OR right) because the path must be a simple non-branching sequence — if the parent extends the path further upward, it can only enter this node from one direction. The candidate at the current node uses BOTH arms (left + node + right) because this node is the path''s PIVOT — the path goes left-down and right-down, and since it stops here (does not continue to the parent), branching is allowed. Mixing them up: if you return leftGain + node.val + rightGain to the parent, the parent would build a path with a fork (Y-shape), which is not a valid simple path. This is the most common bug in solutions to this problem.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-flex-wrap', 'What is the default flex-wrap value?', 'Easy', 'nowrap — items stay on one line and may shrink to fit.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dns-domain-management', 'Explain DNS & Domain Management in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('graph-representation', 'When would you choose an Adjacency Matrix over an Adjacency List?', 'Easy', 'Use a matrix when you need O(1) edge-existence queries and the graph is dense (many edges, close to V² total). For sparse graphs (roads, dependency trees, typical interview problems), lists are preferred because they save O(V²) space and iterate neighbors in O(degree) not O(V).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('jwt-anatomy-security', 'Explain JWT Anatomy & Security in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-video', 'What video formats should you provide for maximum browser support?', 'Medium', 'MP4 with H.264 codec has the widest support (all modern browsers). WebM with VP9 codec is an open alternative preferred by Chrome/Firefox. Providing both ensures coverage. OGG/Theora is largely obsolete. The browser picks the first <source> it can play.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('upsert-on-conflict', 'What is the difference between ON CONFLICT DO NOTHING and DO UPDATE?', 'Easy', 'DO NOTHING silently discards the conflicting row — the existing row stays unchanged. DO UPDATE modifies the existing row with new values. Use DO NOTHING for ''insert if not exists'' and DO UPDATE for ''insert or update'' semantics.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('graph-dfs', 'What is the difference between DFS on a tree vs DFS on a graph?', 'Easy', 'In a tree there are no cycles, so you never revisit a node — no visited set needed. In a graph, cycles exist, so without a visited set DFS would loop infinitely. Also, trees have a natural root while graph DFS can start from any node and may need multiple DFS calls to cover a disconnected graph.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-pandas-excel', 'What is the difference between df.loc[] and df.iloc[]?', 'Medium', 'loc uses label-based indexing (column names, index labels); iloc uses integer position-based indexing (0, 1, 2...).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-scale', 'Does scale affect layout?', 'Easy', 'No.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('graph-bfs', 'Why is BFS preferred over DFS for finding the shortest path in an unweighted graph?', 'Easy', 'BFS explores nodes in order of increasing distance — all nodes at distance 1 before distance 2. The first time BFS reaches the target, it has taken the fewest possible edges. DFS explores deep paths first and might reach the target via a long path before trying shorter ones, so it cannot guarantee the shortest path without exhaustive search.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('bulk-inserts', 'What are the different ways to bulk insert data in PostgreSQL?', 'Easy', 'Multi-row VALUES inserts multiple rows in one statement. INSERT ... SELECT copies from a query. COPY loads from files (CSV/TSV). For programmatic use, prepared statements with batching work well. COPY is the fastest for large datasets.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('http3-quic', 'Explain HTTP/3 & QUIC in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cycle-detection', 'Why does parent tracking for undirected graphs not work for directed graphs?', 'Medium', 'In an undirected graph edge (u,v) exists in both directions — DFS going u→v will ''see'' u as v''s neighbor, appearing as a cycle without parent tracking. In a directed graph, u→v doesn''t imply v→u, so the parent trick doesn''t apply. More importantly, a directed cycle requires following edge directions. The three-color approach detects exactly this: a gray node in the current DFS stack means we''ve found a directed path back to it.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-decorators', 'What is a decorator and how does the @syntax work?', 'Easy', 'A decorator is a function that takes a function and returns a modified function. @timer above def process() is syntactic sugar for process = timer(process). The decorator typically defines a wrapper function inside that calls the original function, possibly adding behavior before/after. @functools.wraps(func) on the wrapper preserves the original function''s __name__, __doc__, and __module__. Without it, introspection shows the wrapper''s metadata instead.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-canvas-basics', 'What is the difference between Canvas and SVG?', 'Medium', 'Canvas is raster/pixel-based and drawn via JavaScript — great for games and animations but not accessible per-shape. SVG is vector-based and part of the DOM — each element is a node you can style with CSS and attach events to. Canvas is faster for many objects; SVG is better for scalable, interactive graphics.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('topological-sort', 'How does Kahn''s algorithm detect a cycle while computing topological sort?', 'Medium', 'If the graph has a cycle, those nodes never reach in-degree 0 — each is blocked by another in the cycle. Kahn''s only processes zero-in-degree nodes. When done, if result.length < V, the unprocessed nodes form cycles. This is why we check result.length === n and return null on failure — exactly what LeetCode 207 asks.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('api-key-management', 'Explain API Key Management in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('transactions-basics', 'What does ACID stand for and why is it important?', 'Easy', 'Atomicity: all or nothing. Consistency: valid state to valid state. Isolation: concurrent transactions don''t interfere. Durability: committed data survives crashes. ACID ensures data integrity even during failures and concurrent access.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dijkstra', 'Why does Dijkstra fail with negative edge weights?', 'Medium', 'Dijkstra''s greedy assumption: once a node is finalized (popped from PQ), its distance won''t improve. Negative edges break this — a path through a negative edge discovered later could give a shorter distance to an already-finalized node. For negative weights, use Bellman-Ford O(VE). For negative cycles (where shortest path is -Γê₧), even Bellman-Ford can''t give a finite answer.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-border', 'What are the three components of the border shorthand property?', 'Easy', 'width, style, and color — e.g., border: 2px solid #333.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-lists-keys', 'Why are keys important in React lists?', 'Easy', 'Keys help React identify which items have changed, been added, or removed. They enable efficient reconciliation and prevent UI bugs.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('find-largest-element', 'Find the majority element using a hash map.', 'Easy', 'Count frequencies in a Map while scanning. Return as soon as one count becomes greater than n / 2.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('commit-and-rollback', 'What happens to uncommitted changes if the database connection drops?', 'Easy', 'All uncommitted changes are automatically rolled back. PostgreSQL treats a lost connection as an implicit ROLLBACK. This ensures data integrity — partial changes never persist. This is why long-running transactions should be avoided in web applications where connections can timeout.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-svg-basics', 'When would you choose SVG over Canvas?', 'Medium', 'Use SVG when you need: scalable graphics (logos, icons), DOM interaction (click handlers on shapes), CSS styling/animation, accessibility (screen readers can read SVG text), or fewer elements to render. Use Canvas for: many objects (games, particles), pixel manipulation, or complex real-time animations where DOM overhead is too high.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-matplotlib', 'What is the difference between plt.show() and plt.savefig()?', 'Easy', 'show() opens an interactive window; savefig() writes the chart to an image file without displaying it.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-animations', 'Transitions vs animations?', 'Medium', 'Transitions: trigger, A-to-B. Animations: auto, keyframes, loop.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('best-time-to-buy-sell-stock', 'Find the maximum profit from buying and selling a stock once.', 'Easy', 'Track minPrice and maxProfit in one pass. At each price, compute profit = price - minPrice, update maxProfit if larger. Update minPrice if current price is lower. Return maxProfit.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('inner-join', 'What rows does INNER JOIN exclude from the result?', 'Easy', 'INNER JOIN excludes rows from both tables that have no matching row in the other table. If an employee has no department (NULL foreign key) or a department has no employees, those rows won''t appear in the result.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('secrets-management-vault', 'Explain Secrets Management (Vault) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('squares-of-sorted-array', 'Return sorted squares of a sorted array in O(n) time.', 'Easy', 'Two pointers at both ends. Compare absolute values, place the larger square at the back of the result array, and move the pointer inward. Fill result right-to-left.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('database-sharding-partitioning', 'Explain Database Sharding & Partitioning in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-picture-element', 'What is the difference between <picture> and <img srcset>?', 'Medium', 'srcset on <img> is for resolution switching — the browser picks the best resolution of the SAME image. <picture> is for art direction and format switching — you can serve completely different images. Use srcset for 1x/2x/3x density. Use <picture> when you need different crops for mobile vs desktop, or WebP/AVIF with JPEG fallback.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('remove-duplicates-sorted-array', 'Remove duplicates from a sorted array in-place and return the unique count.', 'Easy', 'Two pointers: k tracks the last unique position, i scans forward. When nums[i] !== nums[k], increment k and copy nums[i] there. Return k + 1.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('left-join', 'How does LEFT JOIN differ from INNER JOIN?', 'Easy', 'INNER JOIN only returns rows with matches in both tables. LEFT JOIN returns ALL rows from the left table — matched rows include right table data, unmatched rows show NULL for right table columns. LEFT JOIN preserves the left table completely.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-flex-grow-shrink', 'What does flex: 1 mean?', 'Medium', 'flex: 1 1 0 — grow factor 1, shrink factor 1, basis 0. Items grow equally to fill space.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('sort-colors', 'Sort an array of 0s, 1s, and 2s in a single pass without using a sorting algorithm.', 'Easy', 'Dutch National Flag: three pointers — low, mid, high. Swap 0s to the front (low), leave 1s in the middle, swap 2s to the back (high). Key: don''t advance mid after swapping with high.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('ddos-waf-strategies', 'Explain DDoS & WAF Strategies in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('authentication-vs-authorization', 'Explain Authentication vs Authorization in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('running-sum', 'Compute the running sum of an array.', 'Easy', 'Iterate from index 1: nums[i] += nums[i-1]. Each element becomes the cumulative sum up to that index.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('right-join', 'Can every RIGHT JOIN be rewritten as a LEFT JOIN?', 'Easy', 'Yes. A RIGHT JOIN B ON condition is identical to B LEFT JOIN A ON condition. Just swap the table order and change RIGHT to LEFT. Most developers prefer LEFT JOIN for consistency.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-source-tag', 'Why is the order of <source> elements important?', 'Medium', 'The browser picks the FIRST <source> it can handle and ignores the rest. Place the most modern/efficient format first (WebM, AVIF, WebP) and the most compatible format last (MP4, JPEG). Wrong order means the browser uses a less optimal format even if it supports a better one listed later.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('find-pivot-index', 'Find the pivot index where left sum equals right sum.', 'Easy', 'Compute total sum first. Then scan left to right with leftSum. At each index: rightSum = total - leftSum - nums[i]. If equal, return i.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-position-property', 'What is the default position value?', 'Easy', 'static — normal flow, ignores top/right/bottom/left.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-keyframes', 'from/to vs percentages?', 'Easy', 'from/to: two-step. Percentages: multi-step.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('subarray-sum-equals-k', 'Count subarrays that sum to k.', 'Easy', 'Prefix sum + hash map. Track running sum; at each step check if (prefix - k) exists in the map. Initialize map with {0: 1}.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('full-join', 'How does FULL JOIN differ from LEFT JOIN and RIGHT JOIN?', 'Easy', 'LEFT JOIN keeps all left rows. RIGHT JOIN keeps all right rows. FULL JOIN keeps all rows from both tables. It''s the union of LEFT and RIGHT JOIN results — no row from either table is ever excluded.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-numpy', 'What is the difference between np.array and a Python list?', 'Easy', 'NumPy arrays are homogeneous (all same type), fixed-size, and support vectorized operations. Python lists can hold mixed types but have no built-in math operations.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('contains-duplicate', 'Check if an array contains any duplicates.', 'Easy', 'Use a Set. For each element, check if it''s already in the Set. If yes, return true. Otherwise add it. O(n) time.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('zero-trust-security-model', 'Explain Zero Trust Security Model in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-meta-tags', 'What is the purpose of <meta charset=''UTF-8''> and why should it be the first tag in <head>?', 'Easy', 'It declares the character encoding for the document. UTF-8 supports virtually all characters from all languages. It must be first (within the first 1024 bytes) so the browser knows how to decode the rest of the HTML. Without it, special characters may render as garbled text (mojibake).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('missing-number', 'Find the missing number from 0 to n.', 'Easy', 'Gauss formula: expected = n*(n+1)/2. Subtract the actual sum. The difference is the missing number.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('self-join', 'Why are table aliases required in a self join?', 'Easy', 'Without aliases, PostgreSQL can''t tell which instance of the table you''re referring to. Aliases create two logical references to the same physical table. Example: FROM staff e JOIN staff m — ''e'' is the employee instance, ''m'' is the manager instance.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-context-managers', 'What does the ''with'' statement do and why use it?', 'Easy', 'The ''with'' statement ensures resources are properly cleaned up. It calls __enter__() on entry and guarantees __exit__() runs on exit — even if an exception occurs. Common uses: files (auto-close), locks (auto-release), database connections (auto-commit/rollback). Without ''with'': you must use try/finally to guarantee cleanup. ''with open(file) as f:'' is equivalent to: f = open(file); try: ... finally: f.close(). The ''as'' clause binds the return value of __enter__().', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('merge-intervals', 'Merge all overlapping intervals.', 'Easy', 'Sort by start time. Iterate and compare with last merged: if overlapping, extend end; otherwise push new interval.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('final-group-mock-retrospective', 'Explain Final Group Mock Retrospective in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cross-join', 'What is a Cartesian product and how does CROSS JOIN create it?', 'Easy', 'A Cartesian product is every possible combination of rows from two sets. CROSS JOIN creates it by pairing each row from the left table with every row from the right table. 5 rows ├ù 4 rows = 20 result rows. No matching condition is needed.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('maximum-average-subarray', 'Find the maximum average of any subarray of length k.', 'Easy', 'Sliding window: compute sum of first k elements, then slide by adding/removing one element at a time. Track the max sum.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('logging-elk-stack', 'Explain Logging & ELK Stack in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('scalability-vertical-vs-horizontal', 'Explain Scalability (Vertical vs Horizontal) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('move-zeroes', 'Move all zeroes to the end while maintaining order of non-zero elements.', 'Easy', 'Two pointers: writePos for next non-zero position, i scans. Swap nums[writePos] and nums[i] when non-zero.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-variables', 'CSS vs Sass variables?', 'Medium', 'CSS: live, cascade, JS-changeable. Sass: compile-time only.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-viewport-meta', 'What happens on mobile if you omit the viewport meta tag?', 'Easy', 'The mobile browser assumes the page is designed for desktop and renders it at a virtual viewport of ~980px, then scales it down to fit the screen. Everything appears tiny. Media queries based on viewport width won''t trigger at the expected breakpoints because the viewport is 980px, not the actual device width.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('longest-consecutive-sequence', 'Find the length of the longest consecutive sequence in O(n).', 'Easy', 'Put all into a Set. For each num where num-1 is not in set, count forward. Track max streak.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('join-conditions', 'What is the difference between ON and USING in a JOIN?', 'Easy', 'ON specifies any join condition: ON a.col1 = b.col2. USING is shorthand when both tables have the same column name: USING (column). USING produces only one copy of the column in the result, while ON keeps both. USING is cleaner but less flexible.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-attribute-selectors', 'How would you style all external links differently from internal links?', 'Medium', 'Use a[href^=''http''] to target links starting with http. Internal links typically start with ''/'' or ''#''.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('two-sum', 'Find two numbers that add up to a target and return their indices.', 'Easy', 'Hash map: for each num, check if (target - num) is in the map. If yes, return both indices.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-flexbox-patterns', 'How do you create a sticky footer with flexbox?', 'Medium', 'Container: display: flex; flex-direction: column; min-height: 100vh. Main content: flex: 1.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('oauth2-openid-connect', 'Explain OAuth2 & OpenID Connect in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('find-disappeared-numbers', 'Find all missing numbers from [1, n] in O(n) time and O(1) extra space.', 'Easy', 'Negate the value at index |nums[i]|-1. After marking, positive indices reveal missing numbers.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('multiple-table-joins', 'In what order should you write multiple JOINs for readability?', 'Easy', 'Start from the central/main table (often the ''fact'' table like orders), then join dimension tables outward. Follow the foreign key relationships. Use consistent table aliases. The optimizer will rearrange joins for performance regardless of written order.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-open-graph', 'What are the four required Open Graph tags?', 'Easy', 'og:title (page title for social cards), og:type (content type — usually ''website''), og:image (preview image — must be absolute URL), and og:url (canonical URL of the page). Without these, platforms fall back to guessing from page content, which often produces poor previews.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('container-with-most-water', 'Find two lines forming a container with the most water.', 'Easy', 'Two pointers from ends. Area = min(heights) ├ù width. Move the shorter side inward.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('metrics-prometheus-grafana', 'Explain Metrics (Prometheus/Grafana) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-forms', 'What is the difference between controlled and uncontrolled components?', 'Easy', 'Controlled: React manages the input value via state (value + onChange). Uncontrolled: the browser manages the value, accessed via ref. Controlled is the React-recommended approach.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('flood-fill', 'Perform flood fill from a starting pixel.', 'Easy', 'DFS/BFS from (sr, sc). Change color if same as start. Check bounds and avoid revisiting.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('count-function', 'What is the difference between COUNT(*), COUNT(column), and COUNT(DISTINCT)?', 'Easy', 'COUNT(*) counts all rows. COUNT(column) counts rows where that column is NOT NULL. COUNT(DISTINCT column) counts unique non-NULL values. For example, a table with 10 rows where 2 have NULL emails and 3 share the same email: COUNT(*) = 10, COUNT(email) = 8, COUNT(DISTINCT email) = 6.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('what-is-system-design', 'Explain What is System Design? in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('island-perimeter', 'Calculate the perimeter of a single island.', 'Easy', 'Each land cell = 4 edges. Subtract 2 for each pair of adjacent land cells (they share a wall).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-calc-function', 'Why calc()?', 'Easy', 'Mix units: calc(100% - 250px).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-favicon', 'What favicon files do you need for a modern website?', 'Medium', 'Minimum modern setup: 1) SVG favicon (works at any size, supports dark mode). 2) PNG 32├ù32 fallback for older browsers. 3) apple-touch-icon 180├ù180 for iOS home screen. 4) 192├ù192 and 512├ù512 PNGs in web manifest for Android/PWA. Optional: favicon.ico in root for legacy support. Browsers check /favicon.ico automatically.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('spiral-matrix', 'Return all elements of a matrix in spiral order.', 'Easy', 'Use four boundaries (top/bottom/left/right). Traverse each edge, then shrink the boundary.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('sum-function', 'What does SUM return when there are no matching rows or all values are NULL?', 'Easy', 'SUM returns NULL, not 0. This catches many developers off guard. Use COALESCE(SUM(column), 0) to safely get 0 when there are no matches. This is important in LEFT JOINs where the right side may have no matching rows.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-pseudo-classes', 'What is the difference between :hover and :focus?', 'Easy', ':hover triggers on mouse over. :focus triggers when the element receives keyboard or click focus. Both are important for different input methods.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('three-sum', 'Find all unique triplets that sum to zero.', 'Easy', 'Sort, fix one element, two pointers for the other two. Skip duplicates.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('distributed-tracing-alerting', 'Explain Distributed Tracing & Alerting in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('consistent-hashing-algorithms', 'Explain Consistent Hashing Algorithms in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('introduction-to-python', 'What are the key differences between Python 2 and Python 3?', 'Easy', 'print is a function in Python 3 (print()), a statement in Python 2 (print ''hello''). Integer division: 3/2 = 1.5 in Python 3, 1 in Python 2. Python 3 strings are Unicode by default. range() returns an iterator in Python 3, a list in Python 2. Python 2 is end-of-life since January 2020.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('avg-function', 'How does AVG handle NULL values?', 'Easy', 'AVG ignores NULLs entirely — they are excluded from both the sum and the count. AVG of (100, 200, NULL) = 150, not 100. This is different from treating NULL as 0. If you want NULLs treated as 0, use AVG(COALESCE(column, 0)).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-title-seo', 'Why is the <title> tag considered the most important on-page SEO element?', 'Easy', 'It''s the clickable headline in search results — the first thing users see. Google uses it as a strong signal for understanding page content and relevance. A well-written title directly impacts click-through rate (CTR), which indirectly affects rankings. It also appears in browser tabs, bookmarks, and social sharing fallbacks.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-installation-setup', 'What is a virtual environment and why should you use one?', 'Easy', 'A virtual environment is an isolated Python environment with its own packages, independent of the global Python installation. Created with ''python3 -m venv env_name''. It prevents dependency conflicts between projects — Project A might need requests 2.0 while Project B needs requests 3.0. Each has its own pip and site-packages directory. Activated with ''source env/bin/activate'' on macOS/Linux.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('replication-leader-follower', 'Explain Replication (Leader/Follower) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('functional-vs-non-functional-requirements', 'Explain Functional vs Non-Functional Requirements in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-syntax', 'Why does Python use indentation instead of braces?', 'Easy', 'Guido van Rossum chose indentation to enforce readable code. In brace-based languages, developers can write messy indentation that compiles fine but is hard to read. Python makes good formatting mandatory — the visual structure IS the code structure. This reduces bugs and makes code consistently readable across different developers.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('min-and-max', 'What data types can MIN and MAX work with?', 'Easy', 'MIN and MAX work with any comparable type: numbers (INTEGER, NUMERIC, etc.), text (alphabetical order based on collation), dates and timestamps (chronological order), booleans (FALSE < TRUE), and even arrays and composite types. They always ignore NULL values.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('jwt-anatomy-security', 'Explain JWT Anatomy & Security in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-variables', 'How are Python variables different from variables in C or Java?', 'Easy', 'In C/Java, variables are typed containers: ''int x = 5'' reserves memory for an integer. In Python, variables are references (pointers) to objects. ''x = 5'' creates an integer object 5 in memory and makes x point to it. This is why you don''t declare types and why x can point to different types. Python variables are like labels on objects, not boxes holding values.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-twitter-x-feed', 'Explain Walkthrough: Twitter/X Feed in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-robots-meta', 'What is the difference between robots.txt and the robots meta tag?', 'Medium', 'robots.txt blocks crawling — the search engine never downloads or sees the page content. The robots meta tag blocks indexing — the crawler downloads the page, reads it, but doesn''t list it in search results. If robots.txt blocks a page, the crawler never reaches the meta tag. Use robots.txt for entire sections; use meta robots for individual page control.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-data-types', 'What is the difference between a list and a tuple?', 'Easy', 'Lists are mutable (can add, remove, change items): [1, 2, 3]. Tuples are immutable (cannot be changed after creation): (1, 2, 3). Tuples are hashable (can be dict keys), faster, and use less memory. Use lists when you need to modify the collection. Use tuples for fixed data, function return values, and dict keys. A single-element tuple needs a comma: (1,) not (1).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-clamp-function', 'What is clamp()?', 'Easy', 'Value between min and max bounds.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('group-by', 'Why must SELECT columns be in GROUP BY or inside aggregate functions?', 'Easy', 'GROUP BY collapses multiple rows into one per group. If you SELECT a column not in GROUP BY and not aggregated, PostgreSQL doesn''t know which of the multiple values to display — it''s ambiguous. For example, GROUP BY department with SELECT name would have multiple names per department. PostgreSQL enforces this rule strictly (unlike MySQL which may pick an arbitrary value).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-multithreading', 'What is the GIL and how does it affect multithreading?', 'Easy', 'The Global Interpreter Lock (GIL) is a mutex in CPython that allows only one thread to execute Python bytecode at a time. This means threads can''t achieve true CPU parallelism. However, the GIL is released during I/O operations (file reads, network requests, sleep), so threads ARE useful for I/O-bound tasks. For CPU-bound work, use multiprocessing (separate processes, each with own GIL) or C extensions. The GIL simplifies memory management and C extension development. Other implementations (Jython, IronPython) don''t have the GIL.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-type-casting', 'What are falsy values in Python?', 'Easy', 'Falsy values evaluate to False in boolean context: None, False, 0, 0.0, 0j, empty string '''', empty list [], empty tuple (), empty dict {}, empty set set(), and objects where __bool__() returns False or __len__() returns 0. Everything else is truthy. Used in if statements: ''if my_list:'' checks non-empty.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-intro', 'What is the difference between CSS Grid and Flexbox?', 'Medium', 'Grid is 2D (rows AND columns). Flexbox is 1D (row OR column). Use Grid for page layouts, Flexbox for component layouts.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('having-clause', 'What is the difference between WHERE and HAVING?', 'Easy', 'WHERE filters individual rows before grouping — it cannot use aggregate functions. HAVING filters groups after aggregation — it can use aggregate functions like COUNT, SUM, AVG. WHERE: ''only include rows where price > 10''. HAVING: ''only include groups where COUNT(*) > 5''.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-comments', 'What is the difference between a comment and a docstring?', 'Easy', 'Comments (#) are ignored by the interpreter — for human readers only. Docstrings (triple-quoted strings as the first statement in a module/class/function) are stored as the __doc__ attribute and accessible at runtime via help() or obj.__doc__. Docstrings are part of the program. Comments explain ''why''; docstrings explain ''what'' a function/class does.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('review-facebook-insta-newsfeed', 'Explain Review: Facebook/Insta Newsfeed in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('web-accessibility-basics', 'What are the four POUR principles of web accessibility?', 'Easy', 'Perceivable: content must be presentable to all senses (alt text, captions, contrast). Operable: UI must work with keyboard, voice, etc. (no mouse-only interactions). Understandable: content and navigation must be clear and predictable. Robust: content must work with assistive technologies now and in the future (valid HTML, ARIA when needed).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-input-output', 'What does input() return and how do you handle numeric input?', 'Easy', 'input() always returns a string. For integer: age = int(input(''Age: '')). For float: price = float(input(''Price: '')). Wrap in try-except for safety: try: n = int(input()) except ValueError: print(''Invalid''). For multiple values: a, b = map(int, input().split()). In Python 2, input() evaluated expressions (dangerous) — raw_input() was safe. Python 3 removed this distinction.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cdn-architectures', 'Explain CDN Architectures in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('aggregations-with-joins', 'Why might COUNT(*) give wrong results when using JOINs?', 'Easy', 'One-to-many JOINs multiply rows. If a customer has 3 orders, the JOIN creates 3 rows for that customer. COUNT(*) counts joined rows (3), not unique customers (1). Use COUNT(DISTINCT customer.id) to count customers correctly. Always check your raw JOIN output before adding aggregates.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-keywords', 'What is the difference between keywords and built-in functions?', 'Easy', 'Keywords (if, for, def, class) are reserved — you CANNOT use them as names (SyntaxError). Built-in functions (print, len, type, range) are pre-defined but CAN be overridden: print = 42 is valid (but breaks print). Keywords are part of the syntax; built-ins are pre-loaded names in the builtins module. keyword.iskeyword(''print'') returns False because print is a built-in, not a keyword.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-relative-absolute', 'How do you center an element with absolute positioning?', 'Medium', 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('api-key-management', 'Explain API Key Management in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-operators', 'What is the difference between / and // in Python?', 'Easy', '/ is true division — always returns float: 7 / 2 = 3.5, 6 / 3 = 2.0. // is floor division — rounds DOWN: 7 // 2 = 3, -7 // 2 = -4 (toward negative infinity, not toward zero). In Python 2, / on integers was floor division, which was a common bug. Python 3 changed / to always be true division.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-left-triangle', 'How many stars does the last row have for a height-4 triangle?', 'Easy', 'Plug i=3 into 2*i+1: 2*3+1 = 7.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-functions', 'What does min() do?', 'Easy', 'Returns smallest. min(100%, 800px) caps at 800px.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-aria-roles', 'What is the first rule of ARIA?', 'Easy', 'Don''t use ARIA if a native HTML element or attribute provides the semantics you need. <button> is always better than <div role=''button''> because it includes keyboard support, focus management, and activation behaviour for free. ARIA only adds semantics — it doesn''t add any behaviour. Using unnecessary ARIA can actually make accessibility worse if used incorrectly.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-if-statements', 'What values does Python consider falsy?', 'Easy', 'Python considers these falsy: False, None, 0 (int), 0.0 (float), 0j (complex), '''' (empty string), [] (empty list), {} (empty dict), set() (empty set), () (empty tuple), and range(0). Custom objects are falsy if they define __bool__() returning False or __len__() returning 0. Everything else is truthy, including empty custom objects without these methods.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('window-functions-basics', 'What is the difference between GROUP BY and window functions?', 'Easy', 'GROUP BY collapses rows into one per group — individual rows disappear. Window functions keep all rows and add aggregate information to each one. With GROUP BY, 10 rows become 3 groups. With window functions, you still have 10 rows but each row knows about its group''s total, rank, running sum, etc.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('latency-vs-throughput', 'Explain Latency vs Throughput in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-if-else', 'What is the ternary operator in Python and how does it differ from other languages?', 'Easy', 'Python''s ternary is: value = a if condition else b. Unlike C/Java''s condition ? a : b, Python reads more like English. It is an expression (returns a value), not a statement. Can be nested but shouldn''t be for readability: x if a else (y if b else z). Common use: default values, min/max, conditional formatting. Cannot contain statements like print or assignments inside.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-uber-lyft-map', 'Explain Walkthrough: Uber/Lyft Map in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('subqueries', 'Where can subqueries appear in a SQL statement?', 'Easy', 'Subqueries can appear in SELECT (scalar), FROM (derived table), WHERE (filtering with IN, =, >, etc.), HAVING (group filtering), INSERT INTO ... SELECT, and even in JOIN conditions. The placement determines what the subquery must return: scalar for SELECT/WHERE comparisons, table for FROM, list for IN.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-elif', 'What is the difference between multiple if statements and if/elif?', 'Easy', 'Multiple if statements are independent — each condition is checked regardless of others. If/elif is mutually exclusive — only the first True branch runs. Example: x=95. Three separate ifs (>=90, >=80, >=70) would match ALL three. if/elif would match only >=90. Use if/elif when conditions are mutually exclusive. Use separate ifs when you need to check independent conditions.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-packages', 'What is __init__.py and why is it needed?', 'Easy', '__init__.py marks a directory as a Python package. It runs when the package is imported. Uses: 1) Initialize package-level variables. 2) Import sub-modules to expose a clean API: ''from .utils import func''. 3) Define __all__ for wildcard imports. 4) Package-level documentation in docstrings. Can be empty — just marks the directory. Since Python 3.3, namespace packages work without __init__.py but regular packages (with it) are more common and explicit.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-aria-labels', 'What is the difference between aria-label, aria-labelledby, and aria-describedby?', 'Medium', 'aria-label provides an inline string as the accessible name. aria-labelledby references another element''s ID whose text becomes the name — takes priority over aria-label. aria-describedby references an element providing supplementary description — announced after the name and role. Label = what it IS; description = extra context ABOUT it.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-nested-conditions', 'Why is deeply nested code considered bad practice?', 'Easy', 'Deep nesting increases cognitive complexity — readers must track multiple conditions mentally. Each level adds a condition to remember. It makes code harder to test (many paths), debug (hard to trace which branch ran), and modify (adding conditions increases nesting further). PEP 20: ''Flat is better than nested.'' Linters like flake8 flag high nesting. Aim for max 2-3 levels.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-useeffect', 'What is useEffect used for?', 'Easy', 'useEffect performs side effects in React components — API calls, timers, event listeners, and DOM manipulation. It runs after the component renders.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('correlated-subqueries', 'How does a correlated subquery differ from a regular subquery?', 'Easy', 'A regular subquery is independent — it runs once and returns a fixed result. A correlated subquery references the outer query''s columns, so it must re-execute for each outer row. Regular: WHERE salary > (SELECT AVG(salary) FROM emp). Correlated: WHERE salary > (SELECT AVG(salary) FROM emp e2 WHERE e2.dept_id = e.dept_id).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-for-loop', 'What is the difference between range() and list(range())?', 'Easy', 'range() returns a range object — a lazy iterable that generates numbers on demand without storing them all in memory. list(range()) materializes all numbers into an actual list in memory. range(1_000_000) uses constant memory regardless of size; list(range(1_000_000)) uses ~8MB. range objects support indexing, slicing, len(), in, and iteration. Always prefer range() in for loops — never do for i in list(range(n)).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('strong-vs-eventual-consistency', 'Explain Strong vs Eventual Consistency in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-backdrop-filter', 'filter vs backdrop-filter?', 'Medium', 'filter: element. backdrop-filter: area behind.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-while-loop', 'When should you use a while loop vs a for loop?', 'Easy', 'Use for when iterating over a known sequence (list, range, string) or when you know the number of iterations. Use while when the number of iterations is unknown and depends on a condition: user input, convergence algorithms, reading until EOF, game loops. Rule of thumb: if you can express it as ''for each item in collection'', use for. If it''s ''keep going until X happens'', use while.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('exists-operator', 'What is the difference between EXISTS and IN?', 'Easy', 'IN checks if a value is in a list: WHERE id IN (1,2,3). EXISTS checks if a correlated subquery returns any rows. EXISTS short-circuits (stops at first match). IN must evaluate the full sublist. EXISTS handles NULLs better — NOT IN with NULLs in the list returns no rows, while NOT EXISTS works correctly. PostgreSQL often optimizes IN-subqueries into semi-joins similar to EXISTS.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-alt-text', 'What is the difference between alt='''' (empty) and no alt attribute at all?', 'Easy', 'alt='''' tells screen readers ''this image is decorative, skip it.'' No alt attribute causes screen readers to announce the filename (e.g., ''DSC_0042.jpg, image''), which is useless and annoying. Always include the alt attribute — use empty string for decorative images, descriptive text for meaningful images.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-break-continue', 'What happens to the for-else clause when break is used vs continue?', 'Easy', 'break causes the else clause to be SKIPPED — the loop did not complete normally. continue does NOT affect the else clause — the loop still completes normally (continue just skips the rest of the current iteration, not the whole loop). So: for x in items: if found: break; else: not_found() — else only runs if break was never hit. This is the primary use case for for-else.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('review-airbnb-tinder-proximity', 'Explain Review: Airbnb/Tinder Proximity in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-reading-files', 'What are the different methods to read a file in Python?', 'Easy', 'read(): entire file as string. read(n): n characters. readline(): one line (includes \n). readlines(): list of all lines. for line in file: iterate line by line (best for large files, memory efficient). Also: pathlib.Path(''file'').read_text(). Each read advances the file cursor. readline() returns '''' (empty string) at EOF. readlines() loads everything into memory. Iteration is lazy — one line at a time. Use read() for small files, iteration for large ones.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-pass-statement', 'What is the difference between pass and continue?', 'Easy', 'pass does nothing — execution continues to the next statement. continue skips the rest of the loop body and jumps to the next iteration. In a loop: ''for x in items: if cond: pass; print(x)'' — pass does nothing, print STILL runs. ''for x in items: if cond: continue; print(x)'' — continue skips print for that iteration. pass is a no-op; continue is a control flow statement.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('common-table-expressions', 'What are the advantages of CTEs over subqueries?', 'Easy', 'CTEs improve readability by giving names to intermediate results. They can be referenced multiple times in the same query (a subquery would need to be duplicated). They make complex queries easier to debug (test each CTE independently). Since PostgreSQL 12, CTEs are inlined by default, so performance is equivalent to subqueries.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('secrets-management-vault', 'Explain Secrets Management (Vault) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-functions', 'What happens when a function has no return statement?', 'Easy', 'Every Python function returns something. If there is no explicit return statement, or if return is used without a value, the function returns None. This is implicit — result = my_func() will be None. You can verify with print(my_func()) or type(my_func()). This is different from languages like C where a void function returns nothing.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-container', 'What is the difference between display: grid and inline-grid?', 'Easy', 'grid creates a block-level container. inline-grid creates an inline-level one that flows with text.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-keyboard-navigation', 'What is the difference between tabindex=''0'', tabindex=''-1'', and positive tabindex values?', 'Medium', 'tabindex=''0'': element joins the natural tab order (based on DOM position). tabindex=''-1'': element is focusable via JavaScript (element.focus()) but NOT reachable by Tab key — useful for modals and programmatic focus. Positive values (1, 2, 5): DON''T USE — they create a custom tab order that''s confusing and unmaintainable. Elements with positive tabindex are focused before tabindex=''0'' elements.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-ticketmaster-booking', 'Explain Walkthrough: Ticketmaster/Booking in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-function-arguments', 'What is the difference between parameters and arguments?', 'Easy', 'Parameters are variables listed in the function definition — they are placeholders. Arguments are the actual values passed to the function when calling it. def greet(name): — ''name'' is a parameter. greet(''Alice'') — ''Alice'' is an argument. Think: parameters are the parking spaces, arguments are the cars. Some use ''formal parameters'' and ''actual parameters'' as synonyms.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('recursive-cte', 'What are the two parts of a recursive CTE?', 'Easy', 'The anchor member (base case) is a non-recursive SELECT that provides starting rows. The recursive member references the CTE name and builds on previous results. They are connected by UNION ALL. Execution: run anchor, then repeatedly run recursive member using previous iteration''s results until no new rows are produced.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('scalability-vertical-vs-horizontal', 'Explain Scalability (Vertical vs Horizontal) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-default-arguments', 'Why are mutable default arguments dangerous in Python?', 'Easy', 'Default values are evaluated ONCE when the function is defined, not each time it''s called. So def f(lst=[]): creates ONE list object shared by ALL calls. Each call that mutates the default (append, update) permanently changes it. Fix: use None as default and create the object inside: def f(lst=None): lst = lst if lst is not None else []. This is one of the most common Python gotchas.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-object-fit', 'cover vs contain?', 'Easy', 'cover fills+crops. contain fits inside.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('union-and-union-all', 'What is the difference between UNION and UNION ALL?', 'Easy', 'UNION removes duplicate rows from the combined result (performs a DISTINCT operation). UNION ALL keeps all rows, including duplicates. UNION ALL is faster because it skips deduplication. Use UNION ALL when you know there are no duplicates or when duplicates are acceptable. Example: combining current and former employees — if Bob appears in both tables, UNION returns him once, UNION ALL returns him twice.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-keyword-arguments', 'What is the difference between positional and keyword arguments?', 'Easy', 'Positional: matched by position (order matters). func(1, 2) — 1 goes to first param, 2 to second. Keyword: matched by name (order doesn''t matter). func(b=2, a=1). You can mix them: func(1, b=2) but positional must come first. func(a=1, 2) is a SyntaxError. Use keyword args when: many parameters, boolean flags, or when order is confusing.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-multiprocessing', 'When should you use multiprocessing vs threading?', 'Easy', 'Use multiprocessing for CPU-bound tasks: number crunching, image processing, ML training — where you need true parallelism across cores. Use threading for I/O-bound tasks: network requests, file operations, database queries — where threads release the GIL during I/O. Multiprocessing has higher overhead: separate memory spaces, slower to start, more complex communication. Threading is lighter but limited by the GIL for CPU work. Rule of thumb: if your bottleneck is waiting (I/O), use threads. If it''s computing (CPU), use processes.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-local-storage', 'What is the difference between localStorage and sessionStorage?', 'Easy', 'localStorage persists forever (until manually cleared) — data survives browser restarts. sessionStorage is cleared when the tab/window is closed. Both share the same API (setItem, getItem, removeItem, clear) and ~5MB limit per origin. Use localStorage for long-term preferences; use sessionStorage for temporary per-session data like form wizard state.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-args-kwargs', 'What is the difference between *args and **kwargs?', 'Easy', '*args collects extra POSITIONAL arguments into a TUPLE. **kwargs collects extra KEYWORD arguments into a DICTIONARY. func(1, 2, name=''Alice''): args=(1,2), kwargs={''name'':''Alice''}. The names are convention — *numbers and **options work too. They must appear in order: def f(a, *args, **kwargs). You can''t have **kwargs before *args.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('review-amazon-checkout', 'Explain Review: Amazon Checkout in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('intersect-operator', 'What does INTERSECT return?', 'Easy', 'INTERSECT returns only the rows that exist in both result sets. If Query A returns {Alice, Bob, Charlie} and Query B returns {Alice, Charlie, Diana}, INTERSECT returns {Alice, Charlie}. It removes duplicates by default. Both queries must have the same number of columns with compatible types.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-return-values', 'How does Python return multiple values from a function?', 'Easy', 'Python uses tuple packing: ''return a, b, c'' creates a tuple (a, b, c). The caller can unpack: x, y, z = func(). You can also return a list, dict, or namedtuple for more structure. Under the hood, ''return 1, 2'' is the same as ''return (1, 2)''. You can use _ to ignore values: _, max_val = min_max(data). With Python 3.8+, walrus operator can capture the whole tuple too.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('review-airbnb-tinder-proximity', 'Explain Review: Airbnb/Tinder Proximity in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('reverse-proxies-sidecars', 'Explain Reverse Proxies & Sidecars in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-session-storage', 'When should you use sessionStorage instead of localStorage?', 'Easy', 'Use sessionStorage when data should NOT persist beyond the current tab session: multi-step form wizards, per-tab UI state, one-time dismissed notifications, temporary authentication flow data, and sensitive data that should auto-cleanup. Use localStorage for long-term preferences (theme, language), caching, and data that should persist across browser restarts.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-lambda-functions', 'What are the limitations of lambda functions?', 'Easy', 'Lambdas can only contain a single expression — no statements (no if blocks, loops, print, assignments, raise). No annotations or docstrings. No multiple lines. Cannot use walrus operator (:=). The expression is automatically returned. If you need any of these, use def. Lambdas also can''t be pickled reliably. PEP 8 says: if you need to name it, use def. Lambdas are for inline, throwaway functions only.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-introduction', 'What is React?', 'Easy', 'React is a JavaScript library for building user interfaces, created by Facebook. It uses a component-based architecture and a Virtual DOM for efficient updates.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('except-operator', 'What does EXCEPT return and does order matter?', 'Easy', 'EXCEPT returns rows from the first query that don''t appear in the second query. Order matters: A EXCEPT B gives rows in A but not in B. B EXCEPT A gives rows in B but not in A. These are usually different results. Think of it as set subtraction: A - B. Duplicates are removed by default.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-recursive-functions', 'What is the base case and why is it essential in recursion?', 'Easy', 'The base case is the condition that stops recursion — it returns a value without making another recursive call. Without it, the function calls itself forever until hitting Python''s recursion limit (RecursionError). Example: factorial(0) = 1 is the base case. Each recursive call must move TOWARD the base case. Common mistake: wrong base case or not reducing the problem size. Every recursive function needs at least one base case.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-youtube-netflix', 'Explain Walkthrough: YouTube/Netflix in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('ddos-waf-strategies', 'Explain DDoS & WAF Strategies in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-higher-order-functions', 'What is a higher-order function? Give examples.', 'Easy', 'A higher-order function takes a function as argument and/or returns a function. Python built-ins: sorted(items, key=len), map(str, numbers), filter(bool, items), max(items, key=lambda x: x.score). Custom: decorators (@log_call), function factories (make_adder(5)), callbacks (button.on_click(handler)). Even simple ones count: def apply_twice(f, x): return f(f(x)).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-aspect-ratio', 'aspect-ratio: 16/9?', 'Easy', 'Maintains 16:9 proportions.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-geolocation-api', 'Why does the Geolocation API only work on HTTPS?', 'Easy', 'Location data is highly sensitive — exposing it over insecure HTTP could allow man-in-the-middle attacks to intercept the user''s coordinates. Browsers enforce HTTPS (or localhost for development) as a security requirement. This is part of a broader trend: powerful APIs (camera, microphone, geolocation, service workers) all require secure contexts.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-lists', 'What is the time complexity of common list operations?', 'Easy', 'append(): O(1) amortized. insert(i, x): O(n) — shifts elements. pop(): O(1) from end, O(n) from beginning. remove(x): O(n) — searches then shifts. index[i]: O(1) — direct access. ''in'' operator: O(n) — linear search. sort(): O(n log n) — Timsort. extend(): O(k) where k is length of added iterable. Lists are implemented as dynamic arrays — fast random access, slow insertion/deletion in the middle.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('what-is-an-index', 'What is a database index and why is it used?', 'Easy', 'A database index is a data structure (like a B-tree) that stores a sorted reference to table rows based on specific columns. It allows the database to find rows without scanning the entire table. Think of it like a book''s index — instead of reading every page, you look up the topic and jump to the right page. Indexes speed up SELECT queries but add overhead to writes.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cap-theorem', 'Explain CAP Theorem in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-list-methods', 'What is the difference between append() and extend()?', 'Easy', 'append(x) adds x as a SINGLE element: [1,2].append([3,4]) → [1,2,[3,4]]. extend(iterable) adds EACH element from the iterable: [1,2].extend([3,4]) → [1,2,3,4]. append is O(1), extend is O(k) where k is the length of the iterable. Use append for a single item, extend for merging sequences. += is equivalent to extend: a += [3,4] is the same as a.extend([3,4]).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-template-columns', 'What is the difference between auto-fill and auto-fit?', 'Hard', 'auto-fill keeps empty tracks. auto-fit collapses empty tracks, letting items stretch to fill.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('creating-indexes', 'What is the difference between CREATE INDEX and CREATE INDEX CONCURRENTLY?', 'Easy', 'CREATE INDEX locks the table against writes (INSERT, UPDATE, DELETE) during index creation. CREATE INDEX CONCURRENTLY builds the index without holding a lock, so the table remains fully writable. However, CONCURRENTLY takes longer, cannot run inside a transaction, and may fail if there are concurrent schema changes. Use CONCURRENTLY in production to avoid downtime.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-tuples', 'Why would you use a tuple instead of a list?', 'Easy', 'Use tuples when: 1) Data shouldn''t change (coordinates, config, constants). 2) Dict keys — tuples are hashable, lists aren''t. 3) Function return values — return x, y creates a tuple. 4) Performance — tuples are faster to create, iterate, and use less memory. 5) Safety — prevents accidental modification. 6) As elements in sets. Rule of thumb: use tuples for heterogeneous fixed data (name, age, city), lists for homogeneous mutable collections (list of names).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('final-group-mock-retrospective', 'Explain Final Group Mock Retrospective in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-drag-and-drop', 'Why must you call preventDefault() on the dragover event?', 'Easy', 'By default, most elements do NOT allow dropping. The browser''s default action for dragover is to reject the drop. Calling preventDefault() cancels this default rejection and signals that the element is a valid drop target. Without it, the drop event will never fire, even if you have a drop event listener. This is the most common gotcha with the Drag and Drop API.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-sets', 'Why is ''in'' faster on sets than on lists?', 'Easy', 'Sets use a hash table internally. ''in'' computes the hash of the element and checks the bucket — O(1) average. Lists use linear search — check each element sequentially — O(n). For 1 million elements: set lookup is instant, list lookup scans up to 1 million items. Use sets when you frequently test membership. Convert list to set first if you need many lookups: my_set = set(my_list); if x in my_set.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('partitioning', 'What are the three types of partitioning in PostgreSQL?', 'Easy', '1) Range partitioning — splits by value ranges. Best for time-series data: partition by month/quarter/year. Example: events before April go to Q1 partition. 2) List partitioning — splits by discrete values. Best for categories: partition by region, status, country. Example: ''north'' orders go to orders_north. 3) Hash partitioning — splits by hash function modulus. Best for even distribution when no natural partition key exists. Example: user_id % 4 distributes across 4 partitions. Choose based on your data and query patterns.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('btree-index', 'What is a B-tree index and what operations does it support?', 'Easy', 'A B-tree index is a balanced tree data structure that keeps data sorted. It supports: equality (=), range comparisons (<, >, <=, >=, BETWEEN), sorting (ORDER BY), and anchored LIKE patterns (''abc%''). It''s PostgreSQL''s default index type. The balanced nature ensures O(log n) lookups. It does NOT efficiently support leading wildcard LIKE ''%abc'' because the tree is sorted by the beginning of the value.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-set-methods', 'What is the difference between union() method and the | operator?', 'Easy', 'Functionally identical for sets — both return a new set with all elements from both sets. Key difference: the | operator requires both operands to be sets. The union() method accepts any iterable: {1,2}.union([3,4]) works, but {1,2} | [3,4] raises TypeError. Same applies to all set operations: intersection/&, difference/-, symmetric_difference/^. Use methods when working with mixed types, operators for cleaner syntax with sets.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('distributed-tracing-alerting', 'Explain Distributed Tracing & Alerting in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-modern-features', 'What is :has()?', 'Medium', 'Parent selector — .card:has(img) selects cards with images.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-dictionaries', 'What is the difference between d[key] and d.get(key)?', 'Easy', 'd[key] raises KeyError if key doesn''t exist. d.get(key) returns None if key doesn''t exist. d.get(key, default) returns default if missing. Use d[key] when the key MUST exist (indicates a bug otherwise). Use d.get() when the key might not exist (optional fields, user input). There''s also d.setdefault(key, default) which returns the value AND inserts the default if missing. For nested access, consider collections.defaultdict.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-right-triangle', 'Why does the total row width stay the same for every row?', 'Medium', 'spaces + stars = (h-1-i)*2 + (2*i+1) = 2h-2-2i + 2i+1 = 2h-1, which is constant.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('hash-index', 'What is a hash index and when should you use it?', 'Easy', 'A hash index maps values through a hash function to buckets for O(1) equality lookups. Use it when: (1) You ONLY need equality checks (WHERE col = value). (2) The column has high cardinality (many unique values). (3) You never need range queries or sorting on that column. Common use cases: session tokens, API keys, UUIDs. In most cases, B-tree is preferred because it handles equality AND range queries.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-fixed-sticky', 'What is the difference between fixed and sticky?', 'Medium', 'Fixed is always relative to viewport. Sticky scrolls normally until a threshold, then sticks within its parent.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-web-workers', 'Why can''t Web Workers access the DOM?', 'Medium', 'The DOM is not thread-safe — allowing multiple threads to read/write DOM simultaneously would cause race conditions and crashes. Web Workers run in an isolated global scope (DedicatedWorkerGlobalScope) with no access to window, document, or DOM APIs. They communicate via message passing (postMessage), which copies data between threads. This design prevents concurrency bugs at the cost of requiring explicit data transfer.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-dictionary-methods', 'What is the difference between setdefault() and defaultdict?', 'Easy', 'setdefault(key, default) checks if key exists; if not, inserts it with the default value and returns it. Used per-access. defaultdict(factory) automatically calls factory() for any missing key on access. Used at dict creation. defaultdict(int) returns 0, defaultdict(list) returns []. setdefault is a regular dict method; defaultdict is a specialized subclass. defaultdict is cleaner for accumulation patterns. setdefault is a one-off; defaultdict applies to all missing keys.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('var-let-const', 'What is the difference between var, let, and const?', 'Easy', 'var is function scoped, while let and const are block scoped. var can be redeclared and reassigned. let can be reassigned but cannot be redeclared in the same scope. const cannot be reassigned after initialization. In modern JavaScript, we mostly use const, and use let only when the value needs to change.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('composite-index', 'What is the leftmost prefix rule for composite indexes?', 'Easy', 'The leftmost prefix rule states that a composite index on columns (A, B, C) can only be used when the query filters include the leftmost column(s) in order: A alone, A+B, or A+B+C. It CANNOT be used for queries filtering on B alone, C alone, or B+C. Think of it like a phone book sorted by last_name, first_name — you can search by last_name or last_name+first_name, but not by first_name alone.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-list-comprehension', 'What is the difference between a list comprehension and a generator expression?', 'Easy', 'List comprehension [x for x in range(n)] creates the entire list in memory at once. Generator expression (x for x in range(n)) produces values lazily — one at a time, on demand. Generators use O(1) memory regardless of size; lists use O(n). Use generators when: processing large datasets, only iterating once, passing to functions like sum/max/any. Generators can only be iterated once. Lists can be indexed, sliced, and iterated multiple times.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('hoisting', 'What will be the output? console.log(a); var a = 10;', 'Easy', 'undefined. var declarations are hoisted to the top and initialized with undefined. The assignment a = 10 stays in place. JavaScript sees: var a; console.log(a); a = 10;', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('zero-trust-security-model', 'Explain Zero Trust Security Model in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-dictionary-comprehension', 'How do you create a dictionary from two lists?', 'Easy', 'Use zip() with dict comprehension: {k: v for k, v in zip(keys, values)}. Or simply: dict(zip(keys, values)). zip pairs elements by position. If lists are different lengths, zip stops at the shortest. Use itertools.zip_longest for different-length lists with a fillvalue. For an enumerated dict: {i: v for i, v in enumerate(values)}. These patterns are extremely common for data transformation.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('strong-vs-eventual-consistency', 'Explain Strong vs Eventual Consistency in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('what-is-css', 'What does CSS stand for and what is its primary purpose?', 'Easy', 'Think about the separation between content and presentation on the web.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-strings', 'Why are Python strings immutable?', 'Easy', 'Immutability means string objects cannot be changed after creation. Benefits: 1) Strings can be used as dictionary keys and set elements (hashable). 2) Thread safety — no locks needed for shared strings. 3) Memory optimization — Python can intern/cache common strings. 4) Security — strings used for file paths, SQL queries, URLs can''t be accidentally modified. To ''change'' a string, you create a new one: s = ''H'' + s[1:]. Methods like upper(), replace() return new strings. Use list(s) to get a mutable character list, then ''''.join(list).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('partial-index', 'What is a partial index and when is it useful?', 'Easy', 'A partial index indexes only a subset of rows defined by a WHERE clause. Example: CREATE INDEX idx ON orders(customer_id) WHERE status = ''pending''. It''s useful when: (1) Most queries target a small subset of data (e.g., only active or pending records). (2) A small percentage of rows match the condition. (3) You want a smaller, faster, cheaper-to-maintain index. The query must include the index''s WHERE condition for it to be used.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-inverted-triangle', 'How many stars are on the very last row?', 'Easy', 'Plug i=h-1: 2*(h-(h-1))-1 = 2*1-1 = 1.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-custom-exceptions', 'How do you create a custom exception in Python?', 'Easy', 'Inherit from Exception: class MyError(Exception): pass. Convention: end name with ''Error''. Can add __init__ for extra data: class HttpError(Exception): def __init__(self, code, msg): self.code = code; super().__init__(msg). Always call super().__init__() to preserve standard behavior. Keep it simple — most custom exceptions just need pass. Create a base exception for your app, then subclass: class AppError(Exception): pass; class DBError(AppError): pass.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('introduction-to-javascript', 'What is JavaScript and how is it different from Java?', 'Easy', 'Despite the similar names, JavaScript and Java are completely different languages. JavaScript was named to ride Java''s popularity in the 1990s. Java is statically typed and compiled; JavaScript is dynamically typed and interpreted. They have different use cases and ecosystems.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-string-methods', 'What is the difference between find() and index()?', 'Easy', 'Both search for a substring and return the position of the first occurrence. Key difference: find() returns -1 if not found, while index() raises ValueError. Use find() when missing substring is expected (check result != -1). Use index() when missing substring is a bug (let it crash). Both accept optional start/end parameters. rfind()/rindex() search from the right. For simple existence checks, use ''in'' operator: ''sub'' in string.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('query-optimization', 'Why should you avoid using SELECT * in production queries?', 'Easy', 'SELECT * is problematic because: (1) It fetches columns you don''t need, wasting memory and network bandwidth. (2) It prevents index-only scans — the database must visit the heap even if all needed data is in the index. (3) It breaks when table schema changes (new columns appear unexpectedly). (4) It makes query intent unclear. (5) It transfers more data over the network. Instead, explicitly list needed columns: SELECT name, email FROM users.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-virtual-environments', 'Why are virtual environments important?', 'Easy', 'Virtual environments solve dependency conflicts. Without them: Project A needs Django 3.2, Project B needs Django 4.1 — they can''t coexist in system Python. With venvs: each project has isolated packages. Benefits: 1) No version conflicts between projects. 2) No sudo/admin needed to install. 3) Reproducible builds via requirements.txt. 4) Clean testing environments. 5) Easy to delete and recreate. Always use a venv for every project. Never install project packages globally (except tools like pip, black, mypy).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-string-formatting', 'What are the different string formatting methods in Python?', 'Easy', 'Four methods: 1) % operator (printf-style, oldest): ''%s is %d'' % (name, age). 2) str.format(): ''{} is {}''.format(name, age). 3) f-strings (Python 3.6+): f''{name} is {age}''. 4) Template strings (string.Template): Template(''$name'').substitute(name=''A''). f-strings are fastest and most readable for most cases. str.format() is needed for dynamic format strings. Template strings are safest for user-provided templates. % operator is legacy but still seen in logging.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('triggers', 'What is a trigger and what are the different trigger timing options?', 'Easy', 'A trigger automatically executes a function when an event occurs on a table. Timing options: (1) BEFORE — runs before the operation. Can modify NEW data or return NULL to cancel. (2) AFTER — runs after the operation completes. Used for logging, notifications. (3) INSTEAD OF — replaces the operation (only for views). Events: INSERT, UPDATE, DELETE, TRUNCATE. Granularity: FOR EACH ROW (per row affected) or FOR EACH STATEMENT (once per SQL command).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-colors', 'What is the difference between rgb() and hsl()?', 'Easy', 'RGB mixes red/green/blue channels. HSL uses a color wheel with hue, saturation, and lightness.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-f-strings', 'What are f-strings and why are they preferred?', 'Easy', 'f-strings (formatted string literals, Python 3.6+) embed expressions in strings: f''{expr}''. Preferred because: 1) Most readable — the value is right where it''s used. 2) Fastest — compiled at parse time, not runtime string manipulation. 3) Any expression allowed — function calls, arithmetic, methods. 4) Same format spec support as .format(). 5) Debugging with = specifier (3.8+): f''{x=}''. Limitations: can''t be used as templates (evaluated immediately), need backslash workarounds for some characters in expressions.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('explain-analyze', 'What is the difference between EXPLAIN and EXPLAIN ANALYZE?', 'Easy', 'EXPLAIN shows the query plan without executing the query — it displays estimated costs, estimated row counts, and the execution strategy (scan type, join method). EXPLAIN ANALYZE actually executes the query and shows both estimated AND actual metrics: real execution time, actual row counts, and loop counts. Use EXPLAIN for quick checks; use EXPLAIN ANALYZE for accurate performance data. Caution: EXPLAIN ANALYZE runs the query, so use it carefully with INSERT/UPDATE/DELETE (wrap in a transaction and rollback).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('closures', 'What is a closure?', 'Easy', 'A closure is created when an inner function can access variables from its outer function even after the outer function has finished executing. The inner function ''remembers'' the outer variables — this remembered environment is called a closure.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-builtin-functions', 'What is the difference between type() and isinstance()?', 'Easy', 'type(obj) returns the exact type object. isinstance(obj, cls) returns True if obj is an instance of cls or any subclass. isinstance() is preferred for type checking because it supports inheritance: isinstance(True, int) → True (bool is subclass of int), but type(True) == int → False. isinstance() also accepts a tuple of types: isinstance(x, (int, float)). type() is useful for exact type comparison and metaclass programming.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-usecontext', 'What is useContext and how does it work?', 'Medium', 'useContext provides global state without prop drilling. You create a context with createContext(), wrap components with Provider, and consume with useContext(). Without Provider, it returns the default value.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('logging-elk-stack', 'Explain Logging & ELK Stack in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-enumerate', 'Why is enumerate() preferred over range(len())?', 'Easy', 'range(len(x)) is considered an anti-pattern in Python because: 1) Less readable — for i in range(len(items)): items[i] vs for i, item in enumerate(items). 2) More error-prone — manual indexing can cause off-by-one errors. 3) Doesn''t work with all iterables — only sequences with len(). enumerate() works with any iterable. 4) Pythonic — follows ''there should be one obvious way to do it''. 5) Same performance. The only time range(len()) is needed: when you need to modify list elements in place by index.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('normalization', 'What is database normalization and why is it important?', 'Easy', 'Normalization is the process of organizing database tables to reduce redundancy and prevent anomalies. It breaks large tables into smaller, related tables. Benefits: (1) Eliminates duplicate data — saves storage. (2) Prevents update anomalies — change data in one place. (3) Prevents insert anomalies — can add data without unrelated data. (4) Prevents delete anomalies — deleting one fact doesn''t lose another. Trade-off: more JOINs needed for queries.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-units', 'What is the difference between em and rem?', 'Easy', 'em compounds — it''s relative to the parent''s font-size. rem always refers to the root (<html>) font-size.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-zip', 'What does zip() return and how does it handle unequal lengths?', 'Easy', 'zip() returns a lazy iterator of tuples, pairing elements by position. By default, it stops at the shortest iterable — extra elements from longer iterables are silently ignored. Use itertools.zip_longest(a, b, fillvalue=None) to pad shorter iterables. Python 3.10+ added strict=True parameter: zip(a, b, strict=True) raises ValueError if lengths differ. Always be aware of silent truncation — it can cause subtle bugs.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('monolith-vs-microservices-architecture', 'Explain Monolith vs Microservices Architecture in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-syntax', 'What is the difference between an expression and a statement in JavaScript?', 'Easy', 'An expression is any piece of code that produces a value — like 2 + 3, a function call, or a variable reference. A statement is an instruction that performs an action — like a variable declaration, an if block, or a loop. Expressions can be part of statements.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-map-filter-reduce', 'What is the difference between map() and a list comprehension?', 'Easy', 'map(func, iterable) applies func to each element. Equivalent list comprehension: [func(x) for x in iterable]. Key differences: 1) map returns a lazy iterator; comprehension creates a list immediately. 2) Comprehensions are more Pythonic and readable, especially with complex expressions. 3) map is slightly faster for simple built-in functions (map(int, strings)). 4) Comprehensions can filter (if clause) — map cannot. 5) map with lambda is usually less readable than comprehension. PEP 8 prefers comprehensions for clarity.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('first-normal-form', 'What are the rules for First Normal Form (1NF)?', 'Easy', '1NF requires: (1) Atomic values — each cell contains one indivisible value, no lists or comma-separated values. (2) Unique rows — a primary key identifies each record. (3) No repeating groups — don''t have col1, col2, col3 for the same attribute type. (4) Single data type per column. Example violation: storing ''Python, SQL, Java'' in a skills column. Fix: create a separate employee_skills table with one row per skill.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-template-rows', 'What is the difference between explicit and implicit grid tracks?', 'Medium', 'Explicit tracks are defined by grid-template-rows/columns. Implicit tracks are auto-created when items overflow.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-classes-objects', 'What is the difference between a class and an object?', 'Easy', 'A class is a blueprint/template that defines attributes and methods. An object is a specific instance created from that class. Class: defines the structure (Dog has name, age, bark()). Object: a concrete entity (dog1 = Dog(''Buddy'', 3)). You can create many objects from one class, each with its own attribute values. Analogy: class is a cookie cutter, objects are the cookies. In Python, classes are also objects (instances of type).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-dict-properties', 'Can you access a dictionary value by its numeric position like dict[0]?', 'Easy', 'No — dicts are keyed. dict[0] works only if 0 is an actual key. Use list(dict.values())[0] for positional access.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('postgresql-functions', 'What are the different volatility categories for PostgreSQL functions?', 'Easy', 'Three categories: (1) IMMUTABLE — always returns the same result for the same arguments. No database lookups, no side effects. Examples: math operations, string formatting. Can be used in index expressions. (2) STABLE — returns same result within a single transaction for same arguments. Can read the database but not modify it. Example: lookup functions. (3) VOLATILE (default) — can return different results each call, can modify database. Examples: random(), NOW(), functions that INSERT/UPDATE. Misclassifying volatility can cause incorrect query optimizations.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-comments', 'What is the correct syntax for CSS comments?', 'Easy', 'CSS uses /* */ for comments. Unlike JavaScript, there is no // single-line comment.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-variables', 'What are the differences between var, let, and const?', 'Easy', 'var is function-scoped and hoisted with undefined. let is block-scoped, hoisted but in the TDZ. const is block-scoped, must be initialised, and cannot be reassigned. Both let and const were introduced in ES6. Use const by default, let when needed, and avoid var.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-constructors', 'What is the difference between __init__ and __new__?', 'Easy', '__new__ creates the instance (constructor), __init__ initializes it (initializer). __new__ takes cls (the class) as first arg and must return an instance. __init__ takes self (the new instance) and must return None. Flow: MyClass() → __new__(cls) → __init__(self). __new__ is called before __init__. Usually only override __init__. Override __new__ for: singletons, immutable types (int, str, tuple), caching, metaclass patterns. If __new__ returns a different type, __init__ is NOT called.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('callbacks', 'What is a callback function?', 'Easy', 'A callback function is a function that is passed as an argument to another function and is executed later. For example, in React, onClick={handleClick} passes handleClick as a callback.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('relational-vs-nosql-decision-matrix', 'Explain Relational vs NoSQL Decision Matrix in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-instance-class-variables', 'What is the difference between instance and class variables?', 'Easy', 'Class variables are defined at class level and shared by all instances. Instance variables are defined in __init__ with self.var and unique to each object. Access order: instance → class → parent classes. Assigning to self.var creates an instance variable (even if class var with same name exists). Use ClassName.var to modify class variables. Class variables are useful for constants, counters, and defaults shared across instances.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('monolith-vs-microservices-architecture', 'Explain Monolith vs Microservices Architecture in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-box-model', 'What are the four parts of the CSS Box Model?', 'Easy', 'From inside out: content, padding, border, margin.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-instance-methods', 'What is the difference between instance, class, and static methods?', 'Easy', 'Instance methods: first param is self, can access instance and class state. Class methods: @classmethod, first param is cls, can only access class state — commonly used for alternative constructors. Static methods: @staticmethod, no special first param, cannot access instance or class state — utility functions. Example: Date class might have instance method format(), class method from_string(s), static method is_valid_date(d). Call: obj.method(), Class.classmethod(), Class.staticmethod().', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-data-types', 'What is the difference between primitive and reference types in JavaScript?', 'Easy', 'Primitives (number, string, boolean, null, undefined, symbol, bigint) are immutable, stored directly in the variable, and compared by value. Reference types (objects, arrays, functions) store a pointer to the data in memory and are compared by reference. Copying a primitive creates an independent copy; copying an object copies the reference, not the data.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-standard-library', 'Name 5 useful standard library modules and their purpose.', 'Easy', '1) collections — Counter, defaultdict, deque, OrderedDict for advanced data structures. 2) os / pathlib — file system operations, paths, environment variables. 3) json — read/write JSON data. 4) re — regular expressions for pattern matching. 5) datetime — date/time manipulation. Others: itertools (efficient iteration), functools (function tools like lru_cache), logging (application logging), unittest (testing), math (mathematical functions), csv (CSV files), sys (system info).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-inheritance', 'What is inheritance and what are its types in Python?', 'Easy', 'Inheritance lets a child class reuse code from a parent class. Types: 1) Single — one parent: class Dog(Animal). 2) Multiple — multiple parents: class FlyingFish(Fish, Bird). 3) Multi-level — chain: class Puppy(Dog(Animal)). 4) Hierarchical — multiple children from one parent. 5) Hybrid — combination of above. Python supports all types. Use inheritance for ''is-a'' relationships. Prefer composition (''has-a'') when inheritance doesn''t model the domain well.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-usememo', 'What is useMemo?', 'Medium', 'useMemo caches a computed value and only recalculates when dependencies change. It''s used for expensive calculations and maintaining referential equality.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('metrics-prometheus-grafana', 'Explain Metrics (Prometheus/Grafana) in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-multiple-inheritance', 'What is the diamond problem and how does Python solve it?', 'Easy', 'The diamond problem occurs when class D inherits from B and C, which both inherit from A — forming a diamond shape. The issue: should A''s methods be called once or twice? Python solves it with C3 linearization MRO — each class appears exactly once in the resolution order. With cooperative super() calls, A.__init__ is called only once. MRO for D(B, C) where B(A) and C(A): D → B → C → A → object. View with D.__mro__.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-operators', 'What is the difference between == and === in JavaScript?', 'Easy', '== (loose equality) performs type coercion before comparing — it converts both values to the same type. === (strict equality) compares both value AND type without any conversion. 5 == ''5'' is true but 5 === ''5'' is false. Always prefer === to avoid unexpected coercion bugs.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-margin', 'How does `margin: auto` work for centering?', 'Easy', 'The browser divides the remaining horizontal space equally between left and right. The element needs a defined width.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-method-overriding', 'What is method overriding vs method overloading?', 'Easy', 'Overriding: child class redefines a parent method with the SAME signature. The child version is used for child instances. Overloading: same method name with DIFFERENT parameters. Python doesn''t support traditional overloading — define one method with defaults, *args, **kwargs, or use @singledispatch for type-based dispatch. Overriding is runtime polymorphism (decided at runtime based on object type). Overloading in other languages is compile-time polymorphism. In Python, the last definition wins if you define the same method twice.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('slo-sla-sli-metrics', 'Explain SLO / SLA / SLI Metrics in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-pseudo-elements', 'What is the difference between pseudo-classes and pseudo-elements?', 'Medium', 'Pseudo-classes (:) select elements in a certain state. Pseudo-elements (::) create virtual sub-elements that don''t exist in the DOM.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-encapsulation', 'How does Python implement access control?', 'Easy', 'Python uses naming conventions, not access modifiers: 1) public (name) — no restriction. 2) protected (_name) — convention meaning ''internal, don''t access directly''. Still accessible. 3) private (__name) — name mangling to _ClassName__name. Prevents accidental access but still reachable. Python doesn''t enforce access control — it trusts developers (''we are all consenting adults''). Use _prefix for internal APIs, __prefix to avoid subclass conflicts, and @property for controlled access.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-type-conversion', 'What is the difference between implicit and explicit type conversion?', 'Easy', 'Explicit conversion is when you intentionally convert types using functions like Number(), String(), Boolean(). Implicit coercion happens automatically when the engine needs to convert types during an operation — like ''5'' + 3 becoming ''53''. Explicit is predictable and clear; implicit can cause bugs.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('stored-procedures', 'What is a stored procedure and how is it different from a function?', 'Easy', 'Key differences: (1) Procedures use CALL; functions use SELECT or in expressions. (2) Procedures can manage transactions (COMMIT/ROLLBACK); functions cannot. (3) Procedures don''t return values (use OUT params); functions return values. (4) Procedures can''t be used in SELECT statements; functions can. (5) Both are stored in the database. Use procedures for multi-step operations needing transaction control (e.g., money transfers, batch processing). Use functions for computations, data transformations, and use in queries.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-polymorphism', 'What is duck typing in Python?', 'Easy', 'Duck typing: ''If it walks like a duck and quacks like a duck, it''s a duck.'' Python doesn''t check an object''s type — it checks if the object has the required methods/attributes. Example: any object with __iter__ and __next__ is iterable, regardless of its class. Benefits: more flexible than interface-based languages, promotes loose coupling. Drawback: errors occur at runtime, not compile time. Use hasattr() or try/except for safety. EAFP (Easier to Ask Forgiveness) over LBYL (Look Before You Leap).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('global-data-replication', 'Explain Global Data Replication in a system design interview.', 'Easy', 'Start with the definition, why it matters, and one production tradeoff.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-padding', 'What is the difference between padding and margin?', 'Easy', 'Padding is inside the border (shows background color). Margin is outside the border (always transparent).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-magic-methods', 'What is the difference between __str__ and __repr__?', 'Easy', '__str__: human-readable, informal string. Called by str(), print(), f-strings. Target audience: end users. __repr__: unambiguous, developer-oriented string. Called by repr(), debugger, interactive console. Should ideally be a valid Python expression that recreates the object. If only one is defined, define __repr__ — Python falls back to __repr__ when __str__ is missing. Convention: repr(obj) should look like a constructor call: Product(''Coffee'', 4.99). str(obj) should be readable: Coffee ($4.99).', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-comments', 'What are the types of comments in JavaScript and when should you use each?', 'Easy', 'JavaScript has single-line comments (//) for brief notes and inline explanations, and multi-line comments (/* */) for longer explanations. JSDoc comments (/** */) are a special multi-line format for documenting functions with @param and @returns tags. Use comments to explain why, not what.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('promises-async-await', 'What is a Promise?', 'Easy', 'A Promise is an object that represents the eventual completion or failure of an asynchronous operation. It promises to give either a success value or an error value in the future. Three states: Pending, Fulfilled (Resolved), Rejected.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-exceptions', 'What is the Python exception hierarchy?', 'Easy', 'BaseException is the root. Its children: Exception (most catchable errors), KeyboardInterrupt (Ctrl+C), SystemExit (sys.exit()), GeneratorExit. Under Exception: ValueError, TypeError, KeyError, IndexError, AttributeError, OSError (parent of FileNotFoundError, PermissionError), RuntimeError, StopIteration. Never catch BaseException or KeyboardInterrupt unless you re-raise. Catching Exception is acceptable as a last resort but catching specific exceptions is preferred.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-usecallback', 'What is useCallback?', 'Medium', 'useCallback caches a function reference and only creates a new function when dependencies change. It prevents unnecessary re-renders when passing callbacks to memoized child components.', 0)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-keywords', 'What are soft keywords in Python 3.10+?', 'Medium', 'Soft keywords (match, case, type) are context-dependent — they''re only keywords in specific contexts (like match-case statements). Outside those contexts, they can be used as variable names: match = 5 is valid. This was done to avoid breaking existing code that used ''match'' or ''case'' as names. Regular keywords (if, for) are always keywords regardless of context. This is why keyword.iskeyword(''match'') returns False even though match is used in pattern matching.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('relational-vs-nosql-decision-matrix', 'When would you choose one side of Relational vs NoSQL Decision Matrix over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-try-except', 'What is EAFP vs LBYL?', 'Medium', 'EAFP (Easier to Ask Forgiveness than Permission): try the operation, catch exceptions if it fails. LBYL (Look Before You Leap): check conditions before acting. Python prefers EAFP because: 1) Race conditions — checking then acting isn''t atomic. 2) Duck typing — checking type defeats the purpose. 3) Often faster — exceptions are rare in the happy path. 4) Cleaner code — fewer nested ifs. LBYL is better when: failure is common (exceptions have overhead), side effects are hard to undo, or the check is cheap and informative.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-finally', 'What happens if both try and finally have return statements?', 'Medium', 'The finally return OVERRIDES the try return. This is a Python gotcha: def f(): try: return 1; finally: return 2 → returns 2. The try return is evaluated but discarded. Similarly, if try raises and finally returns, the exception is silently suppressed. This is almost always a bug. PEP 8 discourages return in finally. Best practice: use finally only for cleanup (close, release, restore), never for return values or exception handling. Linters like pylint warn about return-in-finally.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-border', 'How do you create a circular element using CSS?', 'Easy', 'Set equal width and height, then border-radius: 50%.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-custom-exceptions', 'Why should you create exception hierarchies?', 'Medium', 'Hierarchies allow catching at different granularity: except AppError catches all app errors, except DBError catches only database errors, except ConnectionError catches only connection issues. Benefits: 1) Callers choose how specific to be. 2) Self-documenting ─Çö hierarchy shows error relationships. 3) Future-proof — new exceptions fit into the hierarchy. 4) Cleaner except blocks. Example: requests library has RequestException → ConnectionError, Timeout, HTTPError. Design: one base per package/app, specific subclasses for each failure mode.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-file-handling', 'What is the difference between the file modes?', 'Medium', '''r'': read only, file must exist. ''w'': write only, creates or TRUNCATES (erases content!). ''a'': append only, creates or adds to end. ''x'': exclusive create, fails if file exists (safe creation). ''r+'': read and write, file must exist. ''w+'': read and write, truncates. ''a+'': read and append. Add ''b'' for binary (rb, wb). Text mode (default): handles encoding, newline translation. Binary mode: raw bytes, no translation. Always specify encoding=''utf-8'' for text to avoid platform-specific defaults.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-class-selector', 'Can an element have multiple CSS classes? How?', 'Easy', 'Yes — separate class names with spaces in the class attribute: class="card featured large".', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-reading-files', 'How do tell() and seek() work?', 'Medium', 'tell() returns the current byte position in the file (0-based). seek(offset, whence) moves the cursor. whence: 0 = from start (default), 1 = from current, 2 = from end. seek(0) goes to start (reset for re-reading). seek(0, 2) goes to end. In text mode, only seek(0) and seek(tell_value) are portable — arbitrary seeks may break multi-byte characters. In binary mode, all seeks work. Common pattern: pos = f.tell(); process(); f.seek(pos) — save and restore position.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('distributed-tracing-alerting', 'When would you choose one side of Distributed Tracing & Alerting over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-writing-files', 'How do you safely write to a file without data loss?', 'Medium', 'Write to a temp file in the same directory, then rename (atomic on same filesystem). Pattern: import tempfile, os; with tempfile.NamedTemporaryFile(''w'', dir=dir, delete=False) as tmp: tmp.write(data); tmp_name = tmp.name; os.rename(tmp_name, target_path). This ensures: if write fails, original is intact. If rename succeeds, data is complete. Also: flush() + os.fsync(f.fileno()) to ensure data reaches disk. For databases: use transactions. For config: write .tmp then rename. shutil.move for cross-device.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-csv-json', 'How do you handle CSV files with special characters?', 'Medium', 'csv module handles quoting automatically: fields with commas, quotes, or newlines are quoted. csv.QUOTE_MINIMAL (default): quote only when needed. csv.QUOTE_ALL: quote everything. csv.QUOTE_NONNUMERIC: quote non-numbers. For encoding: open(path, encoding=''utf-8-sig'') for Excel-compatible UTF-8 CSV (BOM prefix). For custom delimiters: csv.reader(f, delimiter=''\t'') for TSV. For embedded quotes: csv uses double-quoting by default (''""'' inside fields). Always use newline='''' on Windows to prevent double newlines.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-id-selector', 'What is the specificity of #header .nav a?', 'Medium', 'Count: 1 ID + 1 class + 1 element = 1-1-1.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-modules', 'How does Python''s module import system work internally?', 'Medium', 'When you import a module: 1) Python checks sys.modules cache — if found, returns cached version. 2) If not cached, searches sys.path in order: current dir, PYTHONPATH, stdlib, site-packages. 3) Once found, creates a new module object. 4) Executes the module code in the module''s namespace. 5) Stores in sys.modules cache. 6) Binds the name in the importing module. Subsequent imports return the cached version — module code runs only ONCE. Use importlib.reload() to force re-execution.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-import-statements', 'What does ''from module import *'' do and why should you avoid it?', 'Medium', 'It imports all public names from the module into your namespace. If __all__ is defined, it imports only those names; otherwise, all names not starting with ''_''. Problems: 1) Namespace pollution — you don''t know what names are imported. 2) Name collisions — silently overwrites existing names. 3) Hard to debug — where did ''foo'' come from? 4) Tools can''t detect unused imports. 5) Makes code harder to read and maintain. Exception: sometimes OK in interactive interpreter. Alternative: import the specific names you need.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-packages', 'How do virtual environments work and why use them?', 'Medium', 'Virtual environments create isolated Python installations. ''python -m venv myenv'' creates one. It copies/symlinks the Python binary and creates a local site-packages directory. Activating it modifies PATH to use the local Python/pip. Benefits: 1) Project isolation — different projects can use different package versions. 2) No sudo needed — install to local directory. 3) Reproducibility — pip freeze > requirements.txt. 4) Clean testing environment. Tools: venv (built-in), virtualenv (faster), conda (data science), poetry/pipenv (dependency management).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-list-properties', 'How can you check if a list is ordered in Python?', 'Easy', 'Lists always maintain insertion order — you can verify by printing the list after creation.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-attribute-selectors', 'What is the difference between [attr~=''val''] and [attr*=''val'']?', 'Hard', '~= matches a whole word in a space-separated list. *= matches the substring anywhere in the attribute value.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-standard-library', 'When should you use the standard library vs third-party packages?', 'Medium', 'Use stdlib when: 1) It fully meets your needs — no extra dependency. 2) Stability matters — stdlib is well-tested. 3) Deployment simplicity — no pip install needed. 4) Security — fewer supply chain risks. Use third-party when: 1) Stdlib is too low-level (requests vs urllib). 2) Performance critical (ujson vs json, numpy vs math). 3) Domain-specific needs (pandas, Django, pytest). 4) Better API design (pathlib was stdlib, but arrow > datetime for some). Rule: start with stdlib, upgrade to third-party when you hit limitations.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-datetime-module', 'How do you handle timezones correctly in Python?', 'Medium', 'Always use timezone-aware datetimes: datetime.now(timezone.utc) instead of datetime.utcnow(). Store as UTC internally, convert to local for display. datetime.astimezone(tz) converts between zones. Built-in: timezone(timedelta(hours=offset)) for fixed offsets. For named timezones (America/New_York), use third-party: pytz or zoneinfo (3.9+). Common pitfall: naive datetimes (no timezone) mixed with aware ones raises TypeError. Best practice: make all datetimes timezone-aware from creation.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-math-module', 'What is the difference between math.pow() and the ** operator?', 'Medium', 'math.pow(x, y) always returns a float: math.pow(2, 3) = 8.0. The ** operator preserves types: 2**3 = 8 (int), 2.0**3 = 8.0 (float). ** also handles big integers: 2**1000 works. math.pow converts to C double — overflow for very large numbers. ** calls __pow__ — supports custom types. For integer exponents, use **. For float math (especially with fractional exponents), math.pow is fine. Built-in pow(base, exp, mod) supports modular exponentiation: pow(2, 10, 1000) = 24 — very efficient for cryptography.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-group-selectors', 'Is the specificity of `h1, .title` the same for both parts?', 'Medium', 'No — each selector has its own specificity. h1 = 0-0-1, .title = 0-1-0. They just share declarations.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-random-module', 'Why shouldn''t you use random for security-sensitive code?', 'Medium', 'random uses the Mersenne Twister algorithm — it''s pseudo-random, not truly random. Given enough output values (~624 32-bit numbers), an attacker can predict ALL future and past values. Never use it for: passwords, tokens, session IDs, encryption keys, nonces. Instead use: secrets module (secrets.token_hex(), secrets.choice()), os.urandom(), or random.SystemRandom() — these use the OS''s cryptographic random number generator (/dev/urandom on Linux). secrets.token_urlsafe(32) for API tokens.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-twitter-x-feed', 'When would you choose one side of Walkthrough: Twitter/X Feed over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-os-module', 'How do you safely handle file and directory operations?', 'Medium', '1) Check before acting: os.path.exists() before remove. 2) Use exist_ok: os.makedirs(path, exist_ok=True). 3) Use try/except for race conditions: try: os.remove(f) except FileNotFoundError: pass. 4) shutil for recursive operations: shutil.rmtree() for non-empty dirs. 5) tempfile for temp files: tempfile.NamedTemporaryFile(). 6) Always use os.path.join() or pathlib / for paths — never string concatenation. 7) Use ''with'' for file handles. 8) os.replace() for atomic rename (overwrites target).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-descendant-selector', 'Why should you avoid deeply nested selectors like `.header .nav .menu .item a`?', 'Medium', 'High specificity, brittle to HTML changes, hard to override, and poor performance (browser reads right to left).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-iterators', 'Why are iterators memory-efficient compared to lists?', 'Medium', 'Iterators produce values lazily — one at a time on demand. A list stores ALL values in memory simultaneously. Example: range(1_000_000) is an iterable that creates values on-the-fly — uses ~48 bytes regardless of size. list(range(1_000_000)) stores all million integers — uses ~8MB. File iterators read line by line instead of loading entire file. Use iterators when: processing large datasets, streaming data, infinite sequences, pipeline processing. Trade-off: can''t index or go backward.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-generators', 'When should you use generators vs list comprehensions?', 'Medium', 'Use generators when: 1) Dataset is large — don''t want all values in memory. 2) You only need to iterate once. 3) Building a pipeline of transformations. 4) Working with infinite sequences. 5) Early termination is possible (only need first few matches). Use lists when: 1) Need random access (indexing, slicing). 2) Need to iterate multiple times. 3) Need len(). 4) Dataset is small. 5) Need to store results. Performance: generators use O(1) memory regardless of size; lists use O(n). Generators are slightly slower per-element due to yield overhead.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-child-selector', 'What is the difference between + and ~ sibling selectors?', 'Medium', '+ selects only the immediately next sibling. ~ selects all following siblings.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-decorators', 'How do you create a decorator that accepts arguments?', 'Medium', 'You need a decorator factory — a function that returns a decorator. Three levels of nesting: 1) Outer function takes decorator arguments. 2) Middle function (decorator) takes the function. 3) Inner function (wrapper) takes function arguments. Example: def retry(times): def decorator(func): @wraps(func) def wrapper(*args, **kwargs): for i in range(times): try: return func(*args, **kwargs) except: if i == times-1: raise. return wrapper. return decorator. @retry(3) def api_call(): ... . The outer call retry(3) returns the actual decorator.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-context-managers', 'How do you create a context manager using @contextmanager?', 'Medium', 'Use @contextlib.contextmanager on a generator function with exactly one yield. Code before yield = __enter__ (setup). The yielded value = what ''as'' binds to. Code after yield = __exit__ (cleanup). Wrap yield in try/finally for guaranteed cleanup: @contextmanager def cm(): setup(); try: yield resource; finally: cleanup(). Exceptions in the with block appear at the yield point. To suppress: catch the exception in the generator. Simpler than writing a class with __enter__/__exit__.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-multithreading', 'How do you prevent race conditions in multithreaded code?', 'Medium', 'Race conditions occur when threads access shared data concurrently. Solutions: 1) threading.Lock — mutual exclusion: with lock: shared_data += 1. 2) threading.RLock — reentrant lock (same thread can acquire multiple times). 3) Queue — thread-safe data exchange (producer/consumer). 4) threading.local() — thread-local storage (each thread has its own copy). 5) Immutable data — no modification needed. 6) Atomic operations — some operations are inherently thread-safe. Best practice: minimize shared state; prefer message passing (Queue) over shared memory with locks.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-pseudo-classes', 'How does :nth-child() work and what patterns can it accept?', 'Medium', 'It takes a formula: ''odd'', ''even'', ''An+B'' (e.g., 3n selects every 3rd, 2n+1 selects odd). n starts from 0.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-multiprocessing', 'How do processes communicate with each other?', 'Medium', 'Processes don''t share memory by default. Communication methods: 1) Queue — thread/process-safe FIFO queue, most common. 2) Pipe — two-way communication between two processes. 3) Value/Array — shared memory for simple types (must use Lock for safety). 4) Manager — proxy objects that can be shared (dict, list, Namespace). 5) shared_memory (3.8+) — direct memory sharing for large data. Queue is simplest for producer/consumer patterns. Pipe is fastest for two processes. Manager for complex shared state. Avoid shared memory unless performance-critical.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('database-sharding-partitioning', 'When would you choose one side of Database Sharding & Partitioning over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-virtual-environments', 'Compare venv, virtualenv, poetry, and conda.', 'Medium', 'venv: built into Python 3.3+, creates basic virtual environments. virtualenv: third-party, faster, more features (supports Python 2). poetry: modern dependency management + packaging + lock file (poetry.lock ensures reproducible installs), auto-creates venvs. conda: language-agnostic (C, R, Python), manages non-Python dependencies, great for data science (numpy, scipy with C binaries). pipenv: combines pip + virtualenv with Pipfile. uv: Rust-based, extremely fast pip replacement. For most Python projects: poetry or pip+venv. For data science: conda. For speed: uv.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-performance-tips', 'How do you profile Python code to find bottlenecks?', 'Medium', '1) timeit — micro-benchmark specific expressions: python -m timeit ''sum(range(1000))''. 2) cProfile — function-level profiling: python -m cProfile script.py. Shows cumulative time, call count per function. 3) line_profiler — line-by-line timing with @profile decorator: kernprof -l -v script.py. 4) memory_profiler — memory usage per line. 5) py-spy — sampling profiler for production (no code changes). 6) snakeviz — visual cProfile viewer. Workflow: cProfile to find slow functions → line_profiler on those functions → optimize → re-profile. Always profile before optimizing!', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-pseudo-elements', 'Why is the content property required for ::before and ::after?', 'Medium', 'Without content, the pseudo-element isn''t generated at all. Use content: '''' for a purely decorative empty element.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-sum-average', 'How would you modify the program to handle any number of inputs, not just three?', 'Medium', 'Consider using a loop and keeping a running total.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-for-loop-sequence', 'Why is the stop value 90 instead of 89 in range(8, 90, 3)?', 'Easy', 'range() stops before it reaches the stop value — it is exclusive.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-negative-numbers', 'How would you print 0, -2, -4, …, -20 starting from zero?', 'Easy', 'Change the start to 0: range(0, -21, -2).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-specificity', 'Can 10 class selectors beat 1 ID selector in specificity?', 'Medium', 'No — specificity categories don''t overflow. Any number of classes (0-0-X-0) never beats one ID (0-1-0-0).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-print-name', 'What does the underscore _ as a loop variable signify in Python?', 'Easy', 'It is a convention meaning ''I don''t need this variable''s value inside the loop.''', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('review-facebook-insta-newsfeed', 'When would you choose one side of Review: Facebook/Insta Newsfeed over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-even-odd', 'How would you check if a number is divisible by 3 instead of 2?', 'Easy', 'Change the condition to number % 3 == 0.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-converging-triangle', 'How would you make the two lines diverge (open upward) instead of converge?', 'Medium', 'Reverse the formula: indent = h-1-i and gap = 2*i.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-important-rule', 'Why is !important considered a bad practice in most situations?', 'Medium', 'It breaks the cascade, creates specificity wars, makes debugging harder, and usually indicates the real problem is overly-specific selectors.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-centered-triangle', 'How would you print the pyramid upside-down?', 'Easy', 'Iterate with range(h-1, -1, -1) to go from h-1 down to 0.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-dict-properties', 'What is the difference between dict.get(''key'') and dict[''key'']?', 'Medium', 'dict[''key''] raises KeyError if the key doesn''t exist; dict.get(''key'') returns None (or a default you specify).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cap-theorem', 'When would you choose one side of CAP Theorem over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-vowel-checker', 'How would you rewrite this using a list comprehension?', 'Medium', 'found = [c for c in word if c in ''aeiouAEIOU'']', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-string-alternator', 'What if the strings are different lengths but you still want to interleave them?', 'Medium', 'Use zip_longest from itertools with a fillvalue='''' to handle the leftover characters.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-display-property', 'What is the default display value of a div and a span?', 'Easy', 'div is block, span is inline.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-american-comma', 'How would you format a float with 2 decimal places AND commas (e.g. 1,234,567.89)?', 'Medium', 'Use f''{number:,.2f}''.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-indian-comma', 'What is 1 crore in American notation?', 'Easy', '1 crore = 10,000,000 (ten million in American notation).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-try-except', 'What is the difference between catching Exception and BaseException?', 'Medium', 'Exception catches most errors; BaseException also catches SystemExit and KeyboardInterrupt — usually avoid catching BaseException.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-block-inline', 'How do you place two divs side by side?', 'Medium', 'Use display: inline-block, flexbox, or grid.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-pandas-excel', 'How do you read an actual Excel file into a DataFrame?', 'Easy', 'Use pd.read_excel(''filename.xlsx''). You may need to install openpyxl: pip install openpyxl.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-uber-lyft-map', 'When would you choose one side of Walkthrough: Uber/Lyft Map over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-matplotlib', 'How do you plot multiple lines on the same axes?', 'Easy', 'Call plt.plot() (or axes.plot()) multiple times before plt.show(). Add plt.legend() to distinguish them.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('python-practice-numpy', 'What does axis=0 vs axis=1 mean in numpy operations like sum()?', 'Medium', 'axis=0 collapses rows (operates down columns); axis=1 collapses columns (operates across rows).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-position-property', 'What is the difference between relative and absolute?', 'Medium', 'Relative offsets from original position and stays in flow. Absolute removes from flow and positions relative to nearest positioned ancestor.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('what-is-system-design', 'When would you choose one side of What is System Design? over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('functional-vs-non-functional-requirements', 'When would you choose one side of Functional vs Non-Functional Requirements over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('availability-vs-reliability', 'When would you choose one side of Availability vs Reliability over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-relative-absolute', 'Why set position: relative on a parent even without offsets?', 'Medium', 'To create a positioning context so absolute children position relative to that parent.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('scalability-vertical-vs-horizontal', 'When would you choose one side of Scalability (Vertical vs Horizontal) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cap-theorem', 'When would you choose one side of CAP Theorem over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('strong-vs-eventual-consistency', 'When would you choose one side of Strong vs Eventual Consistency over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-fixed-sticky', 'Why might position: sticky not work?', 'Hard', 'No threshold set, parent has overflow: hidden/auto, ancestor has transform, or parent is too short.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('monolith-vs-microservices-architecture', 'When would you choose one side of Monolith vs Microservices Architecture over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('review-airbnb-tinder-proximity', 'When would you choose one side of Review: Airbnb/Tinder Proximity over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('slo-sla-sli-metrics', 'When would you choose one side of SLO / SLA / SLI Metrics over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('api-gateways', 'When would you choose one side of API Gateways over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-z-index', 'What is a stacking context?', 'Hard', 'An isolated group where z-index values are compared independently. Children''s z-index is only compared within the same context.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('load-balancers-l4-vs-l7', 'When would you choose one side of Load Balancers (L4 vs L7) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('replication-leader-follower', 'When would you choose one side of Replication (Leader/Follower) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dns-domain-management', 'When would you choose one side of DNS & Domain Management over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('consistent-hashing-algorithms', 'When would you choose one side of Consistent Hashing Algorithms over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-overflow', 'What is the difference between overflow: scroll and auto?', 'Easy', 'scroll always shows scrollbars. auto only shows them when content overflows.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('reverse-proxies-sidecars', 'When would you choose one side of Reverse Proxies & Sidecars over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('relational-vs-nosql-decision-matrix', 'When would you choose one side of Relational vs NoSQL Decision Matrix over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('database-sharding-partitioning', 'When would you choose one side of Database Sharding & Partitioning over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-float-clear', 'Why are floats no longer used for layouts?', 'Easy', 'Flexbox and Grid are purpose-built for layouts without float''s problems.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('replication-leader-follower', 'When would you choose one side of Replication (Leader/Follower) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-ticketmaster-booking', 'When would you choose one side of Walkthrough: Ticketmaster/Booking over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('distributed-dbs-cassandra-dynamo', 'When would you choose one side of Distributed DBs (Cassandra/Dynamo) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('caching-fundamentals-redis-memcached', 'When would you choose one side of Caching Fundamentals (Redis/Memcached) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-flexbox-intro', 'What is the difference between the main axis and cross axis?', 'Easy', 'Main axis follows flex-direction (row = horizontal). Cross axis is perpendicular.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cache-eviction-invalidation', 'When would you choose one side of Cache Eviction & Invalidation over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cdn-architectures', 'When would you choose one side of CDN Architectures over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('global-data-replication', 'When would you choose one side of Global Data Replication over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-flex-container', 'What happens to floated elements inside a flex container?', 'Medium', 'float is ignored on flex items. The flex layout takes precedence.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('block-file-and-object-storage-s3', 'When would you choose one side of Block, File, and Object (S3) Storage over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('data-warehouses-snowflake-bigquery', 'When would you choose one side of Data Warehouses (Snowflake/BigQuery) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('large-file-upload-strategies', 'When would you choose one side of Large File Upload Strategies over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-flex-direction', 'How does flex-direction affect justify-content?', 'Medium', 'justify-content always works on the main axis. In row, that''s horizontal. In column, that''s vertical.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('media-cdns-video-streaming', 'When would you choose one side of Media CDNs & Video Streaming over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('review-amazon-checkout', 'When would you choose one side of Review: Amazon Checkout over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('message-queues-rabbitmq-sqs', 'When would you choose one side of Message Queues (RabbitMQ/SQS) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('kafka-internals-topics-partitions', 'When would you choose one side of Kafka Internals (Topics/Partitions) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-justify-content', 'Which axis does justify-content work on?', 'Easy', 'The main axis. In flex-direction: row, that''s horizontal. In column, that''s vertical.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('event-driven-design-patterns', 'When would you choose one side of Event-Driven Design Patterns over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dead-letter-queues-retries', 'When would you choose one side of Dead Letter Queues & Retries over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('grpc-vs-rest-vs-graphql', 'When would you choose one side of gRPC vs REST vs GraphQL over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-align-items', 'What is the difference between align-items and align-self?', 'Medium', 'align-items is set on the container and affects all items. align-self is set on individual items to override.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('real-time-websockets-sse', 'When would you choose one side of Real-time (WebSockets/SSE) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('push-notification-engines', 'When would you choose one side of Push Notification Engines over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('http3-quic', 'When would you choose one side of HTTP/3 & QUIC over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-align-content', 'What is the difference between align-items and align-content?', 'Hard', 'align-items positions items within each line. align-content positions the lines themselves within the container.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('authentication-vs-authorization', 'When would you choose one side of Authentication vs Authorization over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-youtube-netflix', 'When would you choose one side of Walkthrough: YouTube/Netflix over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('oauth2-openid-connect', 'When would you choose one side of OAuth2 & OpenID Connect over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('jwt-anatomy-security', 'When would you choose one side of JWT Anatomy & Security over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-flex-wrap', 'What is the flex-flow shorthand?', 'Easy', 'flex-flow: <flex-direction> <flex-wrap>; e.g., flex-flow: row wrap;', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('api-key-management', 'When would you choose one side of API Key Management over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('distributed-dbs-cassandra-dynamo', 'When would you choose one side of Distributed DBs (Cassandra/Dynamo) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('secrets-management-vault', 'When would you choose one side of Secrets Management (Vault) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('ddos-waf-strategies', 'When would you choose one side of DDoS & WAF Strategies over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-flex-grow-shrink', 'What is the difference between flex-basis and width?', 'Hard', 'flex-basis is the initial size in the flex context. It respects min/max constraints and is used by the flex algorithm. Width is a CSS property that flex-basis can override.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('zero-trust-security-model', 'When would you choose one side of Zero Trust Security Model over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('logging-elk-stack', 'When would you choose one side of Logging & ELK Stack over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('metrics-prometheus-grafana', 'When would you choose one side of Metrics (Prometheus/Grafana) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-flexbox-patterns', 'How do you push an item to the far right in a flex row?', 'Easy', 'Use margin-left: auto on the item, or justify-content: space-between on the container.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('distributed-tracing-alerting', 'When would you choose one side of Distributed Tracing & Alerting over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('final-group-mock-retrospective', 'When would you choose one side of Final Group Mock Retrospective over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-twitter-x-feed', 'When would you choose one side of Walkthrough: Twitter/X Feed over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('review-facebook-insta-newsfeed', 'When would you choose one side of Review: Facebook/Insta Newsfeed over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-intro', 'What is the fr unit?', 'Easy', 'Fractional unit — represents a fraction of available space. 1fr 2fr means second column is twice as wide as first.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-uber-lyft-map', 'When would you choose one side of Walkthrough: Uber/Lyft Map over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('review-airbnb-tinder-proximity', 'When would you choose one side of Review: Airbnb/Tinder Proximity over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-ticketmaster-booking', 'When would you choose one side of Walkthrough: Ticketmaster/Booking over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-container', 'What are implicit grid tracks?', 'Medium', 'Tracks created automatically when items are placed beyond the explicit grid. Sized by grid-auto-rows/grid-auto-columns.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('review-amazon-checkout', 'When would you choose one side of Review: Amazon Checkout over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('walkthrough-youtube-netflix', 'When would you choose one side of Walkthrough: YouTube/Netflix over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('final-group-mock-retrospective', 'When would you choose one side of Final Group Mock Retrospective over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-template-columns', 'What does minmax(200px, 1fr) do?', 'Medium', 'Column is at least 200px wide but grows up to 1fr of available space.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('hoisting', 'What will be the output? console.log(a); let a = 10;', 'Easy', 'ReferenceError: Cannot access ''a'' before initialization. let is hoisted but stays in the Temporal Dead Zone until the declaration line is executed.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-introduction', 'What is the Virtual DOM?', 'Easy', 'The Virtual DOM is a lightweight JavaScript copy of the Real DOM. React compares old and new Virtual DOM trees (diffing) and updates only the changed parts in the Real DOM (reconciliation).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('triggers', 'What are NEW and OLD in trigger functions, and when is each available?', 'Medium', 'NEW and OLD are special variables in trigger functions: INSERT triggers: only NEW is available (the row being inserted). OLD is NULL. UPDATE triggers: both available. OLD = row before update, NEW = row after update. You can modify NEW in BEFORE triggers. DELETE triggers: only OLD is available (the row being deleted). NEW is NULL. TRUNCATE triggers: neither available (operates on the whole table). In BEFORE triggers, returning NULL cancels the operation. Returning NEW allows it to proceed (possibly modified).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('closures', 'What will be the output? function outer() { let count = 0; return function() { count++; console.log(count); }; } const c = outer(); c(); c(); c();', 'Medium', '1, 2, 3. outer() runs only once creating count = 0. The returned function remembers count via closure. Each call increments the same count.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('postgresql-functions', 'What is the difference between RETURNS TABLE, RETURNS SETOF, and OUT parameters?', 'Medium', 'Three ways to return multiple values: (1) OUT parameters — define output variables in the function signature. Good for returning a single row with named columns. (2) RETURNS SETOF type — returns multiple rows of an existing type or table. Use RETURN NEXT or RETURN QUERY. (3) RETURNS TABLE(col1 type, col2 type) — defines an inline table type and returns multiple rows. Most flexible and readable. All three can be used with SELECT * FROM function(). RETURNS TABLE is generally preferred for clarity.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('callbacks', 'What will be the output? console.log(''Start''); setTimeout(() => console.log(''Timeout''), 0); console.log(''End'');', 'Medium', 'Start, End, Timeout. setTimeout(fn, 0) does not execute immediately. The callback waits until the call stack becomes empty. Synchronous code runs first.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-template-rows', 'How do you size implicit rows?', 'Easy', 'grid-auto-rows sets the size for rows not defined in grid-template-rows.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('stored-procedures', 'When would you use a stored procedure over application-level code?', 'Medium', 'Use procedures when: (1) The operation needs multiple SQL statements with transaction control. (2) Network latency matters — procedures run in the database, avoiding round trips. (3) Multiple applications need the same logic — centralize in the database. (4) Data integrity is critical — enforce rules at the database level. (5) Batch processing — process millions of rows without transferring data. Use application code when: (1) Logic involves external APIs or services. (2) Business rules change frequently. (3) Complex error handling and logging is needed. (4) Testability and debugging are priorities.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('promises-async-await', 'What are the three states of a Promise?', 'Easy', 'Pending — the operation is still running. Fulfilled (Resolved) — the operation succeeded. Rejected — the operation failed.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('materialized-views', 'What is the difference between REFRESH MATERIALIZED VIEW and REFRESH MATERIALIZED VIEW CONCURRENTLY?', 'Medium', 'REFRESH MATERIALIZED VIEW takes an exclusive lock — no one can read the view during refresh. It replaces all data at once. REFRESH MATERIALIZED VIEW CONCURRENTLY allows reads during refresh by computing the new data alongside the old, then swapping. Requirements for CONCURRENTLY: (1) A UNIQUE INDEX must exist on the materialized view. (2) It''s slower because it computes a diff. (3) It cannot be used on the first refresh (view must have data). Use CONCURRENTLY in production to avoid downtime; use regular REFRESH for initial loads or maintenance windows.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('views', 'What makes a view updatable, and what are the restrictions?', 'Medium', 'A view is automatically updatable in PostgreSQL when: (1) It references exactly one table in FROM. (2) No aggregate functions (COUNT, SUM, etc.). (3) No DISTINCT, GROUP BY, HAVING, LIMIT, OFFSET. (4) No UNION, INTERSECT, EXCEPT. (5) No window functions. (6) All columns in the view come from the base table. When these conditions are met, you can INSERT, UPDATE, DELETE through the view. For complex views, you can create INSTEAD OF triggers to handle modifications manually.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('array-methods', 'What does filter() return?', 'Easy', 'filter() returns a new array containing only the elements that satisfy the condition. The length may be smaller than the original. It does not mutate the original array.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('schema-design-best-practices', 'Why should you use NUMERIC instead of FLOAT for monetary values?', 'Medium', 'FLOAT/DOUBLE use binary floating-point representation, which cannot exactly represent most decimal fractions. Example: 0.1 + 0.2 = 0.30000000000000004 in floating-point. For money, this means: $10.10 + $20.20 might not equal $30.30 — leading to rounding errors, incorrect totals, and accounting discrepancies. NUMERIC(precision, scale) stores exact decimal values: NUMERIC(12,2) stores up to 12 digits with exactly 2 decimal places. It''s slower than FLOAT but guarantees exact arithmetic — essential for financial calculations.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dot-vs-bracket', 'What will be the output? const user = { name: ''Sai'' }; const key = ''name''; console.log(user.key); console.log(user[key]);', 'Easy', 'undefined then ''Sai''. user.key looks for a property literally named ''key'' (doesn''t exist). user[key] evaluates key = ''name'', so it becomes user[''name''] which is ''Sai''.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-gap', 'Does gap work with Flexbox?', 'Easy', 'Yes, gap works in both Grid and Flexbox containers.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('nextjs-basics', 'What is the difference between CSR, SSR, and SSG?', 'Medium', 'CSR: data fetched in browser after page loads. SSR: data fetched on server per request, HTML generated server-side. SSG: pages generated at build time, served as static HTML.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('database-relationships', 'Why does the foreign key go on the ''many'' side in a One-to-Many relationship?', 'Medium', 'The foreign key goes on the ''many'' side because each row on the ''many'' side points to exactly ONE row on the ''one'' side — this is a single value that fits in one column. If you put the FK on the ''one'' side, you''d need to store MULTIPLE values (all the related IDs), which violates 1NF. Example: department has many employees. Each employee has ONE department_id (simple FK). If department stored all employee_ids, it would need an array or comma-separated list — that''s a 1NF violation.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('nextjs-routing', 'What is the difference between useParams and useSearchParams?', 'Easy', 'useParams reads dynamic route segments from the URL path (e.g., /users/25 → id = 25). useSearchParams reads query parameters from the URL (e.g., ?page=2 → page = 2).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('ts-basics', 'What is the difference between interface and type?', 'Easy', 'Interface is used for object structures (API models, props). Type is more flexible — it can define union types, primitive aliases, and intersections. Both can define objects.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-areas', 'Can grid areas be non-rectangular?', 'Medium', 'No, each named area must form a rectangle. L-shaped or irregular areas are invalid.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('er-diagrams', 'How do you translate an M:N relationship from an ER diagram to SQL tables?', 'Medium', 'An M:N (many-to-many) relationship requires a junction (bridge/linking) table. Example: Students M:N Courses. Create three tables: (1) students(id, name). (2) courses(id, title). (3) enrollments(student_id, course_id) — the junction table with foreign keys to both entities and a composite primary key. The junction table can also hold relationship attributes (e.g., grade, enrolled_date). Without the junction table, you''d need arrays or comma-separated lists, which violate 1NF.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('ts-utility-types', 'What is the difference between Pick and Omit?', 'Easy', 'Pick<T, K> selects specific properties from T. Omit<T, K> removes specific properties from T. Pick is ''keep these''; Omit is ''remove these''.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('debouncing-throttling', 'What is throttling?', 'Medium', 'Throttling limits the execution of a function to once within a specified interval. It is commonly used for scroll events, window resize, and infinite scrolling to control execution frequency.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-introduction', 'What is the Virtual DOM?', 'Easy', 'The Virtual DOM is a lightweight JavaScript copy of the Real DOM. React compares old and new Virtual DOM trees (diffing) and updates only the changed parts in the Real DOM (reconciliation).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-vs-flexbox', 'Can you use Grid and Flexbox together?', 'Easy', 'Yes! Use Grid for the page layout, then Flexbox inside individual grid items for their internal layout.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('denormalization', 'What are the different denormalization techniques?', 'Medium', 'Key techniques: (1) Redundant columns — store customer_name directly in orders table. (2) Materialized views — pre-computed query results, refreshed periodically. (3) Summary/aggregate tables — pre-calculated totals, counts, averages. (4) Duplicating columns across tables — store product_price in order_items at time of purchase. (5) Pre-joined tables — combine related tables into a single wide table. (6) Caching layers — Redis/Memcached for frequently accessed denormalized data. Each technique trades write complexity and storage for read speed.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-components', 'What is a Higher-Order Component (HOC)?', 'Medium', 'A HOC is a function that takes a component and returns a new component with additional props or behavior. Example: withAuth(Component) that checks authentication before rendering.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-components', 'What is a Higher-Order Component (HOC)?', 'Medium', 'A HOC is a function that takes a component and returns a new component with additional props or behavior. Example: withAuth(Component) that checks authentication before rendering.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-props', 'What is prop drilling?', 'Medium', 'Prop drilling is passing props through multiple component levels to reach a deeply nested component. Solutions: Context API, Zustand, Redux, or component composition.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-state', 'Why shouldn''t you mutate state directly?', 'Easy', 'Mutating state directly doesn''t trigger a re-render. React compares previous and new state using reference equality. Always use the setter function or create a new object/array.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-grid-patterns', 'How do you make a grid item span multiple columns and rows?', 'Easy', 'grid-column: span 2; grid-row: span 2;', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-events', 'How do you prevent default behavior in React?', 'Easy', 'Call e.preventDefault() in the event handler. For example, in a form submit handler to prevent page reload.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('caching-fundamentals-redis-memcached', 'When would you choose one side of Caching Fundamentals (Redis/Memcached) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-conditional-rendering', 'Why should you avoid {items.length && <List />}?', 'Medium', 'If items.length is 0, React renders ''0'' because 0 is a valid React node. Always use a boolean condition: {items.length > 0 && <List />}.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-lists-keys', 'Why should you not use array index as a key?', 'Medium', 'Indexes shift when items are added, removed, or reordered. React re-renders more than necessary and can cause bugs like lost focus, wrong animations, or incorrect data display.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-forms', 'What is useRef and when would you use it?', 'Medium', 'useRef stores mutable values that persist across renders without causing re-renders. Uses: DOM access (ref attribute), storing previous values, timer IDs, and mutable data.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-responsive-basics', 'Why is the viewport meta tag important?', 'Medium', 'Without it, mobile browsers render at ~980px width and zoom out, making text tiny and layouts broken.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-useeffect', 'What is the difference between useEffect with [] and without any dependency array?', 'Medium', 'Empty array [] — runs once on mount. No array — runs after every render. With values [count] — runs when count changes.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('third-normal-form', 'What is the difference between 2NF and 3NF?', 'Medium', '2NF eliminates partial dependencies (non-key column depends on PART of a composite key). 3NF eliminates transitive dependencies (non-key column depends on ANOTHER non-key column). 2NF is about the relationship between non-key columns and parts of the key. 3NF is about the relationship between non-key columns themselves. Both decompose the table by moving the dependent columns to a new table. A table can be in 2NF but not 3NF if it has transitive dependencies.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('second-normal-form', 'Can a table with a single-column primary key violate 2NF?', 'Medium', 'No. 2NF violations can only occur in tables with composite primary keys (keys made of 2+ columns). Partial dependency means a non-key column depends on PART of the key — with a single-column key, there is no ''part'' to depend on. So any table in 1NF with a single-column primary key is automatically in 2NF. This is why surrogate keys (auto-increment IDs) effectively bypass 2NF concerns, though the underlying data design issues may still exist as hidden dependencies.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-usecontext', 'What is prop drilling and how do you solve it?', 'Medium', 'Prop drilling is passing props through multiple component levels. Solutions: Context API for simple cases, Zustand or Redux for complex state management.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-usememo', 'When should you use useMemo?', 'Medium', 'Use for expensive calculations (large data transformations), maintaining referential equality for objects passed to child components, and with React.memo. Don''t over-optimize — profile first.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-media-queries', 'How do you detect dark mode preference with CSS?', 'Medium', '@media (prefers-color-scheme: dark) { } — matches when the user''s OS is set to dark mode.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-usecallback', 'What is the difference between useMemo and useCallback?', 'Medium', 'useMemo caches a computed value. useCallback caches a function reference. useCallback(fn, deps) is equivalent to useMemo(() => fn, deps).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-props', 'What is prop drilling?', 'Medium', 'Prop drilling is passing props through multiple component levels to reach a deeply nested component. Solutions: Context API, Zustand, Redux, or component composition.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-memo', 'Will React.memo prevent re-render if you pass <Child user={{ name: ''Sai'' }} />?', 'Hard', 'No. Objects create a new reference every render, so React.memo''s shallow comparison sees a different prop. The child will still re-render. To fix, memoize the object with useMemo or use a stable reference.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-custom-hooks', 'What are the rules for creating custom hooks?', 'Medium', 'Must start with ''use''. Can only call hooks at the top level. Can call other hooks. Can return any value. Follow the same rules as React hooks.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-mobile-first', 'What is the difference between mobile-first and desktop-first media queries?', 'Easy', 'Mobile-first: min-width (add complexity). Desktop-first: max-width (remove complexity).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-routing', 'What is the difference between Link and NavLink?', 'Easy', 'Both navigate to routes. NavLink provides active state styling via className or style props. Link is simpler — just navigation without active state.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('strong-vs-eventual-consistency', 'When would you choose one side of Strong vs Eventual Consistency over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-api-calls', 'How do you handle API errors in React?', 'Medium', 'Use try/catch blocks. Check res.ok for fetch errors. Set error state and display it conditionally. Use AbortController to ignore errors from cancelled requests.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-state-management', 'What are the key concepts of Redux?', 'Medium', 'Store (holds state), Slice (portion of store), Actions (describe events), Reducers (pure functions that update state), Dispatch (sends actions), Selectors (extract data).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-breakpoints', 'What are the common breakpoints used by CSS frameworks?', 'Easy', 'Tailwind/Bootstrap: ~640px (sm), 768px (md), 1024px (lg), 1280px (xl).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-advanced', 'What is reconciliation?', 'Hard', 'Reconciliation is React''s algorithm for comparing two Virtual DOM trees and determining the minimal set of changes to apply to the Real DOM. It uses keys to identify elements efficiently.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('introduction-to-postgresql', 'What does ACID stand for and why is it important in databases?', 'Medium', 'ACID stands for Atomicity (transactions are all-or-nothing), Consistency (data remains valid after transactions), Isolation (concurrent transactions don''t interfere), and Durability (committed data survives crashes). ACID ensures data integrity and reliability.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('installing-postgresql', 'What is the difference between psql and pgAdmin?', 'Easy', 'psql is a command-line interface for PostgreSQL that allows you to run SQL queries and meta-commands directly in the terminal. pgAdmin is a web-based graphical user interface that provides a visual way to manage databases, run queries, and monitor performance. Both connect to the same PostgreSQL server.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-responsive-images', 'What is the difference between srcset and the picture element?', 'Hard', 'srcset: same image in different resolutions (browser picks best). <picture>: different images entirely (art direction, different crops).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('postgresql-architecture', 'What is the Write-Ahead Log (WAL) and why is it important?', 'Hard', 'WAL ensures durability by writing changes to a log file before modifying the actual data files. If the server crashes, PostgreSQL replays the WAL to recover committed transactions. WAL is also used for replication — replicas can apply WAL records to stay in sync with the primary.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-state', 'Why shouldn''t you mutate state directly?', 'Easy', 'Mutating state directly doesn''t trigger a re-render. React compares previous and new state using reference equality. Always use the setter function or create a new object/array.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('creating-a-database', 'What is the template database in PostgreSQL?', 'Medium', 'template1 is the default template used when creating new databases — any objects in template1 are copied to new databases. template0 is a clean template that should never be modified. You can specify TEMPLATE template0 when you need a pristine database, especially when restoring from a dump with a different encoding.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('postgresql-data-types', 'When would you use NUMERIC vs REAL/DOUBLE PRECISION?', 'Medium', 'Use NUMERIC/DECIMAL for exact precision where rounding errors are unacceptable, like financial calculations (money). Use REAL or DOUBLE PRECISION for scientific calculations where slight imprecision is acceptable but speed matters. Floating-point types are faster but can introduce rounding errors.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-fluid-layouts', 'What is the difference between fluid and responsive design?', 'Hard', 'Responsive uses breakpoints where layout jumps. Fluid uses relative units so layout scales smoothly. Best designs use both.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('creating-tables', 'How do you create a table from the result of a query?', 'Easy', 'Use CREATE TABLE new_table AS SELECT ... FROM existing_table. This creates the table and copies the data. To copy only the structure without data, add WHERE FALSE or use CREATE TABLE new_table (LIKE existing_table INCLUDING ALL).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('altering-tables', 'What happens when you change a column''s data type?', 'Medium', 'PostgreSQL attempts to implicitly cast all existing values to the new type. If conversion is not possible (e.g., text ''abc'' to INTEGER), the operation fails. You can use USING to provide a custom conversion expression: ALTER COLUMN col TYPE INTEGER USING col::INTEGER.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dropping-tables', 'What is the difference between TRUNCATE and DELETE?', 'Medium', 'DELETE removes rows one by one, logs each deletion, fires triggers, and can have a WHERE clause. TRUNCATE deallocates entire data pages at once, is much faster, does not fire row-level triggers, and cannot have a WHERE clause. TRUNCATE also resets identity columns with RESTART IDENTITY.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-container-queries', 'How do you make an element a container query target?', 'Easy', 'Set container-type: inline-size on the parent element, then use @container to query its width.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('postgresql-constraints', 'Can a UNIQUE column contain multiple NULL values?', 'Medium', 'Yes, in PostgreSQL, a UNIQUE constraint allows multiple NULL values because NULL is considered unknown and not equal to any other NULL. This follows the SQL standard. If you need to treat NULLs as equal, you can create a unique index with NULLS NOT DISTINCT (PostgreSQL 15+).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('partitioning', 'What is partition pruning and how does it improve performance?', 'Medium', 'Partition pruning is when PostgreSQL''s query planner identifies which partitions can be skipped based on the query''s WHERE clause. If you query WHERE created_at >= ''2024-04-01'' AND created_at < ''2024-07-01'' on a date-range-partitioned table, the planner only scans the Q2 partition and ignores Q1, Q3, Q4. This dramatically reduces I/O. For pruning to work: (1) The WHERE clause must filter on the partition key. (2) The condition must be evaluable at plan time (constants, not function results). (3) enable_partition_pruning must be on (default). Check with EXPLAIN — pruned partitions won''t appear in the plan.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('primary-key-and-foreign-key', 'What are the different ON DELETE actions for foreign keys?', 'Medium', 'CASCADE deletes child rows when the parent is deleted. SET NULL sets the foreign key column to NULL. SET DEFAULT sets it to the column''s default value. RESTRICT prevents the deletion if child rows exist. NO ACTION is similar to RESTRICT but the check is deferred to the end of the transaction.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('select-statement', 'Can you use SELECT without a FROM clause? Give examples.', 'Medium', 'Yes, PostgreSQL allows SELECT without FROM for evaluating expressions: SELECT 1 + 1, SELECT NOW(), SELECT ''hello''. This is useful for testing functions, doing calculations, and checking system values. Other databases like Oracle require FROM DUAL for this.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-transitions', 'Transitions vs animations?', 'Medium', 'Transitions need trigger, A-to-B. Animations auto-play with keyframes.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('where-clause', 'In what order are SELECT and WHERE evaluated? Can you use a column alias in WHERE?', 'Medium', 'PostgreSQL evaluates FROM first, then WHERE, then SELECT. Since column aliases are defined in SELECT, they aren''t available in WHERE. For example, SELECT price * 1.1 AS taxed_price WHERE taxed_price > 100 fails. You must repeat the expression: WHERE price * 1.1 > 100.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('order-by', 'Can you use column aliases defined in SELECT within ORDER BY?', 'Medium', 'Yes! Unlike WHERE, ORDER BY can use column aliases because ORDER BY is evaluated after SELECT. So SELECT salary * 12 AS annual ORDER BY annual works. You can also use column positions like ORDER BY 1.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('limit-and-offset', 'How would you implement pagination for page N with P items per page?', 'Medium', 'Use LIMIT P OFFSET (N - 1) * P. For example, page 3 with 10 items per page: LIMIT 10 OFFSET 20. Always include ORDER BY for consistency. Also consider returning total count with a separate COUNT(*) query for UI pagination controls.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-transition-properties', 'What is cubic-bezier()?', 'Medium', 'Custom timing with 4 control points.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('distinct', 'How does PostgreSQL handle NULLs with DISTINCT?', 'Medium', 'For DISTINCT purposes, two NULL values are considered equal. So if a column has multiple NULL entries, DISTINCT keeps only one NULL row. This differs from normal comparison where NULL = NULL returns NULL (not TRUE).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-events', 'How do you prevent default behavior in React?', 'Easy', 'Call e.preventDefault() in the event handler. For example, in a form submit handler to prevent page reload.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('aliases', 'What is the difference between single quotes and double quotes in PostgreSQL?', 'Medium', 'Single quotes delimit string values: ''Hello''. Double quotes delimit identifiers (table/column names): "My Column". This is important for aliases with spaces or reserved words. SELECT name AS "Order" works but SELECT name AS Order fails because ORDER is a reserved word.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('and-or-not-operators', 'How do AND, OR, and NOT behave with NULL values?', 'Medium', 'SQL uses three-valued logic. TRUE AND NULL = NULL, FALSE AND NULL = FALSE. TRUE OR NULL = TRUE, FALSE OR NULL = NULL. NOT NULL = NULL. This means a row is only included when the WHERE condition evaluates to TRUE, not NULL.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-transform', 'Why prefer transform for animation?', 'Medium', 'GPU compositor, no layout recalc.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('between-operator', 'What''s the gotcha when using BETWEEN with dates that have timestamps?', 'Medium', 'BETWEEN ''2024-01-01'' AND ''2024-01-31'' treats the upper bound as ''2024-01-31 00:00:00'', missing any timestamps later on Jan 31st (e.g., ''2024-01-31 15:30:00''). Use BETWEEN ''2024-01-01'' AND ''2024-02-01'' or WHERE date >= ''2024-01-01'' AND date < ''2024-02-01'' for inclusive date ranges.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cache-eviction-invalidation', 'When would you choose one side of Cache Eviction & Invalidation over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('in-operator', 'What happens with NOT IN when the list contains NULL?', 'Medium', 'NOT IN with NULL in the list returns no rows. This is because NOT (value = NULL) evaluates to NOT NULL, which is NULL (not TRUE). So the condition is never TRUE. Use NOT EXISTS with a subquery or filter NULLs from the list to avoid this trap.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('like-operator', 'What is the difference between LIKE and ILIKE in PostgreSQL?', 'Medium', 'LIKE is case-sensitive: ''Hello'' LIKE ''hello'' is FALSE. ILIKE is case-insensitive (PostgreSQL extension): ''Hello'' ILIKE ''hello'' is TRUE. Standard SQL doesn''t have ILIKE — you''d need LOWER(column) LIKE LOWER(pattern). ILIKE is more convenient but may be slower without a proper index.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-translate', 'translate vs top/left?', 'Medium', 'translate uses GPU, faster.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('insert-statement', 'Why should you always list column names in INSERT statements?', 'Medium', 'Listing columns makes the query self-documenting and resilient to schema changes. Without column names, adding a new column to the table breaks all existing INSERT statements. It also prevents accidentally inserting values into the wrong columns if column order changes.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('update-statement', 'How does UPDATE work internally in PostgreSQL due to MVCC?', 'Medium', 'PostgreSQL doesn''t update rows in place. Instead, it marks the old row version as dead and inserts a new row version with the updated values. The old version remains visible to concurrent transactions until they complete. VACUUM later reclaims the space from dead row versions. This is why UPDATE-heavy tables can bloat.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('delete-statement', 'How do foreign key constraints affect DELETE operations?', 'Medium', 'If a row is referenced by a foreign key, the ON DELETE action determines behavior: RESTRICT/NO ACTION raises an error; CASCADE deletes the referencing rows too; SET NULL sets the FK column to NULL; SET DEFAULT sets it to the default value. Always check foreign key relationships before deleting parent rows.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-rotate', 'Change rotation pivot?', 'Easy', 'transform-origin.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('returning-clause', 'Why is INSERT ... RETURNING preferred over INSERT + SELECT for getting auto-generated IDs?', 'Medium', 'INSERT ... RETURNING is atomic — it returns the ID in the same operation. With INSERT + SELECT, another concurrent INSERT could happen between the two statements, and using currval() or lastval() can return wrong values in certain edge cases. RETURNING is also faster (one round-trip vs two) and more readable.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-conditional-rendering', 'Why should you avoid {items.length && <List />}?', 'Medium', 'If items.length is 0, React renders ''0'' because 0 is a valid React node. Always use a boolean condition: {items.length > 0 && <List />}.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('upsert-on-conflict', 'What is the EXCLUDED table in ON CONFLICT DO UPDATE?', 'Medium', 'EXCLUDED is a special table that contains the row values that were proposed for insertion but conflicted. In DO UPDATE SET theme = EXCLUDED.theme, EXCLUDED.theme refers to the value that was trying to be inserted. You can reference both the existing row (using the table name) and EXCLUDED to compute new values.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('bulk-inserts', 'How can you optimize bulk insert performance?', 'Medium', '1) Use a single transaction, 2) Drop indexes before and recreate after, 3) Disable triggers temporarily, 4) Use COPY instead of INSERT, 5) Increase work_mem and maintenance_work_mem, 6) Use UNLOGGED tables for staging, 7) Disable fsync for initial loads (not in production), 8) Use multi-row VALUES instead of single-row INSERTs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-scale', 'Zoom-on-hover pattern?', 'Medium', 'Container overflow:hidden, image scale on hover.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('transactions-basics', 'What happens when a statement fails inside a transaction in PostgreSQL?', 'Medium', 'PostgreSQL marks the entire transaction as aborted. Any subsequent statements return ''ERROR: current transaction is aborted, commands ignored until end of transaction block''. You must ROLLBACK before starting new work. This differs from some databases (like MySQL) that allow continuing after errors. Use SAVEPOINT to partially recover.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('commit-and-rollback', 'How do SAVEPOINTs help in application error handling?', 'Medium', 'In PostgreSQL, a failed statement aborts the entire transaction. SAVEPOINTs let you catch errors gracefully: create a SAVEPOINT, try the operation, and if it fails, ROLLBACK TO SAVEPOINT to continue the transaction. This is essential for batch operations where some rows might fail (e.g., duplicate keys) but you want to process the rest.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('inner-join', 'What is the difference between JOIN and INNER JOIN?', 'Medium', 'There is no difference. JOIN without a type keyword defaults to INNER JOIN in SQL. Writing INNER JOIN is more explicit and self-documenting. Similarly, CROSS JOIN is the default for joins without an ON clause.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-animations', 'fill-mode: forwards?', 'Medium', 'Retains last keyframe styles.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('left-join', 'How do you find rows in the left table that have NO match in the right table?', 'Medium', 'Use the anti-join pattern: LEFT JOIN + WHERE right.id IS NULL. Example: SELECT a.* FROM authors a LEFT JOIN books b ON a.id = b.author_id WHERE b.id IS NULL. This returns authors with no books. Always filter on the right table''s primary key or a NOT NULL column.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-lists-keys', 'Why should you not use array index as a key?', 'Medium', 'Indexes shift when items are added, removed, or reordered. React re-renders more than necessary and can cause bugs like lost focus, wrong animations, or incorrect data display.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('right-join', 'Why is RIGHT JOIN rarely used in practice?', 'Medium', 'RIGHT JOIN can always be rewritten as LEFT JOIN by swapping table order. LEFT JOIN is more intuitive (start with the ''main'' table), more widely understood, and consistent with most coding standards. Using a mix of LEFT and RIGHT JOINs in the same query makes it harder to read.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('full-join', 'How can you use FULL JOIN to find unmatched records from both sides?', 'Medium', 'Use WHERE to filter: WHERE right.id IS NULL finds left-only rows. WHERE left.id IS NULL finds right-only rows. WHERE left.id IS NULL OR right.id IS NULL finds all unmatched rows from both sides. This is the standard data reconciliation pattern.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-keyframes', 'Staggered animations?', 'Medium', 'Incrementing animation-delay.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('self-join', 'How would you avoid duplicate pairs when comparing rows in a self join?', 'Medium', 'Use a.id < b.id in the join condition. This ensures each pair appears only once (Alice-Bob, not also Bob-Alice) and prevents self-matches (Alice-Alice). Without this, you''d get duplicate pairs and self-comparisons.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('latency-vs-throughput', 'When would you choose one side of Latency vs Throughput over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cross-join', 'When is CROSS JOIN useful in practice?', 'Medium', 'CROSS JOIN is useful for: generating all product variants (sizes ├ù colors), creating reporting grids (dates ├ù categories with all cells, even empty ones), generating test data, creating lookup tables, and finding all possible pairings. Always pair it with small tables.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('join-conditions', 'What is the critical difference between ON and WHERE in a LEFT JOIN?', 'Medium', 'In a LEFT JOIN, ON conditions are evaluated during the join (unmatched left rows still appear with NULLs). WHERE conditions are applied after the join (they can remove left rows entirely). LEFT JOIN ... ON a.id = b.id AND b.status = ''active'' keeps all left rows. LEFT JOIN ... ON a.id = b.id WHERE b.status = ''active'' removes left rows without active matches.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-variables', 'Fallback?', 'Easy', 'var(--color, #000)', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('multiple-table-joins', 'When joining multiple tables, when should you use LEFT JOIN vs INNER JOIN?', 'Medium', 'Use INNER JOIN when the relationship is required (every order must have a customer). Use LEFT JOIN when the relationship is optional (some customers may have no orders). Be careful: if you LEFT JOIN then INNER JOIN a table dependent on the left-joined table, the INNER JOIN effectively converts it to an INNER JOIN.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('count-function', 'Why is COUNT(*) typically faster than COUNT(column)?', 'Medium', 'COUNT(*) doesn''t need to read or check any column values — it just needs to know if a row exists. PostgreSQL can use an index-only scan (reading just the index) or the visibility map. COUNT(column) must read the actual column data to check for NULLs, which requires accessing the heap (table data).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('sum-function', 'What is the difference between SUM(column) and SUM(DISTINCT column)?', 'Medium', 'SUM(column) adds all non-NULL values including duplicates. SUM(DISTINCT column) adds only unique values. If a column has values [10, 20, 10, 30], SUM = 70 but SUM(DISTINCT) = 60. SUM(DISTINCT) is useful for avoiding double-counting in queries with JOINs that produce duplicate rows.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-calc-function', 'Operator rules?', 'Easy', 'Spaces around + and -.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('avg-function', 'What is the difference between AVG(column) and SUM(column)/COUNT(*)?', 'Medium', 'AVG(column) = SUM(column) / COUNT(column). Note COUNT(column) not COUNT(*). COUNT(*) counts all rows including those with NULLs, while COUNT(column) only counts non-NULL values. So SUM(col)/COUNT(*) gives a lower average when NULLs exist because the denominator is larger.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-forms', 'What is useRef and when would you use it?', 'Medium', 'useRef stores mutable values that persist across renders without causing re-renders. Uses: DOM access (ref attribute), storing previous values, timer IDs, and mutable data.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('min-and-max', 'How do you find the entire row that has the maximum value, not just the max value itself?', 'Medium', 'Use a subquery: SELECT * FROM products WHERE price = (SELECT MAX(price) FROM products). Or use DISTINCT ON: SELECT DISTINCT ON (category) * FROM products ORDER BY category, price DESC. Or window functions: SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY price DESC) AS rn FROM products) t WHERE rn = 1.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('group-by', 'What is the SQL query execution order and where does GROUP BY fit?', 'Medium', 'Logical order: FROM → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT. WHERE filters individual rows before grouping. GROUP BY creates groups. HAVING filters groups after aggregation. SELECT evaluates expressions and aliases. ORDER BY sorts the final result. This is why you can''t use SELECT aliases in WHERE or GROUP BY.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-clamp-function', 'Fluid typography?', 'Medium', 'font-size: clamp(1rem, 2.5vw, 2rem)', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('having-clause', 'Can you use HAVING without GROUP BY?', 'Medium', 'Yes. Without GROUP BY, the entire table is treated as one group. HAVING then filters that single group. For example: SELECT COUNT(*) FROM orders HAVING COUNT(*) > 100 returns the count only if there are more than 100 orders, otherwise returns no rows. This is rarely useful compared to using an IF/CASE in application code.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('aggregations-with-joins', 'How do you include entities with zero counts in aggregate results?', 'Medium', 'Use LEFT JOIN + COALESCE. INNER JOIN excludes entities with no matches, so customers with no orders disappear. LEFT JOIN keeps them with NULLs for order columns. Use COALESCE(COUNT(orders.id), 0) and COALESCE(SUM(orders.total), 0) to show 0 instead of NULL. Note: use COUNT(orders.id), not COUNT(*), because COUNT(*) counts the NULL row as 1.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('window-functions-basics', 'What is the difference between ROW_NUMBER, RANK, and DENSE_RANK?', 'Medium', 'For values [100, 90, 90, 80]: ROW_NUMBER gives 1,2,3,4 (no ties, arbitrary tiebreak). RANK gives 1,2,2,4 (ties get same rank, next rank skips). DENSE_RANK gives 1,2,2,3 (ties get same rank, next rank doesn''t skip). Use ROW_NUMBER for unique numbering, RANK for competitive ranking, DENSE_RANK for dense ranking.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-functions', 'What is env()?', 'Medium', 'Environment variables for phone notches.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('subqueries', 'What is a derived table and when would you use one?', 'Medium', 'A derived table is a subquery in the FROM clause that acts as a temporary table. It must have an alias. Use it when you need to filter or join on aggregated results: SELECT * FROM (SELECT dept, AVG(salary) AS avg_sal FROM emp GROUP BY dept) AS t WHERE avg_sal > 70000. CTEs (WITH) are often preferred for readability.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('correlated-subqueries', 'Can a correlated subquery always be rewritten as a JOIN?', 'Medium', 'Most correlated subqueries can be rewritten as JOINs with derived tables or CTEs, and JOINs are often more efficient. However, some patterns (like EXISTS checks or complex per-row conditions) are more naturally expressed as correlated subqueries. PostgreSQL''s optimizer can often transform IN/EXISTS subqueries into semi-joins automatically.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('exists-operator', 'Why is SELECT 1 commonly used inside EXISTS subqueries?', 'Medium', 'EXISTS only checks whether any row is returned, not what columns or values are returned. SELECT 1, SELECT *, or SELECT column_name all work identically inside EXISTS. SELECT 1 is a convention that makes the intent clear: we only care about existence, not data. The optimizer ignores the SELECT list inside EXISTS anyway.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-backdrop-filter', 'Glassmorphism?', 'Easy', 'Blur + semi-transparent background.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('common-table-expressions', 'What changed with CTE optimization in PostgreSQL 12?', 'Medium', 'Before PostgreSQL 12, CTEs were always materialized (computed once, stored in memory). This was an optimization fence — the planner couldn''t push predicates into CTEs. Since PostgreSQL 12, non-recursive CTEs referenced once are inlined (treated like subqueries). Use MATERIALIZED to force old behavior (useful when the CTE is referenced multiple times). Use NOT MATERIALIZED to force inlining.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-useeffect', 'What is the difference between useEffect with [] and without any dependency array?', 'Medium', 'Empty array [] — runs once on mount. No array — runs after every render. With values [count] — runs when count changes.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('recursive-cte', 'How do you prevent infinite recursion in a recursive CTE?', 'Medium', 'Strategies: (1) Add a depth/level counter and filter with WHERE depth < max_depth. (2) Track visited nodes in a path array and check for cycles: WHERE NOT (node_id = ANY(visited_path)). (3) Use UNION instead of UNION ALL to eliminate duplicate rows. (4) PostgreSQL has a max recursion limit (default: none, but you can use LIMIT in the outer query). (5) Ensure the recursive condition eventually returns no rows.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('union-and-union-all', 'Can you use ORDER BY with UNION, and if so, where does it go?', 'Medium', 'ORDER BY goes at the very end, after the last SELECT. It applies to the entire combined result, not individual queries. You can ORDER BY column position (ORDER BY 1) or by column names from the first SELECT. To sort individual queries before combining, wrap them in subqueries: SELECT * FROM (SELECT ... ORDER BY ... LIMIT 5) UNION ALL SELECT * FROM (SELECT ... ORDER BY ... LIMIT 5).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-object-fit', 'object-position?', 'Easy', 'Controls crop/position point.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('intersect-operator', 'How can INTERSECT be rewritten using JOINs or EXISTS?', 'Medium', 'INTERSECT can be rewritten as: (1) INNER JOIN with DISTINCT: SELECT DISTINCT a.* FROM query_a a JOIN query_b b ON a.col1 = b.col1 AND a.col2 = b.col2. (2) EXISTS: SELECT * FROM query_a a WHERE EXISTS (SELECT 1 FROM query_b b WHERE a.col1 = b.col1). The JOIN/EXISTS form gives you more control (e.g., matching on specific columns rather than all columns).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('cdn-architectures', 'When would you choose one side of CDN Architectures over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('except-operator', 'How can EXCEPT be rewritten without using set operators?', 'Medium', 'EXCEPT can be rewritten as: (1) NOT EXISTS: SELECT * FROM A WHERE NOT EXISTS (SELECT 1 FROM B WHERE A.col = B.col). (2) LEFT JOIN anti-pattern: SELECT A.* FROM A LEFT JOIN B ON A.col = B.col WHERE B.col IS NULL. (3) NOT IN: SELECT * FROM A WHERE col NOT IN (SELECT col FROM B) — but beware of NULLs with NOT IN. All three produce equivalent results, but NOT EXISTS and LEFT JOIN handle NULLs correctly.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('what-is-an-index', 'When should you NOT create an index?', 'Medium', 'Avoid indexes on: (1) Small tables — sequential scan is faster. (2) Columns rarely used in WHERE/JOIN/ORDER BY. (3) Columns with low cardinality (few distinct values like boolean). (4) Tables with heavy write workloads where index maintenance overhead outweighs read benefits. (5) Wide columns (long text) — consider partial or expression indexes instead.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-aspect-ratio', 'padding-bottom hack?', 'Medium', 'padding-bottom: 56.25% for 16:9. Modern aspect-ratio replaces this.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('creating-indexes', 'What is an expression index and when would you use one?', 'Medium', 'An expression index indexes the result of a function or expression rather than a raw column value. Example: CREATE INDEX idx_lower_email ON users(LOWER(email)) indexes lowercase emails. This is useful when queries always apply a function: WHERE LOWER(email) = ''user@example.com''. Without the expression index, PostgreSQL can''t use a regular index on email because the function transforms the value. Common uses: LOWER() for case-insensitive search, DATE() for timestamp columns, and computed values.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('btree-index', 'How does a B-tree maintain balance and what is its time complexity?', 'Medium', 'A B-tree maintains balance by splitting nodes when they become full and merging when they become too empty. When inserting into a full node, it splits into two nodes and pushes the middle key up to the parent. This ensures all leaf nodes remain at the same depth. Time complexity: Search is O(log n), Insert is O(log n), Delete is O(log n). The branching factor (number of keys per node) is typically large (hundreds), keeping the tree shallow — even billions of rows require only 3-4 levels.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('hash-index', 'What are the limitations of hash indexes compared to B-tree indexes?', 'Medium', 'Hash index limitations: (1) Only supports = operator — no <, >, <=, >=, BETWEEN, LIKE, or ORDER BY. (2) Cannot support multi-column indexes effectively. (3) Not useful for queries that need sorted output. (4) Cannot be used for UNIQUE constraints. (5) Before PostgreSQL 10, they were not crash-safe. Advantages over B-tree: potentially smaller size and faster O(1) vs O(log n) for pure equality. But B-tree''s O(log n) is so fast in practice that the difference is usually negligible.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('css-modern-features', 'CSS Nesting?', 'Easy', 'Native nesting like Sass.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('composite-index', 'How do you decide the column order in a composite index?', 'Medium', 'Order columns by: (1) Equality conditions first — columns used with = should come before range columns (<, >, BETWEEN). (2) Most selective column first — the column that filters out the most rows. (3) Most frequently queried column first — ensures the index is useful for the most queries. Example: for queries WHERE status = ''active'' AND created_at > ''2024-01-01'', put status first (equality) then created_at (range). The ESR rule: Equality, Sort, Range.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('full-text-search', 'What is a tsvector and a tsquery, and how do they work together?', 'Medium', 'tsvector: a sorted list of distinct lexemes (normalized words) extracted from a document. ''The quick brown fox'' becomes ''brown'':3 ''fox'':4 ''quick'':2 (positions stored, stop words removed, words stemmed). tsquery: a search expression with operators. ''quick & fox'' means both must appear. ''cat | dog'' means either. ''!spam'' means must not appear. The @@ operator checks if a tsvector satisfies a tsquery. to_tsvector(''english'', text) and to_tsquery(''english'', query) handle language-specific processing (stemming, stop words).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('partial-index', 'How does the query planner decide whether to use a partial index?', 'Medium', 'The query planner uses a partial index when the query''s WHERE clause implies or matches the index''s WHERE clause. The query condition must be the same as or more restrictive than the index condition. Example: index WHERE status = ''unpaid''. Query WHERE status = ''unpaid'' AND amount > 100 — uses the index (more restrictive). Query WHERE status = ''paid'' — cannot use the index (different condition). The planner proves that every row matching the query must also be in the index.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('query-optimization', 'Why does applying a function to an indexed column prevent index usage, and how do you fix it?', 'Medium', 'When you write WHERE UPPER(name) = ''ALICE'', PostgreSQL can''t use an index on name because it would need to apply UPPER() to every indexed value to compare — defeating the purpose of the index. Fixes: (1) Rewrite the query: WHERE name = ''Alice'' (if possible). (2) Create an expression index: CREATE INDEX idx ON table(UPPER(name)). (3) For date functions, rewrite EXTRACT(YEAR FROM date) = 2023 as date >= ''2023-01-01'' AND date < ''2024-01-01''. The key insight: the index stores raw values, so the query must compare against raw values to use it.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('introduction-to-javascript', 'What does it mean that JavaScript is single-threaded? How does it handle asynchronous operations?', 'Medium', 'Single-threaded means JavaScript executes one piece of code at a time on a single call stack. It handles async operations through the event loop, callback queue, and Web APIs (like setTimeout, fetch). The event loop checks if the call stack is empty before pushing queued callbacks onto it.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('explain-analyze', 'What do the different scan types in EXPLAIN output mean?', 'Medium', 'Key scan types: (1) Seq Scan — reads every row in the table (full table scan). (2) Index Scan — uses an index to find rows, then fetches from the heap. (3) Index Only Scan — gets all data from the index without visiting the heap. (4) Bitmap Index Scan + Bitmap Heap Scan — uses index to build a bitmap of matching pages, then reads them in order. (5) CTE Scan — scans a materialized CTE. Index Only Scan is the fastest, Seq Scan is acceptable for small tables or when selecting most rows.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('normalization', 'What are the three types of data anomalies that normalization prevents?', 'Medium', '1) Update anomaly: If a teacher''s email is stored in 100 rows and it changes, you must update all 100 rows — miss one and data is inconsistent. 2) Insert anomaly: You can''t add a new course without enrolling a student (if course data is in the enrollment table). 3) Delete anomaly: If you delete the last student enrolled in a course, you lose all course information too. Normalization prevents all three by storing each fact in exactly one place.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('first-normal-form', 'How do you fix a table that violates 1NF?', 'Medium', 'Two main fixes: (1) For multi-valued columns (skills = ''A, B, C''): create a child table with one row per value, linked by foreign key. Original: employees(id, name, skills). Fixed: employees(id, name) + employee_skills(employee_id, skill). (2) For repeating groups (phone1, phone2, phone3): create a child table with rows. Original: contacts(id, name, phone1, phone2). Fixed: contacts(id, name) + phones(contact_id, number, label). Both approaches create a one-to-many relationship.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-syntax', 'What is Automatic Semicolon Insertion (ASI) in JavaScript? Can it cause bugs?', 'Medium', 'ASI is the JavaScript engine''s ability to automatically insert semicolons where it thinks they should be. It can cause bugs — for example, a return statement followed by a newline before the value will return undefined because ASI inserts a semicolon after return. Best practice is to always use explicit semicolons.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-usecontext', 'What is prop drilling and how do you solve it?', 'Medium', 'Prop drilling is passing props through multiple component levels. Solutions: Context API for simple cases, Zustand or Redux for complex state management.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-variables', 'What is the Temporal Dead Zone (TDZ)?', 'Medium', 'The TDZ is the time between entering a scope where a let/const variable is declared and the actual declaration line. Accessing the variable in this zone throws a ReferenceError. It exists because let/const are hoisted but not initialised — unlike var which is hoisted with undefined.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-data-types', 'Why does typeof null return ''object''? Is null an object?', 'Easy', 'This is a historical bug from JavaScript''s first implementation. The original type tagging system used bit patterns, and null''s bit pattern matched the one used for objects. null is NOT an object — it is its own primitive type. This bug has never been fixed because changing it would break existing code.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-operators', 'What is short-circuit evaluation with && and || operators?', 'Medium', '&& stops at the first falsy value and returns it (or the last value if all truthy). || stops at the first truthy value and returns it (or the last value if all falsy). This is used for patterns like: obj && obj.method() (safe access) and value || ''default'' (fallback values).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-usememo', 'When should you use useMemo?', 'Medium', 'Use for expensive calculations (large data transformations), maintaining referential equality for objects passed to child components, and with React.memo. Don''t over-optimize — profile first.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-type-conversion', 'What are falsy values in JavaScript? Name all of them.', 'Easy', 'There are exactly 7 falsy values: false, 0, -0, '''' (empty string), null, undefined, and NaN. Everything else is truthy — including empty arrays [], empty objects {}, and the string ''0''. This is important for conditional checks and Boolean coercion.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-comments', 'What is JSDoc and why is it useful?', 'Easy', 'JSDoc is a documentation syntax using /** */ comments with special tags like @param, @returns, @type, and @example. It allows IDEs to provide autocomplete and type hints. Tools can generate documentation websites from JSDoc comments. It serves as a lightweight type system for plain JavaScript.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-usecallback', 'What is the difference between useMemo and useCallback?', 'Medium', 'useMemo caches a computed value. useCallback caches a function reference. useCallback(fn, deps) is equivalent to useMemo(() => fn, deps).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-input-output', 'What is the difference between prompt(), confirm(), and alert()?', 'Easy', 'alert() displays a message with OK button — no return value. prompt() displays a message with a text input field — returns the entered string or null if cancelled. confirm() displays a message with OK and Cancel buttons — returns true or false. All three block JavaScript execution until dismissed. They are browser-only APIs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('global-data-replication', 'When would you choose one side of Global Data Replication over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-statements', 'What is the difference between break and continue?', 'Easy', 'break exits the loop entirely — no more iterations. continue skips the rest of the current iteration and moves to the next one. Both can be used with labels to affect outer loops in nested loop scenarios.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-strict-mode', 'What happens to ''this'' in strict mode when a function is called without an explicit context?', 'Medium', 'In strict mode, ''this'' is undefined when a function is called without an object context (plain function call). In non-strict mode, ''this'' defaults to the global object (window in browsers, global in Node.js). This strict behaviour prevents accidental modification of the global object.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-memo', 'Will React.memo prevent re-render if you pass <Child user={{ name: ''Sai'' }} />?', 'Hard', 'No. Objects create a new reference every render, so React.memo''s shallow comparison sees a different prop. The child will still re-render. To fix, memoize the object with useMemo or use a stable reference.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('if-else-statements', 'What values are considered falsy in an if condition?', 'Easy', 'There are 7 falsy values: false, 0, -0, '''' (empty string), null, undefined, and NaN. Everything else is truthy, including empty arrays [], empty objects {}, and the string ''0''.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('monolith-vs-microservices-architecture', 'When would you choose one side of Monolith vs Microservices Architecture over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('switch-statements', 'When should you use switch instead of if/else?', 'Easy', 'Use switch when comparing a single variable against multiple discrete values (like status codes, day names, menu options). Use if/else for range comparisons (score >= 90), complex conditions (a && b || c), or when each condition tests different variables. Switch uses === strict comparison.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('ternary-operator', 'When should you avoid using the ternary operator?', 'Easy', 'Avoid ternary when: the logic is complex or has multiple steps, you need to execute side effects (like function calls with no return), or when nesting ternaries would reduce readability. If a ternary is hard to read at a glance, switch to if/else.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-custom-hooks', 'What are the rules for creating custom hooks?', 'Medium', 'Must start with ''use''. Can only call hooks at the top level. Can call other hooks. Can return any value. Follow the same rules as React hooks.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('for-loop', 'What is the difference between for...of and for...in?', 'Easy', 'for...of iterates over VALUES of iterables (arrays, strings, Maps, Sets). for...in iterates over KEYS (property names) of objects. Use for...of for arrays; use for...in for object properties. for...in on arrays can include inherited properties and doesn''t guarantee order.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('while-loop', 'How do you prevent an infinite while loop?', 'Easy', 'Ensure that something inside the loop body changes the condition variable so it eventually becomes falsy. Common strategies: increment/decrement a counter, remove items from a collection, update a flag variable, or use break to exit. Always ask: ''Will this condition eventually become false?''', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('do-while-loop', 'Give a real-world example where do...while is better than while.', 'Easy', 'Input validation is a classic example: you need to get input from the user at least once before you can check if it is valid. A menu system: show the menu first, then ask if they want to continue. Retry logic: try the operation once, then decide if you need to retry.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-routing', 'What is the difference between Link and NavLink?', 'Easy', 'Both navigate to routes. NavLink provides active state styling via className or style props. Link is simpler — just navigation without active state.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('break-and-continue', 'How do break and continue work in nested loops?', 'Medium', 'By default, break and continue only affect the innermost loop they are inside. To affect an outer loop, you need to use a label: label the outer loop (outerLoop: for...) and then use ''break outerLoop'' or ''continue outerLoop''. Without labels, there is no way to break out of multiple nested loops at once.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('block-file-and-object-storage-s3', 'When would you choose one side of Block, File, and Object (S3) Storage over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('nested-loops', 'How do you break out of a nested loop from the inner loop?', 'Medium', 'Use a labelled break. Label the outer loop (e.g., ''outer: for (...)'') and then use ''break outer;'' inside the inner loop. Without a label, break only exits the innermost loop. Alternatively, extract the nested loops into a function and use return to exit everything.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('function-declaration', 'What happens if a function does not have a return statement?', 'Easy', 'A function without a return statement (or with an empty return) returns undefined. This is important to remember when using the result of a function call — if you assign it to a variable, you get undefined. Functions that are called for their side effects (like console.log) do not need return values.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-api-calls', 'How do you handle API errors in React?', 'Medium', 'Use try/catch blocks. Check res.ok for fetch errors. Set error state and display it conditionally. Use AbortController to ignore errors from cancelled requests.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('function-expressions', 'What does it mean that functions are ''first-class citizens'' in JavaScript?', 'Medium', 'First-class means functions are treated like any other value. They can be: assigned to variables, passed as arguments to other functions, returned from functions, stored in arrays and objects, and have properties. This enables callbacks, higher-order functions, closures, and functional programming patterns.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('arrow-functions', 'Why do arrow functions not have their own ''this''?', 'Medium', 'Arrow functions use lexical ''this'' — they inherit ''this'' from the enclosing scope at the time they are defined. This was designed to solve the common problem where ''this'' inside callbacks refers to the wrong object. Before arrow functions, developers used var self = this or .bind(this) to work around this issue.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('parameters-and-arguments', 'What happens when you pass fewer or more arguments than parameters?', 'Easy', 'Fewer arguments: missing parameters are set to undefined (no error). More arguments: extras are silently ignored but accessible via the ''arguments'' object in regular functions. Arrow functions don''t have ''arguments'' — use rest parameters (...args) instead.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-state-management', 'What are the key concepts of Redux?', 'Medium', 'Store (holds state), Slice (portion of store), Actions (describe events), Reducers (pure functions that update state), Dispatch (sends actions), Selectors (extract data).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('return-statement', 'What are guard clauses and why are they better than nested if/else?', 'Medium', 'Guard clauses are early returns at the start of a function that handle invalid cases first. Instead of wrapping the main logic in deeply nested if/else blocks, you check for problems and return early. This keeps the happy path at the lowest indentation level and makes the function easier to read.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('default-parameters', 'What is the difference between default parameters and the || fallback pattern?', 'Medium', 'Default parameters (param = default) only activate on undefined. The || pattern (param = param || default) activates on ANY falsy value (0, '''', false, null, undefined). So greet(0) with || would use the default, but with default parameters, 0 would be kept. Default parameters are safer and more predictable.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('rest-parameters', 'What is the difference between rest and spread operators?', 'Easy', 'Both use ... syntax but do opposite things. Rest COLLECTS multiple elements into an array (in function parameters or destructuring). Spread EXPANDS an array into individual elements (in function calls or array/object literals). Rest: function sum(...nums). Spread: Math.max(...nums).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('react-advanced', 'What is reconciliation?', 'Hard', 'Reconciliation is React''s algorithm for comparing two Virtual DOM trees and determining the minimal set of changes to apply to the Real DOM. It uses keys to identify elements efficiently.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('object-methods', 'How does ''this'' work inside object methods?', 'Medium', 'In regular function methods, ''this'' refers to the object that called the method. In arrow function methods, ''this'' is inherited from the enclosing scope (usually not the object). This is why arrow functions should NOT be used as object methods. Method calls: obj.method() — ''this'' is obj.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('callback-functions', 'What is callback hell and how do you avoid it?', 'Medium', 'Callback hell is deeply nested callbacks that form a pyramid shape, making code hard to read and maintain. Solutions: 1) Name your callbacks instead of nesting anonymous functions. 2) Use Promises with .then() chains. 3) Use async/await for flat, synchronous-looking async code. 4) Break callbacks into separate named functions.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('data-warehouses-snowflake-bigquery', 'When would you choose one side of Data Warehouses (Snowflake/BigQuery) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('higher-order-functions', 'Explain map, filter, and reduce with examples.', 'Medium', 'map: transforms each element, returns new array of same length. [1,2,3].map(n => n*2) -> [2,4,6]. filter: keeps elements passing a test, returns new array. [1,2,3].filter(n => n>1) -> [2,3]. reduce: accumulates elements into single value. [1,2,3].reduce((sum,n) => sum+n, 0) -> 6. None modify the original array.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('json-jsonb', 'What are the main JSONB operators and when do you use each?', 'Medium', 'Operators: (1) -> get JSON element by key/index (returns JSON). (2) ->> get element as text. (3) #> get nested element by path array. (4) #>> get nested element as text. (5) @> containment — does left contain right? (6) <@ contained by. (7) ? key exists. (8) ?| any of the keys exist. (9) ?& all keys exist. (10) || concatenate JSONB. Use -> and ->> for SELECT/WHERE. Use @> with GIN index for fast filtering. Use #> for nested access. Use ? for optional field checks. @> and ? can use GIN indexes.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-arrays', 'How do you check if a variable is an array?', 'Easy', 'Use Array.isArray(val). typeof returns ''object'' for arrays, which is misleading. instanceof Array works but fails across frames/iframes. Array.isArray() is the most reliable method.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('array-methods', 'Implement Array.prototype.map using reduce.', 'Hard', 'arr.reduce((result, item, index) => { result.push(callback(item, index, arr)); return result; }, []). This shows reduce is the most powerful — you can implement map and filter with it.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('array-iteration-methods', 'How do you remove duplicates from an array?', 'Medium', '[...new Set(arr)] is the simplest. Alternatively: arr.filter((val, idx, self) => self.indexOf(val) === idx). For objects, use a Map keyed by unique property: [...new Map(arr.map(o => [o.id, o])).values()].', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-introduction', 'What is the difference between HTML, CSS, and JavaScript?', 'Easy', 'HTML provides structure (what content exists — headings, paragraphs, images). CSS provides presentation (how it looks — colors, fonts, layout). JavaScript provides behaviour (what it does — click handlers, data fetching, animations). Together they form the three pillars of web development. A page can exist with only HTML, but CSS and JS enhance it.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('spread-operator', 'Does spread create a deep copy?', 'Medium', 'No, spread creates a SHALLOW copy. Top-level primitives are copied by value, but nested objects/arrays are copied by reference. For deep copy use structuredClone(obj), JSON.parse(JSON.stringify(obj)), or a library like lodash.cloneDeep().', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-objects', 'How do you iterate over an object''s properties?', 'Easy', 'for...in loop (includes inherited). Object.keys(obj).forEach() for own keys only. Object.entries(obj) for [key, value] pairs. Object.keys/values/entries only return own enumerable properties, while for...in also iterates inherited ones.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('text-formatting', 'When would you use <code> vs <pre> vs both together?', 'Easy', '<code> marks text as a code snippet — typically renders in monospace font. Use it inline: ''Run <code>npm install</code>.'' <pre> preserves whitespace and line breaks — used for preformatted text blocks. Use them together for code blocks: <pre><code>multi-line code here</code></pre>. <code> alone is for inline snippets; <pre> alone is for any preformatted text (ASCII art, poetry); combined they create a proper code block.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('can-place-flowers', 'What if the flowerbed is circular (first and last are neighbors)?', 'Medium', 'Handle wrap-around: treat index 0''s left neighbor as the last element and vice versa.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('object-destructuring', 'How do you swap two variables without a temp variable?', 'Easy', '[a, b] = [b, a]. Array destructuring swaps in one line. This works because the right side creates a new array [b, a] before destructuring assigns back to a and b. Clean, readable, and commonly asked.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-document-structure', 'Why is the lang attribute on the <html> tag important?', 'Easy', 'The lang attribute (<html lang=''en''>) tells browsers and screen readers what language the page content is in. Screen readers use it to select the correct pronunciation rules. Search engines use it for language-specific indexing. It also helps browser features like auto-translation. Omitting it hurts accessibility and SEO. Use lang=''en'' for English, lang=''es'' for Spanish, etc.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('json-basics', 'How do you handle dates in JSON?', 'Medium', 'Dates become ISO strings when stringified. To restore them, use a reviver: JSON.parse(json, (key, val) => { if (isDateKey(key)) return new Date(val); return val; }). Common convention: use ISO 8601 format (toISOString()).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('shallow-vs-deep-copy', 'What are the different ways to deep copy an object?', 'Medium', '1) structuredClone(obj) — best modern option, handles circular refs, Date, Map, Set. 2) JSON.parse(JSON.stringify(obj)) — loses undefined, functions, Date, RegExp. 3) Manual recursive clone. 4) Libraries: lodash.cloneDeep(). Avoid JSON trick for objects with special types.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('what-is-dom', 'What is the difference between children and childNodes?', 'Medium', 'children returns only Element nodes (HTMLCollection). childNodes returns ALL nodes including text and comment nodes (NodeList). Example: <div> text <span>hi</span> </div> — children has 1 (span), childNodes has 3 (text, span, text).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-elements-and-tags', 'What are void (self-closing) elements in HTML? Why don''t they have closing tags?', 'Easy', 'Void elements are HTML elements that cannot have any child content — they are inherently empty. Examples: <br>, <hr>, <img>, <input>, <meta>, <link>. They have no closing tag because there is nothing to put between an opening and closing tag. In HTML5, the trailing slash is optional: <br> and <br /> are both valid. XHTML required the slash; HTML5 does not.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('selecting-elements', 'What is the difference between HTMLCollection and NodeList?', 'Medium', 'HTMLCollection (getElementsBy*) is LIVE and auto-updates. NodeList (querySelectorAll) is STATIC — a snapshot. HTMLCollection only contains elements. NodeList can contain any node type. NodeList supports forEach(); HTMLCollection needs Array.from() to iterate with array methods.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('large-file-upload-strategies', 'When would you choose one side of Large File Upload Strategies over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('modifying-html-content', 'What is an XSS attack and how do you prevent it?', 'Hard', 'XSS (Cross-Site Scripting): attacker injects malicious scripts via user input. If you use innerHTML with unsanitized input, scripts execute. Prevention: use textContent instead of innerHTML, sanitize input, use Content Security Policy headers, encode HTML entities. React auto-escapes by default.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('modifying-css-styles', 'Why should you prefer classList over inline styles?', 'Medium', 'Separation of concerns: styles stay in CSS, logic stays in JS. Class toggling is more performant (browser batches repaints). Inline styles have highest specificity (hard to override). Classes are reusable, testable, and can leverage CSS transitions/animations. Only use inline styles for truly dynamic values (e.g., calculated positions).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-attributes', 'What are data-* attributes and what are they used for?', 'Medium', 'data-* attributes (e.g., data-user-id=''42'', data-color=''blue'') let you store custom data directly on HTML elements without using non-standard attributes. JavaScript can read them via element.dataset.userId (camelCase conversion). They are useful for passing configuration to JS components, storing state, or adding metadata that CSS can target with attribute selectors ([data-active=''true'']). They do not affect rendering or semantics.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('creating-removing-elements', 'What is a DocumentFragment and why use it?', 'Medium', 'A DocumentFragment is a lightweight container that exists in memory, not in the DOM. You can append many elements to it, then insert the fragment into the DOM in one operation. This triggers only ONE reflow instead of one per element. Essential for performance when adding many elements (lists, tables).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('slo-sla-sli-metrics', 'When would you choose one side of SLO / SLA / SLI Metrics over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dom-traversal', 'What is the difference between parentNode and parentElement?', 'Easy', 'Usually identical. The difference: document.documentElement.parentNode returns the document (node type 9). document.documentElement.parentElement returns null (because document is not an element). For most practical purposes they are interchangeable.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('event-listeners', 'Why can''t you remove an anonymous function listener?', 'Medium', 'removeEventListener requires the SAME function reference. Anonymous functions create new references each time: el.addEventListener(''click'', () => {}); el.removeEventListener(''click'', () => {}) — these are two different function objects. Solution: store the function in a variable first.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('headings-and-paragraphs', 'Why does HTML collapse whitespace, and how can you preserve it when needed?', 'Easy', 'HTML collapses multiple spaces, tabs, and newlines into a single space so that source code formatting doesn''t affect rendering. This lets developers indent and format their code freely. To preserve whitespace: use the <pre> element (preformatted text), or the CSS property white-space: pre (or pre-wrap). Use <br> for intentional line breaks within flowing text, and CSS margin/padding for spacing — never use multiple <br> tags for layout.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('event-propagation', 'What is the difference between stopPropagation and preventDefault?', 'Medium', 'stopPropagation: stops the event from traveling to other elements (stops bubbling/capturing). preventDefault: stops the browser''s default action (form submit, link navigation, checkbox toggle). They are independent — you can use either or both. stopPropagation doesn''t prevent default, preventDefault doesn''t stop propagation.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('event-delegation', 'How does React use event delegation internally?', 'Hard', 'React attaches event listeners to the root container, not individual DOM elements. When you write onClick on a component, React delegates it. Events bubble up to root where React''s synthetic event system dispatches to the correct handler. This is why event.nativeEvent is the real DOM event and React events are synthetic wrappers.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('sync-vs-async', 'Why does setTimeout with 0ms delay still run after synchronous code?', 'Medium', 'setTimeout(fn, 0) doesn''t mean ''run immediately''. It means ''run as soon as possible AFTER the current call stack is empty''. The callback goes to the Web API, then to the task queue. The event loop only moves it to the call stack when it''s empty. So all synchronous code runs first, then the timeout callback.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('set-timeout-set-interval', 'Why is recursive setTimeout preferred over setInterval?', 'Medium', 'setInterval fires at fixed intervals regardless of execution time — if the callback takes longer than the interval, executions overlap. Recursive setTimeout schedules the NEXT call only AFTER the current one completes, guaranteeing at least ''delay'' ms between executions. This gives predictable spacing.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('media-cdns-video-streaming', 'When would you choose one side of Media CDNs & Video Streaming over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('callbacks', 'What is the error-first callback pattern?', 'Medium', 'A Node.js convention where callbacks receive (error, result) as arguments. If an error occurred, the first argument is an Error object and result is undefined. If successful, error is null and result contains the data. Always check error first: if (err) { handle error } else { use result }.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('callback-hell', 'How do Promises solve callback hell?', 'Medium', 'Promises flatten nested callbacks into a chain of .then() calls. Instead of nesting: getA(cb => getB(cb => getC())), you chain: getA().then(a => getB()).then(b => getC()). Benefits: flat structure, centralized error handling with .catch(), can run parallel ops with Promise.all(), and enables async/await syntax.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-links', 'What is the difference between an absolute URL and a relative URL in href?', 'Easy', 'Absolute URL includes the full path with protocol: href=''https://example.com/about'' — always points to the same page regardless of where your HTML file lives. Relative URL is relative to the current page: href=''/about'' (from root), href=''contact.html'' (same directory), href=''../index.html'' (parent directory). Use relative URLs for internal navigation (they work across environments — dev, staging, prod) and absolute URLs for external sites.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('promises', 'What is the difference between Promise.all, Promise.race, Promise.allSettled, and Promise.any?', 'Medium', 'Promise.all: resolves when ALL fulfill, rejects on FIRST rejection (fail-fast). Promise.race: settles with first to settle (fulfill or reject). Promise.allSettled: waits for ALL, returns array of {status, value/reason}. Promise.any: resolves with first to FULFILL, rejects only if ALL reject (AggregateError).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('promise-chaining', 'What happens if you forget to return a value in .then()?', 'Medium', 'The next .then() receives undefined. Common bug: getUser().then(user => { getOrders(user.id); }).then(orders => { /* orders is undefined! */ }). Fix: add ''return'' before getOrders. Without return, the Promise from getOrders is created but not chained — the next .then() runs immediately with undefined.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('async-await', 'How do you run async operations in parallel with async/await?', 'Medium', 'Use Promise.all() with await. Instead of: const a = await fetchA(); const b = await fetchB(); (sequential, slow), do: const [a, b] = await Promise.all([fetchA(), fetchB()]); (parallel, fast). Both promises start simultaneously, and you wait for all to complete.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-images', 'What is the purpose of the srcset attribute and the sizes attribute on an <img> tag?', 'Medium', 'srcset provides a set of image sources with their widths: srcset=''small.jpg 480w, large.jpg 1024w''. The browser uses this with the sizes attribute (which declares how much viewport width the image will occupy at various breakpoints) to pick the most efficient image. This means mobile users download a small image and desktop users get a high-res version — saving bandwidth and improving performance. Without srcset, all users download the same (usually large) image.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('error-handling-try-catch', 'How do you create custom error types in JavaScript?', 'Medium', 'Extend the Error class: class CustomError extends Error { constructor(msg) { super(msg); this.name = ''CustomError''; } }. Add custom properties for context. Use instanceof to catch specific errors: catch(e) { if (e instanceof CustomError) { ... } }. Common pattern: ValidationError, NotFoundError, AuthError.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('fetch-api', 'How would you implement request timeout with the Fetch API?', 'Medium', 'Use AbortController: const controller = new AbortController(); const timeout = setTimeout(() => controller.abort(), 5000); fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timeout)). When aborted, fetch rejects with an AbortError. This lets you cancel requests that take too long.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('template-literals', 'What are tagged templates and when would you use them?', 'Medium', 'Tagged templates call a function with the template: tag`Hello ${name}`. The function receives an array of string parts and the interpolated values. Use cases: CSS-in-JS (styled-components), SQL query sanitization, i18n/localization, syntax highlighting. The tag function can transform, sanitize, or format the template.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-lists', 'Why are navigation menus typically built as unordered lists? Is this required?', 'Easy', 'A navigation menu is semantically a set of links with no inherent order — an unordered list. Using <nav><ul><li><a>...</a></li></ul></nav> gives screen readers context: they announce ''navigation, list, 4 items'' and let users jump between items. It is not strictly required — you could use plain <a> tags — but the list structure provides better accessibility, keyboard navigation, and semantic clarity. CSS removes the default bullets and styles it horizontally.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('destructuring-assignment', 'How do you rename variables during object destructuring?', 'Medium', 'Use colon syntax: const { name: firstName, age: userAge } = user. Left side is the property name, right side is the new variable name. You can combine with defaults: const { name: firstName = ''Anonymous'' } = user. Common when property names conflict with existing variables.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('message-queues-rabbitmq-sqs', 'When would you choose one side of Message Queues (RabbitMQ/SQS) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('es6-default-parameters', 'When are default parameter expressions evaluated?', 'Medium', 'Default parameters are evaluated at CALL TIME, each time the function is called. This is different from Python where defaults are evaluated once at definition time. This means function(arr = []) creates a new array each call (safe!), and function(time = Date.now()) gets a fresh timestamp each call.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('modules-import-export', 'What are the benefits of ES modules over CommonJS?', 'Medium', 'ES modules: static analysis enables tree-shaking (dead code elimination), async loading, strict mode by default, live bindings (always up-to-date), and standard across browsers and Node.js. CommonJS: synchronous require(), no tree-shaking, dynamic (can require inside if-blocks), Node.js native. ESM is the modern standard.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-comments', 'Why can''t HTML comments be nested? What happens if you try?', 'Easy', 'The HTML parser finds the first --> after <!-- and considers the comment closed. So <!-- outer <!-- inner --> --> actually ends the comment at the first -->, leaving ''inner --> -->'' as visible broken text on the page. The parser does not track nesting depth for comments. If you need to disable a section that already contains comments, remove the inner comments first, or use a different approach (like wrapping in a <template> tag, which is not rendered).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('optional-chaining', 'What is the difference between optional chaining (?.) and the logical AND (&&) pattern?', 'Medium', '?. short-circuits on null/undefined only, returning undefined. && short-circuits on any falsy value (0, '''', false, null, undefined). So user?.name works correctly when name is '''' or 0. But user && user.name would short-circuit on name = '''' (falsy). Optional chaining is more precise and readable.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('nullish-coalescing', 'Why can''t you mix ?? with && or || without parentheses?', 'Medium', 'It''s a syntax error by design to prevent ambiguity. Does ''a || b ?? c'' mean ''(a || b) ?? c'' or ''a || (b ?? c)''? These give different results. The spec requires explicit parentheses so the intent is clear. This prevents subtle bugs from operator precedence confusion.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('spread-and-rest', 'Why does spread create a shallow copy and what are the implications?', 'Medium', 'Spread copies one level deep. Primitive values are copied by value. Nested objects/arrays are copied by reference (same pointer). So {...obj} where obj has nested objects — modifying the nested object affects both copies. For deep copy use structuredClone(obj) or JSON.parse(JSON.stringify(obj)). This is a common React state management bug.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('div-vs-span', 'Can you put a <div> inside a <p> tag? Why or why not?', 'Medium', 'No — it is invalid HTML. The <p> element can only contain inline content (text, <span>, <strong>, <em>, <a>, etc.). When the browser encounters a <div> inside a <p>, it auto-closes the <p> before the <div>, creating broken structure. This is because <p> is defined in the HTML spec to only accept ''phrasing content''.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('short-circuiting', 'What is the difference between || and ?? for default values?', 'Medium', '|| treats all falsy values as ''missing'': 0, '''', false, null, undefined, NaN. ?? only treats null and undefined as ''missing''. Use ?? when 0, '''', or false are valid values. Example: form input count: count ?? 10 preserves 0, but count || 10 replaces 0 with 10.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('execution-context', 'What happens during the creation phase of an execution context?', 'Hard', '1) Creates the Variable Environment — var declarations set to undefined (hoisting). 2) Creates the Lexical Environment — let/const in TDZ. 3) Function declarations fully hoisted with their body. 4) Sets up the scope chain (outer environment reference). 5) Determines ''this'' binding. This all happens BEFORE any code executes.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('linked-list', 'How do you detect a cycle in a linked list?', 'Medium', 'Floyd''s cycle detection: slow moves +1, fast moves +2. If they ever meet, a cycle exists. If fast reaches null, no cycle. This is O(n) time and O(1) space.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('call-stack', 'What causes a stack overflow and how do you prevent it?', 'Medium', 'Stack overflow occurs when the call stack exceeds its maximum size, usually from infinite/deep recursion without a base case. Prevention: 1) Always have a base case in recursive functions. 2) Use iteration instead of recursion for large datasets. 3) Use tail call optimization (limited support). 4) Use trampolining pattern to convert recursion to iteration.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-tables', 'Why should you not use HTML tables for page layout?', 'Medium', 'Tables are semantically for data. Layout issues: screen readers announce ''table with X rows'', tables don''t reflow on mobile, the browser can''t render until all rows are parsed, and layout changes require restructuring nested elements. Use CSS Grid/Flexbox instead.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('hoisting', 'What is the Temporal Dead Zone (TDZ)?', 'Medium', 'The TDZ is the period between entering a scope and reaching the let/const declaration. During TDZ, the variable exists (is hoisted) but is uninitialized — accessing it throws ReferenceError: ''Cannot access before initialization''. The TDZ starts at the beginning of the block and ends at the declaration line. This prevents using variables before they''re defined.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('kafka-internals-topics-partitions', 'When would you choose one side of Kafka Internals (Topics/Partitions) over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('scope-and-lexical-scope', 'What is lexical scope and how does it differ from dynamic scope?', 'Medium', 'Lexical (static) scope: determined by WHERE the function is WRITTEN in the source code. Dynamic scope: determined by WHERE the function is CALLED. JavaScript uses lexical scope. So function f() that references variable x will look for x where f is defined, not where f is called. This is why closures work — they capture their lexical environment.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('closures', 'How do closures enable data privacy?', 'Medium', 'Variables in the outer function are only accessible through the returned inner functions — they act as private variables. The module pattern: const mod = (function(){ let private = 0; return { get() { return private; }, set(v) { private = v; } }; })(). No external code can access ''private'' directly — only through the exposed methods. This is encapsulation via closures.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-forms-basics', 'Why is the <label> element important in forms?', 'Easy', 'Labels provide accessible names for inputs. Screen readers read them aloud. Clicking a label focuses the input, increasing the click target. Without labels, screen readers announce ''edit text'' with no context. Required for WCAG compliance.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('this-keyword', 'Why do arrow functions not have their own ''this''?', 'Medium', 'Arrow functions lexically bind ''this'' — they inherit it from the surrounding scope where they are defined. This makes them perfect for callbacks (no need to bind), but bad as object methods (they won''t get the object as ''this''). In class methods, arrow functions auto-bind to the instance, which is why React class components used them.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('api-gateways', 'When would you choose one side of API Gateways over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('prototypes', 'Why should methods be defined on the prototype instead of in the constructor?', 'Medium', 'In the constructor, each instance gets its OWN copy of the method (new function object per instance). On the prototype, all instances share ONE copy. For 1000 instances: constructor = 1000 function objects, prototype = 1 function object. Same behavior, dramatically less memory. This is why classes put methods on the prototype automatically.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-input-types', 'What is the difference between type=''hidden'' and CSS display:none?', 'Medium', 'type=''hidden'' is semantically hidden — not focusable, not read by screen readers, value is submitted. CSS hidden still exists in DOM and may be focusable. For form data you need to send but not show, use type=''hidden''.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('prototype-chain', 'How do you set up inheritance using prototypes (without classes)?', 'Hard', 'function Child() { Parent.call(this, args); } // Call parent constructor. Child.prototype = Object.create(Parent.prototype); // Link prototypes. Child.prototype.constructor = Child; // Fix constructor reference. This creates: instance → Child.prototype → Parent.prototype → Object.prototype → null. ES6 classes do this automatically with ''extends'' and ''super''.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('javascript-classes', 'What is the difference between public, private, and static class members?', 'Medium', 'Public (default): accessible everywhere. Private (#field): only accessible inside the class body — true privacy, not convention. Static: belongs to the class itself, not instances — called as Class.method(), not instance.method(). Static is useful for utility functions, factory methods, and constants. Private is enforced by the engine — accessing #field outside throws SyntaxError.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('garbage-collection', 'What are common causes of memory leaks in JavaScript?', 'Hard', '1) Accidental globals (missing var/let/const). 2) Forgotten timers (setInterval without clearInterval). 3) Closures capturing large data they don''t need. 4) Detached DOM nodes (removed from DOM but still referenced in JS). 5) Event listeners not removed (especially in SPAs). 6) Growing data structures (Maps/arrays that only grow). Use Chrome DevTools Memory tab to profile.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('buttons-and-labels', 'What is the difference between <button> and <input type=''submit''>?', 'Easy', '<button> can contain HTML content (icons, spans); <input type=''submit''> only shows plain text via the value attribute. <button> can also be type=''button'' or type=''reset''. Always prefer <button>.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('local-storage', 'Why should you use JSON.stringify and JSON.parse with localStorage?', 'Medium', 'localStorage only stores strings. If you store an object directly, it becomes ''[object Object]''. JSON.stringify converts objects/arrays to JSON strings for storage. JSON.parse converts them back when reading. Always wrap getItem in a try-catch since JSON.parse throws on invalid JSON. Also note: functions, undefined, and symbols are lost during JSON serialization.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('event-driven-design-patterns', 'When would you choose one side of Event-Driven Design Patterns over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('session-storage', 'What happens to sessionStorage when you duplicate a tab?', 'Medium', 'When you duplicate a tab (Ctrl+Shift+T or right-click > Duplicate), the new tab gets a COPY of the original tab''s sessionStorage at that moment. After duplication, the two tabs are independent — changes in one don''t affect the other. This is different from localStorage which is shared. Opening a link in a new tab (target=''_blank'') also copies sessionStorage in most browsers.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('select-radio-checkbox', 'Why must radio buttons in the same group share the same name?', 'Easy', 'The name attribute identifies which radios belong together. Same name = mutually exclusive group. Different names = independent radios that can all be selected. Only the selected radio''s value is submitted.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('geolocation-api', 'What is the difference between getCurrentPosition and watchPosition?', 'Medium', 'getCurrentPosition() makes a single request — it calls the success callback once with the current position, then stops. watchPosition() registers a handler that''s called every time the position changes — it returns a watch ID used to stop tracking via clearWatch(). Both accept the same parameters: successCallback, errorCallback, and options (enableHighAccuracy, timeout, maximumAge). Use getCurrentPosition for static location needs (weather, nearby stores); use watchPosition for tracking (navigation, fitness apps).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('availability-vs-reliability', 'When would you choose one side of Availability vs Reliability over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('drag-and-drop-api', 'How does the DataTransfer object work in drag and drop?', 'Medium', 'DataTransfer is the bridge between drag source and drop target. In dragstart, call e.dataTransfer.setData(format, data) to attach data — format is a MIME type like ''text/plain'' or ''application/json''. In drop, call e.dataTransfer.getData(format) to retrieve it. You can set multiple formats. effectAllowed (on source) and dropEffect (on target) control the cursor icon and allowed operations (copy, move, link). For file drops from desktop, access e.dataTransfer.files.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('clipboard-api', 'What is the difference between the Clipboard API and document.execCommand?', 'Medium', 'document.execCommand(''copy''/''paste'') is the legacy synchronous API — it''s deprecated but still widely used. It works by selecting text in the DOM and copying the selection. The Clipboard API (navigator.clipboard) is modern, async (Promise-based), doesn''t require DOM selection, supports rich content via ClipboardItem, and has a cleaner permission model. execCommand works in more browsers but is being phased out. The Clipboard API is the recommended approach for new code.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('fieldset-and-legend', 'What happens when you add disabled to a <fieldset>?', 'Easy', 'ALL form controls inside become non-interactive — users cannot focus, type, or click. Disabled values are NOT submitted. Useful for conditionally enabling sections. The <legend> remains visible.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('history-api', 'How do client-side routers like React Router use the History API?', 'Medium', 'React Router intercepts link clicks (prevents default navigation), calls history.pushState() to update the URL without a page reload, then renders the matching component based on the new URL. It listens for popstate events to handle back/forward buttons. The state object can carry route params and data. React Router wraps this in a <BrowserRouter> component. The key insight: the URL changes (so users can bookmark/share), but the page never actually reloads — only the component tree updates.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('web-workers', 'What are Transferable Objects and when would you use them?', 'Medium', 'By default, postMessage copies data (structured clone). For large data (ArrayBuffers, ImageBitmaps), copying is slow. Transferable objects MOVE data instead of copying — ownership transfers to the receiving thread, and the sending thread can no longer access it. Usage: worker.postMessage(data, [arrayBuffer]). The second argument lists transferable objects. This gives zero-copy performance for large binary data (images, audio, video frames). After transfer, the original ArrayBuffer has byteLength 0.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('intersection-observer', 'How would you implement lazy loading images with Intersection Observer?', 'Medium', '1) Use <img data-src=''actual.jpg'' src=''placeholder.jpg''> in HTML. 2) Create an observer with rootMargin: ''200px'' (preload before visible). 3) In the callback, when isIntersecting is true: set img.src = img.dataset.src. 4) Call observer.unobserve(img) after loading (observe once). 5) Add a load event listener for fade-in transition. 6) Handle errors with img.onerror fallback. Modern approach: use loading=''lazy'' attribute natively, but IO gives more control over rootMargin and animations.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('html-iframe', 'How can a parent page communicate with a cross-origin iframe?', 'Medium', 'postMessage() API. Parent calls iframe.contentWindow.postMessage(data, targetOrigin). Iframe listens with addEventListener(''message''). Always specify exact targetOrigin (never ''*''). Validate event.origin on receiving end.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('variables-and-data-types', 'Why does typeof null return ''object''? Is null actually an object?', 'Easy', 'This is a historical bug from the very first version of JavaScript. The original type tags used 000 to represent objects, and null''s bit pattern was also 000. null is NOT an object — it is its own primitive type. Use strict equality (=== null) to check for null.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('dead-letter-queues-retries', 'When would you choose one side of Dead Letter Queues & Retries over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('operators', 'What does the % (modulus) operator return, and what are common interview uses?', 'Easy', 'It returns the remainder of integer division. Common uses: even/odd check (n % 2 === 0), cycling through indices (i % arr.length), clock arithmetic, and finding if a number is divisible by another (n % k === 0).', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('loops', 'How would you reverse a number using a while loop without converting it to a string?', 'Medium', 'Use a while loop that runs while n > 0. Each iteration: extract the last digit with n % 10, push it into the result with reversed = reversed * 10 + digit, then strip the last digit with Math.floor(n / 10). Handle negatives and leading-zero edge cases separately.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('semantic-html-overview', 'What is the difference between <div class=''nav''> and <nav>? Why does it matter?', 'Easy', '<div class=''nav''> is meaningless to browsers, screen readers, and search engines — it is just a styled container. <nav> is a semantic landmark — screen readers announce ''navigation'' and let users jump to it. Search engines understand it contains navigation links. The class name ''nav'' is only meaningful to developers reading the code. The semantic element communicates meaning to MACHINES, not just humans.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('latency-vs-throughput', 'When would you choose one side of Latency vs Throughput over the other?', 'Medium', 'Anchor the answer in scale, latency, operability, and failure mode tradeoffs.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('functions', 'When would you use an arrow function over a normal function?', 'Easy', 'Use arrow functions for short callbacks and when you want to inherit ''this'' from the surrounding scope (e.g. inside class methods or event handlers). Use normal functions when you need ''this'' binding, the arguments object, or when defining methods that will be called with ''new''.', 1)
 on conflict do nothing;
 
-insert into public.interview_questions (topic_id, question, difficulty, hint, sort_order) values
+insert into public.ih_interview_questions (topic_id, question, difficulty, hint, sort_order) values
   ('arrays', 'How do map, filter, and reduce differ? Write a single reduce that does what filter + map would do.', 'Medium', 'map transforms every element (same length). filter keeps only elements matching a condition (shorter or equal). reduce accumulates into any shape. A single reduce can do both: reduce((acc, x) => { if (condition(x)) acc.push(transform(x)); return acc; }, []). This avoids two full passes over the array.', 1)
 on conflict do nothing;

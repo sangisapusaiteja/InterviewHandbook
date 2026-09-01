@@ -167,7 +167,7 @@ function mapModule(row: ModuleRow): TopicModule {
 // ---------------------------------------------------------------------------
 
 const loadCategories = async (): Promise<CategoryInfo[]> => {
-  const rows = await supabaseAdminRequest<CategoryRow[]>("categories", {
+  const rows = await supabaseAdminRequest<CategoryRow[]>("ih_categories", {
     query: {
       select: "id,title,icon,description,color,group,available,sort_order",
       order: "sort_order.asc",
@@ -192,7 +192,7 @@ export const getCategories = cached(loadCategories);
 
 export async function getTopicCountsByCategory(): Promise<Map<string, number>> {
   const rows = await supabaseAdminRequest<{ category_id: string; count: number }[]>(
-    "topics",
+    "ih_topics",
     {
       query: {
         select: "category_id",
@@ -208,7 +208,7 @@ export async function getTopicCountsByCategory(): Promise<Map<string, number>> {
 }
 
 const loadTopicsByCategory = async (categoryId: string): Promise<Topic[]> => {
-  const topicRows = await supabaseAdminRequest<TopicRow[]>("topics", {
+  const topicRows = await supabaseAdminRequest<TopicRow[]>("ih_topics", {
     query: {
       select:
         "id,category_id,module_id,title,slug,icon,difficulty,description,leetcode_link,concept_explanation,concept_analogy,concept_key_points,concept_time_complexity,concept_space_complexity,code_default_code,code_language,code_files,sort_order",
@@ -218,7 +218,7 @@ const loadTopicsByCategory = async (categoryId: string): Promise<Topic[]> => {
   });
 
   const questionRows = await supabaseAdminRequest<QuestionRow[]>(
-    "interview_questions",
+    "ih_interview_questions",
     {
       query: {
         select: "topic_id,question,difficulty,hint,sort_order",
@@ -243,7 +243,7 @@ export const getTopicsByCategory = cachedByKey(loadTopicsByCategory);
 const loadModulesByCategory = async (
   categoryId: string
 ): Promise<TopicModule[]> => {
-  const moduleRows = await supabaseAdminRequest<ModuleRow[]>("modules", {
+  const moduleRows = await supabaseAdminRequest<ModuleRow[]>("ih_modules", {
     query: {
       select: "id,category_id,level,title,difficulty,description,category,sort_order",
       category_id: `eq.${categoryId}`,
@@ -252,7 +252,7 @@ const loadModulesByCategory = async (
   });
 
   const topicRows = await supabaseAdminRequest<{ id: string; module_id: string | null }[]>(
-    "topics",
+    "ih_topics",
     {
       query: {
         select: "id,module_id",
@@ -305,18 +305,18 @@ function summarizeDescription(description: string) {
 // re-fetching from Supabase on every page navigation.
 const loadSearchIndex = async (): Promise<TopicSearchItem[]> => {
   const [categories, topicRows, moduleRows] = await Promise.all([
-    supabaseAdminRequest<CategoryRow[]>("categories", {
+    supabaseAdminRequest<CategoryRow[]>("ih_categories", {
       query: { select: "id,title", order: "sort_order.asc" },
     }),
     supabaseAdminRequest<
       { id: string; category_id: string; module_id: string | null; title: string; slug: string; description: string; difficulty: string }[]
-    >("topics", {
+    >("ih_topics", {
       query: {
         select: "id,category_id,module_id,title,slug,description,difficulty",
         order: "sort_order.asc",
       },
     }),
-    supabaseAdminRequest<{ id: string; title: string }[]>("modules", {
+    supabaseAdminRequest<{ id: string; title: string }[]>("ih_modules", {
       query: { select: "id,title", order: "sort_order.asc" },
     }),
   ]);
@@ -369,7 +369,7 @@ const loadTopicBySlug = async (
   categoryId: string,
   slug: string
 ): Promise<Topic | null> => {
-  const topicRows = await supabaseAdminRequest<TopicRow[]>("topics", {
+  const topicRows = await supabaseAdminRequest<TopicRow[]>("ih_topics", {
     query: {
       select:
         "id,category_id,module_id,title,slug,icon,difficulty,description,leetcode_link,concept_explanation,concept_analogy,concept_key_points,concept_time_complexity,concept_space_complexity,code_default_code,code_language,code_files,sort_order",
@@ -383,7 +383,7 @@ const loadTopicBySlug = async (
   if (!row) return null;
 
   const questionRows = await supabaseAdminRequest<QuestionRow[]>(
-    "interview_questions",
+    "ih_interview_questions",
     {
       query: {
         select: "topic_id,question,difficulty,hint,sort_order",
