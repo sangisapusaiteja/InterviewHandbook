@@ -158,7 +158,7 @@ sequenceDiagram
 
 ## Database Schema
 
-The app runs on a shared Supabase PostgreSQL database (the `users` table is shared with **Code Battle**). Row Level Security is enabled on every table.
+The app runs on a shared Supabase PostgreSQL database (the `users` table is shared with **Code Battle**). Row Level Security is enabled on every table. To avoid collisions in the shared DB, Interview Handbook prefixes its tables with `ih_` (CodeTrace uses `ct_`, Code Battle uses `cb_`).
 
 ```mermaid
 erDiagram
@@ -176,7 +176,7 @@ erDiagram
         timestamptz updated_at
     }
 
-    USER_TOPIC_PROGRESS {
+    IH_USER_TOPIC_PROGRESS {
         uuid user_id FK
         text section_slug
         text topic_slug
@@ -185,7 +185,7 @@ erDiagram
         timestamptz completed_at
     }
 
-    USER_PREFERENCES {
+    IH_USER_PREFERENCES {
         uuid user_id FK
         text app_theme
         text[] pinned_topic_hrefs
@@ -193,21 +193,21 @@ erDiagram
         timestamptz updated_at
     }
 
-    CATEGORIES {
+    IH_CATEGORIES {
         text id PK
         text title
         text color
         int sort_order
     }
 
-    MODULES {
+    IH_MODULES {
         text id PK
         text category_id FK
         text title
         int level
     }
 
-    TOPICS {
+    IH_TOPICS {
         text id PK
         text category_id FK
         text module_id FK
@@ -220,7 +220,7 @@ erDiagram
         text code_default_code
     }
 
-    INTERVIEW_QUESTIONS {
+    IH_INTERVIEW_QUESTIONS {
         uuid id PK
         text topic_id FK
         text question
@@ -228,12 +228,12 @@ erDiagram
         text hint
     }
 
-    USERS ||--o{ USER_TOPIC_PROGRESS : "tracks"
-    USERS ||--o| USER_PREFERENCES : "stores"
-    CATEGORIES ||--o{ MODULES : "contains"
-    CATEGORIES ||--o{ TOPICS : "contains"
-    MODULES ||--o{ TOPICS : "groups"
-    TOPICS ||--o{ INTERVIEW_QUESTIONS : "has"
+    USERS ||--o{ IH_USER_TOPIC_PROGRESS : "tracks"
+    USERS ||--o| IH_USER_PREFERENCES : "stores"
+    IH_CATEGORIES ||--o{ IH_MODULES : "contains"
+    IH_CATEGORIES ||--o{ IH_TOPICS : "contains"
+    IH_MODULES ||--o{ IH_TOPICS : "groups"
+    IH_TOPICS ||--o{ IH_INTERVIEW_QUESTIONS : "has"
 ```
 
 ### Table Reference
@@ -241,12 +241,12 @@ erDiagram
 | Table | Purpose |
 |-------|---------|
 | `users` | Shared identity table (username + bcrypt hash or Google link, XP/level, role, avatar). |
-| `user_topic_progress` | Per-user topic completion and last-opened tracking. |
-| `user_preferences` | Theme (read/light/dark), pinned topics, recent queries, AI assistant state. |
-| `categories` | Top-level sections (HTML, CSS, JavaScript, …). |
-| `modules` | Learning-path groupings within a category. |
-| `topics` | Core content — explanation, analogy, key points, starter code. |
-| `interview_questions` | Practice questions + hints per topic. |
+| `ih_user_topic_progress` | Per-user topic completion and last-opened tracking. |
+| `ih_user_preferences` | Theme (read/light/dark), pinned topics, recent queries, AI assistant state. |
+| `ih_categories` | Top-level sections (HTML, CSS, JavaScript, …). |
+| `ih_modules` | Learning-path groupings within a category. |
+| `ih_topics` | Core content — explanation, analogy, key points, starter code. |
+| `ih_interview_questions` | Practice questions + hints per topic. |
 
 The schema lives in [`supabase/schema.sql`](./supabase/schema.sql) and content in [`supabase/seed.sql`](./supabase/seed.sql).
 
