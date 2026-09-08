@@ -151,6 +151,7 @@ sequenceDiagram
 - **Shared preferences.** Theme, pinned topics, recent items, and AI assistant state are loaded **once after login** through a single `PreferencesProvider` and shared across the app.
 - **Three theme modes.** Read (warm sepia, default), Light (crisp white), and Dark (soft charcoal) — cycled via the navbar toggle and persisted per user.
 - **Custom auth.** Username + password with bcrypt hashing and JWT `httpOnly` cookies — no email, no third-party auth provider.
+- **Cross-app link & shared session.** A navbar link points to **Code Battle**; with `COOKIE_DOMAIN=.tejaverse.org` set in production, the same JWT session cookie is shared, so signing in to one app keeps you signed in to the other.
 - **Row Level Security.** Every table is RLS-protected; the password hash is column-restricted so it's never exposed to the client.
 - **In-browser tooling.** Monaco powers the code editor and PGLite runs PostgreSQL queries entirely in the browser.
 
@@ -296,6 +297,7 @@ cp .env.example .env.local
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `SUPABASE_SERVICE_ROLE_KEY` | Service role key (server-side only) |
 | `SESSION_SECRET` | JWT signing secret (must match Code Battle) |
+| `COOKIE_DOMAIN` | Optional — set to `.tejaverse.org` in production to share the session cookie between Interview Handbook and Code Battle (leave unset on localhost) |
 | `GEMINI_API_KEY` | Google AI Studio key for AJet |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth client (Continue with Google) |
 | `GEMINI_MODEL` | Optional — defaults to `gemini-2.5-flash-lite` |
