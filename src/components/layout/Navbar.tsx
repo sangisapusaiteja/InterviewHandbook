@@ -8,6 +8,7 @@ import {
   Home,
   Braces,
   Code2,
+  Swords,
   Cpu,
   Database,
   FileCode,
@@ -175,6 +176,20 @@ export function Navbar() {
                   </div>
                 );
               })}
+              <a
+                href="https://codebattle.tejaverse.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  "relative flex items-center gap-1.5 rounded-md px-2.5 py-2 text-sm font-medium whitespace-nowrap transition-colors duration-200 text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <Swords className="h-3.5 w-3.5" />
+                Code Battle
+                <span className="ml-0.5 rounded-full bg-primary px-1.5 py-0.5 text-[9px] font-bold uppercase leading-none text-primary-foreground">
+                  New
+                </span>
+              </a>
             </div>
           </nav>
         )}

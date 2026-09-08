@@ -89,23 +89,27 @@ export async function verifySessionToken(
 export async function setSessionCookie(payload: SessionPayload) {
   const token = await createSessionToken(payload);
   const store = await cookies();
+  const domain = process.env.COOKIE_DOMAIN;
   store.set(SESSION_COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 24 * 7, // 7 days
+    ...(domain ? { domain } : {}),
   });
 }
 
 export async function clearSessionCookie() {
   const store = await cookies();
+  const domain = process.env.COOKIE_DOMAIN;
   store.set(SESSION_COOKIE_NAME, "", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: 0,
+    ...(domain ? { domain } : {}),
   });
 }
 

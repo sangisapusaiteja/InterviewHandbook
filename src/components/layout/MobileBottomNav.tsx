@@ -92,6 +92,14 @@ export function MobileBottomNav() {
                     </Link>
                   );
                 })}
+                <a
+                  href="https://codebattle.tejaverse.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="col-span-2 rounded-xl border border-dashed px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground sm:col-span-3"
+                >
+                  Code Battle →
+                </a>
               </div>
             </motion.div>
           </>
