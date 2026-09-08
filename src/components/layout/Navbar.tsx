@@ -8,7 +8,6 @@ import {
   Home,
   Braces,
   Code2,
-  Swords,
   Cpu,
   Database,
   FileCode,
@@ -186,8 +185,16 @@ export function Navbar() {
                 )}
               >
                 <span aria-hidden className="shine-sweep-layer" />
-                <Swords className="h-3.5 w-3.5" />
-                Code Battle
+                <span
+                  aria-hidden
+                  className="text-[10px] font-black leading-none text-emerald-400"
+                >
+                  {"</>"}
+                </span>
+                <span>
+                  <span className="text-foreground">Code</span>
+                  <span className="text-emerald-400">Battle</span>
+                </span>
                 <span className="absolute top-0 right-0 z-10 rounded-full bg-primary px-1.5 py-0.5 text-[6px] font-bold uppercase leading-none text-primary-foreground shadow-sm ring-2 ring-background">
                   New
                 </span>
