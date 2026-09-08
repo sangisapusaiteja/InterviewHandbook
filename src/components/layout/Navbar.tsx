@@ -15,6 +15,7 @@ import {
   Globe,
   Palette,
   Server,
+  FileSearch,
 } from "lucide-react";
 import { GlobalTopicSearch } from "./GlobalTopicSearch";
 import { ThemeToggle } from "./ThemeToggle";
@@ -184,12 +185,23 @@ export function Navbar() {
                   "relative flex items-center gap-1.5 rounded-md px-2.5 py-2 text-sm font-medium whitespace-nowrap transition-colors duration-200 text-muted-foreground hover:text-foreground"
                 )}
               >
+                <span aria-hidden className="shine-sweep-layer" />
                 <Swords className="h-3.5 w-3.5" />
                 Code Battle
-                <span className="ml-0.5 rounded-full bg-primary px-1.5 py-0.5 text-[9px] font-bold uppercase leading-none text-primary-foreground">
+                <span className="absolute top-0 right-0 z-10 rounded-full bg-primary px-1.5 py-0.5 text-[6px] font-bold uppercase leading-none text-primary-foreground shadow-sm ring-2 ring-background">
                   New
                 </span>
               </a>
+              <span
+                className="relative flex cursor-not-allowed items-center gap-1.5 rounded-md px-2.5 py-2 text-sm font-medium whitespace-nowrap text-muted-foreground/40"
+                title="Coming soon"
+              >
+                <FileSearch className="h-3.5 w-3.5" />
+                Code Trace
+                <span className="absolute top-0 right-0 z-10 rounded-full bg-muted px-1.5 py-0.5 text-[6px] font-bold uppercase leading-none text-muted-foreground">
+                  Soon
+                </span>
+              </span>
             </div>
           </nav>
         )}
